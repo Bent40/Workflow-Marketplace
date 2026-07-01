@@ -8,7 +8,9 @@
             "command": "bash",
             "args": [
               "${CLAUDE_PLUGIN_ROOT}/hooks/session-start.sh"
-            ]
+            ],
+            "timeout": 10,
+            "statusMessage": "Loading workflow operating model"
           },
           {
             "type": "command",
@@ -19,7 +21,9 @@
               "Bypass",
               "-File",
               "${CLAUDE_PLUGIN_ROOT}/hooks/session-start.ps1"
-            ]
+            ],
+            "timeout": 10,
+            "statusMessage": "Loading workflow operating model"
           }
         ]
       }
