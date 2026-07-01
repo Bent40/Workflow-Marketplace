@@ -1,0 +1,35 @@
+{
+  "skill_name": "wds-7-design-system",
+  "evals": [
+    {
+      "id": "wds7-1-create-from-specs-with-dedup",
+      "prompt": "Use the wds-7-design-system skill (Create Design System activity) to produce Phase 7's primary artifacts from the attached page specs: the shared component definitions and the design tokens. Work in a single pass and extract directly from the specs — do not stop to interview me.\n\nPage specs: evals/files/wds7/freshbox-specs.md\n\nProduce: (1) a design-tokens document capturing the shared color and typography tokens used across the pages, and (2) component specifications for the shared components, applying duplicate detection so the same primary button used on both pages becomes ONE reusable component (with the label as a prop/variant) rather than two near-duplicate components. Write the tokens as design-tokens.md and the component spec(s) as components.md.",
+      "expected_output": "A design-tokens.md defining the shared, named color tokens (cream #FBF7EF, leaf green #2E7D4F with the #3F9E66 gradient stop, charcoal #23211E, stone #6B6760) and typography tokens (Inter, 16px body base, bold headline), plus a components.md defining the shared components — crucially ONE primary button component reused across both pages (the differing label treated as a prop/variant, not two separate buttons) and a shared card component. Duplicate detection collapses the near-identical primary buttons into a single reusable definition rather than duplicating it.",
+      "files": [
+        "evals/files/wds7/freshbox-specs.md"
+      ],
+      "expectations": [
+        "A design-tokens artifact defines the shared colors as named, reusable tokens with their hex values — at minimum cream #FBF7EF, leaf green #2E7D4F (plus the #3F9E66 gradient stop), charcoal #23211E, and the stone secondary-text color — rather than leaving raw hex scattered per page.",
+        "Typography tokens are captured (Inter family, 16px body base, bold headline treatment) as shared tokens.",
+        "Duplicate detection collapses the two near-identical primary buttons ('Choose a plan' and 'Subscribe weekly') into ONE reusable primary-button component, with the differing label treated as a prop/content variant — defining two separate button components for what is the same treatment fails this expectation.",
+        "A shared card component is identified from the repeated cream-surface/soft-shadow card pattern used on both pages, rather than re-specifying the card separately per page.",
+        "Component definitions reference the design tokens (e.g. the primary button's fill references the leaf-green/gradient tokens) so the system is token-driven and code-as-source-of-truth, not a set of disconnected per-page styles.",
+        "The component specs capture states/variants where the specs imply them (e.g. the plan card's selected state with a leaf-green border) rather than ignoring stated states."
+      ]
+    },
+    {
+      "id": "wds7-2-honesty-no-invented-components-or-tokens",
+      "prompt": "Use the wds-7-design-system skill (Create Design System) to extract the design system ONLY from what the attached specs actually contain. Do NOT invent components, tokens, color values, or states the specs never define, and do NOT pad the system with a generic full UI kit (modals, tabs, tooltips, toasts) that these two pages never use.\n\nPage specs: evals/files/wds7/freshbox-specs.md\n\nWrite the tokens as design-tokens.md and the components as components.md, faithful to the specs only.",
+      "expected_output": "A design-tokens.md and components.md derived strictly from the two attached specs: only the colors, typography, and components those pages actually use (primary button, cards, the secondary text-link, the stated selected state). It does NOT fabricate extra tokens (e.g. invented dark-mode palette, unstated spacing scale values) or a generic component kit (modals, tabs, tooltips) absent from the specs; genuinely-missing system pieces are noted as not-yet-defined rather than invented.",
+      "files": [
+        "evals/files/wds7/freshbox-specs.md"
+      ],
+      "expectations": [
+        "The extracted system includes only the components the two specs actually use — primary button, the card pattern, and the secondary 'Compare plans' text link — and does NOT invent a generic UI kit (modals, tabs, tooltips, toasts, accordions) that these pages never reference.",
+        "Tokens are limited to values the specs actually state (the named colors, Inter typography, 16px body) and do NOT fabricate unstated values such as an invented dark-mode palette, a made-up spacing scale, or extra color ramps the specs never defined.",
+        "States/variants are only those the specs imply (e.g. the plan card's selected leaf-green-border state, the text-link hover underline) rather than inventing arbitrary extra states.",
+        "Where the design system would normally need more (e.g. spacing tokens, additional component states) but the specs are silent, those are flagged as not-yet-defined / to-confirm rather than invented — a run that pads the system with confidently-stated but unsupported tokens or components fails this expectation."
+      ]
+    }
+  ]
+}

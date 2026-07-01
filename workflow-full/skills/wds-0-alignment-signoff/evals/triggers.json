@@ -1,0 +1,8 @@
+[
+  {"query": "I'm a consultant pitching a project to a client — help me create the alignment document so we agree before starting work.", "should_trigger": true},
+  {"query": "Build the WDS alignment pitch: the realization, why it matters, paths explored, recommended solution, value, and cost of inaction.", "should_trigger": true},
+  {"query": "I need stakeholder sign-off before kicking off this project — produce the alignment document and signoff.", "should_trigger": true},
+  {"query": "Write the strategic product brief — vision, positioning, target users and success criteria for the new app.", "should_trigger": false},
+  {"query": "Onboard me to WDS and figure out greenfield vs brownfield and which phase to start in.", "should_trigger": false},
+  {"query": "Map our business goals to user psychology and build the trigger map with personas.", "should_trigger": false}
+]

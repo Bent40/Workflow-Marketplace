@@ -1,0 +1,8 @@
+[
+  { "query": "Review this for prose — fix any wording or grammar that hurts comprehension.", "should_trigger": true },
+  { "query": "Can you improve the prose in these release notes? Flag communication issues but don't rewrite my ideas.", "should_trigger": true },
+  { "query": "Copy-edit this paragraph for clarity and correctness.", "should_trigger": true },
+  { "query": "This document is too long — propose cuts and reorganization to tighten the structure.", "should_trigger": false },
+  { "query": "Implement the off-by-one fix in the pagination function and add a test.", "should_trigger": false },
+  { "query": "Run a market research report on the EV charging sector.", "should_trigger": false }
+]

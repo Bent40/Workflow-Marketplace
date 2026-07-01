@@ -1,0 +1,25 @@
+diff --git a/src/pricing.py b/src/pricing.py
+index 1a2b3c4..5d6e7f8 100644
+--- a/src/pricing.py
++++ b/src/pricing.py
+@@ -10,6 +10,21 @@ def lookup_rate(region):
+     return RATES[region]
+
+
++def apply_discount(items, percent):
++    # percent is an int 0-100 from the request body
++    total = 0
++    for item in items:
++        total += item["price"] * item["qty"]
++    factor = (100 - percent) / 100
++    discounted = total * factor
++    return round(discounted)
++
++
++def split_bill(total, people):
++    share = total / people
++    return [share] * people
++
++
+ def format_currency(amount):
+     return f"${amount:.2f}"

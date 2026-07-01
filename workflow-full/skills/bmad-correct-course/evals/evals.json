@@ -1,0 +1,42 @@
+{
+  "skill_name": "bmad-correct-course",
+  "evals": [
+    {
+      "id": "cc-1-sprint-change-proposal",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT ask the user which mode to use, do NOT ask clarifying questions, do NOT halt for per-edit approval. Use BATCH mode and present all changes together. Use the bmad-correct-course skill to navigate the mid-sprint change described below and produce the Sprint Change Proposal artifact directly, writing it to ./sprint-change-proposal.md. Defer any open questions to the end of the proposal.\n\nProject artifacts (already staged as the planning artifacts):\n- evals/files/bmad-correct-course/prd.md\n- evals/files/bmad-correct-course/epics.md\n- evals/files/bmad-correct-course/sprint-state.md (current in-flight sprint state)\n\nThe triggering change:\n- evals/files/bmad-correct-course/change-trigger.md\n\nWork through the change-analysis checklist, assess impact across the PRD/epics/stories, present options, and recommend a path. Do NOT silently edit the PRD or epics in place — produce the proposal artifact.",
+      "expected_output": "A Sprint Change Proposal document (sprint-change-proposal.md) with: an Issue Summary capturing the no-GPS-hardware discovery; an Impact Analysis naming Story 2-1 (in-progress) and FR-3 as directly impacted (FR-3 cannot be met as written) plus the wasted ~60% GPS work; a Recommended Approach chosen from explicit options (e.g. Direct Adjustment vs MVP Review vs Rollback) — e.g. replace GPS auto-capture with manual map-pin location — with rationale and effort/risk; Detailed Change Proposals showing old->new edits for the FR-3 wording and Story 2-1; and an Implementation Handoff classifying scope (Minor/Moderate/Major). The PRD/epics source files are NOT edited in place.",
+      "files": [
+        "evals/files/bmad-correct-course/prd.md",
+        "evals/files/bmad-correct-course/epics.md",
+        "evals/files/bmad-correct-course/sprint-state.md",
+        "evals/files/bmad-correct-course/change-trigger.md"
+      ],
+      "expectations": [
+        "The run produces a written Sprint Change Proposal artifact (e.g. `sprint-change-proposal.md`) rather than silently editing `prd.md`/`epics.md` in place — a run that just mutates the source planning docs and emits no proposal artifact fails this expectation.",
+        "The proposal contains an `Impact Analysis` (or equivalent) that explicitly identifies `FR-3` (GPS tagging) as the requirement that can no longer be satisfied as written, and names Story `2-1` as the in-progress story affected — a run that discusses the problem generically without tracing it to FR-3 and Story 2-1 fails this expectation.",
+        "The proposal presents MORE THAN ONE candidate path (e.g. a `Direct Adjustment` vs `MVP Review`/scope-reduction vs `Rollback` framing, or at minimum two substantive options such as manual map-pin vs site-assignment-inferred location) and recommends one WITH a stated rationale — a run that jumps to a single fix with no options/rationale fails this expectation.",
+        "The proposal includes a `Detailed Change Proposals` section with concrete before/after (`OLD:` -> `NEW:`) edits for the FR-3 requirement text and for Story 2-1, each with a justification — a run that recommends changes only in prose with no old->new edit pairs fails this expectation.",
+        "The proposal includes an `Implementation Handoff` that classifies the change scope as `Minor`, `Moderate`, or `Major` and names who it routes to (Developer / PO+DEV / PM+Architect) — a run that omits the scope classification fails this expectation.",
+        "The recommended approach reckons with the sunk ~60% in-progress GPS work and the remaining sprint capacity from the sprint state (e.g. acknowledges rework/rollback cost), rather than treating the change as starting from a clean slate."
+      ]
+    },
+    {
+      "id": "cc-2-not-a-silent-edit",
+      "prompt": "Run headless and fully automated: no greeting, no mode question, no clarifying questions, no per-edit halts. Batch mode. Use the bmad-correct-course skill on the staged artifacts below to handle the no-GPS-hardware change. The deliverable is a Sprint Change Proposal written to ./sprint-change-proposal.md that another team member can act on cold. The change is significant enough that it MAY exceed a simple in-place tweak — say so honestly. Defer questions to the end.\n\nStaged artifacts:\n- evals/files/bmad-correct-course/prd.md\n- evals/files/bmad-correct-course/epics.md\n- evals/files/bmad-correct-course/sprint-state.md\n- evals/files/bmad-correct-course/change-trigger.md",
+      "expected_output": "A Sprint Change Proposal that treats this as a navigated change decision (issue -> impact -> options -> recommendation -> proposed edits -> handoff), not a unilateral silent rewrite. It honestly characterizes scope and surfaces that FR-3's intent (location tagging) may need a product decision rather than pretending the existing plan still holds, and any unresolved product questions are listed at the end rather than answered by fiat.",
+      "files": [
+        "evals/files/bmad-correct-course/prd.md",
+        "evals/files/bmad-correct-course/epics.md",
+        "evals/files/bmad-correct-course/sprint-state.md",
+        "evals/files/bmad-correct-course/change-trigger.md"
+      ],
+      "expectations": [
+        "The output is a structured change PROPOSAL (issue -> impact -> recommended approach -> detailed change proposals -> handoff) presented for a decision, not a fait-accompli set of applied edits to the source docs — distinguishing correct-course (navigate an UNRESOLVED change) from a propagation that just spreads an already-settled decision.",
+        "The proposal explicitly flags that the genuinely open product question — HOW location is captured without GPS hardware (manual map-pin vs inferred from site assignment) — is a product/stakeholder decision, and records it as an open question/escalation rather than fabricating an approved answer.",
+        "The proposal's `Issue Summary` cites the concrete evidence of the trigger (Wi-Fi-only tablets with no GNSS chip, discovered on day 6, Story 2-1 ~60% done) rather than a vague 'requirements changed' statement.",
+        "Any remaining clarifying questions appear at the END of the proposal (deferred), consistent with the headless instruction, rather than blocking production of the artifact mid-run.",
+        "The proposal does NOT overwrite or delete the source `prd.md`/`epics.md` content as its primary action — the impacted requirement/story changes are expressed as proposed before/after edits inside the proposal, leaving the actual application of edits to the handoff step."
+      ]
+    }
+  ]
+}

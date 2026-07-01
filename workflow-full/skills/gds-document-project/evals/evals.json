@@ -1,0 +1,54 @@
+{
+  "skill_name": "gds-document-project",
+  "evals": [
+    {
+      "id": "gds-doc-project-1-unity-architecture",
+      "prompt": "Run headless and fully autonomous: do NOT greet, do NOT present a menu, do NOT pause to ask the user to choose resume/rescan/deep-dive or to confirm continuation. There is no prior documentation and no config to load — proceed straight through and produce the real documentation output for this brownfield Unity game project.\n\nUse the gds-document-project skill to document this small Unity (C#) game for AI context. The complete script set is provided:\n- evals/files/gds-doc-project/Assets/Scripts/Core/GameManager.cs\n- evals/files/gds-doc-project/Assets/Scripts/Core/GameSettings.cs\n- evals/files/gds-doc-project/Assets/Scripts/Player/PlayerController.cs\n\nProduce the project documentation (overview / architecture, key systems/scripts, game state and configuration, and how the pieces connect) grounded ONLY in what these files actually contain.",
+      "expected_output": "Game-project documentation that correctly characterizes a small Unity 2D game: GameManager is a DontDestroyOnLoad singleton owning the run lifecycle and a GameState enum (Menu/Playing/Paused/GameOver), tracking Score and loading scenes named in GameSettings; GameSettings is a ScriptableObject holding designer-tunable values (MoveSpeed, JumpForce, scene names); PlayerController reads input in Update, applies Rigidbody2D physics in FixedUpdate using GameSettings, and calls GameManager.Instance.GameOver() when it triggers against a 'Hazard'. It documents the real wiring (player uses the singleton; both reference the settings asset) and does NOT invent systems (no inventory, networking, save system, enemies) absent from the three scripts.",
+      "files": [
+        "evals/files/gds-doc-project/Assets/Scripts/Core/GameManager.cs",
+        "evals/files/gds-doc-project/Assets/Scripts/Core/GameSettings.cs",
+        "evals/files/gds-doc-project/Assets/Scripts/Player/PlayerController.cs"
+      ],
+      "expectations": [
+        "It correctly identifies the engine and project type from the code: a Unity 2D game in C# using MonoBehaviour scripts, Rigidbody2D physics, and a ScriptableObject for configuration — not a guessed engine or a generic stack.",
+        "It documents GameManager as the central DontDestroyOnLoad singleton that owns the run lifecycle and game state (the GameState enum Menu/Playing/Paused/GameOver), tracks Score, and drives scene loading.",
+        "It documents GameSettings as a ScriptableObject of designer-editable tunables (MoveSpeed, JumpForce, gameplay/game-over scene names) and notes that the gameplay scripts read their values from it rather than hard-coding them.",
+        "It accurately describes PlayerController's behavior and the wiring between scripts: input sampled in Update, movement applied to the Rigidbody2D in FixedUpdate, and GameManager.Instance.GameOver() invoked when the player triggers against a 'Hazard'-tagged collider.",
+        "It does NOT fabricate game systems or content absent from the three scripts (e.g. it must not invent an inventory, enemy AI, multiplayer/networking, a save/load system, audio systems, or additional scenes/levels not referenced)."
+      ]
+    },
+    {
+      "id": "gds-doc-project-2-deep-dive-player-loop",
+      "prompt": "Run headless and fully autonomous: do NOT greet, do NOT present the resume/rescan/deep-dive menu, do NOT pause for continuation prompts. Proceed straight through and produce the real deep-dive documentation output.\n\nUse the gds-document-project skill in deep-dive mode focused narrowly on the player update/death loop and how it connects to global game state. Relevant source:\n- evals/files/gds-doc-project/Assets/Scripts/Player/PlayerController.cs\n- evals/files/gds-doc-project/Assets/Scripts/Core/GameManager.cs\n- evals/files/gds-doc-project/Assets/Scripts/Core/GameSettings.cs\n\nDocument, in detail, how the player's per-frame loop works (input vs physics split), how tunables flow from GameSettings, and exactly how a hazard collision ends the run through GameManager. Keep the scope to that flow only.",
+      "expected_output": "A focused deep-dive of the player loop: input (Horizontal axis + Jump) is sampled in Update and never moves the body there; FixedUpdate reads the queued input and writes Rigidbody2D.velocity using GameSettings.MoveSpeed/JumpForce; the [RequireComponent(typeof(Rigidbody2D))] dependency; and the death path where OnTriggerEnter2D against a 'Hazard'-tagged collider calls GameManager.Instance.GameOver(), which sets State=GameOver and loads the GameOver scene named in GameSettings. The detail is proportionate to the flow and does not stray into unrelated content.",
+      "files": [
+        "evals/files/gds-doc-project/Assets/Scripts/Player/PlayerController.cs",
+        "evals/files/gds-doc-project/Assets/Scripts/Core/GameManager.cs",
+        "evals/files/gds-doc-project/Assets/Scripts/Core/GameSettings.cs"
+      ],
+      "expectations": [
+        "It correctly explains the Update vs FixedUpdate split: input (Horizontal axis and the Jump button) is sampled in Update while Rigidbody2D velocity is written in FixedUpdate, and the player is never moved directly in Update.",
+        "It traces tunables flowing from the GameSettings ScriptableObject (MoveSpeed, JumpForce) into the player's physics, rather than treating those values as hard-coded.",
+        "It accurately documents the death path: OnTriggerEnter2D against a collider tagged 'Hazard' calls GameManager.Instance.GameOver(), which transitions State to GameOver and loads the GameOver scene named in GameSettings.",
+        "It notes the structural dependency that PlayerController requires a Rigidbody2D ([RequireComponent]) and obtains it in Awake.",
+        "The deep-dive stays scoped to the player loop and its connection to game state, without padding in unrelated or invented systems."
+      ]
+    },
+    {
+      "id": "gds-doc-project-3-trivial-project-no-fabrication",
+      "prompt": "Run headless and fully autonomous: do NOT greet, do NOT present a menu, do NOT pause for continuation. Proceed straight through and produce the real documentation output.\n\nUse the gds-document-project skill to document this game project for AI context. The ENTIRE project is a single tiny script:\n- evals/files/gds-doc-project-trivial/Assets/Scripts/Spinner.cs\n\nProduce documentation proportionate to what actually exists.",
+      "expected_output": "Documentation that honestly reflects a one-script Unity project: it describes the single Spinner MonoBehaviour that rotates its GameObject every frame in Update at a serialized degreesPerSecond rate, and notes the project is effectively one component. It does NOT invent a game architecture, multiple systems, a GameManager, player/enemy controllers, scenes, a state machine, or networking that the file does not contain. The output is short and proportionate and does not inflate a trivial script into a fake multi-system game.",
+      "files": [
+        "evals/files/gds-doc-project-trivial/Assets/Scripts/Spinner.cs"
+      ],
+      "expectations": [
+        "It correctly describes the project as a single Unity MonoBehaviour, Spinner, that rotates its transform each frame in Update using a serialized degreesPerSecond field, and notes there is essentially one component.",
+        "It does NOT fabricate game systems, additional scripts, a GameManager/singleton, player or enemy controllers, scenes, a state machine, audio, or networking — none of which exist in the single file. Inventing structure to look thorough is the failure mode under test.",
+        "The output is proportionate to the input: short and matched to a one-script project, not a padded multi-section report implying a larger game.",
+        "It does not invent dependencies, engines, or assets beyond what the file shows (plain Unity MonoBehaviour using transform.Rotate and Time.deltaTime).",
+        "Any 'architecture' framing, if present at all, is honestly qualified as minimal/single-script rather than asserting systems that are not there."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+[
+  { "query": "set up testing for my Unity game", "should_trigger": true },
+  { "query": "initialize the test framework for our Godot project", "should_trigger": true },
+  { "query": "scaffold a game test framework with sample tests", "should_trigger": true },
+  { "query": "I want to bootstrap the Unreal automation test setup", "should_trigger": true },
+  { "query": "generate automated tests for the existing combat system", "should_trigger": false },
+  { "query": "design comprehensive game test scenarios and priorities", "should_trigger": false },
+  { "query": "review the quality and coverage of our current tests", "should_trigger": false }
+]

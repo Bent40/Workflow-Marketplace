@@ -1,0 +1,8 @@
+[
+  { "query": "Let's create an innovation strategy for my plateauing driving-school chain.", "should_trigger": true },
+  { "query": "I want to find disruption opportunities for my coffee roasting business.", "should_trigger": true },
+  { "query": "Help me architect business-model innovation for my B2B SaaS before bigger platforms bundle us out.", "should_trigger": true },
+  { "query": "Help me brainstorm a list of fun team-building activities.", "should_trigger": false },
+  { "query": "Write the user stories for the checkout epic.", "should_trigger": false },
+  { "query": "Review my pull request for security issues.", "should_trigger": false }
+]

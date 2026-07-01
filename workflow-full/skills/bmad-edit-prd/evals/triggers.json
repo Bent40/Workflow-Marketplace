@@ -1,0 +1,8 @@
+[
+  { "query": "Use bmad-edit-prd to add an offline-mode requirement to my PRD.", "should_trigger": true },
+  { "query": "Run the edit-prd workflow to update the existing PRD with this change.", "should_trigger": true },
+  { "query": "Edit the PRD to add a privacy NFR for receipt images.", "should_trigger": true },
+  { "query": "Validate my PRD and produce a findings report without changing it.", "should_trigger": false },
+  { "query": "Create a brand-new PRD from this brief.", "should_trigger": false },
+  { "query": "Break the PRD into epics and stories.", "should_trigger": false }
+]

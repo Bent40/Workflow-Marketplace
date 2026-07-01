@@ -1,0 +1,9 @@
+[
+  { "query": "review our game test suite quality and coverage", "should_trigger": true },
+  { "query": "test review of the existing Unity tests, find the flaky ones", "should_trigger": true },
+  { "query": "evaluate our tests for anti-patterns and coverage gaps", "should_trigger": true },
+  { "query": "are there gaps or quality problems in our current test suite", "should_trigger": true },
+  { "query": "generate new automated tests for the wave manager", "should_trigger": false },
+  { "query": "design the test scenarios and coverage matrix for the game", "should_trigger": false },
+  { "query": "set up the test framework with sample tests", "should_trigger": false }
+]

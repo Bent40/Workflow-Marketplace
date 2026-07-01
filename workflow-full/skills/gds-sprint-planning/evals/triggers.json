@@ -1,0 +1,8 @@
+[
+  { "query": "Run sprint planning for my Godot game and generate the sprint plan.", "should_trigger": true },
+  { "query": "Generate sprint-status tracking from the EmberFall epics file.", "should_trigger": true },
+  { "query": "Build the sprint-status.yaml from my game's epics and detect current story statuses.", "should_trigger": true },
+  { "query": "Check the current sprint status and tell me what to work on next.", "should_trigger": false },
+  { "query": "Break the GDD requirements into epics and a list of stories.", "should_trigger": false },
+  { "query": "Create the next story file for the dev agent to implement.", "should_trigger": false }
+]

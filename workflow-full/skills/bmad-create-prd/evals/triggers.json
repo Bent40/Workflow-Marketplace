@@ -1,0 +1,8 @@
+[
+  { "query": "Use bmad-create-prd to create a PRD from this brief.", "should_trigger": true },
+  { "query": "Run the create-prd workflow on my product brief.", "should_trigger": true },
+  { "query": "Create a new PRD from scratch for my grocery-budgeting app.", "should_trigger": true },
+  { "query": "Validate my existing PRD and tell me what's missing.", "should_trigger": false },
+  { "query": "Break the PRD requirements into epics and stories.", "should_trigger": false },
+  { "query": "Write a short one-page product brief, not a full PRD.", "should_trigger": false }
+]

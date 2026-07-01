@@ -1,0 +1,21 @@
+{
+  "name": "workflow",
+  "owner": {
+    "name": "B.T."
+  },
+  "metadata": {
+    "description": "The workflow operating model + skills as Claude Code plugins."
+  },
+  "plugins": [
+    {
+      "name": "workflow-core",
+      "source": "./workflow-core",
+      "description": "The workflow operating model (ambient router, honesty gates, right-sizing) + a curated core skill set."
+    },
+    {
+      "name": "workflow-full",
+      "source": "./workflow-full",
+      "description": "Every stock BMAD skill (all upstream modules) on top of workflow-core."
+    }
+  ]
+}

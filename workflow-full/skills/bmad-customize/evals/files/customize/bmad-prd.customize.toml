@@ -1,0 +1,34 @@
+# DO NOT EDIT -- overwritten on every update.
+#
+# Workflow customization surface for bmad-prd.
+#
+# Override files (not edited here):
+#   {project-root}/_bmad/custom/bmad-prd.toml         (team)
+#   {project-root}/_bmad/custom/bmad-prd.user.toml    (personal)
+
+[workflow]
+
+# --- Configurable below. Overrides merge per BMad structural rules: ---
+#   scalars: override wins • arrays: append
+
+# Steps to run before the standard activation (config load, greet).
+activation_steps_prepend = []
+
+# Steps to run after greet but before the workflow begins.
+activation_steps_append = []
+
+# Persistent facts the workflow keeps in mind for the whole run.
+# Each entry is a literal sentence, a `skill:`-prefixed skill, or a `file:`-prefixed path/glob.
+persistent_facts = [
+  "file:{project-root}/**/project-context.md",
+]
+
+# Executed when the workflow completes. String scalar or array of instructions.
+on_complete = ""
+
+# Default PRD structure. Override the path in team/user TOML to enforce a
+# different structure (e.g. regulated-industry, internal-tool, investor-input).
+prd_template = "assets/prd-template.md"
+
+# PRD quality rubric used at the Validate intent and at Finalize.
+prd_rubric = "assets/prd-rubric.md"

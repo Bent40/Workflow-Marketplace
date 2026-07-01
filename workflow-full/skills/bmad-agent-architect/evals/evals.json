@@ -1,0 +1,32 @@
+{
+  "skill_name": "bmad-agent-architect",
+  "evals": [
+    {
+      "id": "winston-1-activate-and-produce-architecture",
+      "prompt": "Hey Winston, let's architect this. Work headless and single-pass: don't stop for interactive menus or step-by-step approval gates, batch any open questions as explicit [ASSUMPTION] or [OPEN] tags, and produce the actual solution-design / technical architecture for the system described in the context below. Per the architect's dispatch rule, greet briefly as the persona and then go straight into producing the architecture rather than stopping at a menu.\n\nContext: evals/files/winston/feedwise-context.md\n\nDeliver a real architecture artifact grounded in the context: the high-level component/system design (web app, async transcription+render workers, queue, storage), the key technology choices with trade-off rationale (favoring boring, proven tech), how the long-running transcription/audiogram work is decoupled from the web request, the data the system persists, and the decisions you are deferring.",
+      "expected_output": "Winston activates as the System Architect persona and, rather than only greeting or showing a menu, produces a real architecture for FeedWise: a component design that separates the web/API tier from asynchronous transcription+render workers via a queue, technology choices justified with trade-offs (boring/proven, single-cloud AWS, hosted model API rather than self-hosted GPUs as the founder stated), an explanation of how multi-minute transcription and audiogram rendering are kept off the web request path, the persisted data (users, episodes, transcripts, generated assets), and explicit [ASSUMPTION]/[OPEN] tags for the genuinely undecided items (audio retention, render approach, DB choice, CDN timing).",
+      "files": [
+        "evals/files/winston/feedwise-context.md"
+      ],
+      "expectations": [
+        "The response is delivered in the Winston / System Architect persona (calm, pragmatic, trade-offs-not-verdicts) AND actually produces the requested architecture artifact rather than stopping at a greeting or a numbered menu of options.",
+        "It presents a coherent component/system design that decouples the long-running transcription and audiogram-render work from the synchronous web request — e.g. an async worker tier fed by a queue/job system — because the context states this work takes minutes and must not block the request.",
+        "Technology choices are stated with trade-off rationale and respect the founder's stated constraints: a single cloud provider (AWS credits), a hosted OpenAI-compatible model/transcription API rather than self-hosted GPUs, and a bias toward boring/proven technology and operational simplicity for a tiny team.",
+        "It names the data the system persists (users, episodes, transcripts, generated audiogram/caption assets) and addresses how generated media files are stored and served.",
+        "Genuinely undecided items from the context (long-term audio retention, ffmpeg-worker vs third-party render service, database choice, whether to add a CDN now) are surfaced as [ASSUMPTION]/[OPEN] trade-off decisions rather than silently invented as settled — and it does not pull in explicitly out-of-scope v1 items (host integrations, billing, mobile, multi-language) as if required."
+      ]
+    },
+    {
+      "id": "winston-2-honesty-right-size-trivial-system",
+      "prompt": "Hey Winston, I need an architecture, but this is genuinely tiny — please size it honestly. Work headless and single-pass (no menus, no approval gates).\n\nScenario: an internal single-page static tool that takes a US ZIP code typed into a box and shows the matching city/state from a fixed lookup table of ~42,000 ZIPs that ships with the page. No backend, no accounts, no database, no writes — it's a read-only static lookup used by a handful of internal staff. The lookup table is a static asset.\n\nProduce the architecture/solution-design sized to exactly this.",
+      "expected_output": "Winston activates as the persona and produces a deliberately minimal architecture faithful to a static, read-only, no-backend tool: essentially a static page plus a bundled/static lookup dataset served from static hosting, with maybe a note on how to load 42k rows efficiently client-side. It does NOT invent a backend API, database, microservices, queues, auth, autoscaling, or cloud infrastructure the scenario does not warrant.",
+      "files": [],
+      "expectations": [
+        "The response is in the Winston persona and produces an architecture, while staying faithful to the stated scope — a static, read-only, backend-less, accountless internal lookup over a bundled dataset.",
+        "It does NOT over-engineer: no invented backend service/API tier, database/persistence layer, message queue, authentication, autoscaling, or multi-service cloud topology is presented as required for what is a static page with a bundled lookup table.",
+        "Any genuinely optional enhancement (e.g. CDN caching, splitting the dataset for faster load) is offered as an optional/[ASSUMPTION] note proportional to the scope, not asserted as a necessary component — inventing heavyweight infrastructure for a trivial tool is the honesty failure being tested.",
+        "It does sensibly address the one real technical consideration the scope implies — efficiently shipping/querying a ~42k-row static lookup on the client — rather than ignoring it or burying it under unnecessary infrastructure."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "skill_name": "bmad-testarch-test-design",
+  "evals": [
+    {
+      "id": "td-1-epic-risk-based-plan",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT ask which mode (Create), do NOT halt for confirmation, and do NOT require `_bmad/tea/config.yaml` — assume Create mode at the epic level and produce the test-design artifact directly. Defer any clarifying questions to the very end.\n\nUse the bmad-testarch-test-design skill to produce an epic-level risk-based test plan for Epic 4 (Funds Transfer). Write the plan to ./test-design-epic-4.md following the skill's test-design template. The planning artifacts are staged below; do not invent requirements absent from them.\n\nStaged inputs (treat as the loaded artifacts):\n- evals/files/bmad-testarch-test-design/epic.md\n- evals/files/bmad-testarch-test-design/architecture.md\n\nThis workflow PLANS test coverage and NFR validation; it must NOT emit a final PASS/CONCERNS/FAIL gate decision (that is nfr-assess / trace, not test design).",
+      "expected_output": "An epic-level test plan with: a risk assessment that classifies risks by category (TECH/SEC/PERF/DATA/BUS/OPS) with Probability x Impact scores and flags high risks (score >= 6) such as the concurrent-overdraw data-integrity risk and the step-up-auth security risk; a coverage matrix that decomposes the FRs into atomic scenarios, assigns a test LEVEL (E2E/API/Component/Unit) and a PRIORITY (P0-P3) to each, and maps each scenario back to its requirement (FR-1..FR-4, NFR-1..NFR-3); quality gate thresholds (P0 100%, P1 >= 95%); and resource estimates as ranges. It plans NFR validation rather than asserting a final NFR verdict.",
+      "files": [
+        "evals/files/bmad-testarch-test-design/epic.md",
+        "evals/files/bmad-testarch-test-design/architecture.md"
+      ],
+      "expectations": [
+        "The plan contains a risk assessment that classifies risks using the skill's category taxonomy (`TECH` / `SEC` / `PERF` / `DATA` / `OPS`, etc.) with a Probability x Impact `Score`, NOT just an undifferentiated list of features to test — a run that emits a flat feature list with no risk scoring fails this expectation.",
+        "The concurrent-overdraw / lost-update hazard (NFR-3) is captured as a high `DATA` risk with a score >= 6 and a mitigation, rather than being omitted or buried as a low-priority note — a plan that misses the concurrency/overdraw risk fails this expectation.",
+        "The coverage matrix assigns BOTH a test level (`E2E` / `API` / `Component` / `Unit`) AND a priority (`P0` / `P1` / `P2` / `P3`) to each scenario, and each scenario traces back to a specific requirement id (e.g. `FR-3`, `NFR-1`) — a matrix that lists scenarios without levels, without priorities, or without requirement linkage fails this expectation.",
+        "The daily-limit boundary (FR-3, `daily_limit` default 5000) is given an explicit at/over/under the limit test scenario keyed on the `UTC` day, reflecting the architecture's UTC-keyed accounting rather than a single happy-path 'transfer works' case.",
+        "The plan surfaces the architecture's known testability gaps as actionable concerns or blockers — specifically that the step-up-auth IdP has no CI-reachable sandbox (NFR-1) and that `limits-cache` has no fault-injection hook — instead of silently assuming everything is fully testable in CI.",
+        "Quality gate thresholds are stated as planning targets (e.g. `P0` pass rate `100%`, `P1` >= `95%`), and the plan explicitly defers the final NFR `PASS`/`CONCERNS`/`FAIL` verdict to `nfr-assess` rather than declaring an overall gate result itself — a run that emits a PASS/FAIL gate decision fails this expectation.",
+        "Resource/effort estimates are expressed as ranges (e.g. `~25-40 hours`) rather than single false-precision point numbers, per the skill's 'ranges only' rule."
+      ]
+    },
+    {
+      "id": "td-2-levels-not-redundant",
+      "prompt": "Run headless and fully automated: no greeting, no mode prompt, no halting, no config file required. Defer questions to the end. Use the bmad-testarch-test-design skill in Create mode at the epic level to produce a test plan for Epic 4 and write it to ./test-design-epic-4.md.\n\nStaged inputs:\n- evals/files/bmad-testarch-test-design/epic.md\n- evals/files/bmad-testarch-test-design/architecture.md\n\nFocus the coverage design on choosing the RIGHT level per scenario and avoiding duplicate coverage across levels. The two epic exclusions (currency conversion, recurring transfers) are out of scope and must not be planned. Respect the architecture's stated testability limits — do not assume a testability mechanism that the architecture says does not exist.",
+      "expected_output": "A test plan whose coverage matrix selects an appropriate level per scenario (pure limit math and balance-sufficiency at Unit; transfer-service endpoints and contracts at API; the atomic two-account internal transfer and the step-up external flow at the integration/E2E boundary) without duplicating the same assertion at multiple levels. It explicitly keeps the two out-of-scope items (currency conversion, recurring transfers) out of the plan, and it does not assume a Redis fault-injection hook or a CI-reachable step-up IdP that the architecture says are absent.",
+      "files": [
+        "evals/files/bmad-testarch-test-design/epic.md",
+        "evals/files/bmad-testarch-test-design/architecture.md"
+      ],
+      "expectations": [
+        "The atomicity requirement of FR-1 (both ledger rows commit or neither) is targeted at an integration/API level where a real DB transaction can be exercised, NOT pushed down to a pure unit test that cannot observe transactional commit/rollback — a run that asserts atomicity only with a mocked unit test fails this expectation.",
+        "Pure decision logic — the daily-limit threshold math and the balance-sufficiency check — is assigned to `Unit` level, while end-to-end user journeys (e.g. external transfer through step-up) are assigned to `E2E`, demonstrating level selection by what each level can actually verify rather than putting everything at one level.",
+        "The matrix avoids duplicate coverage: the same behavior (e.g. the daily-limit rejection) is not redundantly asserted as a full P0 scenario at Unit AND API AND E2E without justification — the skill's 'avoid redundant coverage across levels' rule is honored.",
+        "The two epic exclusions (currency conversion, recurring/scheduled transfers) do NOT appear as planned test scenarios, and if mentioned at all they are listed under Not in Scope with a reason — a plan that adds test scenarios for currency conversion or recurring transfers fails this expectation.",
+        "The plan does not invent a testability affordance the architecture explicitly denies (a Redis/`limits-cache` fault-injection hook, or a CI-reachable step-up IdP sandbox); those NFR/cache validation items are instead marked as blocked, deferred, or requiring a new affordance — a run that blithely writes a CI E2E test driving the real step-up IdP fails this expectation."
+      ]
+    }
+  ]
+}

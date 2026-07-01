@@ -1,0 +1,8 @@
+[
+  { "query": "Hey Mimir, what should we work on next?", "should_trigger": true },
+  { "query": "Activate Mimir — I want to write the PRD for Work Order 001.", "should_trigger": true },
+  { "query": "Run Mimir to start the tech audit on this codebase.", "should_trigger": true },
+  { "query": "Hey Freya, design the onboarding flow for my app.", "should_trigger": false },
+  { "query": "Talk to Saga about creating a product brief.", "should_trigger": false },
+  { "query": "Build a workflow for sprint retrospectives.", "should_trigger": false }
+]

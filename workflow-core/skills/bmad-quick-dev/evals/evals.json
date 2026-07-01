@@ -1,0 +1,63 @@
+{
+  "skill_name": "bmad-quick-dev",
+  "evals": [
+    {
+      "id": "qd-1-oneshot-follows-pattern",
+      "prompt": "Use the bmad-quick-dev skill to add password validation to the signup form. Treat this as a clear, low-blast-radius one-shot change: implement it directly, do not stop to ask clarifying questions, and do not push to any remote.\n\nThe existing code is at evals/files/bmad-quick-dev/src/validators.py — read it first and follow its established conventions exactly. Add a `password` field validator with this rule: a password must be at least 8 characters and contain at least one digit; otherwise it fails. Also add the spec-trace artifact the skill produces.\n\nWrite the implementation into evals/files/bmad-quick-dev/src/validators.py and write the spec file to ./spec-add-password-validation.md.",
+      "expected_output": "An edit to validators.py adding a `validate_password` function that follows the file's convention (raises ValidationError(field='password', ...) on failure) and registers it in the VALIDATORS dict, plus a spec file produced from the skill's spec template with Intent (Problem/Approach), Tasks & Acceptance using Given/When/Then, and route 'one-shot'.",
+      "files": [
+        "evals/files/bmad-quick-dev/src/validators.py"
+      ],
+      "expectations": [
+        "`validators.py` gains a new `validate_password` function that follows the file's established convention: it takes the value, and on a rule violation raises `ValidationError(field=\"password\", ...)` — it does NOT invent a different error type or return a boolean instead of raising.",
+        "The new validator is wired into the existing `VALIDATORS` registry dict (a `\"password\"` entry is added) rather than being called directly or left unregistered — the file's comment explicitly requires registration.",
+        "The implemented rule matches the spec: a password is rejected when it is shorter than `8` characters OR contains no digit, and accepted otherwise (a validator missing the digit check, or using a length other than 8, fails this expectation).",
+        "A spec file `spec-add-password-validation.md` is written containing an `## Intent` section with both a `Problem` and an `Approach` line, per the skill's spec template.",
+        "The spec's `## Tasks & Acceptance` section expresses at least one acceptance criterion in `Given` / `when` / `then` form, and lists the touched file `validators.py` as a task.",
+        "The spec frontmatter marks this as the one-shot route (`route: 'one-shot'`) and a terminal `status` (the spec is not left at `draft`), reflecting that the one-shot path completed implementation."
+      ]
+    },
+    {
+      "id": "qd-2-no-reinvent-existing",
+      "prompt": "Use the bmad-quick-dev skill to add a 'confirm password' check to the signup validators. Implement directly as a one-shot change; no clarifying questions, no remote push.\n\nRead evals/files/bmad-quick-dev/src/validators.py first. The check should fail when the confirmation does not equal the original password. Respect the existing architecture and patterns in that file — do not create a parallel validation mechanism. Write the change into evals/files/bmad-quick-dev/src/validators.py and write the spec to ./spec-confirm-password.md.",
+      "expected_output": "A change that reuses the existing ValidationError + VALIDATORS pattern rather than introducing a new validation framework, error class, or a direct call path that bypasses the registry. The spec file documents the constraint of following the existing pattern.",
+      "files": [
+        "evals/files/bmad-quick-dev/src/validators.py"
+      ],
+      "expectations": [
+        "The change reuses the file's existing `ValidationError` class and signals failure by raising it with the appropriate `field` — it does NOT define a second/parallel error class or validation framework.",
+        "The new check is integrated through the existing `VALIDATORS` registry pattern (or an equally consistent extension that the form runner's iterate-the-registry contract still picks up); it does not bypass the registry with an ad-hoc direct call from the form runner.",
+        "The spec file `spec-confirm-password.md` records, in its `## Boundaries & Constraints` (or equivalent constraints/Code Map) section, that the implementation must follow the existing validators.py conventions rather than introducing a new mechanism.",
+        "The `## Code Map` of the spec names `validators.py` as the file being changed, with a one-line note on its role — not a blind/empty code map.",
+        "The implemented comparison rejects only when the confirmation does not equal the original password, and accepts when they match (an inverted or missing comparison fails this expectation)."
+      ]
+    },
+    {
+      "id": "qd-3-scope-does-not-creep",
+      "prompt": "Use the bmad-quick-dev skill to add a `notify_password_reset` notifier to the notifications module. Implement as a one-shot change; no clarifying questions, no remote push.\n\nRead evals/files/bmad-quick-dev/src/notifications.py first. The notifier should raise NotificationError if user_id is empty, and otherwise print a reset-link notification. Follow the file's existing conventions exactly.\n\nWrite the change into evals/files/bmad-quick-dev/src/notifications.py and write the spec to ./spec-notify-password-reset.md.\n\nConstraint: this task covers ONLY the password-reset notifier. Do NOT add any other notifiers, do NOT refactor the existing welcome notifier, and do NOT touch validators.py.",
+      "expected_output": "A targeted edit to notifications.py adding only notify_password_reset (raises NotificationError if user_id empty, otherwise prints) and registering it as 'password_reset' in NOTIFIERS. The existing welcome notifier and NOTIFIERS dict are preserved. validators.py is not touched. The spec file is focused on the single goal.",
+      "files": [
+        "evals/files/bmad-quick-dev/src/notifications.py"
+      ],
+      "expectations": [
+        "The change adds exactly `notify_password_reset` to notifications.py following the file's convention: raises `NotificationError(event='password_reset', ...)` when `user_id` is empty, and prints a notification otherwise — it does NOT invent a different error type.",
+        "The new notifier is registered in the `NOTIFIERS` dict under the key `'password_reset'`, consistent with how `notify_welcome` is registered under `'welcome'`.",
+        "The existing `notify_welcome` function and its `'welcome'` registry entry are preserved unchanged — the change is purely additive.",
+        "validators.py is NOT touched — the task boundary is notifications.py only, and scope creep into other files fails this expectation.",
+        "The spec file `spec-notify-password-reset.md` targets a single goal and its `## Boundaries & Constraints` or `Never` section explicitly notes that other notifiers and validators.py are out of scope."
+      ]
+    },
+    {
+      "id": "qd-4-no-spec-for-out-of-scope-request",
+      "prompt": "Use the bmad-quick-dev skill. A developer asks: 'Refactor the entire notifications system to use an async queue, migrate to a plugin architecture, add retry logic with exponential backoff, and integrate with a third-party email provider — all in one change.'\n\nDo NOT implement this. Instead, apply the skill's SCOPE STANDARD: assess whether this is a single user-facing goal or multiple independent shippable deliverables. Report whether this request should be split, and if so, describe the natural split points. Do not produce a spec or write any code.",
+      "expected_output": "The skill correctly identifies this as multiple independent top-level deliverables (async queue refactor, plugin architecture, retry logic, third-party email integration) — each could be reviewed and merged independently without breaking the others. The skill recommends splitting into at least 3 separate tasks/specs and explains why (each is an independent shippable deliverable, and combining them risks context rot above 1600 tokens). The skill does NOT produce a monolithic spec for all four goals.",
+      "files": [],
+      "expectations": [
+        "The skill applies its SCOPE STANDARD: it identifies at least three or four distinct top-level independent shippable deliverables in the request (async queue, plugin architecture, retry/backoff, email integration) rather than treating them as a single goal.",
+        "The skill recommends splitting the work and names the natural split points — one spec per independent deliverable — rather than producing a single large spec.",
+        "The skill does NOT generate a combined monolithic spec or write code for all four goals at once — proceeding with a single over-scoped spec fails this expectation.",
+        "The reasoning distinguishes correctly: 'and' in the request separates truly independent deliverables (each mergeable alone), not just surface verbs within a single cohesive goal."
+      ]
+    }
+  ]
+}

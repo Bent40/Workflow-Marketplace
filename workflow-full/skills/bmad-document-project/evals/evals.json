@@ -1,0 +1,55 @@
+{
+  "skill_name": "bmad-document-project",
+  "evals": [
+    {
+      "id": "doc-project-1-multi-file-architecture",
+      "prompt": "Run headless and fully autonomous: do NOT greet, do NOT present a menu, do NOT pause to ask the user to choose resume/rescan/deep-dive or to confirm continuation. There is no prior documentation and no config to load — proceed straight through and produce the real documentation output for this brownfield project.\n\nUse the bmad-document-project skill to document this small Express orders API for AI context. The complete source tree is provided:\n- evals/files/doc-project/package.json\n- evals/files/doc-project/src/app.js\n- evals/files/doc-project/src/config.js\n- evals/files/doc-project/src/routes/orders.js\n- evals/files/doc-project/src/models/order.js\n\nProduce the project documentation (project overview / architecture, key modules, data model, conventions, and entry point) grounded ONLY in what these files actually contain.",
+      "expected_output": "A brownfield documentation set that correctly characterizes the project as a small Express + PostgreSQL JSON API: src/app.js is the entry point that mounts the orders router under /api/orders and installs a central error handler; src/routes/orders.js exposes GET/GET:id/POST orders behind requireAuth; src/models/order.js is the data layer (orders table: id, customer_id, items, amount_cents, status, created_at) and all DB access goes through the shared db pool; src/config.js fails fast on missing env vars. It surfaces real conventions (money stored as integer cents but exposed as dollars in toJSON; routers forward errors via next(err)) and does NOT invent modules, layers, or features absent from the five files.",
+      "files": [
+        "evals/files/doc-project/package.json",
+        "evals/files/doc-project/src/app.js",
+        "evals/files/doc-project/src/config.js",
+        "evals/files/doc-project/src/routes/orders.js",
+        "evals/files/doc-project/src/models/order.js"
+      ],
+      "expectations": [
+        "The documentation identifies the technology stack accurately from package.json and the code: an Express HTTP API persisting to PostgreSQL via the `pg` library, with JWT-based auth — not a guessed or generic stack.",
+        "It names src/app.js as the entry point and correctly describes the routing/architecture: the orders router is mounted under /api/orders and a single central error-handling middleware catches errors forwarded by routers via next(err).",
+        "It documents the data model from src/models/order.js — an `orders` table with the real columns (id, customer_id, items, amount_cents, status, created_at) — rather than inventing tables or fields not present in the source.",
+        "It captures at least one genuine, source-grounded convention, such as money being stored internally as integer cents while toJSON exposes dollars, or that all persistence routes through the shared db pool (routes/models never open their own client).",
+        "It does NOT fabricate modules, services, endpoints, or architectural layers that do not exist in the five provided files (e.g. it must not invent a caching layer, a message queue, additional resources beyond orders, or a frontend)."
+      ]
+    },
+    {
+      "id": "doc-project-2-deep-dive-orders-module",
+      "prompt": "Run headless and fully autonomous: do NOT greet, do NOT present the resume/rescan/deep-dive menu, do NOT pause for continuation prompts. Proceed straight through and produce the real deep-dive documentation output.\n\nUse the bmad-document-project skill in deep-dive mode focused narrowly on the orders request flow. Relevant source:\n- evals/files/doc-project/src/routes/orders.js\n- evals/files/doc-project/src/models/order.js\n\nDocument, in detail, how an order request is handled end to end: the routes, what each does, how authentication gates them, how data is read/written through the model, and the money/units handling. Keep the scope to the orders flow only.",
+      "expected_output": "A focused deep-dive of the orders flow: the three routes (GET / lists the caller's own orders, GET /:id returns 404 when the order is missing OR belongs to another customer, POST / creates an order), each gated by requireAuth using req.user.id; reads/writes go through Order.findByCustomer/findById/create which query the orders table via the shared db pool; the create path converts amountDollars to integer amountCents (Math.round(amountDollars*100)) and toJSON converts cents back to dollars. The detail is proportionate to a two-file flow and does not stray into unrelated modules.",
+      "files": [
+        "evals/files/doc-project/src/routes/orders.js",
+        "evals/files/doc-project/src/models/order.js"
+      ],
+      "expectations": [
+        "It accurately enumerates the three order routes and what each does, including that GET /:id returns a 404 both when the order does not exist and when it belongs to a different customer (the ownership check `order.customerId !== req.user.id`).",
+        "It explains that every route is gated by the requireAuth middleware and that the customer identity comes from req.user.id, scoping list/create operations to the authenticated customer.",
+        "It traces persistence through the Order model methods (findByCustomer, findById, create) onto the `orders` table, noting these go through the shared db pool rather than ad-hoc database access.",
+        "It correctly describes the money/unit conversion across the boundary: the POST path stores Math.round(amountDollars * 100) as integer cents and toJSON divides amount_cents by 100 to expose dollars.",
+        "The documentation stays scoped to the orders flow and does not pad the deep-dive with unrelated modules, speculative endpoints, or invented behavior."
+      ]
+    },
+    {
+      "id": "doc-project-3-trivial-project-no-fabrication",
+      "prompt": "Run headless and fully autonomous: do NOT greet, do NOT present a menu, do NOT pause for continuation. Proceed straight through and produce the real documentation output.\n\nUse the bmad-document-project skill to document this project for AI context. The ENTIRE project is a single small utility file:\n- evals/files/doc-project-trivial/slugify.js\n\nProduce documentation proportionate to what actually exists.",
+      "expected_output": "Documentation that honestly reflects a one-file utility: it describes the single slugify(input) function (lowercases, trims, replaces non-alphanumeric runs with hyphens, strips leading/trailing hyphens) and notes the project is a single module. It does NOT invent an architecture, multiple modules, a data model, services, components, or a tech stack the file does not have. The output is short and proportionate; it does not pad a trivial project into a fake multi-component system.",
+      "files": [
+        "evals/files/doc-project-trivial/slugify.js"
+      ],
+      "expectations": [
+        "The documentation correctly describes the project as a single-file utility exporting one function, slugify(input), and accurately summarizes what that function does (lowercase, trim, collapse non-alphanumeric runs into hyphens, strip leading/trailing hyphens).",
+        "It does NOT fabricate an architecture, multiple modules, a data model / database, services, API endpoints, or components that the single file does not contain — inventing structure to look thorough is the failure mode under test.",
+        "The output is proportionate to the input: short and matched to a trivial one-file project, rather than a padded multi-section report implying a larger system.",
+        "It does not invent a technology stack, framework, or external dependencies beyond plain JavaScript, since the file imports nothing and there is no manifest.",
+        "Any 'architecture' or 'modules' framing, if present at all, is honestly qualified as minimal/single-file rather than asserting components that are not there."
+      ]
+    }
+  ]
+}

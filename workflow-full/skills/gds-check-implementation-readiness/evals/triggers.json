@@ -1,0 +1,9 @@
+[
+  { "query": "Check implementation readiness — are our GDD, architecture, epics, and stories aligned and complete before we start production?", "should_trigger": true },
+  { "query": "Before we move into the build phase, verify every mechanic in the GDD actually has an epic or story covering it.", "should_trigger": true },
+  { "query": "I want a readiness review of our game planning artifacts to find any requirements-traceability gaps.", "should_trigger": true },
+  { "query": "Are the epics and stories ready to hand to the dev team? Find the gaps others missed in our planning.", "should_trigger": true },
+  { "query": "Create the epics and stories list from our GDD.", "should_trigger": false },
+  { "query": "Manage this mid-sprint change — we want to cut the stamina mechanic and rebalance combat.", "should_trigger": false },
+  { "query": "Validate our Game Design Document against the GDD checklist.", "should_trigger": false }
+]

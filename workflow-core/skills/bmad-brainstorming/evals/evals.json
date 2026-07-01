@@ -1,0 +1,41 @@
+{
+  "skill_name": "bmad-brainstorming",
+  "evals": [
+    {
+      "id": "bs-1-divergent-technique-set-and-ideas",
+      "prompt": "Use the bmad-brainstorming skill on this single message (do not stop to ask setup questions — treat the scenario as fully specified and produce the artifact directly).\n\nTopic: ways a small independent bookstore could grow weekday foot traffic.\nGoal: a wide, divergent set of fresh ideas, not a polished plan.\n\nProduce an initial structured brainstorming artifact: (1) name and briefly describe 2-3 named brainstorming techniques you would apply and why they fit this topic, then (2) under those techniques generate a divergent set of at least 20 concrete ideas, deliberately spanning several different angles (e.g. events/community, partnerships, space/layout, pricing/offers, digital, daypart-specific) rather than clustering on one theme.",
+      "expected_output": "A facilitator-style artifact that names 2-3 real brainstorming techniques (e.g. SCAMPER, Mind Mapping, What-If Provocation, Role Storming) with a one-line rationale each, followed by 20+ concrete, distinct bookstore foot-traffic ideas grouped or tagged across clearly different angles, demonstrating deliberate divergence rather than one clustered theme.",
+      "files": [],
+      "expectations": [
+        "The response names at least 2 recognizable brainstorming techniques (such as SCAMPER, Mind Mapping, Six Thinking Hats, Reverse/Negative Brainstorming, What-If Provocation, or Role Storming) and gives a short reason each fits this topic, rather than producing ideas with no named method at all.",
+        "It generates a divergent set of at least 20 concrete ideas that are specific to a weekday-foot-traffic problem for a bookstore (not generic filler), each distinct rather than restatements of the same idea.",
+        "The ideas deliberately span several clearly different angles or domains (for example community/events, partnerships, physical space, pricing/offers, digital, and time-of-day) rather than all clustering inside a single theme — demonstrating intentional divergence.",
+        "The output stays in generative/divergent mode appropriate to brainstorming: it does NOT prematurely collapse to a single recommended answer or a finished marketing plan; if any prioritization appears it is clearly secondary to the divergent idea set."
+      ]
+    },
+    {
+      "id": "bs-2-anti-clustering-orthogonal-shift",
+      "prompt": "Use the bmad-brainstorming skill on this single message; produce the artifact directly without pausing for setup questions.\n\nTopic: novel features for a habit-tracking mobile app.\nGoal: push past the obvious feature ideas into genuinely novel territory.\n\nApply the skill's anti-bias discipline: pick one named ideation technique, generate ideas, and consciously shift creative domain so the ideas do NOT all cluster in one category. Produce at least 18 ideas explicitly organized under at least 5 different orthogonal lenses (e.g. motivation/psychology, social, data/insight, hardware/sensors, accessibility, monetization, playful/gamified), with a few deliberately 'wild' or unconventional ideas called out.",
+      "expected_output": "An artifact naming a technique, then 18+ habit-tracker feature ideas organized under 5+ clearly orthogonal lenses, with a handful flagged as wild/unconventional — demonstrating the skill's domain-shifting anti-clustering protocol rather than 18 variations of streaks-and-reminders.",
+      "files": [],
+      "expectations": [
+        "The response names at least one real ideation technique and produces at least 18 distinct, concrete habit-tracker feature ideas.",
+        "The ideas are explicitly organized under at least 5 different orthogonal lenses or categories (such as motivation/psychology, social, data/insight, hardware/sensors, accessibility, monetization, or gamification), demonstrating the skill's deliberate domain-shifting to fight semantic clustering.",
+        "At least a few ideas are clearly 'wild', unconventional, or assumption-challenging rather than incremental tweaks to streaks, reminders, and notifications.",
+        "The set genuinely diverges: it does NOT collapse into many near-duplicate variations of the same one or two obvious mechanics."
+      ]
+    },
+    {
+      "id": "bs-3-honesty-no-unstructured-dump",
+      "prompt": "Use the bmad-brainstorming skill on this single message; produce the artifact directly.\n\nTopic: reducing single-use plastic in a mid-size office.\nGoal: a structured, divergent ideation pass — not a quick list.\n\nIMPORTANT: A correct response must apply the skill's method — name the technique(s) you are using and deliberately diverge across multiple distinct angles. Do NOT just dump a flat, unstructured, generic list of the first plastic-reduction tips that come to mind and call it brainstorming.",
+      "expected_output": "A structured artifact that names at least one brainstorming technique and produces ideas deliberately diverged across multiple distinct angles for office plastic reduction. A flat, unstructured, generic top-of-mind list with no named method and no deliberate divergence is the failure this case is designed to catch.",
+      "files": [],
+      "expectations": [
+        "The response explicitly names and applies at least one brainstorming technique, rather than producing an untitled flat list with no method.",
+        "The ideas are deliberately diverged across multiple clearly different angles (for example procurement, behavior/incentives, infrastructure, vendor/supply-chain, signage/awareness, and policy) rather than clustered as a single generic checklist.",
+        "The ideas are concrete and specific to a mid-size office context rather than generic 'reduce plastic' platitudes.",
+        "HONESTY CONTROL: a response that skips the method entirely and just dumps a short, generic, unstructured list of obvious plastic-reduction tips (no named technique, no deliberate divergence across angles) FAILS this expectation, even if the individual tips are reasonable."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+[
+  { "query": "Create the next story for my game from the sprint backlog.", "should_trigger": true },
+  { "query": "Create story 2-2 for the relic-stacking work.", "should_trigger": true },
+  { "query": "Generate a context-rich story file for the next backlog item so the dev agent has everything it needs to implement it.", "should_trigger": true },
+  { "query": "Implement the next story in the sprint plan and write the GDScript.", "should_trigger": false },
+  { "query": "Break the GDD down into epics and a full list of stories.", "should_trigger": false },
+  { "query": "Run code review on the changes for story 2-2.", "should_trigger": false }
+]

@@ -1,0 +1,8 @@
+[
+  { "query": "Generate project context for this repo — the project-context.md of rules AI agents must follow when writing code here.", "should_trigger": true },
+  { "query": "Create project context capturing the unobvious conventions an agent would otherwise miss in this codebase.", "should_trigger": true },
+  { "query": "We need a project-context.md so every AI agent writes code consistent with our patterns. Can you produce it from the code?", "should_trigger": true },
+  { "query": "Document this brownfield project — produce the architecture overview, key modules, and data model docs.", "should_trigger": false },
+  { "query": "Review this paragraph of release notes for grammar and clarity issues.", "should_trigger": false },
+  { "query": "Investigate this intermittent checkout timeout and build a case file of what's confirmed.", "should_trigger": false }
+]

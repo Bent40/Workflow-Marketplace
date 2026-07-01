@@ -1,0 +1,24 @@
+# generated: 01-06-2025 09:00
+# last_updated: 01-06-2025 09:00
+# project: GroceryCap
+# project_key: NOKEY
+# tracking_system: file-system
+# story_location: stories
+
+# This is a PRE-EXISTING sprint-status from an earlier run. It already records
+# real progress: story 1-1 is done and story 1-2 is in-progress. A re-run of
+# sprint planning must PRESERVE these advanced statuses (never downgrade them
+# back to backlog), per the preservation rule.
+
+generated: 01-06-2025 09:00
+last_updated: 01-06-2025 09:00
+project: GroceryCap
+project_key: NOKEY
+tracking_system: file-system
+story_location: stories
+
+development_status:
+  epic-1: in-progress
+  1-1-create-a-household-account: done
+  1-2-join-a-household-by-invite: in-progress
+  epic-1-retrospective: optional

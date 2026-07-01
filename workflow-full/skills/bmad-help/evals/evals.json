@@ -1,0 +1,42 @@
+{
+  "skill_name": "bmad-help",
+  "evals": [
+    {
+      "id": "help-1-route-to-next-step",
+      "prompt": "Use the bmad-help skill. Here is my current state in a BMAD (bmm) project: I have a finished, validated PRD and an approved architecture document. I have NOT yet broken the work into epics and user stories, and no stories exist. I want to know what to do next. Run headless: give me the recommendation directly (which BMAD skill to run next, its name, and why) rather than asking me clarifying questions.",
+      "expected_output": "Orientation that the user is in planning, post-PRD and post-architecture, and the next logical step is to create epics and stories — recommend the bmad-create-epics-and-stories skill (and/or bmad-create-story next), name it in backticks, explain why it follows from a completed PRD + architecture, and note running it in a fresh context. It should not recommend re-doing the PRD or architecture, which are already done.",
+      "files": [],
+      "expectations": [
+        "It correctly identifies where the user is in the BMAD flow — planning phase, with the PRD and architecture already complete — rather than misreading the state.",
+        "It recommends creating epics and stories as the next step, naming the appropriate BMAD skill (e.g. `bmad-create-epics-and-stories`, and reasonably `bmad-create-story` thereafter), in the skill's recommend-next format with the skill name surfaced.",
+        "It gives a clear reason the recommendation follows from the current state (PRD + architecture done -> break requirements into epics/stories before implementation).",
+        "It does NOT recommend redoing already-completed work such as re-creating or re-validating the PRD or the architecture.",
+        "It stays oriented and concise — recommending the relevant next step(s) rather than dumping the entire catalog of skills."
+      ]
+    },
+    {
+      "id": "help-2-route-to-research",
+      "prompt": "Use the bmad-help skill. My state: I have a rough product idea but nothing written down — no brief, no PRD, no research. I'm not even sure the market exists or who the competitors are, and I want to understand the competitive and customer landscape before I commit to anything. What should I do next in BMAD? Answer directly without interviewing me further.",
+      "expected_output": "Orientation that the user is at the very front of the flow (pre-brief, pre-PRD) and their stated need is to understand the market/competition/customers, so the right next step is market research (bmad-market-research) — and reasonably brainstorming (bmad-brainstorming) or a product brief afterward. It should NOT jump them straight to PRD creation or implementation when the foundational research/discovery has not happened.",
+      "files": [],
+      "expectations": [
+        "It recognizes the user is at the earliest stage (no brief, no PRD, no research) and that their explicit need is understanding the market, competitors, and customers.",
+        "It recommends market research as the fitting next step — naming `bmad-market-research` — and may reasonably also point to brainstorming or a product brief as adjacent early-phase steps.",
+        "It does NOT prematurely route the user to PRD creation, architecture, or implementation skills, since the discovery work they asked for has not been done.",
+        "It names the recommended skill clearly and explains why it matches the user's stated goal."
+      ]
+    },
+    {
+      "id": "help-3-no-fabricated-skill",
+      "prompt": "Use the bmad-help skill. I'm asking a general question, not asking what to build next: roughly, what is the difference between the PRD and the architecture document in BMAD, and which comes first? Answer my question. If the honest answer is that no specific BMAD skill needs to be run to address this, say so plainly instead of inventing a skill to recommend.",
+      "expected_output": "A grounded answer to the conceptual question (the PRD captures product requirements/intent and the architecture captures the technical solution design; the PRD precedes architecture), explicitly noting that this is an informational question rather than a 'run this skill next' situation. It should not fabricate or over-recommend a skill; at most it may gently point to bmad-prd / bmad-create-architecture as where each artifact is produced, while making clear no skill must be run to answer the question.",
+      "files": [],
+      "expectations": [
+        "It answers the conceptual question itself — distinguishing the PRD (product requirements / intent) from the architecture (technical solution design) and noting the PRD comes first — rather than dodging into a skill recommendation.",
+        "It does NOT fabricate a non-existent skill or force an inappropriate 'next skill to run' when the user explicitly asked an informational question.",
+        "If it references skills at all, it does so accurately (e.g. `bmad-prd` produces the PRD, `bmad-create-architecture` produces the architecture) and makes clear that running a skill is not required to answer the question.",
+        "It does not invent project-specific facts about the user's project that were not given."
+      ]
+    }
+  ]
+}

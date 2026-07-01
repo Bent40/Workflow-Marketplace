@@ -1,0 +1,36 @@
+{
+  "skill_name": "bmad-create-prd",
+  "evals": [
+    {
+      "id": "create-prd-1-deprecation-forward-and-artifact",
+      "prompt": "Run headless and fully automated: do NOT greet conversationally, do NOT ask clarifying questions, do NOT halt for confirmation. Invoke the bmad-create-prd skill. This skill is a deprecated compatibility shim that forwards to bmad-prd with CREATE intent — emit its deprecation notice, then complete the create as bmad-prd would: produce the PRD artifact directly from the brief below and end with the headless Create JSON status. Do not invent user detail, success metrics, or scope decisions to fill gaps; record any such gap in open_questions[] / assumptions[] instead. Write the PRD as prd.md. Defer any questions to the open_questions[] array of the final JSON.\n\nBrief (the product spec to work from):\n- evals/files/bmad-create-prd/brief.md",
+      "expected_output": "First a deprecation notice telling the user bmad-create-prd is deprecated and now forwards to bmad-prd (create intent). Then the forwarded CREATE result: a prd.md with a Glossary defining the domain nouns (Trip, Weekly Cap, Household, Remaining), globally numbered FR-N requirements with testable consequences, an explicit Non-Goals section (no bank linking, not a general finance app), MVP scope, success metrics, and Open Questions for genuine gaps (e.g. offline reconciliation) — capabilities not tech choices — ending with the headless Create JSON (status, intent 'create', prd path).",
+      "files": [
+        "evals/files/bmad-create-prd/brief.md"
+      ],
+      "expectations": [
+        "The run emits a deprecation notice making clear that `bmad-create-prd` is deprecated and now forwards to `bmad-prd` (with create intent) — a run that produces the PRD with no deprecation notice at all fails this expectation.",
+        "The intent is CREATE (a new PRD is produced from the brief) and the run does NOT silently switch to validate or update — the final headless JSON carries `\"intent\": \"create\"` and a `prd` path; a run that emits a validate/update payload fails this expectation.",
+        "The PRD contains a Glossary (or clearly equivalent) section defining `Weekly Cap`, `Trip`, `Household`, and `Remaining` as the shared domain nouns the rest of the PRD uses — producing features without ever defining these terms fails this expectation.",
+        "Functional requirements are written as globally numbered, stable IDs in `FR-1`/`FR-2`/... form, and at least one FR carries explicit testable acceptance content (e.g. the OCR total is editable before commit, or Remaining equals the cap minus this week's trip totals) rather than a bare one-line capability.",
+        "A dedicated Non-Goals / Out-of-Scope section captures the brief's explicit exclusions (no bank/card-account linking; not a general personal-finance app), and the PRD stays at the capability level without hard-coding a specific database, OCR vendor, or framework in its body.",
+        "Genuine gaps the brief left open (e.g. how offline scans by both members reconcile on sync) are recorded in Open Questions / the JSON `open_questions[]` rather than invented away with a fabricated answer."
+      ]
+    },
+    {
+      "id": "create-prd-2-no-invention-control",
+      "prompt": "Run headless and fully automated: no conversational greeting, no clarifying questions, no halting. Invoke the bmad-create-prd shim (it forwards to bmad-prd with create intent — emit the deprecation notice, then create). Produce the PRD directly from the brief below and end with the headless Create JSON. Build ONLY on what the brief supports: do not fabricate success metrics, personas, competitors, or scope the brief does not state, and do not bake in technology choices.\n\nBrief:\n- evals/files/bmad-create-prd/brief.md",
+      "expected_output": "A CREATE PRD (preceded by the deprecation notice) that faithfully reflects the brief WITHOUT fabrication: no invented quantitative success metrics the brief never gave, no invented competitor/market-sizing claims, no scope the brief excludes (no bank linking, no categorization, no web client, no multi-week budgeting), and no committed tech stack in the PRD body. Genuine unknowns stay in Open Questions. Ends with the headless Create JSON, intent 'create'.",
+      "files": [
+        "evals/files/bmad-create-prd/brief.md"
+      ],
+      "expectations": [
+        "The PRD does NOT fabricate specific quantitative success metrics, personas with invented research data, or named competitors/market-sizing figures that the brief never provided — manufacturing such specificity is theater and fails this expectation.",
+        "The PRD does NOT introduce scope the brief explicitly excludes — no bank/card-account linking, no per-item categorization, no web client, no multi-week budgeting/forecasting/reports — adding any of these fabricated features fails this expectation.",
+        "The PRD stays at the capability level and does NOT commit to implementation/tech choices in its body (no hard-coded database, OCR vendor, or framework) — a PRD that bakes in the tech stack fails this expectation.",
+        "Genuine gaps (e.g. the offline-reconciliation question) are recorded as Open Questions / `open_questions[]` rather than resolved with an invented answer.",
+        "The run still emits the deprecation notice and ends with the headless Create JSON carrying `\"intent\": \"create\"` — omitting the notice or the create payload fails this expectation."
+      ]
+    }
+  ]
+}

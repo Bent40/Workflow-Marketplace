@@ -1,0 +1,36 @@
+{
+  "skill_name": "bmad-investigate",
+  "evals": [
+    {
+      "id": "inv-1-confirmed-root-cause",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT pause for the user between outcomes, do NOT ask which thread to pull. Run the investigation straight through to a finalized case file and write it to ./investigation-bug-412.md. Defer any questions to the very end.\n\nInvestigate this defect (ticket BUG-412). Evidence is staged and available:\n- evals/files/bmad-investigate/error-log.txt (failing test output + production symptom)\n- evals/files/bmad-investigate/tests/test_pagination.py (the failing test)\n- evals/files/bmad-investigate/src/pagination.py (the implicated source)\n\nThe user's premise: 'the first page of results is missing the newest items.' Treat that premise as a hypothesis to verify, anchor on a Confirmed piece of evidence, reason to a root cause, and grade your confidence. Investigation stops at the diagnosis (do not implement the fix unless it is a trivial one-liner you note as a suggestion).",
+      "expected_output": "A finalized investigation case file diagnosing the off-by-one in src/pagination.py: paginate computes start = page * page_size, treating the 1-based page as 0-based, so page=1 returns the second chunk (items 10..19) instead of the first (0..9). The root cause is graded Confirmed with a path:line citation (pagination.py line where `start = page * page_size`) backed by the test assertion in the log ([10..19] == [0..9]). Confidence is High (deterministic repro). Because it is a trivial off-by-one, a fix direction is offered (start = (page - 1) * page_size) but implementation is left out. The user's premise is confirmed by the evidence.",
+      "files": [
+        "evals/files/bmad-investigate/error-log.txt",
+        "evals/files/bmad-investigate/tests/test_pagination.py",
+        "evals/files/bmad-investigate/src/pagination.py"
+      ],
+      "expectations": [
+        "The case file identifies the root cause as the off-by-one offset in `paginate` — that `start = page * page_size` treats the 1-based `page` as 0-based, so page 1 returns the second chunk — rather than a vague 'pagination is broken' or a wrong cause like slicing/`end` math.",
+        "The root-cause finding is graded `Confirmed` (not merely Hypothesized) AND carries a concrete citation — a `path:line` reference into `src/pagination.py` (the `start = page * page_size` line) and/or the failing assertion in the log showing `[10, 11, ... 19] == [0, 1, ... 9]` — per the skill's evidence-grading discipline; a Confirmed claim with no citation fails this expectation.",
+        "The final Conclusion states a confidence of `High`, justified by a deterministic reproduction (the failing unit test) — given a confirmed root cause with a deterministic repro, a `Low`/`Medium` confidence or an un-stated confidence fails this expectation.",
+        "The case file explicitly verifies the user's premise ('first page missing the newest items') against the evidence and confirms it (page 1 skips items 0..9) rather than ignoring the premise or contradicting the evidence.",
+        "Because the defect is a trivial off-by-one, the report offers a fix DIRECTION (e.g. `start = (page - 1) * page_size`) but does NOT go on to implement/refactor the codebase — per 'investigation stops at the diagnosis; implementation is out of scope'.",
+        "The output follows the case-file structure (evidence-graded sections such as Confirmed Findings / Conclusion / Hand-off Brief), not a freeform paragraph — a run that emits only an unstructured note with no graded findings fails this expectation."
+      ]
+    },
+    {
+      "id": "inv-2-evidence-light-no-fabrication",
+      "prompt": "Run headless and fully automated: no greeting, no inter-outcome pauses, no asking which thread to pull. Produce the case file and write it to ./investigation-checkout-timeout.md, then defer any questions to the end.\n\nInvestigate this report. NOTE: no code, logs, stack traces, or diagnostic archives are provided or reachable — only this free-text description:\n\n'Sometimes, maybe once or twice a week, a customer says the checkout page hangs and then times out. We can't reproduce it. We're not sure if it's the payment gateway, our server, or the customer's network.'\n\nThere is no further evidence available in this run. Anchor on whatever (if anything) is actually Confirmed, do NOT invent observations you cannot cite, and calibrate your output to how thin the evidence is.",
+      "expected_output": "An evidence-light case file: it marks the case evidence-light, registers the free-text report as Hypothesis #1 (not a fact), lists candidate hypotheses (payment gateway latency, server-side slowness, client network) each graded Hypothesized with what evidence would confirm/refute it, documents the missing evidence as findings (no logs/traces/repro) with how to obtain it, and an Investigation Backlog of prioritized data-collection steps. Final confidence is Low with a clear data gap; no fabricated root cause and no false High confidence.",
+      "files": [],
+      "expectations": [
+        "The case is explicitly marked evidence-light (or equivalent) AND no root cause is asserted as `Confirmed` — given zero code/logs/repro, any `Confirmed` root cause or a `High` final confidence is fabricated certainty and fails this expectation.",
+        "Candidate causes (e.g. payment-gateway latency, server-side slowness, client-side network) are recorded as `Hypothesized` (Status: Open) entries, EACH with a 'would confirm' / 'would refute' criterion — a run that just picks one cause and runs with it fails this expectation.",
+        "The absence of evidence is itself documented as a finding — a Missing Evidence section (or Investigation Backlog) listing what is missing (logs, stack trace, reproduction, timing data) and how to obtain it — per 'missing evidence is itself a finding'; a run that glosses over the evidence gap fails this expectation.",
+        "The user's free-text report is treated as a hypothesis/premise to verify rather than as established fact (e.g. registered as Hypothesis #1), consistent with 'challenge the premise'.",
+        "The final confidence is `Low` with a stated data gap, and the report names the concrete next data-collection step(s) needed to make progress (the 'to make progress I need one of: …' framing) rather than declaring the investigation conclusively solved."
+      ]
+    }
+  ]
+}

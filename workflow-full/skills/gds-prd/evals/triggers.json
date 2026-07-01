@@ -1,0 +1,8 @@
+[
+  { "query": "Create a game PRD from my GDD with formal requirements and player journeys.", "should_trigger": true },
+  { "query": "Validate my game PRD and tell me what's missing before we go to architecture.", "should_trigger": true },
+  { "query": "Update the PRD to add a determinism and performance NFR.", "should_trigger": true },
+  { "query": "Help me write the Game Design Document with mechanics, levels, and progression.", "should_trigger": false },
+  { "query": "Break the PRD requirements into epics and a list of stories.", "should_trigger": false },
+  { "query": "I need a short game brief to pitch this idea before any detailed design.", "should_trigger": false }
+]

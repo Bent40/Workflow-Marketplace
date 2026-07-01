@@ -1,0 +1,8 @@
+[
+  { "query": "Hey Sally, let's design the UX for my app.", "should_trigger": true },
+  { "query": "I'd like to talk to the UX designer about my product's screens and accessibility.", "should_trigger": true },
+  { "query": "Can the UX designer help me turn this PRD into UX design specs?", "should_trigger": true },
+  { "query": "Hey Samus, let's design the HUD for my game.", "should_trigger": false },
+  { "query": "Talk to Winston the architect about my system design.", "should_trigger": false },
+  { "query": "I want to talk to the product manager about writing the PRD.", "should_trigger": false }
+]

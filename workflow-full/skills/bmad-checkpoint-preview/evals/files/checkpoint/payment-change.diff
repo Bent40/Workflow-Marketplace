@@ -1,0 +1,42 @@
+Change intent (from the commit message / PR description):
+"Fix rounding on refunds so partial refunds match the gateway's penny totals,
+and tidy up logging in the billing module."
+
+Baseline: main @ 4f9c1a2
+
+diff --git a/src/billing/refunds.py b/src/billing/refunds.py
+index 9a1b2c3..d4e5f6a 100644
+--- a/src/billing/refunds.py
++++ b/src/billing/refunds.py
+@@ -10,18 +10,21 @@ from decimal import Decimal, ROUND_HALF_UP
+ logger = logging.getLogger(__name__)
+
+
+-def compute_refund_cents(order_total_cents: int, refund_fraction: float) -> int:
+-    """Return the refund amount in whole cents for a partial refund.
+-
+-    refund_fraction is a value in [0, 1] (e.g. 0.5 for a 50% refund).
+-    """
+-    # Multiply in floating point, then truncate to whole cents.
+-    raw = order_total_cents * refund_fraction
+-    return int(raw)
++def compute_refund_cents(order_total_cents: int, refund_fraction: float) -> int:
++    """Return the refund amount in whole cents for a partial refund.
++
++    refund_fraction is a value in [0, 1] (e.g. 0.5 for a 50% refund).
++    """
++    if not 0 <= refund_fraction <= 1:
++        raise ValueError(f"refund_fraction out of range: {refund_fraction}")
++    # Compute in Decimal and round half-up to whole cents so partial refunds
++    # match the payment gateway's penny totals instead of silently truncating.
++    raw = Decimal(order_total_cents) * Decimal(str(refund_fraction))
++    return int(raw.quantize(Decimal("1"), rounding=ROUND_HALF_UP))
+
+
+ def issue_refund(order, refund_fraction):
+-    amount = compute_refund_cents(order.total_cents, refund_fraction)
++    amount = compute_refund_cents(order.total_cents, refund_fraction)
+     gateway.refund(order.payment_id, amount)
+-    logger.info("refunded order %s", order.id)
++    logger.info("Issued refund of %s cents for order %s", amount, order.id)
+     return amount

@@ -1,0 +1,36 @@
+{
+  "skill_name": "bmad-create-architecture",
+  "evals": [
+    {
+      "id": "arch-1-decisions-and-patterns",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT ask clarifying questions, do NOT present A/P/C menus or wait for a 'C' continuation, do NOT halt at any step, and skip any web-version-verification step (assume the named versions are current). Defer any questions you have to the very end, after the document is fully written. Treat the technical context in the PRD as already-settled inputs and do not re-litigate them. Produce the architecture decision document directly as architecture.md, working through the skill's stages (core architectural decisions, then implementation patterns / consistency rules, then project structure).\n\nInput PRD (the requirements + decided technical context to design from):\n- evals/files/bmad-create-architecture/prd.md\n\nThe purpose of this document is to make multiple AI coding agents implement consistently, so be explicit about the conventions every agent must follow.",
+      "expected_output": "An architecture.md that records the core architectural decisions organized by category (data, auth, API/communication, infrastructure) WITH rationale and the components/FRs each affects, an Implementation Patterns & Consistency Rules section that pins the naming/format conventions AI agents could otherwise diverge on (e.g. JSON field casing, API/route naming, where tests live) plus a mandatory 'All AI Agents MUST' enforcement list, and a Project Structure section with a concrete directory tree mapping requirements/features to specific locations — reflecting the PRD's decided stack (React Native client, BaaS + hosted Postgres backend, on-device OCR sending only the total, last-write-wins cap + additive Trip merge).",
+      "files": [
+        "evals/files/bmad-create-architecture/prd.md"
+      ],
+      "expectations": [
+        "The document records core architectural decisions grouped by category — at minimum a data/persistence decision and an API/communication decision — and each carries a rationale plus what it affects, rather than a bare unexplained technology list. A run that lists technologies with no rationale or affected-component mapping fails this expectation.",
+        "The decisions honor the PRD's already-settled technical context: the client is `React Native`, the backend is a managed Backend-as-a-Service with hosted `Postgres` (not a bespoke server), and OCR runs on-device sending only the extracted total — a run that contradicts these settled inputs (e.g. invents a custom Node server or sends receipt images to the backend) fails this expectation.",
+        "There is an Implementation Patterns / Consistency Rules section whose explicit purpose is preventing different AI agents from making incompatible choices — it pins concrete conventions (for example JSON field casing such as `camelCase` vs `snake_case`, API endpoint/route naming, or test file location) with examples, not vague prose.",
+        "That patterns section includes a mandatory enforcement statement of what every agent MUST do (an `All AI Agents MUST` style list or equivalent binding rules) — a run that describes patterns only as suggestions with no mandatory enforcement list fails this expectation.",
+        "A Project Structure section provides a concrete directory tree (actual files/folders for a React Native app, not generic `src/` placeholders) AND maps requirements/features to specific locations (e.g. receipt capture, cap/remaining, household/sync each map to a named module or directory) — a run that emits only a generic placeholder tree with no requirement-to-location mapping fails this expectation.",
+        "The offline / cross-device convergence concern from the PRD (NFR-1 offline capture, NFR-2 both devices converge on `Remaining`) is addressed by an explicit decision — last-write-wins on the Weekly Cap and additive merge of Trips reconciled on reconnect — rather than left undecided."
+      ]
+    },
+    {
+      "id": "arch-2-no-time-estimates-and-rationale",
+      "prompt": "Run headless and fully automated: no greeting, no clarifying questions, no A/P/C menus, no halting, no web-version lookups (assume named versions current). Defer questions to the end. Produce architecture.md directly from the PRD, focusing on the core architectural decisions and the cross-component dependency/impact analysis. Treat the PRD's technical context as settled.\n\nInput PRD:\n- evals/files/bmad-create-architecture/prd.md\n\nFor every significant decision, state the rationale and which components or requirements it affects. Do NOT include any time or effort estimates anywhere in the document.",
+      "expected_output": "An architecture.md whose core-decisions section documents each significant decision with an explicit rationale and the components/requirements affected, includes a decision impact / cross-component dependency analysis (how decisions affect each other and the implementation sequence), and contains NO time or effort estimates anywhere — consistent with the skill's hard rule against time estimates.",
+      "files": [
+        "evals/files/bmad-create-architecture/prd.md"
+      ],
+      "expectations": [
+        "Every significant architectural decision is accompanied by an explicit rationale (a `Rationale:` line or equivalent reasoning) rather than asserted bare — a decision section that lists choices without any reasoning fails this expectation.",
+        "Each decision states which components, requirements, or FRs it affects (an `Affects:` / impact mapping), connecting the decision back to the GroceryCap requirements rather than floating free of them.",
+        "The document includes a decision impact / cross-component dependency analysis — how the decisions relate to each other and/or the implementation sequence they imply — not just a flat unordered list of independent decisions.",
+        "The document contains NO time or effort estimates anywhere (no `weeks`, `days`, `hours`, sprint-duration, or person-effort figures) — the skill explicitly forbids time estimates, so any run that inserts an effort/timeline estimate fails this expectation.",
+        "The decisions explicitly cover the security/privacy posture the PRD demands — that receipt images never leave the Household's space and only the extracted total is transmitted — rather than ignoring the NFR-3 privacy constraint."
+      ]
+    }
+  ]
+}

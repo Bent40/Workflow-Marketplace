@@ -1,0 +1,8 @@
+[
+  { "query": "Let's write acceptance tests for this story before we build it — I want red-phase failing tests that assert the ACs so we can do TDD.", "should_trigger": true },
+  { "query": "I want to do ATDD on the coupon-redemption story: generate the failing acceptance test scaffolds first, then we implement to make them pass.", "should_trigger": true },
+  { "query": "Scaffold the red-phase acceptance tests for these acceptance criteria so the developer has failing tests to drive the implementation.", "should_trigger": true },
+  { "query": "The feature is already implemented but we have coverage gaps — expand the automated test suite to cover the untested paths.", "should_trigger": false },
+  { "query": "Build a traceability matrix from our acceptance criteria to existing tests and give me a quality-gate decision.", "should_trigger": false },
+  { "query": "Design the epic-level test strategy with a risk assessment and coverage priorities before any tests are written.", "should_trigger": false }
+]

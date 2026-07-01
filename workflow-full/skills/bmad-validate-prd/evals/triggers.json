@@ -1,0 +1,8 @@
+[
+  { "query": "Use bmad-validate-prd to check my PRD for gaps before architecture.", "should_trigger": true },
+  { "query": "Run the validate-prd workflow and produce a findings report.", "should_trigger": true },
+  { "query": "Review my PRD and tell me what's missing without rewriting it.", "should_trigger": true },
+  { "query": "Create a new PRD from this brief.", "should_trigger": false },
+  { "query": "Update the PRD to add an offline NFR.", "should_trigger": false },
+  { "query": "Break the PRD into epics and stories.", "should_trigger": false }
+]

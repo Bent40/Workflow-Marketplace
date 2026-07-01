@@ -1,0 +1,8 @@
+[
+  { "query": "Add a password-strength validator to the signup form.", "should_trigger": true },
+  { "query": "Fix the bug where the email validator accepts addresses with no domain.", "should_trigger": true },
+  { "query": "Refactor the validators module to use the registry pattern and add a phone-number check.", "should_trigger": true },
+  { "query": "Implement this change for me — just build it following the existing patterns.", "should_trigger": true },
+  { "query": "Run an adversarial code review on my latest validator changes.", "should_trigger": false },
+  { "query": "Create a context-rich story file describing the password-validation work for the dev agent to implement later.", "should_trigger": false }
+]

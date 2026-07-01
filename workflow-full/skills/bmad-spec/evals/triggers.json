@@ -1,0 +1,9 @@
+[
+  { "query": "Distill this RFC into a spec for the redemption service.", "should_trigger": true },
+  { "query": "Create a spec (the SPEC kernel) from these notes.", "should_trigger": true },
+  { "query": "Update the spec to add a link-expiration capability.", "should_trigger": true },
+  { "query": "Validate this spec against the spec law and preservation rules.", "should_trigger": true },
+  { "query": "Write a full PRD with numbered functional requirements and player journeys.", "should_trigger": false },
+  { "query": "Break the requirements into epics and a list of user stories.", "should_trigger": false },
+  { "query": "Run a retrospective on the epic we just finished.", "should_trigger": false }
+]

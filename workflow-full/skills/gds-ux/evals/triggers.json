@@ -1,0 +1,8 @@
+[
+  { "query": "Let's create the game UX — design the HUD and menus for my 2D action-platformer.", "should_trigger": true },
+  { "query": "Help me plan the game UX: HUD information hierarchy, input schemes, and the pause/options menus.", "should_trigger": true },
+  { "query": "Create UI specifications for my game's in-battle HUD and turn-order tracker.", "should_trigger": true },
+  { "query": "Create the UX design and DESIGN.md for my mobile parking web app.", "should_trigger": false },
+  { "query": "Write the GDD: core loop, mechanics, pillars, and progression for my game.", "should_trigger": false },
+  { "query": "Design the game's networking and engine architecture in Godot.", "should_trigger": false }
+]

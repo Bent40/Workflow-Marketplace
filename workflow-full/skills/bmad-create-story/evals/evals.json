@@ -1,0 +1,39 @@
+{
+  "skill_name": "bmad-create-story",
+  "evals": [
+    {
+      "id": "cs-1-story-from-epic",
+      "prompt": "Run headless and fully automated: do NOT ask clarifying questions, do NOT halt for confirmation, and do NOT require a sprint-status.yaml — produce the story file directly from the planning artifacts provided below. Use the bmad-create-story skill to create story 2-2 (reminder scheduling). Write the story file to ./2-2-reminder-scheduling.md following the skill's story template.\n\nPlanning artifacts (already staged, treat as the planning_artifacts directory):\n- evals/files/bmad-create-story/planning/epics.md\n- evals/files/bmad-create-story/planning/architecture.md\n\nDo not invent requirements that are absent from these artifacts. Cite the source for technical details.",
+      "expected_output": "A story file 2-2-reminder-scheduling.md with Status 'ready-for-dev', a Story section (As a / I want / so that) matching the epic, the four acceptance criteria carried over, a Tasks/Subtasks section whose tasks reference acceptance criteria, and a Dev Notes section that pulls the real constraints from the architecture (UTC timestamps, reuse the existing RemindersRepository, dispatch via JobQueue) with [Source: ...] citations.",
+      "files": [
+        "evals/files/bmad-create-story/planning/epics.md",
+        "evals/files/bmad-create-story/planning/architecture.md"
+      ],
+      "expectations": [
+        "A story file named `2-2-reminder-scheduling.md` is written, and its `Status` field is set to `ready-for-dev` (not `backlog`, `draft`, or left as a template placeholder).",
+        "The story's `## Story` section states the role/action/benefit as `As a task owner` / `I want` a reminder scheduled when a due date is set / `so that` the user is notified before the task is due — matching the epic's user story, not a fabricated one.",
+        "The `## Acceptance Criteria` section carries over all four scheduling behaviors from the epic, including the rescheduling-on-due-date-change criterion and the cancel-on-due-date-removed criterion (a story that drops the cancel or reschedule criterion fails this expectation).",
+        "The `## Tasks / Subtasks` section ties tasks to acceptance criteria using the template's `(AC: #)` reference convention, rather than listing tasks with no AC linkage.",
+        "The `## Dev Notes` section explicitly instructs the developer to reuse the existing `RemindersRepository` and forbids a second persistence path, reflecting the architecture's reuse-not-reinvent constraint — a story that omits this guardrail fails.",
+        "Dev Notes preserve the architecture's hard constraints that the developer must follow: timestamps are handled in `UTC`, and scheduling is dispatched through the existing `JobQueue` abstraction rather than calling `cron` / the OS scheduler directly.",
+        "Technical claims in Dev Notes are attributed to their origin with `[Source:` citations (e.g. citing the architecture file/section), rather than asserted without provenance."
+      ]
+    },
+    {
+      "id": "cs-2-no-invention-bounded",
+      "prompt": "Run headless and fully automated: no clarifying questions, no halting, no sprint-status.yaml required. Use the bmad-create-story skill to create story 2-2 from the staged planning artifacts and write it to ./2-2-reminder-scheduling.md.\n\nPlanning artifacts:\n- evals/files/bmad-create-story/planning/epics.md\n- evals/files/bmad-create-story/planning/architecture.md\n\nStory 2-1 (the reminder data model) is already done; this story builds on it. Carry forward what the prior story established and do NOT specify delivery (email / in-app banner) — that is a later story (2-3). Any questions you have go at the very end after the story is fully written.",
+      "expected_output": "A story file that respects scope boundaries: it builds on story 2-1's RemindersRepository as established prior work, it does NOT pull in story 2-3's delivery-channel scope, and any open questions are deferred to the end of the file rather than blocking creation. The default lead_time_minutes of 30 is reflected accurately.",
+      "files": [
+        "evals/files/bmad-create-story/planning/epics.md",
+        "evals/files/bmad-create-story/planning/architecture.md"
+      ],
+      "expectations": [
+        "The story acknowledges story 2-1 as completed prior work and treats the `RemindersRepository` (with its `add` / `get_pending_for_task` / `cancel` methods) as already existing — it does not propose re-creating the reminders table or model.",
+        "The story does NOT introduce delivery-channel scope (email or in-app banner) from epic story 2-3 — that scope is out of bounds for 2-2. A story that adds delivery tasks or ACs fails this expectation.",
+        "The default lead time is stated correctly as `lead_time_minutes` defaulting to `30`, sourced from `UserSettings`, with no invented alternative default.",
+        "Any clarifying questions the run raises appear at the END of the file (after the story body is complete), consistent with the skill's 'save questions for the end' rule — questions do not pre-empt or block writing the story.",
+        "The acceptance criterion for a past-due `fire_at` (the reminder is created already-due and fires on the next scheduler tick) is preserved rather than dropped or silently changed."
+      ]
+    }
+  ]
+}

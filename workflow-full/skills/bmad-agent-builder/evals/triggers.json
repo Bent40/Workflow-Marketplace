@@ -1,0 +1,9 @@
+[
+  { "query": "Build me a new agent that helps my team review PRs.", "should_trigger": true },
+  { "query": "Create an agent for onboarding new engineers.", "should_trigger": true },
+  { "query": "I want to design a creative writing companion agent.", "should_trigger": true },
+  { "query": "Analyze this existing agent for quality issues.", "should_trigger": true },
+  { "query": "What VRAM will my model stack need on an 8GB card?", "should_trigger": false },
+  { "query": "Gate this proposed skill before we build it.", "should_trigger": false },
+  { "query": "Build a workflow for writing product briefs.", "should_trigger": false }
+]

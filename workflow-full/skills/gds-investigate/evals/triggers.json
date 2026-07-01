@@ -1,0 +1,8 @@
+[
+  { "query": "Investigate this bug — killing the last enemy in a wave never advances to the next wave. Trace the cause and grade your confidence.", "should_trigger": true },
+  { "query": "The framerate intermittently tanks during big firefights and we can't reproduce it in the editor. Build a case file from what we have and tell me what's confirmed vs hypothesized.", "should_trigger": true },
+  { "query": "I need to understand this unfamiliar combat/wave system before I change it — walk the code and build a mental model.", "should_trigger": true },
+  { "query": "Just fix the guard in on_enemy_died and update the test.", "should_trigger": false },
+  { "query": "Run a code review on this gameplay pull request before I merge.", "should_trigger": false },
+  { "query": "Create the next story for the wave-spawning epic.", "should_trigger": false }
+]

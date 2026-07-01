@@ -1,0 +1,9 @@
+{
+  "name": "workflow-full",
+  "version": "0.1.0",
+  "description": "Every stock BMAD skill (all upstream modules) on top of workflow-core.",
+  "author": {
+    "name": "B.T."
+  },
+  "license": "MIT"
+}

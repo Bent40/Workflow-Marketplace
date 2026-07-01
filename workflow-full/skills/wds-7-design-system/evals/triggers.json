@@ -1,0 +1,8 @@
+[
+  {"query": "Create the design system from these page specs — extract the shared components and the design tokens, deduping repeated components.", "should_trigger": true},
+  {"query": "Phase 7 design system: build the component library and token definitions, with duplicate detection on new components.", "should_trigger": true},
+  {"query": "Extract reusable components and color/typography tokens from our specs so the system is code-as-source-of-truth.", "should_trigger": true},
+  {"query": "Write the development-ready page specification (layout, content, interactions) for this one screen.", "should_trigger": false},
+  {"query": "Craft the generation prompts and produce the visual page-design assets from these specs.", "should_trigger": false},
+  {"query": "Turn the trigger map into linear scenario outlines that expose every page.", "should_trigger": false}
+]

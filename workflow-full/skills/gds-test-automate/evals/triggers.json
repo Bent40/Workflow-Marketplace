@@ -1,0 +1,9 @@
+[
+  { "query": "automate tests for the score calculator system", "should_trigger": true },
+  { "query": "generate automated unit tests for our Godot gameplay logic", "should_trigger": true },
+  { "query": "write GUT tests for the untested combat manager", "should_trigger": true },
+  { "query": "generate tests for the inventory and save systems in my game", "should_trigger": true },
+  { "query": "set up the Godot test framework from scratch with GUT", "should_trigger": false },
+  { "query": "design the test scenarios and coverage matrix for the game", "should_trigger": false },
+  { "query": "review the quality of our existing game test suite", "should_trigger": false }
+]

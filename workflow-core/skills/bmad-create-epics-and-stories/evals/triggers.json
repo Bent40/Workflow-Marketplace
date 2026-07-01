@@ -1,0 +1,8 @@
+[
+  { "query": "Create the epics and stories list from the PRD.", "should_trigger": true },
+  { "query": "Break these requirements down into epics and a full list of user stories.", "should_trigger": true },
+  { "query": "Decompose the PRD into epics organized by user value, each with stories and acceptance criteria.", "should_trigger": true },
+  { "query": "Create the next story from the sprint backlog so the dev agent can implement it.", "should_trigger": false },
+  { "query": "Dev this story file and write the implementation code.", "should_trigger": false },
+  { "query": "Write the PRD for this product idea.", "should_trigger": false }
+]

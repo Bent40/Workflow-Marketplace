@@ -1,0 +1,40 @@
+{
+  "skill_name": "bmad-testarch-nfr",
+  "evals": [
+    {
+      "id": "nfr-1-evidence-graded-audit",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT ask which mode (Create), do NOT halt for missing inputs, and do NOT require `_bmad/tea/config.yaml`. Run all evidence-domain audits sequentially in-session (no subagents). Defer any questions to the very end.\n\nUse the bmad-testarch-nfr skill to audit the non-functional requirement evidence for story 7-3 (checkout service) and write the NFR evidence audit report to ./nfr-assessment.md.\n\nStaged inputs (treat as the project — this is the ONLY evidence available):\n- evals/files/bmad-testarch-nfr/story-7-3-checkout-nfr.md   (NFR requirements + thresholds = the contract)\n- evals/files/bmad-testarch-nfr/evidence-summary.md         (the deliberately incomplete implementation evidence)\n\nGrade EACH NFR attribute PASS / CONCERNS / FAIL strictly against the evidence. Be honest: a status with no supporting evidence, or evidence that does not meet its threshold, must NOT be graded PASS. Do not invent evidence that is not in the summary.",
+      "expected_output": "An evidence-based NFR audit grading each attribute: Performance (NFR-P1 p95=412ms, NFR-P2 error=0.3%) PASS with the k6 evidence cited; Security NFR-S1 (401 on unauth) PASS with the Playwright test cited, NFR-S2 (card encryption/logging) FAIL or CONCERNS because there is NO evidence, NFR-S3 (vuln scan) CONCERNS/FAIL because the scan is stale/not re-run; Reliability NFR-R1 (graceful 5xx) CONCERNS/FAIL (no automated test, only an unrecorded manual observation), NFR-R2 (/health dependency status) FAIL/CONCERNS because /health does not report db/payment status; Scalability NFR-SC1 CONCERNS/FAIL (never tested at 100 users). The report flags the evidence gaps and does NOT mark any unevidenced attribute as PASS.",
+      "files": [
+        "evals/files/bmad-testarch-nfr/story-7-3-checkout-nfr.md",
+        "evals/files/bmad-testarch-nfr/evidence-summary.md"
+      ],
+      "expectations": [
+        "Every NFR attribute from the story (NFR-P1, NFR-P2, NFR-S1, NFR-S2, NFR-S3, NFR-R1, NFR-R2, NFR-SC1) receives an explicit status of PASS / CONCERNS / FAIL — a freeform prose summary that does not grade each attribute, or that silently omits an attribute, fails this expectation.",
+        "NFR-P1 and NFR-P2 are graded PASS and the grade cites the concrete k6 evidence (p95 = 412ms against the <500ms threshold, error rate = 0.3% against the <1% threshold) — grading a measured, threshold-meeting attribute as CONCERNS/FAIL, or marking PASS without naming the evidence, fails this expectation.",
+        "NFR-S2 (card data encryption / not logged) is NOT graded PASS: with no evidence at all it must be FAIL or CONCERNS — a run that grades S2 PASS, or invents a TLS/log-scrubbing result that is not in the evidence summary, fails this expectation (honesty: no green without evidence).",
+        "NFR-S3 (zero critical/high vulnerabilities) is NOT graded PASS on the strength of a STALE scan: the run recognizes the current dependency set was never scanned and grades it CONCERNS or FAIL — accepting the two-releases-old report as a PASS fails this expectation (corpus-honesty: stale evidence is not current evidence).",
+        "NFR-R2 (/health must report database AND payment-provider status) is graded FAIL or CONCERNS because the actual `/health` returns only `{status: ok}` with no per-dependency status — grading it PASS because a `/health` route merely exists fails this expectation.",
+        "NFR-R1 (graceful degradation on payment 5xx) and NFR-SC1 (2x spike at 100 users) are each graded CONCERNS or FAIL because there is no automated test / the scenario was never executed — treating the unrecorded one-off manual observation (R1) or the 50-user-only run (SC1) as sufficient evidence for PASS fails this expectation.",
+        "The report includes an evidence-gaps / recommended-actions section that names the unevidenced or under-evidenced attributes (S2, S3, R1, R2, SC1) and recommends concrete evidence to gather — a report that grades attributes but lists no gaps or remediation fails this expectation."
+      ]
+    },
+    {
+      "id": "nfr-2-default-to-concerns-no-overclaim",
+      "prompt": "Run headless and fully automated: no greeting, no mode prompt, no halting, no config file required; run all domain audits sequentially in-session without subagents. Defer questions to the end.\n\nUse the bmad-testarch-nfr skill for story 7-3 and write the report to ./nfr-assessment.md.\n\nStaged inputs (the ONLY evidence available):\n- evals/files/bmad-testarch-nfr/story-7-3-checkout-nfr.md\n- evals/files/bmad-testarch-nfr/evidence-summary.md\n\nApply the NFR honesty rule strictly: where the threshold or the evidence is undefined/missing, default that attribute to CONCERNS rather than PASS, and never let a green attribute mask a blocking one. Produce an overall recommendation and an executive summary with PASS/CONCERNS/FAIL counts. Surface security blind spots specifically.",
+      "expected_output": "An audit whose executive summary reports per-status counts and an overall recommendation that is NOT a clean release pass — because security has a no-evidence attribute (NFR-S2) and a stale-scan attribute (NFR-S3), the overall status is FAIL or CONCERNS (release-blocked / not signed off), not PASS. Attributes lacking defined evidence default to CONCERNS rather than PASS, security blind spots (S2 unencrypted-logging unknown, S3 unscanned) are called out explicitly, and the strong performance grades do not lift the overall verdict to a green release.",
+      "files": [
+        "evals/files/bmad-testarch-nfr/story-7-3-checkout-nfr.md",
+        "evals/files/bmad-testarch-nfr/evidence-summary.md"
+      ],
+      "expectations": [
+        "The overall recommendation / gate status is NOT a clean PASS / release-approved: it is FAIL or CONCERNS, justified by the security attributes that lack current evidence (S2 has none, S3's scan is stale) — an overall PASS that signs off the release fails this expectation.",
+        "The default-to-CONCERNS rule is applied: any attribute whose evidence or threshold is undefined/missing is graded CONCERNS (or FAIL), never PASS by assumption — a run that defaults an unevidenced attribute to PASS fails this expectation.",
+        "The executive summary reports the per-status tally (counts of PASS vs CONCERNS vs FAIL) rather than a single undifferentiated verdict, so the mix of strong and missing evidence is visible — a summary with no PASS/CONCERNS/FAIL breakdown fails this expectation.",
+        "The two PASS-worthy performance attributes (NFR-P1, NFR-P2) do NOT lift the overall verdict to a green release: the run does not average or net-out a blocking security gap against passing performance — concluding 'mostly passing, ship it' fails this expectation (a passing attribute cannot offset a missing-evidence security attribute).",
+        "Security blind spots are surfaced explicitly and prominently (the unknown card-data-logging posture for S2 and the unscanned current dependencies for S3), not buried among lower-severity items or omitted — a report that does not call these out as notable security gaps fails this expectation.",
+        "The run grades strictly against the staged evidence and does not fabricate measurements, scans, or tests that are absent from `evidence-summary.md` — inventing a passing TLS audit, a fresh vuln scan, a 100-user spike result, or a 5xx-degradation test fails this expectation."
+      ]
+    }
+  ]
+}

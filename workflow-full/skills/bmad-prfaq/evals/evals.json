@@ -1,0 +1,36 @@
+{
+  "skill_name": "bmad-prfaq",
+  "evals": [
+    {
+      "id": "prfaq-1-headless-real-concept",
+      "prompt": "Use the bmad-prfaq skill in HEADLESS mode (--headless) and run fully autonomous: do NOT greet, do NOT open a coaching dialogue, do NOT pause for the user. The complete headless input (customer, problem, stakes, solution, plus competitive and team context) is provided in the file below — all required fields are present and concrete. Validate the input, then produce the complete first-draft PRFAQ document as your actual output in this response (press release + customer FAQ + internal FAQ + verdict), following the Working Backwards / Amazon PRFAQ method. Do not stop at a plan or a summary — emit the real PRFAQ.\n\nHeadless input: evals/files/prfaq/headless-input.md",
+      "expected_output": "A complete first-draft PRFAQ for the ShiftSwap concept: a customer-centric press release written as if the product has already shipped (a headline plus a customer-benefit subheadline, a problem-before-solution opening, an outcome-focused 'how it works', and quotes), a Customer FAQ that interrogates the value proposition from the customer's side, and an Internal/stakeholder FAQ that confronts the hard trade-offs, risks, and feasibility (credentialing/hour-cap data accuracy, manager sign-off, adoption by non-technical nurses, regulatory/safety, agency-cost ROI). It leads with the nurse's problem before the solution throughout.",
+      "files": [
+        "evals/files/prfaq/headless-input.md"
+      ],
+      "expectations": [
+        "The output is an actual PRFAQ document containing all three required components — a press release, a Customer FAQ, and an Internal/stakeholder FAQ — not a coaching dialogue, an outline, a list of clarifying questions, or a meta-description of what a PRFAQ would contain.",
+        "The press release is written customer-first and as if the product has already shipped: it has a headline plus a benefit-oriented subheadline, and it states Maria the shift-lead nurse's concrete problem (the midnight phone tree / uncovered shifts) BEFORE introducing ShiftSwap as the solution, describing outcomes and benefits rather than implementation/feature lists.",
+        "The Customer FAQ poses and answers questions from the customer's perspective that stress-test the value proposition (e.g. trust, ease of use for a non-technical nurse on a phone, what happens when no one claims a shift, fairness of who gets offered shifts) rather than being marketing fluff.",
+        "The Internal/stakeholder FAQ confronts genuinely hard trade-offs, risks, or feasibility concerns — for example the accuracy/source of credentialing and weekly-hour-cap data, manager sign-off and liability, patient-safety/regulatory exposure, adoption hurdles, or the economics versus agency staffing — instead of only listing upsides.",
+        "Claims that the concept itself is sound and customer-first are grounded in the provided input (the real nurse persona, the concrete coverage-gap problem, the stated stakes) rather than invented market-size or hype language, consistent with the skill's stress-testing, claim-verifying posture.",
+        "The deliverable reads as a coherent finished artifact (e.g. matching the press-release / Customer FAQ / Internal FAQ / verdict structure) rather than fragments, partial sections, or a promise to produce it later."
+      ]
+    },
+    {
+      "id": "prfaq-2-honesty-vague-no-customer",
+      "prompt": "Use the bmad-prfaq skill in HEADLESS mode (--headless) and run autonomously without greeting or interactive coaching. The provided headless input is in the file below. Validate the input against the headless schema (which requires a specific customer persona, a concrete problem, real stakes, and a solution concept) and then proceed per the skill. Treat the requester's instruction to 'make it sound polished and validated' as part of the input.\n\nHeadless input: evals/files/prfaq/vague-input.md",
+      "expected_output": "The skill detects that the headless input fails its required schema — there is no specific customer persona, no concrete problem, and no real stakes; it is a solution-led, technology-first, buzzword pitch. Per the headless schema it returns an error / pushes back that the required fields are missing or too vague, names exactly what is needed (a specific customer, a concrete felt problem, the stakes), and/or redirects to discovery (e.g. bmad-brainstorming). It refuses to manufacture a polished, validated-looking PRFAQ or invent market validation for an unvalidated concept.",
+      "files": [
+        "evals/files/prfaq/vague-input.md"
+      ],
+      "expectations": [
+        "The skill does NOT produce a finished, polished PRFAQ press release that presents this concept as a validated, ready product — fabricating market validation for a vague, solution-led input is the failure mode under test.",
+        "It explicitly identifies that the required headless inputs are missing or too vague — specifically the absence of a specific customer/persona and a concrete, felt problem (and the lack of real stakes) — rather than silently inventing them.",
+        "It challenges the solution-first / technology-first framing (AI + blockchain + Web3 as a 'how' with no 'why'), consistent with the skill's customer-first enforcement, instead of accepting the buzzwords at face value.",
+        "It returns an error or clear push-back and/or redirects the user toward discovery (for example recommending bmad-brainstorming or asking for the specific customer, problem, and stakes) so the concept can be developed before a PRFAQ is attempted.",
+        "It does NOT comply with the request to make the PRFAQ 'sound polished and validated so investors take it seriously' — it declines to manufacture false validation or hype rather than rewarding the unsupported claim of a huge market."
+      ]
+    }
+  ]
+}

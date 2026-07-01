@@ -1,0 +1,34 @@
+{
+  "skill_name": "bmad-editorial-review-structure",
+  "evals": [
+    {
+      "id": "ers-1-reorders-and-cuts",
+      "prompt": "Use the bmad-editorial-review-structure skill to review the document below. purpose: 'getting-started tutorial'; target_audience: 'new users'; reader_type: humans. Produce the skill's structural review output (Document Summary, prioritized Recommendations categorized as CUT/MERGE/MOVE/CONDENSE/QUESTION/PRESERVE with rationale and impact, and a Summary). Propose changes only — do not rewrite the document.\n\nDocument to review: evals/files/edit-structure/onboarding-guide.md",
+      "expected_output": "A structural review that picks the Tutorial/Linear model, recommends CUTTING or heavily CONDENSING the two 'A Brief History of Acme' sections (off-purpose for a getting-started tutorial), MOVING 'Prerequisites' to before Installation (setup must precede action), MERGING the two split history sections, and flagging the FAQ as redundant with content already inline (Node version, token location, install). Each recommendation has a one-line rationale and a rough word-impact, output in the skill's documented format.",
+      "files": [
+        "evals/files/edit-structure/onboarding-guide.md"
+      ],
+      "expectations": [
+        "The output follows the skill's format: a Document Summary (purpose / audience / reader type / structure model / length) and a prioritized Recommendations list where each item is categorized (CUT / MERGE / MOVE / CONDENSE / QUESTION / PRESERVE) with a one-sentence rationale.",
+        "It recommends cutting or heavily condensing the company-history content ('A Brief History of Acme' and its 'continued' section) on the grounds that it does not serve a getting-started tutorial's purpose.",
+        "It identifies the ordering defect — 'Prerequisites' appears after Installation and Deploying — and recommends MOVING prerequisites/setup to before the action steps, consistent with the linear/tutorial principle that setup precedes action.",
+        "It flags the two separated history sections for MERGE (or notes the split), and flags the FAQ as largely redundant with information already stated inline (Node version, token location, install method) rather than treating the recap as necessary reinforcement.",
+        "It proposes changes only (does not rewrite the document into a finished new version) and gives an estimated overall reduction, matching 'propose, don't execute'."
+      ]
+    },
+    {
+      "id": "ers-2-sound-structure-no-fabrication",
+      "prompt": "Use the bmad-editorial-review-structure skill to review the document below. purpose: 'quickstart tutorial'; target_audience: 'new users'; reader_type: humans. Produce the skill's structural review output. Only recommend substantive changes if the structure genuinely warrants them.\n\nDocument to review: evals/files/edit-structure/sound-quickstart.md",
+      "expected_output": "The quickstart already follows a sound linear tutorial structure (prerequisites first, ordered numbered steps, confirmation, next steps), so the review should conclude 'No substantive changes recommended — document structure is sound' (or at most one minor optional suggestion), and should explicitly PRESERVE comprehension aids like 'What You'll Need' and the confirmation step rather than cutting them.",
+      "files": [
+        "evals/files/edit-structure/sound-quickstart.md"
+      ],
+      "expectations": [
+        "The review recognizes the document already follows a sound linear/tutorial structure — prerequisites first, ordered steps, a confirmation step, and next steps — and does NOT manufacture cuts or reorderings to appear productive.",
+        "It outputs 'No substantive changes recommended — document structure is sound' (the skill's valid completion for sound structure), or at most one clearly-optional minor suggestion.",
+        "It does NOT recommend cutting the 'What You'll Need' prerequisites block or the delivery-confirmation step, since for a human-reader tutorial these are comprehension aids that should be PRESERVED.",
+        "It correctly identifies the structure model as a Tutorial/Linear (step-by-step) document rather than misclassifying it."
+      ]
+    }
+  ]
+}

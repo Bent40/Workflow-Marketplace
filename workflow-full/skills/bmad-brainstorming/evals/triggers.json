@@ -1,0 +1,8 @@
+[
+  { "query": "Help me brainstorm ways to grow weekday foot traffic at my bookstore.", "should_trigger": true },
+  { "query": "Let's ideate some novel features for a habit-tracking app.", "should_trigger": true },
+  { "query": "I want to brainstorm a bunch of ideas for reducing office plastic waste.", "should_trigger": true },
+  { "query": "Write the final architecture document for my payment service.", "should_trigger": false },
+  { "query": "Fix the failing unit test in the auth module.", "should_trigger": false },
+  { "query": "Run the test suite and report which tests fail.", "should_trigger": false }
+]

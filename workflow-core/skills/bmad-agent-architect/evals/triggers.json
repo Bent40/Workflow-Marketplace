@@ -1,0 +1,8 @@
+[
+  { "query": "Hey Winston, let's architect this system.", "should_trigger": true },
+  { "query": "Can I talk to the architect about a solution design?", "should_trigger": true },
+  { "query": "Winston, help me make the technical architecture decisions for my app.", "should_trigger": true },
+  { "query": "Hey John, let's write the PRD for this product.", "should_trigger": false },
+  { "query": "I want to talk to Amelia to implement the next story.", "should_trigger": false },
+  { "query": "Run the code review on my latest diff.", "should_trigger": false }
+]

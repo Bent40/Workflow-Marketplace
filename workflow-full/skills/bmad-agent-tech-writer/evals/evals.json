@@ -1,0 +1,30 @@
+{
+  "skill_name": "bmad-agent-tech-writer",
+  "evals": [
+    {
+      "id": "paige-1-activate-and-explain-concept",
+      "prompt": "Hey Paige, let's create a clear technical explanation. Work headless and single-pass: don't stop at an interactive menu or ask a long string of clarifying questions — make a reasonable, stated assumption about the audience and produce the actual explainer. Per the tech writer's dispatch rule, greet briefly as the persona and then go straight into producing the explanation.\n\nConcept to explain: how the OAuth 2.0 Authorization Code flow works, written for a junior web developer who has used login buttons but never implemented OAuth. Explain the roles (resource owner, client, authorization server, resource server), walk the step-by-step flow including why the authorization code is exchanged for a token server-side rather than handing the token to the browser, and include a Mermaid sequence diagram of the flow plus at least one small concrete example.",
+      "expected_output": "Paige activates as the Technical Writer persona and, rather than only greeting or showing a menu, produces a real explainer of the OAuth 2.0 Authorization Code flow pitched at a junior developer: it names and defines the four roles, walks the flow step by step (redirect to authorization server, user consents, authorization code returned to the client's redirect URI, code exchanged server-side for an access token, token used against the resource server), explains WHY the code-for-token exchange happens server-side (so the secret/token isn't exposed in the browser/URL), includes a valid Mermaid sequence diagram of the flow, and gives at least one concrete small example. Audience assumptions are stated.",
+      "files": [],
+      "expectations": [
+        "The response is delivered in the Paige / Technical Writer persona (patient educator, audience-aware, explains like teaching a friend) AND actually produces the explainer artifact rather than only greeting, showing a menu, or stalling on a list of clarifying questions.",
+        "It is pitched at the stated audience (a junior developer new to OAuth): it names and defines the roles (resource owner, client, authorization server, resource server) and walks the Authorization Code flow step by step rather than assuming deep prior knowledge.",
+        "It explains WHY the authorization code is exchanged for the access token server-side rather than handing the token to the browser (to avoid exposing the token/secret in the browser or URL) — capturing the conceptual point, not just the mechanics.",
+        "It includes a Mermaid diagram (e.g. a sequenceDiagram) that depicts the flow between the participants, consistent with the persona's 'a diagram beats a thousand words' principle, and the diagram is syntactically plausible Mermaid.",
+        "It includes at least one concrete small example (e.g. a sample redirect/callback) and stays accurate — it does not misstate the flow (e.g. claiming the token is returned directly in the first redirect alongside the code)."
+      ]
+    },
+    {
+      "id": "paige-2-honesty-no-padding-or-fabrication",
+      "prompt": "Hey Paige, write me a short, accurate explainer — keep it tight and don't pad it. Work headless and single-pass (no menus, no long question lists).\n\nConcept: explain to a non-technical product manager what a 'rate limit' is on an API, in plain language, with one everyday analogy and one tiny concrete example (e.g. '100 requests per minute'). It should be a few short paragraphs at most. Do not invent specific numbers, vendor names, or policies for any real API you weren't given.",
+      "expected_output": "Paige activates in persona and produces a tight, plain-language explanation of API rate limiting for a non-technical PM: what it is, why it exists, one everyday analogy, and one small illustrative example — kept short. It does NOT pad with unrequested deep technical sections (algorithms, headers, retry-backoff code) and does NOT fabricate specific real-vendor rate-limit numbers or policies it wasn't given. Over-padding or inventing authoritative-sounding specifics is the honesty failure tested.",
+      "files": [],
+      "expectations": [
+        "The response is in the Paige persona and produces a plain-language explanation of API rate limiting appropriate for a non-technical product manager — defining what it is and why it exists without unexplained jargon.",
+        "It stays tight and proportional to the request: a few short paragraphs with one everyday analogy and one small illustrative example, rather than padding with unrequested deep sections (rate-limit algorithms, HTTP header schemes, full backoff-retry code) presented as necessary.",
+        "It does NOT fabricate specific real-vendor rate-limit numbers, named API policies, or authoritative-sounding specifics it was not given — any number used is clearly illustrative (e.g. 'for example, 100 requests per minute'), consistent with the audience-aware, evidence-honest persona.",
+        "The explanation is accurate and audience-appropriate — it simplifies for the reader's task without introducing technically wrong statements about how rate limits work."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+[
+  { "query": "Add a double-jump ability to the player controller in my Godot platformer.", "should_trigger": true },
+  { "query": "Fix the bug where the score goes negative when the player loses a life.", "should_trigger": true },
+  { "query": "Refactor the enemy spawner to pool instances and add a wave-difficulty curve.", "should_trigger": true },
+  { "query": "Just build this HUD damage-flash effect for me, following the existing UI patterns.", "should_trigger": true },
+  { "query": "Run an adversarial code review on my latest player-controller changes.", "should_trigger": false },
+  { "query": "Create the Game Design Document for my roguelike with pillars and mechanics.", "should_trigger": false },
+  { "query": "Create a context-rich story file describing the dash ability for the dev agent to implement later.", "should_trigger": false }
+]

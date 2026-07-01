@@ -1,0 +1,51 @@
+{
+  "skill_name": "gds-test-design",
+  "evals": [
+    {
+      "id": "gdstd-1-risk-based-test-design",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT halt for confirmation, and do NOT require `_bmad/gds/config.yaml`. Treat the staged GDD as the loaded design documentation and produce the artifact directly. Defer any clarifying questions to the very end.\n\nUse the gds-test-design skill to produce a comprehensive Game Test Design document for the staged game and write it to ./game-test-design.md following the skill's structure. Include a risk assessment, prioritized test scenarios in the skill's GIVEN/WHEN/THEN format, a coverage matrix (feature vs P0-P3), and an automation strategy. Base everything on the GDD; do not invent mechanics or systems it does not describe.\n\nStaged input (treat as the loaded GDD):\n- evals/files/gds-test-design/gdd.md",
+      "expected_output": "A Game Test Design doc with: a risk assessment flagging the high-risk areas (meta-progression save integrity, oil-drain/light-radius-vs-damage logic, save-during-night-wave autosave); prioritized GIVEN/WHEN/THEN scenarios for the core loop (lantern/oil, crafting recipes, night waves), the save/load roundtrip of meta-progression at P0, and Switch certification items (suspend/resume, controller disconnect, save-during-suspend) at P0; a coverage matrix mapping features to P0-P3 counts; and an automation strategy splitting unit vs integration/E2E vs manual. Scenarios trace to actual GDD mechanics.",
+      "files": [
+        "evals/files/gds-test-design/gdd.md"
+      ],
+      "expectations": [
+        "The document includes a risk assessment that names this title's actual high-risk areas — meta-progression save integrity (losing permanent ember/recipe unlocks), the oil-drain/light-radius interaction with the damage system, and the suspected-fragile save-during-night-wave autosave — rather than a generic risk list.",
+        "Prioritized test scenarios are written in the skill's GIVEN/WHEN/THEN format with a PRIORITY (P0-P3) and CATEGORY, covering the real mechanics: lantern light-radius / oil drain, crafting recipe gating on resource counts, and the night-wave survival loop.",
+        "The save/load roundtrip of META-progression (death ends run; embers and unlocked recipes persist) is treated as a P0 data-integrity scenario, reflecting that save corruption loses permanent unlocks.",
+        "Nintendo Switch certification items appear as P0 platform scenarios — at least suspend/resume handling, controller disconnect handling, and save-during-suspend safety — because the GDD requires passing Lotcheck.",
+        "A coverage matrix maps features to P0-P3 (with counts or coverage), AND an automation strategy distinguishes unit vs integration/E2E vs manual-only scenarios — a plan missing either the matrix or the automation split fails this expectation.",
+        "Every scenario traces to a mechanic actually described in the GDD; the document does not invent systems the GDD does not mention."
+      ]
+    },
+    {
+      "id": "gdstd-2-honesty-no-multiplayer-or-monetization",
+      "prompt": "Run headless and fully automated: no greeting, no halting, no config file required. Defer questions to the end.\n\nUse the gds-test-design skill to produce a Game Test Design document for the staged game and write it to ./game-test-design.md. The GDD explicitly states this title is SINGLE-PLAYER ONLY with NO multiplayer/co-op, NO leaderboards or online services, and NO monetization beyond the one-time purchase. Scope the test categories to what the game actually has; do not include test categories for systems this game does not contain.\n\nStaged input:\n- evals/files/gds-test-design/gdd.md",
+      "expected_output": "A Game Test Design doc that includes ONLY the applicable categories (core gameplay, progression/save, platform/certification) and explicitly OMITS multiplayer/networking testing and monetization/IAP testing — because the GDD rules them out. If those categories are mentioned at all, they appear under Not in Scope with a reason, not as planned scenarios. The single-player scope is honored rather than padded with the template's full multiplayer/monetization sections.",
+      "files": [
+        "evals/files/gds-test-design/gdd.md"
+      ],
+      "expectations": [
+        "The test design does NOT include multiplayer/networking test scenarios (connectivity, synchronization, latency, matchmaking) because the game is single-player only — adding multiplayer test scenarios is a fabrication and fails this expectation.",
+        "The test design does NOT include monetization / in-app-purchase / store-transaction test scenarios, since the GDD states there is no monetization beyond the one-time purchase — adding IAP/microtransaction tests fails this expectation.",
+        "The test design does NOT include leaderboard or online-service test scenarios, since the GDD rules them out — if such items are mentioned they appear only under Not in Scope with a reason, not as planned coverage.",
+        "The categories it DOES cover are the applicable ones — core gameplay (lantern/oil, crafting, night waves), progression/save (meta-progression integrity), and platform/Switch certification — showing that scoping down did not drop the real coverage.",
+        "The plan reads as honestly scoped to this single-player title rather than reproducing the template's full multiplayer/monetization sections just because the template lists them."
+      ]
+    },
+    {
+      "id": "gdstd-3-priority-matrix-and-automation-split",
+      "prompt": "Run headless and fully automated: no greeting, no halting, no config file required. Defer questions to the end.\n\nUse the gds-test-design skill to produce the prioritization and automation-strategy portions of a Game Test Design for the staged game (you may write the full doc to ./game-test-design.md). Focus on assigning sensible priorities (P0-P3) using risk-based ordering and on recommending the right test LEVEL per scenario (unit vs integration vs E2E vs manual/playtest). Pure logic should be unit; full player journeys should be E2E; feel/polish should be manual.\n\nStaged input:\n- evals/files/gds-test-design/gdd.md",
+      "expected_output": "A prioritization that puts ship-blocking/data-integrity/certification items at P0 (core loop, meta-progression save, Switch cert) and feel/polish lower, using risk-based ordering; plus an automation strategy that assigns levels appropriately — oil-drain/light-radius and crafting-recipe math at unit; save/load meta-progression roundtrip and night-wave survival as integration/E2E; and 'game feel' (lighting tension, pacing) as manual/playtest rather than automated. No duplicate full coverage of the same assertion at every level.",
+      "files": [
+        "evals/files/gds-test-design/gdd.md"
+      ],
+      "expectations": [
+        "Priorities follow risk-based ordering: ship-blocking and data-integrity and certification items (core loop, meta-progression save integrity, Switch cert) are P0, while secondary/polish items are lower — assigning everything the same priority, or marking polish as P0, fails this expectation.",
+        "Pure deterministic logic (oil-drain / light-radius math, crafting recipe gating on resource counts) is assigned to the UNIT level, not pushed up to E2E — choosing a heavyweight level for pure logic fails this expectation.",
+        "Full player journeys — the save→quit→reload meta-progression roundtrip and the night-wave survival loop — are assigned to integration/E2E where the journey can actually be observed.",
+        "Subjective 'game feel' aspects (lighting tension, wave pacing/difficulty) are routed to manual playtesting rather than claimed as automated tests, recognizing what automation cannot verify.",
+        "The strategy avoids redundantly asserting the same behavior at every level (unit AND integration AND E2E) without justification, consistent with sensible coverage."
+      ]
+    }
+  ]
+}

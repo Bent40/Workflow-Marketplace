@@ -1,0 +1,41 @@
+{
+  "skill_name": "bmad-cis-innovation-strategy",
+  "evals": [
+    {
+      "id": "is-1-disruption-hypotheses-and-options",
+      "prompt": "Use the bmad-cis-innovation-strategy skill on this single message. Treat the scenario below as fully specified and produce the initial structured strategy artifact directly (do not stop to interview the user).\n\nBusiness: a regional chain of 12 in-person driving schools. Revenue is per-lesson instructor time; growth has plateaued as app-based on-demand learning erodes demand. Constraints: limited capital, instructors are the main cost, must keep a road-test pass guarantee.\n\nProduce a first-pass innovation-strategy artifact that: (1) names 2-3 strategic frameworks you are applying and why each fits (e.g. Jobs to be Done, Blue Ocean, Disruptive Innovation, Business Model Canvas); (2) frames the market/competitive reality honestly including who the non-obvious competitors and non-consumers are; (3) surfaces 3-5 concrete disruption opportunities or innovation hypotheses; and (4) lays out at least 2 distinct strategic options each with its own positioning, rough resource implications, and key risks.",
+      "expected_output": "A strategist-voiced artifact that names 2-3 relevant frameworks with rationale, gives an unflinching market read (including non-obvious competitors / non-consumers), lists 3-5 disruption opportunities or hypotheses grounded in this driving-school context, and presents at least 2 genuinely distinct strategic options each with positioning, resource implications, and risks.",
+      "files": [],
+      "expectations": [
+        "The response names at least 2 recognizable strategy/innovation frameworks (such as Jobs to be Done, Blue Ocean Strategy, Disruptive Innovation Theory, Business Model Canvas, or Three Horizons) and explains why each fits this driving-school situation.",
+        "It gives an honest, evidence-minded read of the market reality — including at least one non-obvious competitor or substitute (e.g. app-based learning, simulators) and/or the non-consumers the business could serve — rather than only optimistic framing.",
+        "It surfaces 3-5 concrete disruption opportunities or innovation hypotheses specific to driving instruction and the instructor-cost / pass-guarantee constraints, not generic 'go digital' advice.",
+        "It presents at least 2 genuinely distinct strategic options (not minor variants of one idea), each with its own positioning, rough resource/feasibility implication, and key risks — preserving real choice rather than a single foregone conclusion."
+      ]
+    },
+    {
+      "id": "is-2-business-model-innovation-grounded",
+      "prompt": "Use the bmad-cis-innovation-strategy skill on this single message; produce the initial structured artifact directly without an interactive interview.\n\nBusiness: an independent specialty coffee roaster that currently sells whole beans wholesale to cafes. Margins are thin and a few large buyers hold most of the volume (concentration risk).\n\nProduce a first-pass innovation-strategy artifact focused on business-model innovation: name the frameworks you apply, deconstruct how the business currently creates/delivers/captures value and where it is vulnerable, then propose 3-5 business-model innovation moves (new value-capture, new segments, new channels, or new value-chain positions) and shape at least 2 distinct strategic options with pros, cons, and the hypotheses that must hold true.",
+      "expected_output": "An artifact that names relevant frameworks, honestly maps the roaster's current value creation/capture and its concentration vulnerability, proposes 3-5 business-model innovation moves, and frames at least 2 distinct options with pros/cons and the hypotheses each depends on.",
+      "files": [],
+      "expectations": [
+        "The response names at least 2 relevant frameworks (e.g. Business Model Canvas, Value Proposition Canvas, Jobs to be Done, Blue Ocean) with a fit rationale.",
+        "It honestly deconstructs how the roaster currently creates, delivers, and captures value and explicitly identifies the buyer-concentration vulnerability and thin margins as a real risk.",
+        "It proposes 3-5 concrete business-model innovation moves (e.g. direct-to-consumer subscription, branded experience, new segments, new value-chain position) specific to a specialty coffee roaster, not generic 'sell more' advice.",
+        "It frames at least 2 distinct strategic options, each with pros, cons, and the key hypotheses or assumptions that must be validated for it to work."
+      ]
+    },
+    {
+      "id": "is-3-honesty-no-single-feature-pitch",
+      "prompt": "Use the bmad-cis-innovation-strategy skill on this single message; produce the initial structured artifact directly.\n\nBusiness: a 30-person B2B SaaS that does invoice automation for small accounting firms. Growth is slowing as larger platforms add invoice automation as a bundled feature.\n\nIMPORTANT: A correct response applies the skill's method — name the frameworks, give a brutally honest market read, and develop MULTIPLE distinct strategic options with their risks. Do NOT just pitch a single clever feature or a single 'add AI' idea and present it as the answer; do not give an uncritically optimistic take that ignores the bundling threat.",
+      "expected_output": "A method-driven strategy artifact: named frameworks, an unflinching market read that takes the platform-bundling threat seriously, and at least 2-3 distinct strategic options with risks. A single-feature pitch or rosy single-answer response with no honest threat analysis and no real option set is the failure this case targets.",
+      "files": [],
+      "expectations": [
+        "The response names relevant strategy frameworks and applies them, rather than jumping straight to one idea with no method.",
+        "It gives a brutally honest market read that explicitly takes the platform-bundling / commoditization threat seriously and challenges comfortable assumptions, rather than an uncritically optimistic take.",
+        "It develops multiple (at least 2-3) genuinely distinct strategic options or directions, each with its own risks and dependencies, preserving real strategic choice.",
+        "HONESTY CONTROL: a response that collapses to a single clever feature or a lone 'add AI' suggestion presented as the answer — with no framework, no honest threat analysis, and no real option set — FAILS this expectation."
+      ]
+    }
+  ]
+}
