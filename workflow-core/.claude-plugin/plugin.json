@@ -1,6 +1,6 @@
 {
   "name": "workflow-core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "The workflow operating model (ambient router, honesty gates, right-sizing) + a curated core skill set.",
   "author": {
     "name": "B.T."

@@ -9,7 +9,9 @@ rebuilt by `wf plugin build` from the private workflow source.
 
 - A `SessionStart` hook that makes the workflow **operating model** ambient
   (the plugin embeds the civilian operating-model spine and injects it as
-  `additionalContext` at session start — no external dependency).
+  `additionalContext` at session start — no external dependency). Ships both
+  a bash hook (macOS/Linux) and a PowerShell hook (Windows), so the operating
+  model loads on every platform, not just Unix.
 - 18 skill(s) under `skills/`.
 
 ## Install

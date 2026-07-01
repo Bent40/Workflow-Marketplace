@@ -4,6 +4,12 @@
 # additionalContext, making the operating model ambient for this plugin.
 set -euo pipefail
 
+# On Windows (Git Bash / MSYS / Cygwin) the PowerShell hook handles this;
+# no-op here so the operating-model spine is never injected twice.
+case "$(uname -s 2>/dev/null || true)" in
+  MINGW*|MSYS*|CYGWIN*) exit 0 ;;
+esac
+
 SPINE=$(cat <<'WF_SPINE_EOF'
 # workflow — operating model (condensed spine)
 
