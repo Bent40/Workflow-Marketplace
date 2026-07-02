@@ -1,0 +1,35 @@
+{
+  "skill_name": "wds-3-scenarios",
+  "evals": [
+    {
+      "id": "wds3-1-sunshine-path-scenario",
+      "prompt": "Use the wds-3-scenarios skill to produce Phase 3's primary artifact: a UX scenario outline for FreshBox, transforming the trigger map into ONE concrete scenario — a linear 'sunshine path' that exposes every page the user touches. Work in a single pass from the attached trigger map.\n\nUpstream Phase 2 trigger map: evals/files/wds3/freshbox-trigger-map.md\n\nWrite the scenario for the PRIMARY persona (busy parent) completing the key transaction of becoming a weekly subscriber. Produce a scenario outline document that includes: the transaction, the business goal it serves, the user & situation, the driving forces (one hope / one worry), device & entry point, the best outcome (user success + business success), and the shortest path as a numbered linear sequence of named pages. Write it as scenario.md.",
+      "expected_output": "A scenario.md following the WDS scenario-outline structure: a transaction stated as user purpose (becoming a weekly subscriber), the primary business goal it serves (retained subscribers), the busy-parent persona with a concrete situation, driving forces (a hope and a worry, one sentence each, drawn from the trigger map — e.g. hope = predictable weekly dinners, worry = being locked in), device and realistic entry point, a best outcome split into measurable user success and business success, and a Shortest Path that is a strictly LINEAR numbered sequence of named pages with NO branches or 'if' statements, ending in success. It connects back to the trigger map's actual persona and driving forces rather than inventing new ones.",
+      "files": [
+        "evals/files/wds3/freshbox-trigger-map.md"
+      ],
+      "expectations": [
+        "The scenario states a transaction as a user purpose (the busy parent becoming a weekly subscriber), not as a feature name, and ties it to the primary business goal of retained weekly subscribers from the trigger map.",
+        "It uses the actual PRIMARY persona (busy parent) with a concrete real-life situation, and its driving forces (a hope and a worry, roughly one sentence each) are drawn from the trigger map's stated wants/fears — e.g. hope = predictable dinners / penalty-free skip, worry = being locked into a rigid plan — rather than invented motivations.",
+        "The Shortest Path is a strictly LINEAR sunshine path: a numbered sequence of named pages where each step is a real page the user moves through, with NO conditional branches and NO 'if' statements — a path containing branching or alternative flows fails this expectation.",
+        "Each step in the path names a page and what the user sees/does/achieves there, the sequence reads as the minimum viable steps to the goal, and the final step is marked as the success endpoint.",
+        "A Best Outcome is given and split into user success AND business success, with at least the business success expressed as a tangible/measurable result (e.g. a completed retained subscription) rather than a vague 'get more customers'.",
+        "It includes device and a realistic entry point and overall connects back to the trigger map's persona, driving forces, and business goal rather than introducing a new persona or goal."
+      ]
+    },
+    {
+      "id": "wds3-2-honesty-no-branches-no-invented-persona",
+      "prompt": "Use the wds-3-scenarios skill to outline a scenario for FreshBox's secondary persona from the attached trigger map. The path MUST stay a single linear sunshine path. Do not branch, and do not invent a persona, driving force, or business goal that is not in the trigger map.\n\nUpstream Phase 2 trigger map: evals/files/wds3/freshbox-trigger-map.md\n\nThe secondary persona (health-conscious solo professional) wants to evaluate ingredient quality and place a first order. Write the scenario as scenario.md, keeping the shortest path linear with no 'if' statements and no alternate branches, and basing the persona's hope/worry only on what the trigger map states.",
+      "expected_output": "A scenario.md for the health-conscious solo professional that keeps a strictly linear sunshine path (no branches, no 'if'), draws the hope/worry only from that persona's trigger-map forces (wants ingredient quality/clear sourcing; fears over-processed food and hidden costs), and does not promote this persona to primary or invent driving forces/goals absent from the trigger map. It honestly avoids adding branching even where a real flow might tempt it.",
+      "files": [
+        "evals/files/wds3/freshbox-trigger-map.md"
+      ],
+      "expectations": [
+        "The shortest path is strictly linear with NO branches and NO 'if'/conditional steps — the run does not slip in 'if the user is logged in...' or alternate-flow forks even though a real journey could branch; introducing any branch fails this expectation.",
+        "The persona's hope and worry are taken only from the secondary persona's stated trigger-map forces (wants ingredient quality and clear sourcing; fears over-processed food and hidden costs) and are NOT fabricated or borrowed from the primary persona.",
+        "The scenario does not invent a new persona, a new business goal, or driving forces that the trigger map never stated, and it does not silently re-label the secondary persona as the primary one.",
+        "Each path step still names a real page and the persona's purpose, and the scenario ties back to the trigger map's actual content rather than to invented detail."
+      ]
+    }
+  ]
+}

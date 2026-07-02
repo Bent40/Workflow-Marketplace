@@ -1,0 +1,9 @@
+[
+  { "query": "design a performance test strategy for our Unity game", "should_trigger": true },
+  { "query": "I need a benchmark plan for frame rate and memory on PC and mobile", "should_trigger": true },
+  { "query": "performance test plan for the swarm combat scenes", "should_trigger": true },
+  { "query": "how do we benchmark loading times and FPS regressions for the game", "should_trigger": true },
+  { "query": "create a playtest plan to gather player feedback on difficulty", "should_trigger": false },
+  { "query": "design functional test scenarios for the save/load system", "should_trigger": false },
+  { "query": "set up the Unity test framework with sample tests", "should_trigger": false }
+]

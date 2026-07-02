@@ -1,0 +1,9 @@
+[
+  { "query": "Walk every branch and boundary in this function and list only the edge cases that aren't handled.", "should_trigger": true },
+  { "query": "Do an exhaustive edge-case analysis of this diff — enumerate every unguarded path.", "should_trigger": true },
+  { "query": "Trace all the boundary conditions in this code and tell me which ones lack a guard.", "should_trigger": true },
+  { "query": "Hunt for unhandled edge cases in this function and give me the missing-handling list as JSON.", "should_trigger": true },
+  { "query": "Give me a cynical, skeptical critique of this design doc — what's missing or sloppy?", "should_trigger": false },
+  { "query": "Run the full code review workflow on my branch and triage findings into patch and defer buckets.", "should_trigger": false },
+  { "query": "Audit whether this security gate's green result actually proves zero egress.", "should_trigger": false }
+]

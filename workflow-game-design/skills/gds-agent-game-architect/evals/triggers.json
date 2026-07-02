@@ -1,0 +1,8 @@
+[
+  { "query": "Hey Cloud, let's architect this co-op game.", "should_trigger": true },
+  { "query": "Can I talk to the game architect about the engine systems and networking?", "should_trigger": true },
+  { "query": "Cloud Dragonborn, help me design the technical architecture for my game.", "should_trigger": true },
+  { "query": "Hey Samus, let's design the game's core fantasy and pillars.", "should_trigger": false },
+  { "query": "I want to talk to Link to implement the next game story.", "should_trigger": false },
+  { "query": "Run a playtest plan for the prototype.", "should_trigger": false }
+]

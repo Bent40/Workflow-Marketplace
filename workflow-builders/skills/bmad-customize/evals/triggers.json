@@ -1,0 +1,8 @@
+[
+  { "query": "Customize bmad — I want to override how John the PM behaves for our team.", "should_trigger": true },
+  { "query": "Change the default PRD template the bmad-prd workflow uses to our regulated-industry structure.", "should_trigger": true },
+  { "query": "Override a skill: add a persistent fact to the architect agent so it always remembers we're AWS-only.", "should_trigger": true },
+  { "query": "Build me a brand-new agent skill from scratch through conversational discovery.", "should_trigger": false },
+  { "query": "Run a quality analysis on my existing workflow skill and tell me what to improve.", "should_trigger": false },
+  { "query": "Write the PRD for my new note-taking app.", "should_trigger": false }
+]

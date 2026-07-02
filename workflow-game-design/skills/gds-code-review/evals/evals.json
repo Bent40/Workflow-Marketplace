@@ -1,0 +1,65 @@
+{
+  "skill_name": "gds-code-review",
+  "evals": [
+    {
+      "id": "gdscr-1-full-mode-triage",
+      "prompt": "Use the gds-code-review skill's review-and-triage method to review the diff below against its story spec, then present the triaged findings. The diff source and the spec are both provided as files, so you do not need to discover a target or construct a diff — review the provided content directly. Apply the skill's adversarial review layers (a blind adversarial pass, an edge-case path-tracing pass, and an acceptance auditor against the spec), then triage each finding into exactly one of the skill's buckets: decision_needed, patch, defer, or dismiss. Present the triaged findings list (per finding: title, source, the bucket, and a short detail) plus the summary counts. Do not modify any files and do not ask interactive setup questions — treat the provided diff and spec as the confirmed review target.\n\nDiff to review: evals/files/gdscr/inventory-diff.patch\nStory spec (acceptance criteria): evals/files/gdscr/inventory-spec.md",
+      "expected_output": "A triaged findings report that catches the real defects against the spec: add() never merges into an existing stack (violates AC1 — always appends a new slot), add() never checks capacity and always returns True (violates AC2), remove() lets qty go below zero (violates AC3 — no guard), and a slot reaching qty 0 is never dropped (violates AC4). Findings are classified into the skill's buckets (the AC violations are patch or decision_needed; pre-existing/unrelated issues defer; noise dismissed), deduplicated across layers, with summary counts. It should not invent defects unrelated to the diff.",
+      "files": [
+        "evals/files/gdscr/inventory-diff.patch",
+        "evals/files/gdscr/inventory-spec.md"
+      ],
+      "expectations": [
+        "The report identifies the acceptance-criteria violations grounded in the diff: add() appends a new slot for an existing item id instead of merging stacks (AC1), add() never checks capacity and unconditionally returns True (AC2), remove() does not prevent qty from going below zero (AC3), and a slot that reaches qty 0 is not dropped (AC4).",
+        "Each reported finding is sorted into exactly one of the skill's triage buckets (decision_needed, patch, defer, or dismiss), and the AC-violation findings are treated as actionable (patch or decision_needed) rather than dismissed.",
+        "The output reflects the skill's multi-layer + triage method: findings are deduplicated (the same defect is not double-counted as separate items) and a summary with per-bucket counts is provided.",
+        "The review is grounded in the provided diff and spec — it does not fabricate defects unrelated to the changed code or invent acceptance criteria the spec does not state.",
+        "The analysis is delivered as the requested triaged-findings artifact rather than stalling on interactive setup, config loading, or a greeting."
+      ]
+    },
+    {
+      "id": "gdscr-2-no-spec-mode",
+      "prompt": "Use the gds-code-review skill's review-and-triage method in no-spec mode (no story/spec file is available) to review the diff below and present the triaged findings. The diff is provided as a file — review it directly without discovering a target or running git. Apply the skill's blind adversarial and edge-case review layers (the acceptance auditor is skipped because there is no spec), then triage findings into the skill's buckets. In no-spec mode, any finding that would be decision_needed must be reclassified as patch (if the fix is unambiguous) or defer (if not), since decision_needed requires a spec. Present the triaged findings (title, source, bucket, detail) and summary counts, and note that the Acceptance Auditor layer was skipped. Do not modify files and do not ask interactive setup questions.\n\nDiff to review: evals/files/gdscr/inventory-diff.patch",
+      "expected_output": "A no-spec triaged review that still catches the real code-level defects (remove() lets qty go negative; a slot reaching qty 0 is never dropped; add() ignores capacity / always returns True). With no spec, none are classified decision_needed — they are patch or defer. The report explicitly notes the Acceptance Auditor was skipped, deduplicates findings, and gives summary counts.",
+      "files": [
+        "evals/files/gdscr/inventory-diff.patch"
+      ],
+      "expectations": [
+        "The report notes that the Acceptance Auditor layer was skipped because no spec was provided (no-spec mode).",
+        "No finding is classified as decision_needed — in no-spec mode such findings are reclassified to patch or defer; a decision_needed bucket appearing here is a failure.",
+        "Real code-level defects reachable from the diff are still caught (for example remove() allowing qty to go below zero, a zero-qty slot never being removed, and add() ignoring capacity while always returning True), each placed in a triage bucket.",
+        "Findings are deduplicated and a summary with per-bucket counts is presented, consistent with the skill's triage method.",
+        "The review is grounded in the provided diff and does not invent unrelated defects or reference a spec that was not provided."
+      ]
+    },
+    {
+      "id": "gdscr-3-clean-diff-no-fabrication",
+      "prompt": "Use the gds-code-review skill's review-and-triage method to review the diff below and present the triaged findings. This is a pure rename: the constant PANEL_TINT is renamed to PANEL_BACKGROUND_TINT and its single reference inside panel_style() is updated consistently; values are unchanged and there is no other call site in the diff. Review the provided diff directly (no spec available — no-spec mode; no git, no interactive setup). Apply the review layers, triage into the skill's buckets, drop dismissed noise, and present the result. Be honest if the change is clean.\n\nDiff to review: evals/files/gdscr/clean-rename-diff.patch",
+      "expected_output": "An honest near-clean result. The rename is internally consistent within the diff, so there are no real correctness defects to patch. The correct outcome is a clean (or near-clean) review — at most a low-severity note that call sites outside this diff should be checked for the old name, classified as defer/dismiss — and explicitly NOT a list of fabricated blocking bugs. Inventing serious defects in a consistent rename is a failure.",
+      "files": [
+        "evals/files/gdscr/clean-rename-diff.patch"
+      ],
+      "expectations": [
+        "The review concludes the change is clean or near-clean — it does NOT manufacture blocking correctness defects in a rename that is internally consistent within the diff.",
+        "Any item raised is appropriately low-severity and routed to defer or dismiss (for example a note to verify no other files outside this diff still reference the old constant name PANEL_TINT), not presented as a patch-level bug in the shown code.",
+        "Over-claiming is treated as failure: asserting that the rename breaks panel_style() or leaves a dangling reference within the diff is false (the single reference is updated) and fails this case.",
+        "If the skill reports a clean review, it states so plainly (consistent with the skill's clean-review outcome) rather than padding the output with invented findings to look thorough."
+      ]
+    },
+    {
+      "id": "gdscr-4-classification-discipline",
+      "prompt": "Use the gds-code-review skill's triage method. You are given a set of ALREADY-RAISED raw findings from the review layers for the inventory diff; your job is to NORMALIZE, DEDUPLICATE, and CLASSIFY them into the skill's four buckets and present the triaged result with summary counts. Do not run git or ask setup questions. The story spec is provided, so full mode applies (decision_needed is permitted).\n\nStory spec: evals/files/gdscr/inventory-spec.md\n\nRaw findings to triage:\n1. (blind) 'add() always returns True even when the inventory is full.'\n2. (edge) {\"location\":\"inventory.py:add\",\"trigger_condition\":\"item id already present\",\"guard_snippet\":\"merge into existing slot\",\"potential_consequence\":\"duplicate slots for same item\"} — i.e. add() does not merge stacks for an existing item id.\n3. (auditor) 'add() violates AC1: an existing item id creates a second slot instead of merging.'\n4. (edge) {\"location\":\"inventory.py:remove\",\"trigger_condition\":\"qty greater than stored\",\"guard_snippet\":\"reject when qty > slot[qty]\",\"potential_consequence\":\"negative quantity\"}\n5. (blind) 'Variable names could be more descriptive.' (no functional impact)\n6. (edge) 'When the inventory is full and the item is NOT stackable, should add() drop the oldest slot or reject? The spec does not say.'\n\nClassify each into decision_needed, patch, defer, or dismiss; merge duplicates; drop dismissed; present the triaged list and summary counts.",
+      "expected_output": "A disciplined triage: findings 2 and 3 are the SAME defect (AC1 stacking) and must be MERGED into one item (sources blind/edge+auditor) classified patch. Finding 1 (capacity / always-returns-True, AC2) is patch. Finding 4 (negative qty, AC3) is patch. Finding 5 (cosmetic naming) is dismissed as noise. Finding 6 is genuinely ambiguous against the spec and is decision_needed (requires human intent). Summary counts reflect the merge and the dismissal.",
+      "files": [
+        "evals/files/gdscr/inventory-spec.md"
+      ],
+      "expectations": [
+        "Findings 2 and 3 are recognized as the same underlying defect (the AC1 stacking/merge bug) and merged into a single triaged item with combined sources — not kept as two separate findings.",
+        "Each surviving finding is placed in exactly one bucket and the placements are sound: the AC violations (stacking merge, capacity/always-True, negative qty) are patch, and the cosmetic naming finding (#5) is dismissed as noise and dropped.",
+        "Finding 6 is classified decision_needed because the spec genuinely does not define the full-and-non-stackable behavior — this requires human intent — and full mode (a spec is present) permits that bucket.",
+        "A summary with per-bucket counts is presented and the counts are internally consistent with the triage (the merge reduces the count by one and the dismissed item is dropped, not counted as actionable).",
+        "The triage does not fabricate new defects beyond the supplied raw findings nor silently drop a real defect from #1-4 — its job here is normalization, dedup, and classification of the given inputs."
+      ]
+    }
+  ]
+}

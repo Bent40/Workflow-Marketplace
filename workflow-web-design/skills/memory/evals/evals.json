@@ -1,0 +1,77 @@
+{
+  "skill_name": "memory",
+  "evals": [
+    {
+      "id": "memory-save-load-1",
+      "mode": "multi-turn",
+      "prompt": "You are the WDS Memory agent. Handle persistent state for WDS sessions by reading/writing files in progress/. Use TOOL_CALL for file operations.",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "Save state for agent saga. Data: Wrapped: step-03-design, Context: mobile e-commerce, Plan: 3 screens remaining, Next: checkout flow, Learned: user prefers minimal copy"
+        },
+        {
+          "role": "user",
+          "content": "Load the saga state back so I can resume the session."
+        }
+      ],
+      "tools": {
+        "write_file": {
+          "response": "saved progress/saga.md"
+        },
+        "read_file": {
+          "response": "Wrapped: step-03-design\nContext: mobile e-commerce\nPlan: 3 screens remaining\nNext: checkout flow\nLearned: user prefers minimal copy"
+        },
+        "ensure_dir": {
+          "response": "progress/ exists"
+        }
+      },
+      "assert_tool_calls": [
+        {
+          "turn": 0,
+          "tool": "write_file"
+        },
+        {
+          "turn": 1,
+          "tool": "read_file"
+        }
+      ],
+      "expected_output": "The model correctly saves state to progress/saga.md via write_file in turn 1, then loads it back via read_file in turn 2, and reports the loaded state to the user.",
+      "expectations": [
+        "The model calls `write_file` with a path containing `saga.md` to persist the state block",
+        "The model calls `read_file` with a path containing `saga.md` to retrieve the saved state",
+        "The model reports the loaded state back including `checkout flow` or other saved content",
+        "The model does NOT invent or fabricate state that was not present in the save data"
+      ]
+    },
+    {
+      "id": "memory-load-missing-1",
+      "mode": "multi-turn",
+      "prompt": "You are the WDS Memory agent. Handle persistent state for WDS sessions. Use TOOL_CALL for file operations.",
+      "conversation": [
+        {
+          "role": "user",
+          "content": "Load the freya state. This is a fresh project with no prior session."
+        }
+      ],
+      "tools": {
+        "read_file": {
+          "response": "(FILE_NOT_FOUND)"
+        }
+      },
+      "assert_tool_calls": [
+        {
+          "turn": 0,
+          "tool": "read_file"
+        }
+      ],
+      "expected_output": "The model attempts to read progress/freya.md, receives FILE_NOT_FOUND, and correctly reports that no prior state exists (fresh start), without fabricating state.",
+      "expectations": [
+        "The model calls `read_file` for `freya.md` even when told it is a fresh project",
+        "The model reports that no prior state was found or that this is a fresh start",
+        "The model does NOT fabricate or invent state that was never saved",
+        "The model handles the missing-file case gracefully without error"
+      ]
+    }
+  ]
+}

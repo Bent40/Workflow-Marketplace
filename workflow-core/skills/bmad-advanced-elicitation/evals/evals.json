@@ -1,0 +1,34 @@
+{
+  "skill_name": "bmad-advanced-elicitation",
+  "evals": [
+    {
+      "id": "ae-1-premortem-applied",
+      "prompt": "Use the bmad-advanced-elicitation skill to apply the PRE-MORTEM elicitation method to the draft launch plan in the file below. Run headless and autonomous: do not present the interactive numbered menu and do not pause for a selection — directly execute the named method (pre-mortem) against THIS specific plan and return the improved/critiqued result, tied to the plan's actual content.\n\nDraft to critique: evals/files/adv-elicit/launch-plan.md",
+      "expected_output": "A pre-mortem on the PetSit plan: imagine it is the end of month one and the launch failed, then enumerate concrete, plan-specific failure causes — e.g. sitter recruitment via Facebook groups stalls, the $20 credit drives unprofitable bookings, the cold-start / liquidity problem in a single-city two-sided market, the unexamined 'demand is obvious / supply is easy' assumption, identity check is not the same as safety/insurance, and the month-three profitability claim is unsupported by the $5k/200-booking math. It ties each risk to the plan and suggests mitigations or sharper questions.",
+      "files": [
+        "evals/files/adv-elicit/launch-plan.md"
+      ],
+      "expectations": [
+        "The output is recognizably a PRE-MORTEM (the requested method): it adopts the stance of imagining the launch has already failed and works backward to plausible causes, rather than a generic SWOT or freeform commentary.",
+        "The critique is tied to the specific content of THIS plan — naming concrete elements such as the 50-sitter Facebook recruitment, the $20 first-booking credit, the single-city Portland marketplace cold-start, the 200-bookings metric, the 15% commission, or the $5,000/month ad spend / month-three profitability claim — not generic startup platitudes.",
+        "It surfaces at least one buried assumption the plan asserts without support, such as 'demand is obvious because everyone has pets' / 'supply is easy', or that an identity check alone establishes trust/safety, and explains why that assumption is risky.",
+        "For the failure modes it raises, it offers a sharper question, mitigation, or improvement rather than only listing problems.",
+        "It does not derail into running the interactive 1-5/reshuffle menu, asking the user to pick a method, or applying a method other than the requested pre-mortem."
+      ]
+    },
+    {
+      "id": "ae-2-method-fidelity-not-generic",
+      "prompt": "Use the bmad-advanced-elicitation skill to apply the RED TEAM / DEVIL'S ADVOCATE method to the same draft launch plan below. Run headless and autonomous (no interactive menu, no pausing). Apply the requested method specifically — argue against the plan's claims as an adversary would — tied to the plan's real content. Do NOT silently substitute a different method or produce vague boilerplate.\n\nDraft to critique: evals/files/adv-elicit/launch-plan.md",
+      "expected_output": "A red-team / devil's-advocate critique that actively argues AGAINST the plan's claims as stated: attacking the 'demand is obvious / supply is easy' reasoning, the assumption that ad-driven first bookings convert to repeat usage, that a 15% take rate at this volume reaches profitability by month three, and that an online identity check covers trust and liability. The adversarial stance and content-specific attacks distinguish it from a generic pre-mortem or a soft summary.",
+      "files": [
+        "evals/files/adv-elicit/launch-plan.md"
+      ],
+      "expectations": [
+        "The output adopts a genuinely adversarial RED TEAM / devil's-advocate stance — it argues against the plan's stated claims rather than neutrally summarizing or gently improving them.",
+        "The attacks are anchored to the plan's actual claims (e.g. 'demand is obvious / supply is easy', repeat-usage vs first-booking credit, the month-three profitability and $5k ad-spend math, identity-check-equals-trust) rather than generic 'have you considered competition?' filler.",
+        "The method is applied with fidelity: it reads as an adversarial challenge, not as a relabeled generic critique or a soft positive review — failing to actually push back on the plan fails this expectation.",
+        "It does not invent facts about PetSit that are not in the draft or knowable from it (no fabricated market sizes, competitor names, or numbers presented as real); challenges are framed as questions/risks, not fabricated data."
+      ]
+    }
+  ]
+}

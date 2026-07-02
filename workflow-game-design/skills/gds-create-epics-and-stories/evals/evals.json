@@ -1,0 +1,37 @@
+{
+  "skill_name": "gds-create-epics-and-stories",
+  "evals": [
+    {
+      "id": "gds-epics-1-breakdown-from-gdd",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT ask clarifying questions, do NOT present A/P/C menus or wait for a 'C' continuation, do NOT halt for approval at any step. Defer any questions you have to the very end, after the document is fully written. Produce the epic breakdown directly as epics.md following the skill's template (Requirements Inventory, FR Coverage Map, Epic List, then each Epic with its Stories).\n\nInput Game Design Document (the requirements to decompose, for the EmberFall roguelite):\n- evals/files/gds-create-epics-and-stories/gdd.md\n\nDo not invent requirements absent from the GDD. Organize epics by player value, not technical layers. Each epic must be standalone. Each story must be completable by a single dev agent and must not depend on a future story in the same epic.",
+      "expected_output": "An epics.md following the template: a Requirements Inventory and an FR Coverage Map that maps every FR-1..FR-8 (and the NFRs) to an epic, an Epic List organized by player value (e.g. Combat & Room Flow, Relics & Builds, Permadeath & Hub Meta, Save/Resume) NOT by technical layer (no 'Database Setup' / 'Rendering Layer' epics), and per-epic stories each in 'As a player / I want / So that' form with Given/When/Then acceptance criteria — preserving the relic-stacking behavior (FR-3), the seeded-determinism for resume (FR-7 + NFR-2), and the boss-gate (FR-6) behaviors as their own stories/criteria.",
+      "files": [
+        "evals/files/gds-create-epics-and-stories/gdd.md"
+      ],
+      "expectations": [
+        "The document includes an `FR Coverage Map` (or clearly equivalent requirement-to-epic mapping) that accounts for every functional requirement `FR-1` through `FR-8` from the GDD — a breakdown that silently drops one or more FRs from the coverage map fails this expectation.",
+        "Epics are organized by player value, NOT by technical layer: there is no epic that is purely a technical stratum such as `Database Setup`, `Rendering Layer`, `Input System`, or `Asset Pipeline` standing in for an epic. A run that produces layer-based epics fails this expectation.",
+        "Each epic is standalone — its stated goal delivers complete functionality for its slice of the game and does not require a LATER epic to function (an epic may build on earlier epics but not depend on a future one), per the skill's dependency rule.",
+        "Every story is written in the user-story form `As a` {player/user_type} / `I want` {capability} / `So that` {benefit} — a story listed as a bare title or technical task without this role/benefit framing fails this expectation.",
+        "Acceptance criteria use the `Given` / `When` / `Then` format (with `And` for additional criteria) rather than loose checklist bullets — a story whose ACs are plain bullets with no Given/When/Then structure fails this expectation.",
+        "The relic-stacking behavior from `FR-3` (a second copy of the same relic stacks its effect additively) survives as its own story or an explicit acceptance criterion — a breakdown that drops this mechanic fails this expectation.",
+        "Stories are sized for a single dev agent and ordered so each is completable from only prior stories — there is no story that says it requires a later story in the same epic to be implemented first (no forward dependency)."
+      ]
+    },
+    {
+      "id": "gds-epics-2-story-sizing-and-no-invention",
+      "prompt": "Run headless and fully automated: no greeting, no clarifying questions, no A/P/C menus, no halting for approval. Defer questions to the very end. Produce epics.md directly from the GDD per the skill's template.\n\nInput GDD (the EmberFall roguelite):\n- evals/files/gds-create-epics-and-stories/gdd.md\n\nStrict scope discipline: introduce systems/entities only as the story that needs them requires (do NOT front-load a single 'build all the game systems' or 'set up the entire save system' mega-story). Do NOT invent requirements the GDD does not state — in particular do NOT add online multiplayer / co-op, a controller-remapping UI, or a daily-challenge / leaderboard mode, none of which are in this GDD. Any questions go at the END of the document.",
+      "expected_output": "An epics.md whose stories are right-sized (no monolithic 'set up the whole game' or 'build every system' story; systems introduced by the story that needs them), that stays inside GDD scope (no invented multiplayer, controller-remapping UI, or daily-challenge mode), and whose acceptance criteria for the resume requirement (FR-7) correctly state that a single-slot in-progress run can be resumed exactly and that starting a new run overwrites it. Any clarifying questions appear at the end, after the breakdown.",
+      "files": [
+        "evals/files/gds-create-epics-and-stories/gdd.md"
+      ],
+      "expectations": [
+        "No story front-loads infrastructure for its own sake — there is no `build all game systems` / `set up the entire save system` / `create the whole procedural generator` mega-story; systems are introduced by the specific story that needs them, per the skill's just-in-time creation principle.",
+        "The breakdown does NOT invent scope absent from the GDD: it adds no online-multiplayer or co-op story, no controller-remapping-UI story, and no daily-challenge / leaderboard story — a run that introduces any of these fabricated requirements fails this expectation.",
+        "An acceptance criterion for the save-and-resume requirement (FR-7) states that the run is single-slot — the player resumes the exact in-progress run, and starting a NEW run overwrites the resumable one — matching the GDD rather than an invented multi-slot save scheme.",
+        "Each story is scoped to be completable by a single dev agent in one session (no story bundling multiple unrelated capabilities such as 'room combat AND relic stacking AND the Hub meta-currency' into one) — an oversized catch-all story fails this expectation.",
+        "Any clarifying questions the run raises appear at the END of the document after the full breakdown, not interleaved into or blocking the epics/stories — questions do not pre-empt producing the artifact."
+      ]
+    }
+  ]
+}

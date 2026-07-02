@@ -1,0 +1,9 @@
+[
+  { "query": "Build a workflow for writing technical blog posts.", "should_trigger": true },
+  { "query": "Analyze this skill for over-specification and quality issues.", "should_trigger": true },
+  { "query": "Rebuild my existing onboarding workflow from its core outcomes.", "should_trigger": true },
+  { "query": "Edit this workflow to add a headless mode.", "should_trigger": true },
+  { "query": "Build me a new agent — I want a creative writing companion.", "should_trigger": false },
+  { "query": "Gate this proposed skill before I build it.", "should_trigger": false },
+  { "query": "What models should I use for my voice stack?", "should_trigger": false }
+]

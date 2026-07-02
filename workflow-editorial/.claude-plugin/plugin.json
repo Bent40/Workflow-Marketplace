@@ -1,0 +1,9 @@
+{
+  "name": "workflow-editorial",
+  "version": "0.2.0",
+  "description": "Editorial & review — prose and structural copy-editing plus adversarial and edge-case content review. Needs workflow-core.",
+  "author": {
+    "name": "B.T."
+  },
+  "license": "MIT"
+}

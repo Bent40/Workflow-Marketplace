@@ -1,0 +1,8 @@
+[
+  { "query": "Let's create a traceability matrix mapping our acceptance criteria to the existing tests, find the coverage gaps, and give me a PASS/CONCERNS/FAIL gate decision.", "should_trigger": true },
+  { "query": "I want to analyze test coverage for this story — which requirements have tests, which don't, and is the quality gate green?", "should_trigger": true },
+  { "query": "Map every requirement to its tests and tell me whether we can release based on P0/P1 coverage.", "should_trigger": true },
+  { "query": "The feature has coverage gaps — generate the missing automated tests to fill them following our existing patterns.", "should_trigger": false },
+  { "query": "Write the red-phase failing acceptance tests for this story before we build it.", "should_trigger": false },
+  { "query": "Design the risk-based test strategy and coverage plan for this epic before any tests exist.", "should_trigger": false }
+]

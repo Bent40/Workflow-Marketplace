@@ -1,0 +1,39 @@
+{
+  "skill_name": "gds-correct-course",
+  "evals": [
+    {
+      "id": "gdscc-1-stamina-cut-full-proposal",
+      "prompt": "Use the gds-correct-course skill. Run headless and fully autonomous: do NOT greet, do NOT ask 'incremental vs batch', do NOT pause at menus or for approval. The triggering change is fully specified below; run the analysis straight through and produce the complete Sprint Change Proposal as your output.\n\nProject artifacts (staged and available):\n- evals/files/gds-correct-course/gdd-context.md (GDD: pillars including 'Risk-reward stamina', core loop, mechanics)\n- evals/files/gds-correct-course/epics-context.md (current epics/stories, with statuses)\n\nTriggering change:\n- evals/files/gds-correct-course/change-cut-stamina.md (playtesting shows the stamina mechanic kills the fun; cut stamina entirely and rebalance combat to gate aggression through frames + parry instead)\n\nProduce the Sprint Change Proposal: Issue Summary, Impact Analysis across epics/stories/GDD/artifacts, a Recommended Approach with rationale, concrete old->new edit proposals, and an Implementation Handoff classified Minor / Moderate / Major.",
+      "expected_output": "A structured Sprint Change Proposal: an Issue Summary of the playtest-driven stamina problem; an Impact Analysis spanning the GDD (the 'Risk-reward stamina' pillar and core loop), the entire Stamina epic (Stories 1.1-1.4), the parry stamina-refund mechanic, the combat-balance story, and the HUD Energy bar; a Recommended Approach (Direct Adjustment / Rollback / MVP Review) with rationale; concrete old->new edit proposals for the affected GDD sections and stories; and a Major (or at least Moderate) handoff classification because a core pillar and the core loop are being changed.",
+      "files": [
+        "evals/files/gds-correct-course/gdd-context.md",
+        "evals/files/gds-correct-course/epics-context.md",
+        "evals/files/gds-correct-course/change-cut-stamina.md"
+      ],
+      "expectations": [
+        "The output is a structured Sprint Change Proposal with the skill's sections — an Issue Summary, an Impact Analysis, a Recommended Approach, detailed change proposals, and an Implementation Handoff — not a freeform discussion.",
+        "The Issue Summary states the triggering problem accurately: playtesting showed the stamina mechanic (especially the winded state) undermines fun, and the team wants to cut stamina and gate aggression through attack frames and parry instead.",
+        "The Impact Analysis identifies the real blast radius across multiple artifacts — the GDD's 'Risk-reward stamina' pillar and the core loop, the Stamina epic (its stories, including in-progress and done work), the parry stamina-refund mechanic, the combat-balance pass, and the HUD Energy bar — rather than treating it as an isolated tweak.",
+        "It recommends a concrete approach (Direct Adjustment / Rollback / MVP Review) with rationale, and presents concrete old->new edit proposals for at least the affected GDD pillar/loop text and one or more affected stories.",
+        "The Implementation Handoff classifies the change as Major (or at minimum Moderate) and justifies that classification by the fact that a core pillar and the core gameplay loop are being changed — not Minor."
+      ]
+    },
+    {
+      "id": "gdscc-2-trivial-rename-classified-minor",
+      "prompt": "Use the gds-correct-course skill. Run headless and fully autonomous: do NOT greet, do NOT ask 'incremental vs batch', do NOT pause at menus or for approval. The triggering change is fully specified below; run the analysis straight through and produce the complete Sprint Change Proposal as your output.\n\nProject artifacts (staged and available):\n- evals/files/gds-correct-course/gdd-context.md (GDD: pillars, core loop, mechanics; the HUD shows a green 'Energy' bar)\n- evals/files/gds-correct-course/epics-context.md (current epics/stories, with statuses)\n\nTriggering change:\n- evals/files/gds-correct-course/change-rename-hud-label.md (rename the HUD bar label text from 'Energy' to 'Stamina'; pure string change, no mechanic change)\n\nProduce the Sprint Change Proposal: Issue Summary, Impact Analysis, Recommended Approach, concrete old->new edit proposals, and an Implementation Handoff classified Minor / Moderate / Major. Size the response to the actual change.",
+      "expected_output": "A right-sized Sprint Change Proposal that treats this as a trivial, fully-contained label change: the impact is limited to the HUD label string (and optionally a one-line GDD terminology note), there is no mechanic/pillar/loop ripple, the recommended approach is a Direct Adjustment, and the handoff is classified Minor. It does NOT manufacture a sweeping cross-artifact replan, does NOT touch the stamina mechanic's numbers, and does NOT escalate to Major/Moderate.",
+      "files": [
+        "evals/files/gds-correct-course/gdd-context.md",
+        "evals/files/gds-correct-course/epics-context.md",
+        "evals/files/gds-correct-course/change-rename-hud-label.md"
+      ],
+      "expectations": [
+        "It correctly scopes the change as a trivial, fully-contained HUD label/string rename ('Energy' -> 'Stamina') with NO change to the stamina mechanic's behavior, numbers, costs, regen, or the winded state.",
+        "The Impact Analysis is minimal — limited to the HUD label (and at most a one-line GDD/terminology consistency note) — and explicitly notes there is no ripple to the pillars, the core loop, or the combat mechanics.",
+        "The Implementation Handoff classifies the change as Minor (routed for direct implementation), NOT Moderate or Major.",
+        "It does NOT manufacture a sweeping cross-artifact replan, fabricate impacts to unrelated epics/stories, or propose rebalancing combat — inventing a large blast radius for a trivial change is the failure mode under test.",
+        "Any edit proposal is the minimal old->new label-text change, and the recommended approach is a Direct Adjustment rather than a Rollback or MVP Review."
+      ]
+    }
+  ]
+}

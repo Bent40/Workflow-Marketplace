@@ -1,0 +1,8 @@
+[
+  { "query": "Hey John, let's write the PRD for this product.", "should_trigger": true },
+  { "query": "Can I talk to the product manager about my requirements?", "should_trigger": true },
+  { "query": "John, help me turn this idea into a PRD.", "should_trigger": true },
+  { "query": "Hey Winston, let's architect this system.", "should_trigger": false },
+  { "query": "I want to talk to Mary the business analyst about market research.", "should_trigger": false },
+  { "query": "Run the test design for this epic.", "should_trigger": false }
+]

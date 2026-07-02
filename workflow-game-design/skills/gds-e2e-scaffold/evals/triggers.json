@@ -1,0 +1,8 @@
+[
+  { "query": "Set up e2e testing for my Godot game — scaffold the end-to-end test infrastructure.", "should_trigger": true },
+  { "query": "e2e scaffold: build the fixtures, scenario builder, input simulator, and async-assert utilities for our Unity game.", "should_trigger": true },
+  { "query": "I need e2e infrastructure for the project — generate the test fixture base and a working example test tailored to our engine.", "should_trigger": true },
+  { "query": "Set up the test framework from scratch with the runner and a first unit test.", "should_trigger": false },
+  { "query": "Generate end-to-end automated tests for the checkout feature.", "should_trigger": false },
+  { "query": "Review the quality of our existing E2E tests.", "should_trigger": false }
+]

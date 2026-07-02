@@ -1,0 +1,8 @@
+[
+  { "query": "Hey Caravaggio, let's craft an investor pitch deck.", "should_trigger": true },
+  { "query": "Can I talk to the presentation expert about designing a slide deck?", "should_trigger": true },
+  { "query": "Caravaggio, help me design a conference talk presentation.", "should_trigger": true },
+  { "query": "Let me talk to Sophia about crafting a brand narrative.", "should_trigger": false },
+  { "query": "Hey Carson, let's brainstorm some product ideas.", "should_trigger": false },
+  { "query": "Run a code review on my latest pull request.", "should_trigger": false }
+]

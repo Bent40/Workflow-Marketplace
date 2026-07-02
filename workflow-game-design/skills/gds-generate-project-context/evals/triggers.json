@@ -1,0 +1,8 @@
+[
+  { "query": "Generate context for this game repo — the project-context.md of rules AI agents must follow when writing game code here.", "should_trigger": true },
+  { "query": "Create the project context capturing the unobvious conventions an agent would otherwise miss in this Godot project.", "should_trigger": true },
+  { "query": "We need a project-context.md so every AI agent writes game code consistent with our patterns. Produce it from the scripts.", "should_trigger": true },
+  { "query": "Document project — scan this Unity game and generate the architecture and systems documentation.", "should_trigger": false },
+  { "query": "Create the GDD covering pillars, mechanics, progression, and levels for this game.", "should_trigger": false },
+  { "query": "Review this design doc paragraph for grammar and clarity issues.", "should_trigger": false }
+]

@@ -1,0 +1,8 @@
+[
+  { "query": "Implementation is done and we have test results, scans, and metrics — audit the NFR evidence for performance, security, reliability, and scalability and grade each one PASS/CONCERNS/FAIL before release.", "should_trigger": true },
+  { "query": "Evaluate our non-functional requirements against the evidence we've collected and tell me which attributes are release blockers.", "should_trigger": true },
+  { "query": "We have load-test output and a security scan for the checkout service — audit the NFRs and give me an evidence-based gate on whether the non-functional bar is met.", "should_trigger": true },
+  { "query": "No code is written yet — help me define the NFR thresholds and risk-based test strategy for this epic before implementation.", "should_trigger": false },
+  { "query": "Map our acceptance criteria to the existing tests and give me a coverage traceability matrix and quality-gate decision.", "should_trigger": false },
+  { "query": "Review the quality of these Playwright test files — flag flakiness, hard waits, and missing assertions.", "should_trigger": false }
+]

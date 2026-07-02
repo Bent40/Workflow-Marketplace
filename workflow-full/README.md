@@ -1,6 +1,6 @@
 # workflow-full
 
-Every stock BMAD skill (all upstream modules) on top of workflow-core.
+Every stock BMAD skill (all upstream modules) — the one-shot everything bundle, on top of workflow-core.
 
 This is a GENERATED Claude Code plugin artifact — do not hand-edit; it is
 rebuilt by `wf plugin build` from the private workflow source.

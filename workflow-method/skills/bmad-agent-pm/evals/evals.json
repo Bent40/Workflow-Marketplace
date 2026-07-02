@@ -1,0 +1,32 @@
+{
+  "skill_name": "bmad-agent-pm",
+  "evals": [
+    {
+      "id": "john-1-activate-and-produce-prd",
+      "prompt": "Hey John, let's write the PRD. Work headless and single-pass: don't stop for interactive interviews, menus, or approval gates — batch any genuine gaps as explicit [ASSUMPTION] or [OPEN] tags and produce the actual PRD for the product described below. Per the PM's dispatch rule, greet briefly as the persona and then go straight into producing the PRD rather than stopping at a menu.\n\nBrief: evals/files/john/shiftswap-brief.md\n\nDeliver a real PRD grounded in the brief: a problem/goal statement, the target users, the in-scope v1 functional requirements (post a shift, eligibility-filtered notification, claim, manager approval, shared visible state + audit record), explicit non-functional/constraint notes (mobile-web, near-zero setup), what is explicitly out of scope, and success signals — keeping the v1 the smallest thing that validates the core assumption.",
+      "expected_output": "John activates as the Product Manager persona and, rather than only greeting or showing a menu, produces a real PRD for ShiftSwap: a sharp problem/goal statement and target users, functional requirements covering the must-have flow (post a shift -> eligibility-filtered notification -> claim -> manager approval as the gate -> shared state + auditable record), constraint/NFR notes (phone-browser-first, near-zero manager setup), an out-of-scope section, and success metrics tied to the validated pain (manager time chasing replacements, uncovered shifts). Genuinely undecided items (pricing, POS/payroll integration, notification channel, whether managers originate shifts) are flagged [OPEN]/[ASSUMPTION] rather than invented.",
+      "files": [
+        "evals/files/john/shiftswap-brief.md"
+      ],
+      "expectations": [
+        "The response is delivered in the John / Product Manager persona (direct, 'why?'-driven, value-first) AND actually produces a PRD artifact rather than stopping at a greeting or a numbered menu.",
+        "The PRD states the problem/goal grounded in the validated pain (managers chasing replacements, shifts going uncovered, no-show disputes) and names the primary (hourly staff) and secondary (shift manager) users — not a generic product framing.",
+        "The functional requirements cover the founder's must-have flow: an employee posts a shift to cover, only eligible coworkers (same role, free that block) are notified, a coworker claims it, the manager's approval is the gate before anything is final, and there is shared visible state plus an auditable record.",
+        "It captures the real constraints as non-functional requirements (works on a phone browser without a native app, near-zero setup for non-technical managers, a 3-cafe pilot) and includes an explicit out-of-scope section plus success signals tied to the core assumption.",
+        "Genuinely undecided items from the brief (pricing/monetization, POS/payroll integration, notification channel, whether managers can also originate shifts) are surfaced as [OPEN]/[ASSUMPTION] rather than silently decided, and the v1 stays scoped to the smallest thing that validates the core assumption."
+      ]
+    },
+    {
+      "id": "john-2-honesty-no-inventing-requirements",
+      "prompt": "Hey John, I need a PRD, but I want you to be honest about what I've actually told you versus what you're assuming. Work headless and single-pass (no interview, no menus).\n\nIdea, in full: 'A web page where a user pastes a long article URL and gets back a 5-bullet summary. That's the entire product. No accounts, no saving, no history, no settings. I have not decided anything about pricing, summarization model, length limits, or supported languages.'\n\nProduce a right-sized PRD for exactly this and nothing more.",
+      "expected_output": "John activates in persona and produces a tightly-scoped PRD for a single-action summarizer: problem/goal, the one core requirement (paste URL -> 5-bullet summary), minimal constraints, and an out-of-scope section. Crucially it does NOT invent accounts, saved history, settings, dashboards, teams, analytics, or other requirements the user never stated, and it flags the explicitly-undecided items (pricing, model, length limits, languages) as open rather than fabricating decisions.",
+      "files": [],
+      "expectations": [
+        "The response is in the John persona and produces a PRD, while staying faithful to the stated one-action scope (paste an article URL, get a 5-bullet summary) — it does not fabricate accounts, login, saved history, settings, dashboards, teams, or surfaces the user never requested.",
+        "The functional requirements stay proportional to a single-action tool and do not pad the deliverable with invented epics, multi-screen flows, or roadmap features the brief does not imply.",
+        "The explicitly-undecided items (pricing/monetization, summarization model, length limits, supported languages) are surfaced as [OPEN]/[ASSUMPTION] or open questions rather than asserted as settled decisions — fabricating a decision the user said they had not made is the honesty failure being tested.",
+        "Any nice-to-have is clearly labeled as a suggestion/assumption rather than presented as a confirmed requirement, even when offered helpfully."
+      ]
+    }
+  ]
+}

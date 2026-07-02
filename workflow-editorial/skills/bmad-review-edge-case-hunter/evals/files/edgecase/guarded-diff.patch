@@ -1,0 +1,23 @@
+diff --git a/src/safe_divide.py b/src/safe_divide.py
+index 2b3c4d5..6e7f8a9 100644
+--- a/src/safe_divide.py
++++ b/src/safe_divide.py
+@@ -3,6 +3,18 @@ from decimal import Decimal, InvalidOperation
+
+
++def safe_average(values):
++    if values is None or len(values) == 0:
++        return None
++    cleaned = []
++    for v in values:
++        if v is None:
++            continue
++        cleaned.append(v)
++    if len(cleaned) == 0:
++        return None
++    return sum(cleaned) / len(cleaned)
++
++
+ def to_decimal(raw):
+     try:
+         return Decimal(raw)

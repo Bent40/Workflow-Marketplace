@@ -1,0 +1,9 @@
+[
+  { "query": "Create a PRFAQ for a new product idea I have — I want to work backwards from the press release before we build anything.", "should_trigger": true },
+  { "query": "Run the PRFAQ challenge on this concept and stress-test whether it's actually ready.", "should_trigger": true },
+  { "query": "Let's work backwards Amazon-style: write the press release and the customer and internal FAQ for this idea.", "should_trigger": true },
+  { "query": "Generate a headless first-draft PRFAQ from this customer, problem, stakes, and solution.", "should_trigger": true },
+  { "query": "Write the actual production code for the shift-swapping app and add the unit tests.", "should_trigger": false },
+  { "query": "Review the prose in this finished press release for grammar and clarity issues.", "should_trigger": false },
+  { "query": "Create a full PRD with epics and user stories for the feature we already scoped.", "should_trigger": false }
+]

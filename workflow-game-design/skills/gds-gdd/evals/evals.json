@@ -1,0 +1,35 @@
+{
+  "skill_name": "gds-gdd",
+  "evals": [
+    {
+      "id": "gdsgdd-1-validate-flags-real-defects",
+      "prompt": "Use the gds-gdd skill with the VALIDATE intent. Run headless and fully autonomous: do NOT greet, do NOT ask the user anything, do NOT enter create/update or any drafting flow — only validate. Critique the GDD below against the skill's GDD discipline and produce the validation findings/report as your output.\n\nGDD to validate: evals/files/gds-gdd/gdd-flawed.md\n\nThis is an action-platformer GDD. Validate it for: pillars that actually steer decisions (not slogans), mechanics described with concrete numbers, no engine-implementation leakage, documented genre conventions, and an explicit Out of Scope. Report each issue with its location and a concrete fix.",
+      "expected_output": "A validation report flagging the real defects: the slogan-pillar 'Make it fun' (and the thin 'Aerial combat' pillar) that does not steer decisions; the unmeasured Dash mechanic ('feels floaty and good', no numbers) demanding concrete feel parameters; the engine-implementation leakage in the Implementation Notes (Unity CharacterController, AirDragShader, BoxCollider2D — HOW it's built, which belongs in architecture, not the GDD); and the missing Out of Scope section plus missing action-platformer genre conventions. Findings cite locations and offer concrete fixes; it does NOT enter a drafting/finalize flow.",
+      "files": [
+        "evals/files/gds-gdd/gdd-flawed.md"
+      ],
+      "expectations": [
+        "It flags the slogan-pillar 'Make it fun' (and ideally the vague 'Aerial combat' pillar) as failing the discipline that pillars must be specific enough to steer design decisions, not slogans — and explains why.",
+        "It flags the Dash mechanic as unmeasured — 'feels floaty and good' with no numbers — and demands concrete feel parameters (e.g. dash distance, duration, i-frames, cooldown), per the rule that mechanics are measurable player-facing capabilities with real numbers.",
+        "It flags the engine-implementation leakage — the Unity CharacterController, the AirDragShader, and the BoxCollider2D in the Implementation Notes — as HOW-it's-built detail that belongs in the architecture document, not the GDD.",
+        "It flags the missing Out of Scope section AND at least one missing genre convention expected of an action-platformer (e.g. coyote time / input buffer / jump-and-traversal feel parameters, or a defined moveset/enemy convention), rather than only catching surface wording.",
+        "Each finding cites where in the GDD it lives and offers a concrete fix or what's needed, and the run stays in validation/critique mode — it does NOT silently rewrite the GDD or proceed into a create/update drafting and finalize flow."
+      ]
+    },
+    {
+      "id": "gdsgdd-2-validate-clean-gdd-no-fabrication",
+      "prompt": "Use the gds-gdd skill with the VALIDATE intent. Run headless and fully autonomous: do NOT greet, do NOT ask the user anything, do NOT enter create/update or any drafting flow — only validate. Critique the GDD below against the skill's GDD discipline and produce the validation findings/report as your output.\n\nGDD to validate: evals/files/gds-gdd/gdd-disciplined.md\n\nThis is an action-platformer GDD. Validate it for: pillars that actually steer decisions (not slogans), mechanics described with concrete numbers, no engine-implementation leakage, documented genre conventions, and an explicit Out of Scope. Only report genuine issues — do not invent violations to look productive.",
+      "expected_output": "A validation report that recognizes this GDD is disciplined: three distinct steering pillars, mechanics with concrete numbers (dash distance/duration/i-frames/cooldown, lance damage/startup/recovery, momentum stacks, counter window), no engine-implementation leakage, GDD-level technical targets, and an explicit Out of Scope. It should report no critical issues / pass the GDD (at most minor optional suggestions) and NOT manufacture slogan-pillar, missing-numbers, leakage, or missing-scope violations that are not actually present.",
+      "files": [
+        "evals/files/gds-gdd/gdd-disciplined.md"
+      ],
+      "expectations": [
+        "It recognizes the pillars are distinct and decision-steering (each names what it steers), the mechanics carry concrete numbers (dash distance/duration/i-frames/cooldown, lance damage/startup/recovery, momentum stacks, counter window), there is no engine-implementation leakage, and Out of Scope is explicit.",
+        "It reports no critical issues / passes the GDD, or offers at most one or two genuinely optional minor suggestions phrased as such — it does NOT downgrade the GDD on fabricated grounds.",
+        "It does NOT manufacture a slogan-pillar finding, a missing-numbers finding, an engine-leakage finding, or a missing-Out-of-Scope finding when those defects are not actually present — fabricating violations against a clean GDD is the failure mode under test.",
+        "It does not misread the GDD-level technical target (60 FPS on a 1060 at 1080p) as forbidden engine-implementation leakage — that is a permitted on-what-it-runs technical spec, not a how-it's-built mechanic detail.",
+        "The run stays in validation/critique mode and does NOT silently rewrite the GDD or proceed into a create/update drafting and finalize flow."
+      ]
+    }
+  ]
+}

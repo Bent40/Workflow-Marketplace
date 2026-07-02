@@ -1,0 +1,8 @@
+[
+  { "query": "Hey Saga, I need help creating a product brief for my new app.", "should_trigger": true },
+  { "query": "Talk to Saga — I want to map out the user triggers for my product.", "should_trigger": true },
+  { "query": "Activate the WDS analyst to help me think through my product idea.", "should_trigger": true },
+  { "query": "Hey Freya, can you design the onboarding for my app?", "should_trigger": false },
+  { "query": "Build me a workflow for writing product specs.", "should_trigger": false },
+  { "query": "Gate this proposed skill before we build it.", "should_trigger": false }
+]

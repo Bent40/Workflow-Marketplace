@@ -1,0 +1,9 @@
+{
+  "name": "workflow-web-design",
+  "version": "0.2.0",
+  "description": "Whiteport Design Studio — the strategic, design-first UX methodology (project brief → trigger mapping → scenarios → UX → design system → evolution). Needs workflow-core.",
+  "author": {
+    "name": "B.T."
+  },
+  "license": "MIT"
+}

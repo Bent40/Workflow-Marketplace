@@ -1,0 +1,48 @@
+{
+  "skill_name": "bmad-customize",
+  "evals": [
+    {
+      "id": "customize-1-workflow-template-swap",
+      "prompt": "Use the bmad-customize skill. I want every PRD our team produces to follow our regulated-industry structure instead of the default one — the structure file lives at our repo path docs/templates/regulated-prd-template.md and this should apply to the whole team, committed to the repo. The target is the bmad-prd workflow skill; its customization surface is the customize.toml shown below.\n\nTarget customize.toml: evals/files/customize/bmad-prd.customize.toml\n\nCompose the correct sparse override: show the exact TOML you would write, name the file path it goes in, and explain the surface and placement choice. Do NOT actually write to disk — produce the override and the reasoning.",
+      "expected_output": "A sparse [workflow] override that sets only prd_template to {project-root}/docs/templates/regulated-prd-template.md, placed in the TEAM file _bmad/custom/bmad-prd.toml (committed), with the workflow surface chosen because the change is a single named scalar already exposed by the target's customize.toml.",
+      "files": [
+        "evals/files/customize/bmad-prd.customize.toml"
+      ],
+      "expectations": [
+        "The composed override is sparse — it contains a [workflow] block setting ONLY the prd_template scalar to the regulated template path, and does NOT copy unrelated fields (persistent_facts, on_complete, activation steps) from the source customize.toml.",
+        "It targets the WORKFLOW surface (the bmad-prd skill's own customize.toml), not an agent override, because the change is one named scalar already exposed on the workflow.",
+        "It places the file in the TEAM scope — _bmad/custom/bmad-prd.toml (committed/shared) — because the change is an org/team convention, not a personal preference, and does NOT route it to the .user.toml personal file.",
+        "The new template path uses the literal {project-root} token (e.g. {project-root}/docs/templates/regulated-prd-template.md) rather than an absolute or skill-root path.",
+        "It correctly recognizes prd_template as a scalar whose override wins (scalar merge), not an append-array field."
+      ]
+    },
+    {
+      "id": "customize-2-agent-persistent-fact",
+      "prompt": "Use the bmad-customize skill. Personal preference, just for me, not the team: whenever I talk to John the PM, he should always keep in mind that our company is AWS-only and must never propose GCP or Azure. The target is the bmad-agent-pm agent skill; its customization surface is the customize.toml shown below.\n\nTarget customize.toml: evals/files/customize/bmad-agent-pm.customize.toml\n\nCompose the correct sparse override: show the exact TOML, name the file path it goes in, and explain the surface and placement choice. Do NOT actually write to disk.",
+      "expected_output": "A sparse [agent] override that appends one entry to persistent_facts (the AWS-only fact), placed in the personal/user file _bmad/custom/bmad-agent-pm.user.toml, on the agent surface because the fact should apply to everything John does.",
+      "files": [
+        "evals/files/customize/bmad-agent-pm.customize.toml"
+      ],
+      "expectations": [
+        "The composed override is sparse — an [agent] block adding ONLY the AWS-only fact to persistent_facts, and does NOT restate name/title/icon/role/principles or copy the existing project-context.md fact.",
+        "It targets the AGENT surface (bmad-agent-pm) rather than a single workflow, because the fact should persist across everything the PM agent does.",
+        "It places the file in the USER/personal scope — _bmad/custom/bmad-agent-pm.user.toml (gitignored) — because the user explicitly said it is personal and just for them, NOT the team-committed .toml.",
+        "It treats persistent_facts as an append array (the new fact appends to the defaults) rather than as a scalar that replaces the existing list, consistent with the merge semantics noted in the source file."
+      ]
+    },
+    {
+      "id": "customize-3-out-of-surface-honesty",
+      "prompt": "Use the bmad-customize skill. I want to change the bmad-prd workflow so that Step 4 runs BEFORE Step 2 — reorder its internal steps so validation happens earlier in the flow. The target's customization surface is the customize.toml shown below.\n\nTarget customize.toml: evals/files/customize/bmad-prd.customize.toml\n\nTell me honestly whether this is achievable through customization, and if not, what the right path is. Do NOT fabricate a TOML field to make it look possible.",
+      "expected_output": "An honest answer that reordering a workflow's internal steps is NOT exposed by the customize.toml surface (no field controls step ordering), so it cannot be done via a customization override; it should offer the legitimate approximations (activation_steps_prepend/append) only as what they really are, and recommend bmad-builder to create a custom skill or filing a feature request for true step reordering.",
+      "files": [
+        "evals/files/customize/bmad-prd.customize.toml"
+      ],
+      "expectations": [
+        "It states plainly that internal step reordering is OUTSIDE the exposed customization surface — the customize.toml only exposes activation_steps_prepend/append, persistent_facts, on_complete, prd_template, and prd_rubric, none of which reorder the workflow's internal steps.",
+        "It does NOT invent or hallucinate a non-existent TOML field (e.g. a fake step_order or reorder_steps key) to make the request look satisfiable — fabricating a field is an honesty failure.",
+        "It points the user to the correct alternatives: using bmad-builder / bmad-workflow-builder to create a custom skill, or filing a feature request, and may mention activation_steps_prepend/append only honestly as an approximation that runs around the edges rather than reordering internal steps.",
+        "It does not produce a confident override file pretending the reordering was accomplished."
+      ]
+    }
+  ]
+}

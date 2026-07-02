@@ -1,0 +1,8 @@
+[
+  { "query": "I'd like to produce a technical research report comparing REST and gRPC for our internal microservice mesh.", "should_trigger": true },
+  { "query": "Can you do technical research on whether to use a managed vector database, a self-hosted one, or pgvector for our RAG feature?", "should_trigger": true },
+  { "query": "Research the trade-offs between Kafka and RabbitMQ for our event-driven architecture and recommend one.", "should_trigger": true },
+  { "query": "I need domain research on how the indoor-agriculture industry is structured.", "should_trigger": false },
+  { "query": "Do market research on the customers and competitors for our reusable-cup product.", "should_trigger": false },
+  { "query": "Just implement the gRPC service for the orders module following our existing patterns.", "should_trigger": false }
+]

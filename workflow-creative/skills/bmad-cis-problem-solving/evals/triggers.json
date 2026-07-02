@@ -1,0 +1,8 @@
+[
+  { "query": "Guide me through structured problem solving for our support team drowning in tickets.", "should_trigger": true },
+  { "query": "I want to crack this fulfillment-error challenge with guided problem solving techniques.", "should_trigger": true },
+  { "query": "Walk me through a systematic root-cause analysis of our onboarding drop-off.", "should_trigger": true },
+  { "query": "Help me brainstorm creative names for a new product.", "should_trigger": false },
+  { "query": "Create the PRD for the analytics dashboard.", "should_trigger": false },
+  { "query": "Generate end-to-end tests for the checkout flow.", "should_trigger": false }
+]

@@ -1,0 +1,39 @@
+{
+  "skill_name": "bmad-sprint-planning",
+  "evals": [
+    {
+      "id": "sp-1-generate-from-epics",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT present a mode/menu prompt, do NOT halt or wait for any 'Continue', do NOT ask clarifying questions, and do NOT require a config file or spawn subagents. Work sequentially. Use the bmad-sprint-planning skill to parse the staged epics and generate the complete sprint-status tracking file, writing it to ./sprint-status.yaml in the skill's real format (the documented sprint-status.yaml structure). Defer any questions to the very end, after the file is written.\n\nStaged input (the ONLY epics to use):\n- evals/files/bmad-sprint-planning/epics.md\n\nDerive every epic, story, and retrospective entry from this file. Do NOT invent epics or stories that are not in it. There is no pre-existing sprint-status.yaml for this run, so all items default to backlog (retrospectives default to optional).",
+      "expected_output": "A sprint-status.yaml following the skill's template: top-of-file metadata as YAML key:value fields (generated, last_updated, project, project_key, tracking_system, story_location) AND as the documented comment block, then a development_status map enumerating, in order, each epic (epic-1, epic-2, epic-3) with its stories as kebab-case `{epic}-{story}-{title}` keys and a per-epic `epic-{n}-retrospective` entry. Every epic and story from epics.md is present (none invented), every status value is legal, and the file is valid YAML.",
+      "files": [
+        "evals/files/bmad-sprint-planning/epics.md"
+      ],
+      "expectations": [
+        "The output is a sprint-status YAML containing a `development_status:` map that enumerates the work items as status entries — a prose summary, a free-form table with no `development_status` map, or anything that is not the documented sprint-status.yaml structure fails this expectation.",
+        "Every epic in epics.md (Epic 1 Household & Accounts, Epic 2 Receipt Capture, Epic 3 Cap & Remaining) appears as an `epic-{n}` key AND every story under each epic appears as its own `{epic}-{story}-{kebab-title}` key (e.g. `2-3-same-day-duplicate-prompt`) — dropping any epic or any story from the map fails this expectation.",
+        "Each epic has a corresponding `epic-{n}-retrospective` entry in the map (epic-1-retrospective, epic-2-retrospective, epic-3-retrospective) — a run that omits the per-epic retrospective entries fails this expectation.",
+        "The map contains NO items that are absent from epics.md: no invented epics, stories, or placeholder entries beyond the staged content — fabricating any work item fails this expectation.",
+        "Every status value is legal per the skill's state machine (epics: backlog/in-progress/done; stories: backlog/ready-for-dev/in-progress/review/done; retrospectives: optional/done). Because this run has no pre-existing status file and no story files were staged, all epics/stories default to `backlog` and retrospectives to `optional` — assigning an illegal status, or marking items done/in-progress with no evidence, fails this expectation.",
+        "The file carries the metadata BOTH as parseable YAML `key: value` fields (generated, last_updated, project, project_key, tracking_system, story_location) AND as the documented leading comment block — emitting only one of the two forms fails this expectation.",
+        "The development_status entries are ordered epic, then that epic's stories, then that epic's retrospective, before the next epic — a scrambled ordering that interleaves epics and stories fails this expectation."
+      ]
+    },
+    {
+      "id": "sp-2-status-detection-and-preservation",
+      "prompt": "Run headless and fully automated: no greeting, no mode/menu prompt, no halting, no 'Continue' waits, no clarifying questions, no required config, no subagents; work sequentially. Use the bmad-sprint-planning skill to (re)generate the sprint-status tracking file. Treat `evals/files/bmad-sprint-planning/existing-sprint-status.yaml` as the CURRENT sprint-status.yaml (the file you would normally read from {status_file}) and apply the preservation rule against it. Treat the `evals/files/bmad-sprint-planning/stories/` folder as the stories folder used for story-file detection. Write the regenerated tracking file to ./sprint-status.yaml. Defer questions to the end.\n\nStaged inputs:\n- evals/files/bmad-sprint-planning/epics.md (the epics to enumerate)\n- evals/files/bmad-sprint-planning/existing-sprint-status.yaml (the prior status to preserve from)\n- evals/files/bmad-sprint-planning/stories/2-1-scan-a-receipt.md (a story file that already exists)\n\nApply intelligent status detection (a story whose file exists is at least ready-for-dev) and the preservation rule (never downgrade a more advanced existing status).",
+      "expected_output": "A regenerated sprint-status.yaml that: preserves the advanced statuses from the prior file (1-1-create-a-household-account stays `done`, 1-2-join-a-household-by-invite stays `in-progress`, epic-1 stays `in-progress`) without downgrading any to backlog; upgrades 2-1-scan-a-receipt to at least `ready-for-dev` because its story file exists; still enumerates ALL epics/stories/retrospectives from epics.md (including the new Epic 3 and its stories that the prior file lacked) at their correct defaults; and remains legal-status, valid YAML with the doubled metadata.",
+      "files": [
+        "evals/files/bmad-sprint-planning/epics.md",
+        "evals/files/bmad-sprint-planning/existing-sprint-status.yaml",
+        "evals/files/bmad-sprint-planning/stories/2-1-scan-a-receipt.md"
+      ],
+      "expectations": [
+        "The advanced statuses from the prior file are PRESERVED, not downgraded: `1-1-create-a-household-account` remains `done` and `1-2-join-a-household-by-invite` remains `in-progress` (and `epic-1` remains `in-progress`) — a regeneration that resets any of these back to `backlog` fails this expectation (the preservation/never-downgrade rule).",
+        "Story `2-1-scan-a-receipt` is upgraded to at least `ready-for-dev` because its story file exists in the stories folder — leaving 2-1 at `backlog` despite the existing story file fails this expectation (the status-detection rule).",
+        "The regenerated file still enumerates EVERY epic and story from epics.md, including Epic 3 (Cap & Remaining) and its stories (e.g. `3-2-show-remaining-against-cap`) which were absent from the prior status file — dropping the newly-introduced epic/stories fails this expectation.",
+        "Items with no prior status and no story file default correctly (e.g. Epic 3's stories at `backlog`, retrospectives at `optional`) rather than being marked done/in-progress without evidence — assigning unearned progress fails this expectation.",
+        "All status values remain legal and the output is valid sprint-status YAML with `development_status` and the metadata present both as comments and as parseable fields — an illegal status value or malformed/structurally-wrong YAML fails this expectation."
+      ]
+    }
+  ]
+}

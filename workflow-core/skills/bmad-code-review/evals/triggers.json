@@ -1,8 +1,0 @@
-[
-  { "query": "Run code review on my uncommitted changes.", "should_trigger": true },
-  { "query": "Review this code before I merge it.", "should_trigger": true },
-  { "query": "Do an adversarial review of the diff between my branch and main.", "should_trigger": true },
-  { "query": "Review this diff for security vulnerabilities and prompt-injection exposure in our Nexus agent.", "should_trigger": false },
-  { "query": "Implement the fix for the discount validation bug.", "should_trigger": false },
-  { "query": "Create the next story so the dev agent can implement the discount feature.", "should_trigger": false }
-]

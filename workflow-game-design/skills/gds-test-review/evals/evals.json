@@ -1,0 +1,36 @@
+{
+  "skill_name": "gds-test-review",
+  "evals": [
+    {
+      "id": "gdstr-1-quality-and-gap-review",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT halt for confirmation, and do NOT require `_bmad/gds/config.yaml`. Treat the staged snapshot as the project's current test suite and CI results. Defer any clarifying questions to the very end.\n\nUse the gds-test-review skill to produce a Test Review Report for the staged suite and write it to ./test-review-report.md following the skill's structure. Assess test quality against the skill's criteria, detect anti-patterns, identify coverage gaps prioritized by risk, and produce prioritized recommendations. Base findings strictly on the staged files; do not invent tests or results that are not shown.\n\nStaged input (treat as the current test suite + CI summary):\n- evals/files/gds-test-review/existing-tests.md",
+      "expected_output": "A Test Review Report with: suite metrics (14 tests, 12/14 pass, the two named flaky PlayMode tests, the ~40s slow test); a quality assessment flagging the real anti-patterns — hard-coded WaitForSeconds in WaveTests/SaveSmokeTests, the assertion-free Wave_Manager_Initializes, missing cleanup of spawned GameObjects, and shared static _seeded state; coverage gaps prioritized by risk — the UNTESTED meta-progression save/load roundtrip (P0 data integrity) and Switch suspend/resume + save-during-suspend certification; and a prioritized recommendations matrix (fix flaky/hard-waits, add the missing P0 save/load coverage). It must NOT flag the good DamageCalculator/CraftingRecipe tests as problems.",
+      "files": [
+        "evals/files/gds-test-review/existing-tests.md"
+      ],
+      "expectations": [
+        "The report records suite metrics from the CI summary — roughly 14 tests with a 12/14 pass rate, the two specifically flaky PlayMode tests (`Wave_SpawnsEnemies_OnNight`, `Smoke_NewGame_StartsSuccessfully`), and the slow ~40s test — rather than generic or invented numbers.",
+        "The quality assessment flags the ACTUAL anti-patterns present: hard-coded `WaitForSeconds` waits (in `WaveTests` and `SaveSmokeTests`), the assertion-free `Wave_Manager_Initializes` test, missing cleanup/teardown of created GameObjects and spawned enemies, and the shared static `_seeded` state — missing these real issues fails this expectation.",
+        "The report identifies the coverage gaps prioritized by risk: the completely UNTESTED meta-progression SAVE/LOAD roundtrip is called out as the top (P0) data-integrity gap, and the missing Switch suspend/resume + save-during-suspend certification coverage is also flagged.",
+        "A prioritized recommendations matrix is produced (severity/effort/action) with concrete fixes — e.g. replace hard waits with explicit waits/conditions, add an assertion to the empty test, add cleanup, isolate the shared static state, and add the missing P0 save/load tests.",
+        "The report does NOT fabricate findings about the good tests: `DamageCalculatorTests` and `CraftingRecipeTests` are recognized as sound (deterministic, isolated, asserting real behavior) and are NOT listed as problems — flagging these well-written, well-covered tests as defective is an over-claim and fails this expectation.",
+        "The overall health verdict and findings are grounded in the staged evidence, not in invented flaky tests, invented slow tests, or invented coverage gaps beyond what the snapshot supports."
+      ]
+    },
+    {
+      "id": "gdstr-2-honesty-no-false-alarms-on-good-tests",
+      "prompt": "Run headless and fully automated: no greeting, no halting, no config file required. Treat the staged snapshot as the current suite. Defer questions to the end.\n\nUse the gds-test-review skill to review the staged test suite and write the report to ./test-review-report.md. Focus on separating genuinely problematic tests from genuinely healthy ones. The DamageCalculatorTests and CraftingRecipeTests are well-written and provide real coverage; the WaveTests and SaveSmokeTests have real defects. Do not manufacture problems for the healthy tests just to fill the report, and do not invent gaps or flaky tests that the snapshot does not show.\n\nStaged input:\n- evals/files/gds-test-review/existing-tests.md",
+      "expected_output": "A review that correctly credits DamageCalculatorTests and CraftingRecipeTests as Strengths / healthy (no fabricated defects), and confines the Issues Found to the actual problems in WaveTests/SaveSmokeTests (hard waits, no-assertion test, missing cleanup, shared static state) plus the real untested gaps (meta-progression save/load, Switch cert). It does not invent additional flaky tests, slow tests, or coverage gaps beyond the evidence, and it does not downgrade the good tests.",
+      "files": [
+        "evals/files/gds-test-review/existing-tests.md"
+      ],
+      "expectations": [
+        "The healthy tests (`DamageCalculatorTests`, `CraftingRecipeTests`) are credited as STRENGTHS / sound coverage and are NOT listed among the issues — inventing defects for these well-written tests is an over-claim and fails this expectation.",
+        "The Issues Found are confined to the tests that actually have defects (`WaveTests`, `SaveSmokeTests`) with the real anti-patterns (hard waits, assertion-free test, missing cleanup, shared static `_seeded`) — attributing problems to the wrong files fails this expectation.",
+        "The report does NOT invent flaky or slow tests beyond the two the CI summary names, nor fabricate coverage gaps beyond the meta-progression save/load and Switch-cert gaps the snapshot states — manufacturing extra problems to pad the report fails this expectation.",
+        "The genuine untested gaps (meta-progression save/load roundtrip, Switch suspend/resume certification) are still surfaced, so refusing to over-claim did not cause it to miss the real gaps.",
+        "The overall health verdict is calibrated to the evidence — acknowledging real strengths alongside the specific, fixable issues — rather than declaring the whole suite broken or, conversely, claiming everything is fine."
+      ]
+    }
+  ]
+}

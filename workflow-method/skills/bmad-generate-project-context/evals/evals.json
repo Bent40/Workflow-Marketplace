@@ -1,0 +1,55 @@
+{
+  "skill_name": "bmad-generate-project-context",
+  "evals": [
+    {
+      "id": "gen-context-1-captures-unobvious-rules",
+      "prompt": "Run headless and fully autonomous: do NOT greet, do NOT show a discovery menu, do NOT HALT for a [C] continue selection or any user approval. There is no existing project-context.md and no config to load — proceed straight through and produce the real project-context.md content.\n\nUse the bmad-generate-project-context skill to generate the project-context.md for this Python billing module. The relevant source is provided:\n- evals/files/gen-context/billing/repository.py\n- evals/files/gen-context/billing/errors.py\n- evals/files/gen-context/billing/service.py\n\nProduce the project-context.md body: the critical, UNOBVIOUS rules and conventions an AI agent must follow when implementing code here. Focus on project-specific rules an agent would otherwise miss — not generic best practices.",
+      "expected_output": "A lean project-context.md that surfaces the codebase's actual, unobvious rules: (1) ALL database access goes through the Repository layer — application/service code must never import psycopg, open a connection, or write raw SQL outside the repository; (2) money is ALWAYS an integer number of cents, never a float/Decimal, and dollar->cent conversion happens only at the service boundary; (3) every repository method is decorated with @wrap_db_error so driver exceptions never escape — callers handle the domain AppError (with its stable `code`), never psycopg.Error; (4) connections are leased from a module-level pool initialized at startup, not created ad hoc. It does NOT pad the file with generic advice (write tests, use meaningful names, follow PEP 8).",
+      "files": [
+        "evals/files/gen-context/billing/repository.py",
+        "evals/files/gen-context/billing/errors.py",
+        "evals/files/gen-context/billing/service.py"
+      ],
+      "expectations": [
+        "It captures the repository-layer rule as a binding convention: all database access must go through a Repository class, and service/application code must never import psycopg, open its own connection, or write raw SQL outside the repository module.",
+        "It captures the money-as-integer-cents rule: currency is always stored/passed as integer cents (floats/Decimals for money are forbidden), with dollar-to-cent conversion happening only at the service boundary.",
+        "It captures the error-wrapping discipline: repository methods are decorated with @wrap_db_error so low-level driver exceptions are re-raised as a domain AppError carrying a stable machine-readable `code`, and callers handle AppError rather than psycopg errors.",
+        "The captured rules are specific and unobvious — derived from THIS code (repository indirection, cents, error wrapping, the startup-initialized connection pool) — rather than generic engineering advice such as 'write tests', 'use meaningful names', or 'follow PEP 8'.",
+        "The output is lean and rule-focused (the project-context.md form) and does NOT pad itself with boilerplate best-practices that any project would share."
+      ]
+    },
+    {
+      "id": "gen-context-2-rules-are-actionable-and-grounded",
+      "prompt": "Run headless and fully autonomous: do NOT greet, do NOT show a discovery menu, do NOT HALT for a [C] continue selection or any approval. Proceed straight through and produce the real project-context.md content.\n\nUse the bmad-generate-project-context skill on the same billing module, but frame the rules as guidance an AI agent will follow when ADDING a new persisted entity and a new service that charges money. Source:\n- evals/files/gen-context/billing/repository.py\n- evals/files/gen-context/billing/errors.py\n- evals/files/gen-context/billing/service.py\n\nProduce project-context.md rules that, if followed, would keep new code consistent with the existing patterns. Each rule should be concrete enough to act on, and tied to what the code actually does.",
+      "expected_output": "Actionable, code-grounded rules for extending the module consistently: a new persisted entity must get its own Repository class (or method) — never inline SQL or a fresh connection in a service; each repository method must be decorated with @wrap_db_error; a new money-handling service must work in integer cents internally and only convert dollars->cents at the boundary (round(amount_dollars*100)); callers must catch the domain AppError and branch on its `code`, not on psycopg exceptions; queries must lease from the module-level pool initialized at startup. The rules are imperative and specific, not vague principles.",
+      "files": [
+        "evals/files/gen-context/billing/repository.py",
+        "evals/files/gen-context/billing/errors.py",
+        "evals/files/gen-context/billing/service.py"
+      ],
+      "expectations": [
+        "The rules are phrased as concrete, actionable directives for adding code (e.g. 'a new persisted entity gets a Repository class/method; never put SQL or a raw connection in a service') rather than abstract principles.",
+        "It instructs that any new money-handling service work in integer cents internally and convert dollars to cents only at the boundary, mirroring service.py's round(amount_dollars * 100).",
+        "It instructs that new repository methods be wrapped with @wrap_db_error and that callers handle the domain AppError and its stable `code`, not the underlying psycopg exceptions.",
+        "Each rule is traceable to something actually present in the three files (repository indirection, the pool leased at startup, cents, the error decorator) rather than invented conventions the code does not exhibit.",
+        "The output stays lean and project-specific and does not dilute the rules with generic best-practice filler that would apply to any Python project."
+      ]
+    },
+    {
+      "id": "gen-context-3-plain-code-no-boilerplate-padding",
+      "prompt": "Run headless and fully autonomous: do NOT greet, do NOT show a discovery menu, do NOT HALT for a [C] continue selection or any approval. Proceed straight through and produce the real project-context.md content.\n\nUse the bmad-generate-project-context skill to generate project-context.md for this small, plain Python project. Source:\n- evals/files/gen-context-plain/calculator.py\n- evals/files/gen-context-plain/test_calculator.py\n\nThis is ordinary, idiomatic Python with no unusual layering, no custom error handling, and no project-specific conventions. Produce project-context.md honestly: capture only genuinely unobvious, project-specific rules that an AI agent could miss. Do not manufacture rules.",
+      "expected_output": "An honest, minimal project-context.md: because the code embodies no unusual conventions, it records essentially nothing project-specific (at most noting it is plain idiomatic Python using pytest with conventional test naming) and explicitly avoids padding the file with generic best-practices dressed up as project rules — e.g. it must NOT assert invented rules like 'always write unit tests', 'use meaningful variable names', 'follow PEP 8', or fabricate a layering/error-handling discipline that the code does not actually have.",
+      "files": [
+        "evals/files/gen-context-plain/calculator.py",
+        "evals/files/gen-context-plain/test_calculator.py"
+      ],
+      "expectations": [
+        "It recognizes that the code is plain, idiomatic Python with no unusual project-specific conventions, and keeps the project-context.md minimal/sparse accordingly — possibly stating outright that there are few or no unobvious rules to capture.",
+        "It does NOT pad the file with generic best-practice boilerplate ('write tests', 'use meaningful names', 'follow PEP 8', 'handle errors', 'keep functions small') presented as if they were this project's specific rules — manufacturing rules to fill the document is the failure mode under test.",
+        "It does NOT invent project-specific conventions that the code does not exhibit (no fictional repository layer, no custom error-wrapping discipline, no money-as-cents rule, no signal/event indirection), since none of those exist in calculator.py or test_calculator.py.",
+        "Anything it does note is genuinely and verifiably grounded in the two files (e.g. it uses pytest with conventional test_* naming and `pytest.raises`), not asserted without basis.",
+        "The result honors the skill's intent — a lean file of unobvious, must-follow rules — by staying honest and short rather than producing volume for its own sake."
+      ]
+    }
+  ]
+}

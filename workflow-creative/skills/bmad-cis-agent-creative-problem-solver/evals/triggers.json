@@ -1,0 +1,8 @@
+[
+  { "query": "Dr. Quinn, help me crack why our open-source project gets bug reports but no fix contributions.", "should_trigger": true },
+  { "query": "Can I talk to the Master Problem Solver about our stuck trial-to-paid conversion?", "should_trigger": true },
+  { "query": "Dr. Quinn, our app is slow during month-end — help me figure out what's wrong.", "should_trigger": true },
+  { "query": "Hey Carson, let's brainstorm wild ideas for a new product.", "should_trigger": false },
+  { "query": "I want to talk to Victor about disruption opportunities.", "should_trigger": false },
+  { "query": "Create the next story file for the sprint.", "should_trigger": false }
+]

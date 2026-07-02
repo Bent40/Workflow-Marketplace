@@ -1,0 +1,9 @@
+[
+  { "query": "Run code review on my staged changes.", "should_trigger": true },
+  { "query": "Review this code against the story spec and triage the findings into patch and defer.", "should_trigger": true },
+  { "query": "Do an adversarial code review of this branch diff and tell me what to fix.", "should_trigger": true },
+  { "query": "Review the changes for story 2-3 and update the story status when done.", "should_trigger": true },
+  { "query": "Just walk every branch and boundary in this one function and list the unhandled edge cases as JSON.", "should_trigger": false },
+  { "query": "Give me a cynical critical review of this product spec — what's missing?", "should_trigger": false },
+  { "query": "Generate the epics and stories list from the game design document.", "should_trigger": false }
+]

@@ -1,6 +1,6 @@
 # workflow-core
 
-The workflow operating model (ambient router, honesty gates, right-sizing) + a curated core skill set.
+The workflow operating model (ambient router, honesty gates, right-sizing) + a thin set of universal helpers. Install this first; add domain modules à la carte.
 
 This is a GENERATED Claude Code plugin artifact — do not hand-edit; it is
 rebuilt by `wf plugin build` from the private workflow source.
@@ -12,7 +12,7 @@ rebuilt by `wf plugin build` from the private workflow source.
   `additionalContext` at session start — no external dependency). Ships both
   a bash hook (macOS/Linux) and a PowerShell hook (Windows), so the operating
   model loads on every platform, not just Unix.
-- 19 skill(s) under `skills/`.
+- 8 skill(s) under `skills/`.
 
 ## Install
 
@@ -31,20 +31,9 @@ rebuilt by `wf plugin build` from the private workflow source.
 
 - `workflow-operating-model`
 - `bmad-help`
-- `bmad-product-brief`
-- `bmad-prd`
-- `bmad-create-architecture`
-- `bmad-create-epics-and-stories`
-- `bmad-create-story`
-- `bmad-dev-story`
-- `bmad-code-review`
-- `bmad-quick-dev`
-- `bmad-investigate`
-- `bmad-correct-course`
-- `bmad-retrospective`
-- `bmad-document-project`
+- `bmad-advanced-elicitation`
 - `bmad-brainstorming`
-- `bmad-tea`
-- `bmad-testarch-test-design`
-- `bmad-agent-architect`
-- `bmad-agent-dev`
+- `bmad-spec`
+- `bmad-shard-doc`
+- `bmad-index-docs`
+- `bmad-party-mode`

@@ -1,0 +1,31 @@
+{
+  "skill_name": "wds-1-project-brief",
+  "evals": [
+    {
+      "id": "wds1-1-brief-from-context",
+      "prompt": "Use the wds-1-project-brief skill to produce Phase 1's primary artifact: the Product Brief (project-brief.md) for the project described below. This is the strategic foundation for all later design work. Work in a single pass: synthesize the brief directly from the context I give you. Do NOT ask interview questions back — produce the document.\n\nProject context (FreshBox):\n- FreshBox is a small web app: a weekly meal-kit subscription for busy two-income households in mid-size cities.\n- The owner is a former chef who wants a credible web presence that converts visitors into weekly subscribers and reduces support emails asking 'how does it work' and 'can I skip a week'.\n- Primary users: time-pressed parents (30-45) who can cook but have no time to plan or shop; they value predictability and the ability to pause/skip.\n- The business charges a per-box weekly subscription; the owner is at the edge of kitchen capacity and wants steady, retainable subscribers, not explosive growth.\n- Differentiator vs. big competitors (HelloFresh-style): locally sourced, smaller fixed menu, real chef behind it, easy skip/pause with no penalty.\n- Constraint: launch in English only, one market, small budget, no native mobile app for v1.\n\nProduce the brief as project-brief.md.",
+      "expected_output": "A project-brief.md following Phase 1's strategic-foundation structure: a 1-2 sentence Vision, market Positioning (locally-sourced chef-led alternative to mass meal-kits), the business/revenue model (weekly per-box subscription, retention-over-growth), Target Users (busy two-income parents 30-45 who value skip/pause), measurable Success Criteria (subscriber/retention and support-email-reduction oriented), and Constraints (English-only, single market, web-only/no native app v1). It stays strategic, does not invent facts beyond the context, and does not jump ahead to scenarios or page specs.",
+      "files": [],
+      "expectations": [
+        "The brief opens with a concise (roughly 1-2 sentence) Vision statement that captures FreshBox's aspirational direction — a credible, retention-focused chef-led meal-kit web presence — rather than a feature list.",
+        "It includes a Positioning / market section that frames FreshBox as a locally-sourced, chef-led, easy-skip alternative differentiated from large mass-market meal-kit competitors, drawn from the stated differentiators.",
+        "It captures the business/revenue model as a weekly per-box subscription whose goal is steady retainable subscribers rather than explosive growth, consistent with the owner being at kitchen-capacity.",
+        "It defines the target users as time-pressed two-income parents (roughly 30-45) who can cook but lack time to plan/shop and value predictability plus penalty-free skip/pause.",
+        "It states measurable Success Criteria tied to the stated goals (e.g. subscriber conversion / retention metrics AND a reduction in 'how does it work' / 'can I skip a week' support emails) rather than vague aspirations.",
+        "It records the stated Constraints — English-only, single market, small budget, and no native mobile app for v1 (web-first) — rather than dropping them."
+      ]
+    },
+    {
+      "id": "wds1-2-honesty-no-invented-facts",
+      "prompt": "Use the wds-1-project-brief skill to produce a Product Brief (project-brief.md) for the sparse project context below. The owner gave you only a little. Synthesize what you honestly can and explicitly record what is still unknown rather than fabricating it.\n\nProject context (FreshBox, sparse):\n- FreshBox is a weekly meal-kit subscription web app for busy households.\n- The owner wants more weekly subscribers and fewer repetitive support emails.\n- That is all the owner has told you. Nothing has been decided about pricing tiers, target geography, competitors, brand tone, or technology.\n\nProduce the brief as project-brief.md.",
+      "expected_output": "A project-brief.md that synthesizes the genuinely-supplied direction (meal-kit subscription, goals = more subscribers + fewer support emails) but does NOT invent specifics the owner never gave — instead it surfaces pricing tiers, target geography, named competitors, brand tone, and tech stack as open questions / assumptions to confirm, rather than presenting fabricated values as decided fact.",
+      "files": [],
+      "expectations": [
+        "The brief faithfully captures only the direction actually provided — a weekly meal-kit subscription web app whose goals are growing weekly subscribers and reducing repetitive support emails.",
+        "It does NOT fabricate concrete unstated facts as if decided — e.g. it does not assert specific price points, a named city/region, named competitors, a specific brand voice, or a chosen tech stack that the sparse context never supplied.",
+        "Genuinely-missing items (pricing/tiers, target geography, competitive landscape, brand tone, technology) are explicitly flagged as open questions, assumptions-to-confirm, or to-be-determined rather than silently filled in or silently omitted.",
+        "A run that invents a plausible-but-unsupported positioning, success metric, or persona detail and presents it as established fact fails this expectation."
+      ]
+    }
+  ]
+}

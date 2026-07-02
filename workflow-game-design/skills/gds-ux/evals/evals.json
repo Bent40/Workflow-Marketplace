@@ -1,0 +1,45 @@
+{
+  "skill_name": "gds-ux",
+  "evals": [
+    {
+      "id": "gdsux-1-emberfall-hud-and-spines",
+      "prompt": "Use the gds-ux skill in fast-path Create mode to produce the game UX specification for the game in the GDD excerpt below. This is a headless single-pass run: do not ask interactive questions — batch any gaps as explicit [ASSUMPTION] tags. Produce the two peer contracts, DESIGN.md (visual identity for menu and HUD surfaces) and EXPERIENCE.md (IA, HUD behavior, input schemes, game feel, states, accessibility, and a named-protagonist player journey), as your answer.\n\nGDD excerpt: evals/files/gdsux/emberfall-gdd.md",
+      "expected_output": "Two artifacts. DESIGN.md gives the visual identity for both screen UI (title/pause/options/inventory) and HUD elements (health, the heat meter, charged-attack state). EXPERIENCE.md covers Foundation (Godot Control nodes; PC keyboard+mouse and Steam Deck gamepad), a HUD & Diegetic UI section establishing what stays minimal and what fades during play, an Input Schemes section with remapping and per-platform button glyphs, a Game Feel & Juice section tying feedback (hit crunch, heat rising/draining felt without staring at a number) to player action, plus state patterns and a named Rosa player journey ending on the low-heat dash-into-charged-attack climax. Tokens are cross-referenced; gaps are [ASSUMPTION].",
+      "files": [
+        "evals/files/gdsux/emberfall-gdd.md"
+      ],
+      "expectations": [
+        "The output produces two distinct peer artifacts named DESIGN.md and EXPERIENCE.md, with DESIGN.md owning the visual identity of both screen UI (title/pause/options/inventory) and HUD elements, and EXPERIENCE.md owning behavior.",
+        "DESIGN.md specifies HUD component tokens for at least the three stated HUD needs — player health, the heat resource meter, and the charged-attack state (ready/charging/spent) — in a deliberately minimal/uncluttered direction consistent with 'the art should breathe', not a cluttered MMO HUD.",
+        "EXPERIENCE.md treats the heat resource as game-feel-first: it specifies how the player feels heat rising and draining at a glance during fast combat (e.g. color/motion/audio-visual feedback) rather than relying on a bare numeric readout, and addresses what HUD elements fade or hide during play.",
+        "EXPERIENCE.md includes an Input Schemes treatment covering both PC keyboard+mouse and gamepad, names the required control remapping, and accounts for per-platform button-glyph differences (PC vs Steam Deck), and a Foundation that names the Godot Control-node UI system and the target platforms.",
+        "At least one Key Flow is a named-protagonist player journey following Rosa on her Steam Deck run, structured into steps with the low-heat dash-into-charged-attack moment as the climax beat, rather than an abstract 'the player' walkthrough.",
+        "EXPERIENCE.md cross-references DESIGN.md tokens by name and any decision not supplied by the GDD is flagged [ASSUMPTION] rather than silently invented; out-of-scope items (online MP, gyro, VR) are not designed in."
+      ]
+    },
+    {
+      "id": "gdsux-2-engine-ui-system-inherit",
+      "prompt": "Use the gds-ux skill in fast-path Create mode (headless, single pass, no interactive questions — tag gaps as [ASSUMPTION]) to produce DESIGN.md and EXPERIENCE.md for the following game.\n\nScenario: A turn-based tactics game built in Unity using the Unity UI Toolkit, on a studio's existing internal HUD/menu framework that is already standardized and fixed. PC only, keyboard+mouse, no gamepad in v1. The UI surfaces needed are: a main menu, an in-battle HUD showing the active unit, action points, and a turn order tracker, plus a unit-inspect panel. Protagonist: Kenji, a player mid-battle who checks the turn-order tracker to set up a flanking move. The studio wants the UI to inherit the existing framework's look and only specify what differs for this game.",
+      "expected_output": "Two spines where EXPERIENCE.md's Foundation names Unity UI Toolkit and the existing internal HUD framework as the inherited UI system, DESIGN.md references/extends that framework's defaults rather than inventing a full bespoke visual system, and EXPERIENCE.md specifies only the behavioral delta — the in-battle HUD hierarchy (active unit, action points, turn-order tracker), the unit-inspect panel, and a named Kenji turn-order/flanking flow. Input scheme is keyboard+mouse only; no gamepad scheme is invented for v1.",
+      "files": [],
+      "expectations": [
+        "EXPERIENCE.md's Foundation explicitly names Unity UI Toolkit and the existing internal HUD/menu framework as the inherited UI system and treats that as fixed, rather than proposing a different engine/framework or ignoring it.",
+        "DESIGN.md references or extends the existing framework's defaults and specifies only the tokens that genuinely differ for this game, rather than re-deriving a full bespoke design system from scratch.",
+        "EXPERIENCE.md specifies the in-battle HUD information hierarchy for the stated elements (active unit, action points, turn-order tracker) and the unit-inspect panel as behavioral deltas, with a named-protagonist flow following Kenji checking turn order to set up a flank.",
+        "The input treatment is keyboard+mouse only as stated and does not invent a gamepad or touch scheme for v1; depth is proportional and unknowns are marked [ASSUMPTION]."
+      ]
+    },
+    {
+      "id": "gdsux-3-honesty-no-invented-hud-bloat",
+      "prompt": "Use the gds-ux skill in fast-path Create mode (headless, single pass, no interactive questions) to produce the game UX spec for this deliberately small game.\n\nScenario: A minimalist one-button mobile endless runner. Touch only (a single tap to jump). One in-game screen with the runner; the only persistent on-screen information the developer wants is the current score and a high-score marker. Menus: just a start screen and a game-over screen with a restart button. No inventory, no resources, no settings beyond mute, no narrative. Built in Godot for phones in portrait orientation.\n\nProduce DESIGN.md and EXPERIENCE.md sized honestly to this scope.",
+      "expected_output": "A minimal, scope-faithful pair: EXPERIENCE.md covers the single play surface with a tap-to-jump input scheme, a HUD limited to score and high-score, and start/game-over screens; DESIGN.md gives only the small token set such a game needs. The output does NOT invent a rich combat HUD (health bars, ammo, minimaps, resource meters), inventory/upgrade screens, gamepad/keyboard schemes, or a sprawling menu system the developer never asked for.",
+      "files": [],
+      "expectations": [
+        "The output stays faithful to the one-button, touch-only, portrait mobile scope: the input scheme is a single tap-to-jump and the HUD is limited to score and high-score — it does not invent health bars, ammo counters, minimaps, resource meters, or other HUD elements absent from the brief.",
+        "It does not fabricate unrequested surfaces such as inventory/upgrade screens, a settings system beyond a mute toggle, narrative/cutscene UI, or extra menus — only a start screen and a game-over/restart screen are specified.",
+        "It does not invent gamepad or keyboard+mouse input schemes for a stated touch-only mobile game, nor console/PC platform adaptation that the scope excludes.",
+        "DESIGN.md is proportionally minimal (a small token set for a one-button runner) and any optional enhancement is flagged as an [ASSUMPTION] or suggestion rather than asserted as a requirement — inventing HUD or menu requirements not implied by the brief is an honesty failure."
+      ]
+    }
+  ]
+}

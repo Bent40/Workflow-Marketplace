@@ -1,0 +1,8 @@
+[
+  { "query": "Hey Freya, help me design the onboarding for my app.", "should_trigger": true },
+  { "query": "Activate the WDS designer — I need UX scenarios for my dashboard.", "should_trigger": true },
+  { "query": "Talk to Freya about the UX spec for our checkout flow.", "should_trigger": true },
+  { "query": "Hey Saga, I need a product brief for my new project.", "should_trigger": false },
+  { "query": "Build a workflow for writing UX specs.", "should_trigger": false },
+  { "query": "Run Mimir to check what Work Orders are ready to build.", "should_trigger": false }
+]

@@ -1,0 +1,8 @@
+[
+  { "query": "Run a structural review of this guide — propose cuts, reordering, and what to merge.", "should_trigger": true },
+  { "query": "Do an editorial review of structure on this doc; it feels bloated and out of order.", "should_trigger": true },
+  { "query": "Review the document structure and tell me what's redundant and what's buried.", "should_trigger": true },
+  { "query": "Copy-edit this paragraph for grammar and spelling.", "should_trigger": false },
+  { "query": "Investigate why the deploy command intermittently hangs.", "should_trigger": false },
+  { "query": "Create a PRD for our new notifications feature.", "should_trigger": false }
+]

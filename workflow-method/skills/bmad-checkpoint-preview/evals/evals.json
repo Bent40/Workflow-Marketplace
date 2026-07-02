@@ -1,0 +1,36 @@
+{
+  "skill_name": "bmad-checkpoint-preview",
+  "evals": [
+    {
+      "id": "checkpoint-1-leads-with-purpose-focuses-risk",
+      "prompt": "Use the bmad-checkpoint-preview skill to walk me through the change in the diff below. Run autonomously and headless: do NOT wait for me to take turns or say 'next' between steps, do NOT ask which change to review (the change is the diff provided in the file). Produce the full review walkthrough in one pass as your actual output — orient me on the purpose/intent of the change first, then surface where I should focus my attention and what is risky, and then suggest what I should test or verify. Use the change's own commit-message intent as the intent source and treat the diff content as the change under review.\n\nChange to review (unified diff with the stated intent at the top): evals/files/checkpoint/payment-change.diff",
+      "expected_output": "A checkpoint-style review of the refund-rounding change that opens with the PURPOSE/intent (fix partial-refund rounding to match the gateway's penny totals; tidy logging) before any line-level detail, then focuses the reviewer's attention on the genuinely load-bearing hunk — the rewritten compute_refund_cents money math in src/billing/refunds.py (float truncation -> Decimal ROUND_HALF_UP plus the new range guard) — using path:line-style references, and de-emphasizes or characterizes the log-message wording change as low-risk/cosmetic. It closes with concrete things to test/verify (e.g. that refund cents match the gateway total across rounding boundaries, half-up behavior, the out-of-range ValueError) rather than just describing the code.",
+      "files": [
+        "evals/files/checkpoint/payment-change.diff"
+      ],
+      "expectations": [
+        "The review LEADS with the purpose/intent of the change (fixing partial-refund rounding so it matches the gateway's penny totals, plus the logging tidy-up) stated up front, before drilling into line-by-line detail — it does not open with a raw diff dump or jump straight into code minutiae.",
+        "It directs the reviewer's attention to the genuinely risky / load-bearing part — the money-rounding logic in compute_refund_cents (the switch from float truncation to Decimal ROUND_HALF_UP and the new refund_fraction range check) — and treats this as where being wrong costs the most (money correctness), not as one item among equals.",
+        "It does NOT elevate the cosmetic change — the reworded logger.info message — to the same level of concern; if mentioned at all, the log-string change is characterized as low-risk / non-load-bearing rather than flagged as a risk spot.",
+        "Code references use CWD-relative path:line-style format (e.g. src/billing/refunds.py:<line>) so they are clickable, rather than vague references like 'the refund function' with no location.",
+        "It suggests concrete ways to test or verify the load-bearing change — for example checking that refund cents match the gateway total across rounding boundaries, confirming half-up rounding behavior, or exercising the out-of-range ValueError — framed as observation/verification rather than re-describing the code.",
+        "The output is structured as a guided human review that moves from intent to where-it-matters to how-to-verify (the skill's orientation -> focus -> testing arc), not as an adversarial bug-hunt verdict or an approval/merge decision."
+      ]
+    },
+    {
+      "id": "checkpoint-2-honesty-trivial-low-risk",
+      "prompt": "Use the bmad-checkpoint-preview skill to walk me through the change in the diff below. Run autonomously and headless: do NOT wait for my turns, do NOT ask which change to review. Produce the full review walkthrough in one pass — orient me on the change's purpose, tell me where (if anywhere) I should focus, and suggest what is worth verifying. Use the commit-message intent as the intent source and the diff content as the change.\n\nChange to review (unified diff with the stated intent at the top): evals/files/checkpoint/typo-fix.diff",
+      "expected_output": "A short, calibrated review that correctly characterizes this as a trivial, low-risk change: it fixes a spelling typo in a comment ('Recieve' -> 'Receive') and corrects the wording of a log message ('Reconcilation' -> 'Reconciliation'), with no change to behavior or logic. The skill should say there are no high-risk spots ('the diff speaks for itself' / no risk spots found), and should NOT manufacture alarm or invent edge cases, regressions, or risks that this comment/log-string change does not actually introduce.",
+      "files": [
+        "evals/files/checkpoint/typo-fix.diff"
+      ],
+      "expectations": [
+        "The review correctly identifies the change as trivial and behavior-neutral — a spelling fix in a comment and a corrected word in a log message — with no change to control flow, data, or logic.",
+        "It explicitly characterizes the change as low-risk / having no high-risk spots (e.g. 'no high-risk spots found — the diff speaks for itself') rather than treating it as something that warrants careful scrutiny.",
+        "It does NOT manufacture alarm or invent risks, edge cases, regressions, or failure modes that this comment-and-log-string change does not actually introduce — fabricating concern to appear thorough is the failure mode under test.",
+        "Any testing/verification suggestion is proportionate — it recognizes there is essentially nothing observable to verify beyond the text reading correctly, rather than prescribing a heavy test plan for a typo fix.",
+        "The output stays brief and proportionate to the change rather than padding a small diff into a long, falsely weighty review."
+      ]
+    }
+  ]
+}
