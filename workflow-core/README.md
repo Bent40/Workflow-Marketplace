@@ -12,7 +12,7 @@ rebuilt by `wf plugin build` from the private workflow source.
   `additionalContext` at session start — no external dependency). Ships both
   a bash hook (macOS/Linux) and a PowerShell hook (Windows), so the operating
   model loads on every platform, not just Unix.
-- 18 skill(s) under `skills/`.
+- 19 skill(s) under `skills/`.
 
 ## Install
 
@@ -29,6 +29,7 @@ rebuilt by `wf plugin build` from the private workflow source.
 
 ## Skills
 
+- `workflow-operating-model`
 - `bmad-help`
 - `bmad-product-brief`
 - `bmad-prd`
