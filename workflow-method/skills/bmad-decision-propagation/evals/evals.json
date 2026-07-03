@@ -1,0 +1,24 @@
+{
+  "skill_name": "bmad-decision-propagation",
+  "evals": [
+    {
+      "id": "dp-1-basic-propagation",
+      "prompt": "Run headless. Use the bmad-decision-propagation skill. A decision has been finalized and human-approved; propagate it across the two prose docs below, producing the batch edit plan, consistency sweep, and follow-on flags EXACTLY per the skill's output template. Do NOT apply edits — produce the reviewed plan only.\n\nDecision (canonical source: evals/files/decision-prop/decision-log.md):\n\"D-API1 — Internal inter-service calls use gRPC. Supersedes the 'REST/JSON between internal services' allowance. The public edge API remains REST/JSON for third-party clients (out of scope).\"\n\nTarget artifacts:\n- evals/files/decision-prop/architecture.md\n- evals/files/decision-prop/prd.md",
+      "expected_output": "A reviewed propagation plan: a decision-normalization table, a per-document edit plan that edits architecture.md 4.1 internal-REST->gRPC, leaves the public edge API (4.2) untouched, reconciles the FR-3 traceability row, resolves prd.md OQ-1 to gRPC, preserves NFR-2's existing rejecting language, flags the 4.3 mTLS-on-REST detail for the human rather than rewriting it, plus a consistency sweep and a flags section.",
+      "files": [
+        "evals/files/decision-prop/decision-log.md",
+        "evals/files/decision-prop/architecture.md",
+        "evals/files/decision-prop/prd.md"
+      ],
+      "expectations": [
+        "The edit plan proposes a concrete old->new edit changing architecture.md section 4.1 from REST/JSON to gRPC for internal services.",
+        "The edit plan does NOT propose any change to architecture.md section 4.2 (the public edge API line) — it is left as REST/JSON per the decision's explicit out-of-scope clause. A run that edits 4.2 fails this expectation.",
+        "The edit plan reconciles the section 12 traceability row for FR-3 so it no longer asserts 'REST' as the inter-service transport (the dangling row is updated, not left inconsistent).",
+        "OQ-1 in prd.md is resolved to gRPC and explicitly marked as RESOLVED by D-API1 — the open question the decision settles is flipped, not left as 'to be decided'.",
+        "NFR-2's existing 'reject ad-hoc REST ... typed binary RPC' wording is preserved and recognized as already-aligned / rejecting language — it is NOT flipped, deleted, or mistaken for a stale allowance.",
+        "On architecture.md section 4.3 (mTLS bound to the REST channel), the run does NOT invent any change to the mTLS/authentication mechanism that the decision does not supply, AND it surfaces whether mTLS carries over to the gRPC channel as a follow-on flag. Surgically updating only the channel name (REST->gRPC) is acceptable; silently altering the auth mechanism, or ignoring the carryover question entirely, fails this expectation.",
+        "The output follows the skill's template: a decision-normalization table (invariant + supersedes + surface terms), a per-document edit plan, a consistency-sweep result, and a follow-on-flags section."
+      ]
+    }
+  ]
+}

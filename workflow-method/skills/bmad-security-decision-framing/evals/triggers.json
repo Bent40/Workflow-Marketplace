@@ -1,0 +1,8 @@
+[
+  { "query": "Should our email agent be allowed to both read the inbox and send mail? That's still undecided — help me structure that decision before we design anything.", "should_trigger": true },
+  { "query": "We need to pick a sandbox approach for running untrusted agent-generated code, and I want the options laid out with residual risks so I can choose.", "should_trigger": true },
+  { "query": "Apply the Rule of Two to decide how to split our assistant's capabilities — it currently reads untrusted documents, holds API keys, and can post to Slack, and we haven't settled the architecture.", "should_trigger": true },
+  { "query": "Here's the designed data flow for our new memory-write path — review it against the Lethal Trifecta and tell me if untrusted content can reach the action path.", "should_trigger": false },
+  { "query": "We've already decided the untrusted-content reader gets no send capability and it's in the decision log. Update the PRD and architecture docs so they agree with it.", "should_trigger": false },
+  { "query": "We're mid-sprint and a dependency slipped, so the epic no longer fits — help me figure out whether to cut scope or replan.", "should_trigger": false }
+]
