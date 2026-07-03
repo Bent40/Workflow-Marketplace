@@ -1,0 +1,9 @@
+[
+  { "query": "Run the evals for this skill in a clean isolated environment and report the results.", "should_trigger": true },
+  { "query": "Benchmark this skill — execute its evals.json and triggers.json and grade the outputs.", "should_trigger": true },
+  { "query": "Validate this skill's triggers: does its description actually cause it to fire on these queries?", "should_trigger": true },
+  { "query": "Evaluate the skill at .claude/skills/my-skill and tell me which expectations passed or failed.", "should_trigger": true },
+  { "query": "Decide whether this proposed skill should even exist before anyone builds it.", "should_trigger": false },
+  { "query": "Build me a new workflow skill from this conversation.", "should_trigger": false },
+  { "query": "Do a cynical adversarial review of this design doc and list what's wrong.", "should_trigger": false }
+]

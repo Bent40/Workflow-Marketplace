@@ -1,0 +1,16 @@
+code: kitchen-helper
+name: "Kitchen Helper"
+description: "Extracts recipes from the web and plans balanced weekly meals."
+module_version: 1.0.0
+default_selected: false
+module_greeting: >
+  Welcome to Kitchen Helper — extract recipes and plan your week.
+
+agents:
+  - code: chef-remy
+    name: "Remy"
+    title: "Kitchen Assistant"
+    icon: "🧑‍🍳"
+    description: "Guides you through extracting recipes and planning meals."
+    # NOTE for the validator: the agent's own customize.toml for chef-remy
+    # declares icon = "🍽️" — the roster entry above says "🧑‍🍳".

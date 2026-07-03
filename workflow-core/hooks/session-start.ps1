@@ -62,6 +62,7 @@ You are operating under the `workflow` operating model — a civilian coding-age
 - **reports.decision_recommendation** — Decision recommendation states the decision needed · viable options w/ pro-con each · recommendation + reason · whether self-decidable or needs user approval.
 - **reports.final_handoff** — Final handoff separates completed / validated / NOT validated / changed files / risks / deferred follow-ups / recommended next action.
 - **reports.framing_standard** — Substantive replies use the standard frame: a `### <emoji> <TYPE> — <subject>` header + the four status markers; the "🔴 Action required (you)" line is ALWAYS present, stated "none" when there is nothing.
+- **reports.live_task_list_for_long_work** — Long/multi-step/autonomous work → keep a live user-visible task list (enumerate steps up front, exactly one in-progress, flip each to done as you go) so the user can see how far along you are.
 - **reports.permission_request** — Permission request states the action · why approval is needed · risk if approved · consequence if declined · recommended choice · safe default.
 - **reports.progress_update** — Progress update states current phase · what changed since last update · what is being checked next · any known blocker or risk.
 - **reports.scope_change_warning** — Scope-change warning states what is outside the accepted scope · why · impact (effort/risk/affected work) · options (proceed-expanded vs stop) · recommendation.

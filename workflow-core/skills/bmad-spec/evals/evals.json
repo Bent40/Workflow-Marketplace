@@ -1,0 +1,53 @@
+{
+  "skill_name": "bmad-spec",
+  "evals": [
+    {
+      "id": "spec-1-distill-from-rfc",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT ask clarifying questions, do NOT halt. Use the bmad-spec skill to distill the mixed RFC/brain-dump below into the SPEC kernel (SPEC.md) plus any companion files load-bearing content needs, in a spec folder, and end with the headless JSON success payload listing the files written. Use the slug 'quarter-drop'. Run the self-validate sweep. Defer any genuine gaps to the SPEC's Open Questions / Assumptions, not mid-run questions.\n\nInput (the RFC to distill, for a promo-code redemption service):\n- evals/files/bmad-spec/rfc.md",
+      "expected_output": "A SPEC.md carrying the five-field kernel: a Why naming the pain (redemption isolated so a viral code can't take down checkout, four spikes a year), Capabilities each with intent AND success (redeem a code with valid/invalid result; reserve the discount so it can't be double-spent; reservation commits on purchase and expires after 30 min on abandonment), Constraints that actually bend design (a code redeemed at most once per customer account; redemption stays correct under spike even if recommendations/reviews are degraded; codes case-insensitive stored uppercase), explicit Non-goals (no campaign/code-generation admin tool, no refund/reversal in v1, not a loyalty/points system), and a concrete Success signal (zero redemption-attributable checkout outages and zero double-redemptions in the next drop). The four differently-behaving code types (PERCENT/FIXED/BOGO/FREESHIP) are a multi-item catalog that lands in a companion the kernel cites. Open items (per-code rate-limiting; FREESHIP stacking scope) become Open Questions. Ends with the headless JSON success payload listing the files.",
+      "files": [
+        "evals/files/bmad-spec/rfc.md"
+      ],
+      "expectations": [
+        "Each capability in SPEC.md has BOTH an `intent` (what a user or system can do — WHAT, not HOW) and a `success` (a testable/demonstrable criterion), per Spec Law rule 1 — a capability missing either field, or written as an implementation step, fails this expectation.",
+        "The load-bearing hard rule is preserved as a Constraint that actually bends design: a code can be redeemed at most once per customer account, AND redemption must stay correct under the traffic spike even if the recommendations/reviews services are degraded (redemption cannot depend on them) — dropping either non-negotiable fails the preservation check.",
+        "The four code types (PERCENT, FIXED, BOGO, FREESHIP), each with distinct behavior, are captured as a multi-item catalog in a COMPANION file (e.g. a code-types companion) cited by the kernel — not flattened away and not bloated into the kernel as nested sub-bullets, per the companion rule for multi-item catalogs.",
+        "The Non-goals section explicitly carries the input's exclusions — no campaign/code-generation admin tool (codes are imported), no refund/reversal of a committed redemption in v1, and not a general loyalty/points system — rather than leaving Non-goals empty or inventing different ones.",
+        "The Success signal is concrete enough to test/demonstrate against (zero checkout outages attributable to redemption during the next drop, and zero double-redemptions reported by finance for the quarter) rather than a vague 'users are happy' statement.",
+        "The genuinely unresolved items from the input (whether per-code rate-limiting is needed separately from the per-account-once rule; whether FREESHIP+one stacking applies to all code types or only PERCENT/FIXED) are recorded as Open Questions rather than silently resolved with an invented answer.",
+        "The run ends with the headless JSON success payload (a `status` and a `files` array listing SPEC.md, the companion, and the decision log) — a run that emits prose only and never returns the files payload fails this expectation."
+      ]
+    },
+    {
+      "id": "spec-2-no-invention-negative-control",
+      "prompt": "Run headless and fully automated: no greeting, no clarifying questions, no halting. Use the bmad-spec skill to distill the input below into SPEC.md (+ companions as needed) under the slug 'quarter-drop-2', run the self-validate preservation sweep, and end with the headless JSON success payload. Distill ONLY what the input supports: do not invent capabilities, constraints, or non-goals the input does not state, and do not resolve items the input leaves open.\n\nInput (the RFC to distill):\n- evals/files/bmad-spec/rfc.md",
+      "expected_output": "A SPEC.md that faithfully distills the RFC WITHOUT fabrication: it does not add a refund/reversal capability (the RFC explicitly excludes it), does not add a campaign/code-generation capability (out of scope), does not assert a per-code rate-limit rule as a settled constraint (the RFC marks it open), and does not invent capabilities, integrations, or success criteria the RFC never mentions. Items the RFC leaves open stay in Open Questions. Ends with the headless JSON success payload.",
+      "files": [
+        "evals/files/bmad-spec/rfc.md"
+      ],
+      "expectations": [
+        "The SPEC does NOT introduce a refund or reversal capability for a committed redemption — the RFC explicitly lists this as out of scope for v1, so adding it as a capability is fabrication and fails this expectation.",
+        "The SPEC does NOT introduce a campaign-management or code-generation/admin capability — the RFC states codes are imported from the existing marketing system and this is explicitly not being built — inventing it fails this expectation.",
+        "The SPEC does NOT assert a per-code rate-limiting rule as a settled Constraint — the RFC explicitly marks this as an open question — promoting an open question to a decided constraint fails this expectation; it should appear (if anywhere) under Open Questions.",
+        "The SPEC does NOT fabricate capabilities, external integrations, platforms, or success metrics that the RFC never mentions (e.g. no invented analytics dashboard, no invented SLA number the RFC didn't give) — manufacturing content to look thorough fails this expectation.",
+        "Genuinely open items the RFC left unresolved (per-code rate-limiting; the scope of FREESHIP stacking) are preserved as Open Questions / Assumptions rather than silently decided — resolving them with an invented answer fails this expectation.",
+        "The run ends with the headless JSON success payload (a `status` and a `files` array) — a run that emits prose only fails this expectation."
+      ]
+    },
+    {
+      "id": "spec-3-update-preserve-ids",
+      "prompt": "Run headless and fully automated: no greeting, no clarifying questions, no halting. Use the bmad-spec skill to UPDATE the existing spec with the change signal below, then end with the headless JSON success payload listing the files touched. Treat the staged SPEC.md as the existing SPEC.md at the target spec folder (the same slug), so this is an update in place. Preserve existing capability IDs; a new capability takes the next unused CAP-N; never reuse or renumber an existing ID. Log the change to the decision log.\n\nExisting spec to update:\n- evals/files/bmad-spec/SPEC.md\n\nChange signal: Add a new capability — a user can set an expiration date on a short link, after which the link returns a 'link expired' page instead of redirecting. This is additive; do not change the meaning of the existing capabilities.",
+      "expected_output": "An updated SPEC.md that keeps CAP-1 (submit URL -> short link) and CAP-2 (view click count) with their existing IDs and meaning intact, and adds the new link-expiration capability as CAP-3 (next unused ID) with both an intent and a testable success criterion (after the expiry date the link serves an expired page instead of redirecting). The change is recorded to the decision log. Ends with the headless JSON success payload listing the files touched.",
+      "files": [
+        "evals/files/bmad-spec/SPEC.md"
+      ],
+      "expectations": [
+        "The existing capabilities keep their IDs and meaning: CAP-1 still covers submitting a URL to get a short link and CAP-2 still covers viewing the click count — an update that renumbers, reorders the IDs, or rewrites an existing capability's intent fails this expectation.",
+        "The new link-expiration capability is added as `CAP-3` (the next unused ID, not a reused or recycled one) — assigning it CAP-1/CAP-2 or skipping/duplicating an ID fails this expectation.",
+        "The new CAP-3 has BOTH an intent (a user can set an expiration date on a short link) and a testable success criterion (after the expiry the link serves a 'link expired' page instead of redirecting) — a capability missing either field fails this expectation.",
+        "The existing Constraints, Non-goals, and Why are not silently dropped or contradicted by the additive update — losing the collision-free-codes constraint or the no-auth non-goal fails this expectation.",
+        "The change is logged to the decision log and the run ends with the headless JSON success payload (a `status` and a `files` array including SPEC.md and the decision log) — an update that mutates SPEC.md but returns no files payload or logs nothing fails this expectation."
+      ]
+    }
+  ]
+}

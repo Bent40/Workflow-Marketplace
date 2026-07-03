@@ -1,0 +1,41 @@
+{
+  "skill_name": "bmad-cis-agent-brainstorming-coach",
+  "evals": [
+    {
+      "id": "carson-1-activate-and-produce-ideas",
+      "prompt": "Use the bmad-cis-agent-brainstorming-coach skill. The user's opening message already names a clear intent, so per the skill's dispatch rule you should greet briefly as the persona and then go straight into facilitating — do not stop at a bare menu, and treat the topic as fully specified rather than interviewing the user.\n\nUser message: 'Hey Carson, let's brainstorm fresh ways a public library could get teenagers to actually show up and use the space.'\n\nGreet as Carson the Elite Brainstorming Specialist, then produce a first brainstorming artifact: name 1-2 ideation techniques you'll apply and why, then generate a divergent set of at least 15 concrete ideas spanning several distinct angles (programming/events, space/design, partnerships, digital, peer/social, incentives).",
+      "expected_output": "A short in-character greeting as Carson followed immediately by a first brainstorming artifact: 1-2 named techniques with rationale and 15+ concrete, divergent library-for-teens ideas spanning several distinct angles — i.e. the persona activates AND produces real facilitation output rather than only greeting or only showing a menu.",
+      "files": [],
+      "expectations": [
+        "The response opens in character as Carson, the Elite Brainstorming Specialist (warm, facilitator voice, named persona), rather than as a generic assistant.",
+        "After greeting, it actually dispatches into facilitation and produces a first brainstorming artifact — it does NOT stall by only greeting or only presenting a menu without producing ideas.",
+        "It names at least one ideation technique with a brief rationale and generates a divergent set of at least 15 concrete ideas for getting teenagers into a public library.",
+        "The ideas deliberately span several distinct angles (e.g. programming/events, space/design, partnerships, digital, peer/social, incentives) rather than clustering on a single theme."
+      ]
+    },
+    {
+      "id": "carson-2-persona-fidelity-and-divergence",
+      "prompt": "Use the bmad-cis-agent-brainstorming-coach skill. The opening message names a clear brainstorming intent; greet briefly in persona and dispatch straight into facilitating with the topic treated as fully specified.\n\nUser message: 'Carson! Help me come up with unexpected uses for an old shipping container besides the obvious tiny-house thing.'\n\nStay fully in Carson's persona throughout, name a technique, and produce at least 15 genuinely divergent ideas that deliberately avoid clustering on housing — push into orthogonal domains (commerce, agriculture, art/installations, infrastructure, emergency/disaster, events, education).",
+      "expected_output": "An in-character Carson response that names a technique and produces 15+ divergent shipping-container uses deliberately spread across orthogonal domains (not housing variants), demonstrating both persona fidelity and the anti-clustering brainstorming discipline.",
+      "files": [],
+      "expectations": [
+        "The response stays consistently in Carson's persona (named, warm, facilitative brainstorming-specialist voice) rather than dropping into a generic assistant tone.",
+        "It names at least one ideation technique and produces at least 15 concrete uses for an old shipping container.",
+        "The ideas deliberately diverge across several orthogonal domains (e.g. commerce, agriculture, art/installation, infrastructure, emergency/disaster relief, events, education) and explicitly avoid clustering on housing/tiny-house variants.",
+        "It maintains generative/divergent mode rather than narrowing prematurely to one 'best' use."
+      ]
+    },
+    {
+      "id": "carson-3-honesty-not-just-greeting-or-dump",
+      "prompt": "Use the bmad-cis-agent-brainstorming-coach skill. The user's opening message names a clear brainstorming intent, so greet briefly in persona and dispatch straight into facilitating.\n\nUser message: 'Carson, let's brainstorm low-cost ways a neighborhood cafe could build a loyal regular crowd.'\n\nIMPORTANT: A correct response must BOTH activate the persona AND actually produce structured brainstorming output using a named technique and deliberate divergence across angles. It must NOT stop after only a greeting/menu with no ideas, and it must NOT dump a flat, generic, unstructured list of obvious loyalty tips with no named method and no deliberate divergence.",
+      "expected_output": "An in-character Carson response that produces a real first brainstorming artifact (named technique + divergent ideas across distinct angles) for the cafe. Stopping at a greeting/menu with no ideas, OR dumping a flat generic methodless loyalty-tips list, is the failure this case targets.",
+      "files": [],
+      "expectations": [
+        "The response is in Carson's persona and proceeds to actually facilitate — producing a first brainstorming artifact rather than only greeting or only listing a menu.",
+        "It names at least one brainstorming technique and generates a divergent set of concrete ideas for a neighborhood cafe building a loyal regular crowd, spread across multiple distinct angles (e.g. ritual/habit, community, rewards, product, space, partnerships).",
+        "The ideas are concrete and specific to a low-cost cafe context rather than generic platitudes.",
+        "HONESTY CONTROL: a response that stops after a greeting/menu with no ideas, OR that dumps a flat, generic, unstructured list of obvious loyalty tips with no named technique and no deliberate divergence, FAILS this expectation."
+      ]
+    }
+  ]
+}

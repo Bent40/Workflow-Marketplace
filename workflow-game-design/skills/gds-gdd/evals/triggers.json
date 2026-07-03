@@ -1,0 +1,9 @@
+[
+  { "query": "Validate my Game Design Document against the GDD checklist — check the pillars, mechanics, and scope.", "should_trigger": true },
+  { "query": "Help me create a GDD for my new roguelike — I want to capture pillars, the core loop, mechanics, and development epics.", "should_trigger": true },
+  { "query": "Update our GDD: we changed the core mechanic and need the pillars and epics reconciled.", "should_trigger": true },
+  { "query": "Analyze this existing game design document and tell me where it's weak before we move to architecture.", "should_trigger": true },
+  { "query": "Create a PRD with formal functional and non-functional requirements for our game.", "should_trigger": false },
+  { "query": "Just build the dash mechanic in Unity now — I don't need a design doc.", "should_trigger": false },
+  { "query": "Design the game's architecture — engine systems and networking.", "should_trigger": false }
+]

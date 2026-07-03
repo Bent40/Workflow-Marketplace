@@ -1,0 +1,36 @@
+{
+  "skill_name": "gds-game-architecture",
+  "evals": [
+    {
+      "id": "gds-arch-1-decisions-patterns-engine",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT ask clarifying questions, do NOT present A/P/C menus or wait for a 'C' continuation, do NOT halt at any step, and skip any web/version-verification step (assume the named versions are current). Defer any questions to the very end, after the document is fully written. Treat the technical context in the input as already-settled and do not re-litigate it. Produce the game architecture decision document directly as game-architecture.md, working through the skill's stages (core architectural decisions, then cross-cutting concerns, then project structure, then implementation patterns / consistency rules).\n\nInput GDD + technical context (the requirements and decided engine context to design from, for the EmberFall roguelite):\n- evals/files/gds-game-architecture/gdd.md\n\nThe purpose of this document is to make multiple AI coding agents implement consistently in Godot, so be explicit about the conventions every agent must follow.",
+      "expected_output": "A game-architecture.md that records core architectural decisions in a decision summary (each with category, decision, the epics it affects, and a rationale) honoring the settled Godot 4 / GDScript / autoload-singletons / seeded-generation / single-JSON-save / offline context, addresses the cross-cutting concerns (one seeded RNG for all run randomness, a 60-FPS-with-30-enemies update path with pooling, save-integrity fallback to no-resumable-run), a Project Structure section with a concrete Godot directory tree mapping epics/features to locations, and an Implementation Patterns / Consistency Rules section with a mandatory enforcement list of what every AI agent MUST follow.",
+      "files": [
+        "evals/files/gds-game-architecture/gdd.md"
+      ],
+      "expectations": [
+        "The document records core architectural decisions grouped by category — at minimum a state/persistence decision and a systems/composition decision — and each carries a rationale plus which epics or requirements it affects, rather than a bare unexplained technology list. A run that lists technologies with no rationale or affected-epic mapping fails this expectation.",
+        "The decisions honor the input's already-settled technical context: the engine is `Godot 4` with `GDScript` (no C#), cross-cutting run state lives in autoload singletons, generation is seeded with the seed stored in the save, persistence is a single JSON save in `user://`, and the game is fully offline — a run that contradicts these settled inputs (e.g. invents a networked backend, a C# codebase, or a multi-slot DB) fails this expectation.",
+        "There is an Implementation Patterns / Consistency Rules section whose explicit purpose is preventing different AI agents from making incompatible choices — it pins concrete Godot conventions (for example node/scene naming, signal naming, where autoloads vs. scene scripts live, file/folder casing) with examples, not vague prose.",
+        "That patterns section includes a mandatory enforcement statement of what every agent MUST do (an `All AI Agents MUST` style list or equivalent binding rules) — a run that describes patterns only as suggestions with no mandatory enforcement list fails this expectation.",
+        "A Project Structure section provides a concrete Godot directory tree (actual scenes/scripts/folders, e.g. autoloads, room/enemy scenes, ui/, test/, not generic `src/` placeholders) AND maps epics/features to specific locations (combat/room-flow, relics, permadeath/Hub, save/resume each map to a named directory or module) — a generic placeholder tree with no requirement-to-location mapping fails this expectation.",
+        "The determinism concern is addressed by an explicit decision — all run randomness flows through a single seeded RNG and direct engine RNG calls (randi/randf) are forbidden so a resumed seeded run reproduces the original — rather than left undecided."
+      ]
+    },
+    {
+      "id": "gds-arch-2-no-time-estimates-and-rationale",
+      "prompt": "Run headless and fully automated: no greeting, no clarifying questions, no A/P/C menus, no halting, no web/version lookups (assume named versions current). Defer questions to the end. Produce game-architecture.md directly from the input, focusing on the core architectural decisions and the cross-component dependency / impact analysis. Treat the input's technical context as settled.\n\nInput GDD + technical context (EmberFall):\n- evals/files/gds-game-architecture/gdd.md\n\nFor every significant decision, state the rationale and which epics or requirements it affects. Do NOT include any time or effort estimates anywhere in the document.",
+      "expected_output": "A game-architecture.md whose core-decisions section documents each significant decision with an explicit rationale and the epics/requirements affected, includes a decision impact / cross-component dependency analysis (how decisions affect each other and the implementation sequence), addresses the performance concern (60 FPS with 30 enemies via pooling or equivalent) and the save-integrity fallback, and contains NO time or effort estimates anywhere — consistent with the skill's hard rule against time estimates.",
+      "files": [
+        "evals/files/gds-game-architecture/gdd.md"
+      ],
+      "expectations": [
+        "Every significant architectural decision is accompanied by an explicit rationale (a `Rationale:` line or equivalent reasoning) rather than asserted bare — a decisions section that lists choices without any reasoning fails this expectation.",
+        "Each decision states which epics, requirements, or systems it affects (an `Affects:` / impact mapping), connecting the decision back to the EmberFall epics rather than floating free of them.",
+        "The document includes a decision impact / cross-component dependency analysis — how the decisions relate to each other and/or the implementation sequence they imply — not just a flat unordered list of independent decisions.",
+        "The document contains NO time or effort estimates anywhere (no `weeks`, `days`, `hours`, sprint-duration, or person-effort figures) — the skill explicitly forbids time estimates, so any run that inserts an effort/timeline estimate fails this expectation.",
+        "The decisions explicitly address the performance constraint the input demands — holding 60 FPS with up to 30 active enemies on minimum spec, via object pooling or an equivalent approach for enemies/projectiles — rather than ignoring the performance NFR."
+      ]
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "name": "workflow-core",
-  "version": "0.1.3",
-  "description": "The workflow operating model (ambient router, honesty gates, right-sizing) + a curated core skill set.",
+  "version": "0.2.0",
+  "description": "The workflow operating model (ambient router, honesty gates, right-sizing) + a thin set of universal helpers. Install this first; add domain modules à la carte.",
   "author": {
     "name": "B.T."
   },

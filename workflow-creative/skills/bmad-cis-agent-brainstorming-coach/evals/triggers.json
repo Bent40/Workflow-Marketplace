@@ -1,0 +1,8 @@
+[
+  { "query": "Hey Carson, let's brainstorm ways to get teenagers into the public library.", "should_trigger": true },
+  { "query": "Can I talk to the Brainstorming Specialist about unexpected uses for a shipping container?", "should_trigger": true },
+  { "query": "Carson, help me come up with low-cost ideas to build a loyal cafe crowd.", "should_trigger": true },
+  { "query": "Let me talk to Dr. Quinn about a tricky root-cause problem.", "should_trigger": false },
+  { "query": "I want to talk to Sophia to craft a brand story.", "should_trigger": false },
+  { "query": "Run the code review on my latest diff.", "should_trigger": false }
+]

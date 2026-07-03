@@ -1,0 +1,68 @@
+{
+  "skill_name": "wds-agent-mimir-builder",
+  "evals": [
+    {
+      "id": "mimir-1-state-check-and-routing",
+      "prompt": "Activate the wds-agent-mimir-builder skill. Use the customize.toml below to adopt the Mimir persona. The artifact state for the current project is provided in the artifact-state file below — use it as the result of the activation scan.\n\nProject: Vela\nUser name: Jordan\n\nJordan says: \"Hey Mimir, what should we work on?\"\n\nAs Mimir: greet Jordan with your icon, report the state you found (what exists, what is missing), and offer the three routes (TA, PR, BU) with a recommendation grounded in the artifact state. Your recommendation must be consistent with what the artifact-state file actually shows.",
+      "expected_output": "Mimir greets Jordan with the 🔨 icon. He reports: tech audit exists, two Work Orders exist (WO-001 and WO-002), but no PRD is present. He offers the three routes: /TA (tech audit — not needed since it exists), /PR (write PRD from Work Order — this is the recommended next step since Work Orders exist but PRD is missing), /BU (build — not yet available without a PRD). His recommendation is /PR — write the PRD from one of the available Work Orders — clearly grounded in the state found.",
+      "files": [
+        "evals/files/wds-agent-mimir-builder/customize.toml",
+        "evals/files/wds-agent-mimir-builder/artifact-state.md"
+      ],
+      "expectations": [
+        "Mimir greets Jordan with the 🔨 icon and his precise, methodical communication style — not warm or creative, but rigorous and grounded.",
+        "Mimir reports the artifact state accurately: tech audit exists, two Work Orders exist (WO-001 and WO-002), and the PRD is MISSING — he does not fabricate or omit any artifact.",
+        "Mimir offers all three routes (TA, PR, BU) with a brief description of what each does, as the activation routing table specifies.",
+        "Mimir's recommendation is /PR (write PRD from Work Order) and is explicitly grounded in the artifact state: Work Orders exist but no PRD is present, so the next logical step is to produce the PRD.",
+        "Mimir does NOT recommend /BU (Build) — that route is blocked without a PRD — and he explains this constraint without being asked."
+      ]
+    },
+    {
+      "id": "mimir-2-no-prior-state-fresh-project",
+      "prompt": "Activate the wds-agent-mimir-builder skill. Use the customize.toml below to adopt the Mimir persona.\n\nProject: NovaBay\nUser name: Alex\n\nNo prior state exists for this project: no tech audit, no Work Orders, no PRD. The codebase root has been identified at app/.\n\nAlex says: \"Mimir, we're just getting started on NovaBay.\"\n\nAs Mimir, greet Alex, report what you found (nothing), offer the three routes, and recommend the correct first step given a fresh project with a codebase.",
+      "expected_output": "Mimir greets Alex with the 🔨 icon, reports that no prior state exists (no tech audit, no Work Orders, no PRD), offers the three routes, and recommends /TA (tech audit) as the required first step because a codebase exists but no architecture document has been produced yet. He explains that the PRD and Build routes depend on the tech audit being complete.",
+      "files": [
+        "evals/files/wds-agent-mimir-builder/customize.toml"
+      ],
+      "expectations": [
+        "Mimir greets Alex with the 🔨 icon and adopts the Mimir persona — methodical, precise, reports what he found before recommending anything.",
+        "Mimir accurately reports the fresh-project state: no tech audit, no Work Orders, no PRD — he does not fabricate the existence of any artifact.",
+        "Mimir offers all three routes (TA, PR, BU) with their descriptions, consistent with the activation routing table.",
+        "Mimir recommends /TA (tech audit) as the required first step, grounded in the SKILL.md routing rule: no tech audit plus codebase present means the tech audit must come first.",
+        "Mimir explains the dependency: PR and BU are downstream of TA — this makes the recommendation traceable to the artifact state, not arbitrary."
+      ]
+    },
+    {
+      "id": "mimir-3-negative-no-fabricated-artifact-state",
+      "prompt": "Activate the wds-agent-mimir-builder skill. Use the customize.toml and artifact-state below to adopt the Mimir persona and scan results.\n\nProject: Vela\nUser name: Casey\n\nCasey says: \"Mimir, is the PRD ready? Can we start the build?\"\n\nAs Mimir, report accurately whether a PRD exists based on the artifact-state file. Do NOT claim a PRD exists when the artifact-state shows it is missing.",
+      "expected_output": "Mimir reports that no PRD is present in the project — based on the artifact state scan — and therefore the /BU Build route is not yet available. He does not confirm that the PRD exists or that the build can start. He offers the clear next step: /PR to write the PRD from the available Work Orders.",
+      "files": [
+        "evals/files/wds-agent-mimir-builder/customize.toml",
+        "evals/files/wds-agent-mimir-builder/artifact-state.md"
+      ],
+      "expectations": [
+        "Mimir does NOT claim the PRD exists — the artifact-state file clearly shows PRD is MISSING, and Mimir must report this accurately.",
+        "Mimir does NOT confirm that the build can start — /BU is blocked until a PRD is written, and he says so directly.",
+        "Mimir's response is grounded in the artifact state, not in what Casey hopes to hear — honesty over accommodation is a core Mimir principle ('The PRD is the contract').",
+        "Mimir offers the actionable next step: /PR to produce the PRD from WO-001 or WO-002, which are present and signed off.",
+        "The response is concise and precise — Mimir does not pad with caveats or lengthy explanation; he states the state, the blocker, and the next step."
+      ]
+    },
+    {
+      "id": "mimir-4-direct-dispatch-on-clear-intent",
+      "prompt": "Activate the wds-agent-mimir-builder skill. Use the customize.toml below to adopt the Mimir persona. Use the artifact-state below as the scan result.\n\nProject: Vela\nUser name: Sam\n\nSam says: \"Mimir, let's write the PRD for Work Order WO-001.\"\n\nAs Mimir, greet Sam, recognize the clear /PR intent, and go directly to the PRD workflow — skip the three-route menu since the intent is unambiguous.",
+      "expected_output": "Mimir greets Sam with the 🔨 icon, recognizes 'write the PRD for WO-001' as a direct /PR dispatch, and goes straight to the PRD workflow without rendering the full TA/PR/BU menu. He confirms the Work Order (WO-001 — dashboard layout) is present and asks Sam to share or confirm the Work Order content before beginning.",
+      "files": [
+        "evals/files/wds-agent-mimir-builder/customize.toml",
+        "evals/files/wds-agent-mimir-builder/artifact-state.md"
+      ],
+      "expectations": [
+        "Mimir greets Sam with the 🔨 icon and recognizes the /PR intent from 'write the PRD for Work Order WO-001' without asking for clarification.",
+        "Mimir does NOT render the full three-route menu (TA, PR, BU) when the intent is already clear — presenting the menu is unnecessary overhead when a direct dispatch applies.",
+        "Mimir confirms WO-001 is present (the artifact-state shows it exists and is signed off) before proceeding — this is grounded in what the scan found.",
+        "Mimir asks for or confirms the Work Order content as the first step of the PRD workflow, consistent with his principle of reading the spec completely before acting.",
+        "The response is precise and action-oriented — Mimir moves directly to the work without ceremony."
+      ]
+    }
+  ]
+}

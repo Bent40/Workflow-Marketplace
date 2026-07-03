@@ -1,0 +1,8 @@
+[
+  { "query": "Create an index.md for my docs/ folder that links every file with a short description.", "should_trigger": true },
+  { "query": "Update the index of all files in the architecture/ directory.", "should_trigger": true },
+  { "query": "Generate a table of contents index referencing all the docs in this folder.", "should_trigger": true },
+  { "query": "Shard this single large markdown file into per-section files.", "should_trigger": false },
+  { "query": "Review the prose in this README for grammar issues.", "should_trigger": false },
+  { "query": "What BMAD skill should I run next now that my PRD is done?", "should_trigger": false }
+]

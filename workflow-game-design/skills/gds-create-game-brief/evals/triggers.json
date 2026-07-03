@@ -1,0 +1,8 @@
+[
+  { "query": "Help me write a game brief for my lighthouse-keeping game idea.", "should_trigger": true },
+  { "query": "Validate my game brief and pressure-test it before I start the GDD.", "should_trigger": true },
+  { "query": "Update the game brief to narrow the audience and add the no-fail-state design.", "should_trigger": true },
+  { "query": "Create the full Game Design Document with mechanics and progression.", "should_trigger": false },
+  { "query": "Write a PRD with formal functional requirements for my game.", "should_trigger": false },
+  { "query": "Design the game architecture and engine systems.", "should_trigger": false }
+]

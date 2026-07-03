@@ -1,0 +1,8 @@
+[
+  { "query": "Validate my BMad module — check that every skill's capabilities are registered correctly.", "should_trigger": true },
+  { "query": "I want to ideate and plan a new BMad module; help me decide the architecture and produce a build plan.", "should_trigger": true },
+  { "query": "I've built a folder of skills — scaffold the module infrastructure to make them installable.", "should_trigger": true },
+  { "query": "Build me a single new agent skill through conversational discovery.", "should_trigger": false },
+  { "query": "Run a quality analysis on this one workflow skill's prompt craft and structure.", "should_trigger": false },
+  { "query": "Customize the bmad-prd workflow to use our regulated PRD template.", "should_trigger": false }
+]

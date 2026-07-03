@@ -4,18 +4,53 @@
     "name": "B.T."
   },
   "metadata": {
-    "description": "The workflow operating model + skills as Claude Code plugins."
+    "description": "The workflow operating model + skills as à-la-carte Claude Code plugin modules."
   },
   "plugins": [
     {
       "name": "workflow-core",
       "source": "./workflow-core",
-      "description": "The workflow operating model (ambient router, honesty gates, right-sizing) + a curated core skill set."
+      "description": "The workflow operating model (ambient router, honesty gates, right-sizing) + a thin set of universal helpers. Install this first; add domain modules à la carte."
     },
     {
       "name": "workflow-full",
       "source": "./workflow-full",
-      "description": "Every stock BMAD skill (all upstream modules) on top of workflow-core."
+      "description": "Every stock BMAD skill (all upstream modules) — the one-shot everything bundle, on top of workflow-core."
+    },
+    {
+      "name": "workflow-method",
+      "source": "./workflow-method",
+      "description": "BMad Method — the agile SDLC: analyst/PM/architect/dev/UX agents, PRD, epics, stories, sprints, and the dev/review loop. Needs workflow-core."
+    },
+    {
+      "name": "workflow-game-design",
+      "source": "./workflow-game-design",
+      "description": "BMad Game Dev Studio — GDD, game architecture, narrative, playtest planning, and the game dev loop for Unity/Unreal/Godot/Phaser. Needs workflow-core."
+    },
+    {
+      "name": "workflow-test-architect",
+      "source": "./workflow-test-architect",
+      "description": "BMad Test Architect — quality strategy, ATDD, CI gates, traceability, NFR audits, and test automation. Needs workflow-core."
+    },
+    {
+      "name": "workflow-creative",
+      "source": "./workflow-creative",
+      "description": "Creative Intelligence Suite — storytelling, design thinking, innovation strategy, and creative problem-solving coaches. Needs workflow-core."
+    },
+    {
+      "name": "workflow-web-design",
+      "source": "./workflow-web-design",
+      "description": "Whiteport Design Studio — the strategic, design-first UX methodology (project brief → trigger mapping → scenarios → UX → design system → evolution). Needs workflow-core."
+    },
+    {
+      "name": "workflow-builders",
+      "source": "./workflow-builders",
+      "description": "BMad Builder — meta-tooling for authors of AI agents, workflows, and skills (agent/workflow/module builders, eval runner, customize). Needs workflow-core."
+    },
+    {
+      "name": "workflow-editorial",
+      "source": "./workflow-editorial",
+      "description": "Editorial & review — prose and structural copy-editing plus adversarial and edge-case content review. Needs workflow-core."
     }
   ]
 }

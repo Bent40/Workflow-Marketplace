@@ -1,0 +1,22 @@
+diff --git a/src/inventory.py b/src/inventory.py
+index 3c4d5e6..7f8a9b0 100644
+--- a/src/inventory.py
++++ b/src/inventory.py
+@@ -12,10 +12,22 @@ class Inventory:
+     def __init__(self, capacity):
+         self.capacity = capacity
+         self.slots = []
+
+-    def add(self, item):
+-        self.slots.append(item)
++    def add(self, item, qty):
++        # AC: stacking should merge with an existing stack of the same item id
++        self.slots.append({"id": item, "qty": qty})
++        return True
++
++    def remove(self, item, qty):
++        for slot in self.slots:
++            if slot["id"] == item:
++                slot["qty"] -= qty
++                return True
++        return False

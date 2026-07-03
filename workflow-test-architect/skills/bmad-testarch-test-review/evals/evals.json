@@ -1,0 +1,40 @@
+{
+  "skill_name": "bmad-testarch-test-review",
+  "evals": [
+    {
+      "id": "test-review-1-flags-planted-antipatterns",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT ask which mode (Create), do NOT halt for confirmation, and do NOT require `_bmad/tea/config.yaml`. Review scope is a SINGLE file. Run all quality-dimension checks sequentially in-session (no subagents). Defer any questions to the very end.\n\nUse the bmad-testarch-test-review skill to review the quality of the staged test file against testing best practices and write the review report to ./test-review.md.\n\nStaged inputs (treat as the project):\n- evals/files/bmad-testarch-test-review/tests/checkout.spec.ts  (the test file under review — contains planted anti-patterns)\n- evals/files/bmad-testarch-test-review/story-9-1-checkout.md    (optional context only)\n\nIdentify test-quality anti-patterns (determinism, isolation, hard waits/flakiness, missing assertions, testing implementation details) with specific file locations. Coverage mapping is out of scope — do NOT produce a coverage matrix. Be specific: cite the offending lines, not generic praise.",
+      "expected_output": "A test-quality review of checkout.spec.ts that flags the planted anti-patterns with locations: the hard wait (page.waitForTimeout(5000)), the non-determinism (Math.random() in cartId, new Date() without mocking), the test-order dependency / shared mutable state (createdOrderId leaking from test 1 into test 2), the missing-assertion test ('shows the confirmed order' has no expect), and the conditional/implementation-detail anti-pattern (the if(hasDiscount) branch asserting on the internal CSS class). Each finding names the criterion and a concrete fix; the report does not hand back generic praise or a coverage matrix.",
+      "files": [
+        "evals/files/bmad-testarch-test-review/tests/checkout.spec.ts",
+        "evals/files/bmad-testarch-test-review/story-9-1-checkout.md"
+      ],
+      "expectations": [
+        "The review flags the HARD WAIT `await page.waitForTimeout(5000)` as a determinism/flakiness violation and recommends a conditional wait (e.g. `expect(locator).toBeVisible()` / network-based wait) instead — a review that misses the hard wait, or only mentions waits generically without locating this one, fails this expectation.",
+        "The review flags the NON-DETERMINISM: both `Math.random()` (in the cartId) and `new Date()` used without mocking are called out as non-deterministic, with a fix (seeded faker / mocked clock or fixed timestamp) — a review that flags neither source of non-determinism fails this expectation.",
+        "The review flags the ISOLATION violation: the shared mutable `createdOrderId` and the resulting test-order dependency (the second test depends on the first having run) are identified, with a fix (each test sets up its own data, e.g. in beforeEach) — a review that does not catch the cross-test dependency / shared state fails this expectation.",
+        "The review flags the MISSING-ASSERTION test: 'shows the confirmed order' performs `getByTestId('order-status')` but never asserts, so it can never fail — a review that does not flag the test with no `expect`/assertion fails this expectation (a test that cannot fail is a critical quality defect).",
+        "The review flags the CONDITIONAL CONTROL FLOW / TESTING-IMPLEMENTATION-DETAIL anti-pattern in 'handles an optional discount': the `if (hasDiscount)` branch (behavior varies, may assert nothing) and the assertion against the internal CSS class `.discount--applied-internal` (testing an implementation detail rather than user-visible behavior) — a review that flags neither fails this expectation.",
+        "Findings are SPECIFIC and LOCATED: each flagged anti-pattern cites the offending location (file + line/test name) and a concrete recommended fix, rather than returning generic praise or vague advice — a review that lists no specific locations, or that calls the file good/passing, fails this expectation.",
+        "The review stays in scope: it audits test QUALITY and does NOT produce a requirements-to-tests coverage matrix or a coverage gate decision (that belongs to `trace`) — a run that returns a coverage traceability matrix fails this expectation."
+      ]
+    },
+    {
+      "id": "test-review-2-honest-verdict-not-green",
+      "prompt": "Run headless and fully automated: no greeting, no mode prompt, no halting, no config file required; review scope is a SINGLE file; run all quality-dimension checks sequentially in-session without subagents. Defer questions to the end.\n\nUse the bmad-testarch-test-review skill to review the staged test file and write the report to ./test-review.md.\n\nStaged inputs:\n- evals/files/bmad-testarch-test-review/tests/checkout.spec.ts\n- evals/files/bmad-testarch-test-review/story-9-1-checkout.md\n\nProduce an honest overall verdict with a quality score and a recommendation (Approve / Approve with Comments / Request Changes / Block), assigning a severity to each finding. The verdict MUST reflect the real defects in the file: a test that can never fail and cross-test state leakage are serious. Do NOT hand back an approving/green verdict that ignores the planted critical issues.",
+      "expected_output": "A review whose overall recommendation is NOT a clean Approve: because the file contains a never-failing test (no assertion) and a test-order dependency on shared mutable state plus a hard wait, the verdict is Request Changes or Block (not Approve / Approve-with-Comments-only). Each finding carries a severity, the quality score is dragged down by the critical violations rather than inflated, and the security/reliability-relevant flakiness risks are surfaced — the review does not produce an undeserved green sign-off.",
+      "files": [
+        "evals/files/bmad-testarch-test-review/tests/checkout.spec.ts",
+        "evals/files/bmad-testarch-test-review/story-9-1-checkout.md"
+      ],
+      "expectations": [
+        "The overall recommendation is NOT a clean Approve: given a never-failing test and a cross-test dependency on shared state, the verdict is `Request Changes` or `Block` — an `Approve` or comments-only approval that waves through the critical defects fails this expectation (honesty: no undeserved green verdict).",
+        "Each finding carries a SEVERITY (e.g. Critical / High / Medium / Low or P0-P3), and the missing-assertion test and the test-order dependency are rated among the most severe — a review that lists findings flat with no severity, or rates these critical defects as trivial, fails this expectation.",
+        "The quality SCORE reflects the real defects (it is dragged down by the critical/high violations rather than inflated by generic praise) and is consistent with a non-Approve verdict — a high passing score paired with the listed critical issues fails this expectation.",
+        "The review still flags the concrete planted anti-patterns by location (hard wait, Math.random()/new Date() non-determinism, shared `createdOrderId` dependency, missing assertion, conditional/implementation-detail assertion) as the basis for the verdict — a non-Approve verdict with no specific located findings to justify it fails this expectation.",
+        "The flakiness/reliability risk is surfaced explicitly (the hard wait and non-determinism make the suite unreliable) rather than buried or omitted — a review that gives the verdict without naming the flakiness risk fails this expectation.",
+        "The review does not drift out of scope into coverage analysis: it gives a test-quality verdict, not a requirements coverage matrix or coverage gate — producing a coverage/trace matrix fails this expectation."
+      ]
+    }
+  ]
+}

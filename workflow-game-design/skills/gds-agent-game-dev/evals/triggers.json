@@ -1,0 +1,8 @@
+[
+  { "query": "Hey Link, let's implement this game feature — quick-dev it.", "should_trigger": true },
+  { "query": "Can I talk to the game developer to write this gameplay code with tests?", "should_trigger": true },
+  { "query": "Link, implement the next game dev story.", "should_trigger": true },
+  { "query": "Hey Cloud, let's architect the game's networking.", "should_trigger": false },
+  { "query": "I want to talk to Samus about the core game design.", "should_trigger": false },
+  { "query": "Create a product brief for my app idea.", "should_trigger": false }
+]

@@ -1,0 +1,8 @@
+[
+  { "query": "I've finalized a decision that all internal services will use gRPC. Propagate it across our PRD, architecture, and test-design docs so they all agree.", "should_trigger": true },
+  { "query": "We just settled that the Tier-C microVM sandbox is the v1 baseline. Update every existing planning doc that still describes the old tiered-sandbox approach so they match.", "should_trigger": true },
+  { "query": "A decision was approved after we'd already written the specs, and now the docs disagree with it. Bring the prose planning artifacts into agreement with the new decision.", "should_trigger": true },
+  { "query": "We've hit a problem mid-sprint and I'm not sure whether to cut scope or change the plan. Help me work out what to do about it.", "should_trigger": false },
+  { "query": "I changed a type in the shared contracts library. Which dependent repos break, and what semver bump should the contracts library get?", "should_trigger": false },
+  { "query": "Help me brainstorm some name ideas for my new note-taking app.", "should_trigger": false }
+]

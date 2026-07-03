@@ -1,0 +1,9 @@
+[
+  { "query": "lets learn testing", "should_trigger": true },
+  { "query": "I want to study test practices over a few sessions", "should_trigger": true },
+  { "query": "teach me testing fundamentals progressively", "should_trigger": true },
+  { "query": "start the TEA academy learning path for me", "should_trigger": true },
+  { "query": "generate automated e2e tests for my checkout feature", "should_trigger": false },
+  { "query": "design a risk-based test plan for this epic", "should_trigger": false },
+  { "query": "review the quality of our existing test suite", "should_trigger": false }
+]

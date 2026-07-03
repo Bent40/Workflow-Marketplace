@@ -1,0 +1,23 @@
+{
+  "skill_name": "bmad-security-decision-framing",
+  "evals": [
+    {
+      "id": "sdf-1-headless-framing",
+      "prompt": "Run headless. Use the bmad-security-decision-framing skill. Frame the open security-architecture decision described in the system brief at evals/files/secdec/system-brief.md. Run all four rounds without pausing, produce the complete framing report per the skill's output template (boundary/lens map, option table with recommendation, decision entries, follow-on flags), mark all decision entries DRAFT since no human has chosen, and append the Gate questions section listing what each gate would have asked. Use only facts stated in the brief.",
+      "expected_output": "A complete headless framing report: a boundary/lens map showing the Concierge flow as a Lethal Trifecta hit and a 3/3 Rule-of-Two violation with each mark attributed to a named tool/input; an option table containing at least a planner/quarantined-split option and a capability-stripping or approval-gating option, each with residual risk and cost weighed against the two-instance and low-friction constraints; one recommendation with rationale; DRAFT decision entries shaped as ID/Invariant/Supersedes/Surface terms; a Gate-questions section for GATE 1 and GATE 2; and follow-on flags naming an injection-boundary review and bmad-decision-propagation.",
+      "files": [
+        "evals/files/secdec/system-brief.md"
+      ],
+      "expectations": [
+        "The boundary/lens map identifies all three Lethal Trifecta legs AND attributes each to the component/tool that earns it from the brief: private-data access earned by mail-read (mailbox contents) and/or pay-invoice (payments account); untrusted-content exposure earned by incoming email bodies and/or web-fetch page content; external communicate/act earned by mail-send and/or pay-invoice. A run that marks a leg without naming its earner fails this expectation.",
+        "The Rule-of-Two violation is explicitly called out: the current single-agent architecture holds all three properties ([A] untrustworthy inputs, [B] sensitive access, [C] state change/external action) in one flow with no human in the loop, so it exceeds the at-most-two rule and a human gate (or restructure) is mandatory. Merely listing properties without stating the violation fails.",
+        "The option table contains at least one split/quarantine option (e.g. planner + capability-stripped reader of untrusted content) AND at least one capability-stripping or human-approval-gating option, and EVERY option row states a residual risk — what an attacker can still do under that option. An option with no residual-risk statement, or a table missing either option family, fails.",
+        "At least one option's cost/complexity assessment engages with a constraint actually stated in the brief (the two-model-instance budget or the low-friction requirement for routine replies) rather than generic cost language.",
+        "Each decision entry is marked DRAFT (human has not chosen) and contains all of: an ID, an 'Invariant (now true)' single statement, a 'Supersedes' line naming the old assumption (e.g. the single agent holding all four tools), and 'Surface terms' listing concrete strings (tool names such as mail-send, pay-invoice, agent/capability labels). A SETTLED-status entry, or an entry missing any of the four fields, fails.",
+        "The output includes a Gate questions section listing, separately for GATE 1 and GATE 2, the questions/confirmations that would have been put to the human in facilitated mode.",
+        "The report does not invent system facts absent from the brief: it must not assert a specific email provider, an existing human-approval step (the brief says there is none today), payment limits other than $2,000 per invoice, or named components/tools beyond mail-read, web-fetch, mail-send, pay-invoice and the single Concierge agent. Architectural proposals are options, not asserted current facts; any unverifiable system fact stated as current truth fails this expectation.",
+        "The follow-on flags name bmad-decision-propagation (with its applicability stated, e.g. 'no prose docs exist yet' or the docs that would need it) and an injection-boundary review as the verification step once the flow is designed."
+      ]
+    }
+  ]
+}

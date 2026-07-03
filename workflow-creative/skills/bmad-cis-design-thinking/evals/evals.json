@@ -1,0 +1,44 @@
+{
+  "skill_name": "bmad-cis-design-thinking",
+  "evals": [
+    {
+      "id": "dt-1-empathize-define-from-research",
+      "prompt": "Use the bmad-cis-design-thinking skill to run the EMPATHIZE and DEFINE phases for the design challenge in the notes below. This is a single-pass headless run: do not stop for interactive checkpoints or menus — produce the artifacts directly. Using only the observations provided (do not invent new field data), produce: (1) a clear design challenge statement, (2) an empathy map for the primary user synthesizing what she says, thinks, does, and feels plus the key pains, (3) a Point of View statement in the form '[user] needs [need] because [insight]', and (4) at least three 'How Might We' questions that open the solution space without naming a specific solution.\n\nResearch notes: evals/files/dt/clinic-research.md",
+      "expected_output": "A design-thinking empathize+define output grounded in the supplied notes: a focused challenge statement about clinic walk-in patients giving up before being seen; an empathy map for Marisol with says/thinks/does/feels quadrants drawn from the actual observations (the 'I mind not knowing if I did it right' anxiety, the English-only form embarrassment, repeatedly walking up to ask) and named pain points; a POV statement of the form '[user] needs [need] because [insight]'; and 3+ solution-agnostic HMW questions (e.g. 'How might we help walk-in patients feel certain they are in the system?'). No fabricated research and no premature solutioning.",
+      "files": [
+        "evals/files/dt/clinic-research.md"
+      ],
+      "expectations": [
+        "The output includes a clear, focused design challenge statement that frames the real problem from the notes — walk-in patients feeling uncertain they are 'in the system' and giving up/leaving before being seen — rather than a generic 'improve the clinic' framing.",
+        "It produces an empathy map for the primary user (Marisol) with distinct says / thinks / does / feels content, each entry traceable to the supplied observations (e.g. the 'I don't mind waiting, I mind not knowing if I did it right' quote, embarrassment over the English-only form, repeatedly approaching the desk to ask), and surfaces the key pain points.",
+        "It produces a Point of View statement in the form '[user type] needs [need] because [insight]' that captures a genuine need (certainty/being seen, dignity, language access) supported by an insight from the data, not a feature.",
+        "It generates at least three 'How Might We' questions that are solution-agnostic and open the solution space (framed around the need, e.g. reassurance / queue transparency / language access) rather than prescribing a specific implementation.",
+        "All synthesis is grounded in the provided observations — it does not invent new interviews, statistics, or user quotes that are not present in the notes."
+      ]
+    },
+    {
+      "id": "dt-2-empathize-define-app-onboarding",
+      "prompt": "Use the bmad-cis-design-thinking skill to run the EMPATHIZE and DEFINE phases for the following challenge, as a single-pass headless run (no interactive checkpoints or menus — produce the artifacts directly).\n\nChallenge context (from the product owner): A habit-tracking mobile app has a high drop-off in the first three days. From 12 user interviews: new users say they're excited to 'finally get organized'; many set up 8-10 habits on day one, then feel overwhelmed and stop opening the app by day three; one said 'I felt like I was already failing by Wednesday'; several didn't realize they could edit or remove a habit after creating it; people who stuck around had started with just one or two habits. The owner wants fewer day-three drop-offs.\n\nProduce: (1) a design challenge statement, (2) an empathy map for the over-committing new user, (3) a POV statement, and (4) at least three solution-agnostic 'How Might We' questions.",
+      "expected_output": "An empathize+define output for the habit-app drop-off challenge: a challenge statement about early over-commitment leading to a felt sense of failure and abandonment by day three; an empathy map for the new user with says/thinks/does/feels grounded in the interview signals (excitement, over-setup, the 'already failing by Wednesday' feeling, not knowing habits are editable); a POV statement in '[user] needs [need] because [insight]' form centered on a sense of early success/manageability; and 3+ HMW questions that open the space (around pacing, early wins, forgiveness) without prescribing a specific feature.",
+      "files": [],
+      "expectations": [
+        "The challenge statement reframes the day-three drop-off as a human problem — new users over-committing and feeling like they're already failing — rather than restating it as a raw metric to be fixed.",
+        "The empathy map for the over-committing new user has distinct says / thinks / does / feels quadrants traceable to the interview signals (the 'finally get organized' excitement, setting up 8-10 habits, the 'already failing by Wednesday' feeling, not knowing habits can be edited/removed).",
+        "The POV statement is in the form '[user] needs [need] because [insight]' and captures a real underlying need (e.g. a sense of early, manageable success / not feeling like a failure) supported by an insight from the data.",
+        "It generates at least three solution-agnostic 'How Might We' questions framed around the need (pacing, early wins, recoverability/forgiveness) rather than jumping to a specific feature, and does not invent interview data beyond what was given."
+      ]
+    },
+    {
+      "id": "dt-3-honesty-stay-in-phase-no-premature-solutioning",
+      "prompt": "Use the bmad-cis-design-thinking skill to run ONLY the EMPATHIZE and DEFINE phases for the challenge below, as a single-pass headless run. Stop after DEFINE — do NOT run ideation, do NOT propose, design, or recommend any specific solution, feature, or product, and do not invent research beyond what is given.\n\nChallenge context: A university library wants to reduce the number of students who reserve a group study room and then never show up, leaving rooms empty while others are turned away. From a quick survey: students say reserving 'just in case' costs nothing and they forget to cancel; many reserve the maximum allowed time even for short sessions; staff say no-shows peak around exam season; one student wrote 'I booked it weeks ago and honestly forgot.'\n\nProduce: (1) a design challenge statement, (2) an empathy map for the no-show student, (3) a POV statement, and (4) at least three solution-agnostic 'How Might We' questions. Do not go past DEFINE.",
+      "expected_output": "An empathize+define-only output: a challenge statement about no-show reservations wasting rooms; an empathy map for the no-show student grounded in the survey signals (reserving 'just in case', forgetting to cancel, over-reserving time); a POV statement in '[user] needs [need] because [insight]' form; and 3+ solution-agnostic HMW questions. Crucially it STOPS at DEFINE — it does NOT propose concrete solutions (no 'add auto-cancellation', 'send reminder texts', 'charge a deposit', etc.) and does not run ideation; any such proposal is a phase/scope-discipline failure.",
+      "files": [],
+      "expectations": [
+        "The output produces the empathize+define artifacts — a challenge statement, an empathy map for the no-show student (says/thinks/does/feels grounded in the survey signals about reserving 'just in case', forgetting to cancel, and over-reserving time), a POV statement, and at least three HMW questions.",
+        "The 'How Might We' questions stay solution-agnostic — they open the problem space (around reducing friction to cancel, accountability, right-sizing reservations) WITHOUT naming a concrete mechanism.",
+        "It HONORS the phase boundary: it stops at DEFINE and does NOT propose, design, or recommend any specific solution or feature (e.g. auto-cancellation, reminder notifications, deposits, check-in kiosks) — premature solutioning here is a discipline failure even if the ideas would be reasonable later.",
+        "All synthesis is grounded in the provided survey signals; it does not fabricate additional survey responses, statistics, or quotes."
+      ]
+    }
+  ]
+}

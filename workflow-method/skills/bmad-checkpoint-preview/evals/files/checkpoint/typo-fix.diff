@@ -1,0 +1,19 @@
+Change intent (from the commit message):
+"Fix typo in comment and log message."
+
+Baseline: main @ 8c2d4e1
+
+diff --git a/src/inventory/sync.py b/src/inventory/sync.py
+index 1122aab..33ccbbd 100644
+--- a/src/inventory/sync.py
++++ b/src/inventory/sync.py
+@@ -14,9 +14,9 @@ def reconcile(batch):
+     processed = 0
+     for item in batch:
+-        # Recieve the item and update the running tally.
++        # Receive the item and update the running tally.
+         tally.add(item)
+         processed += 1
+-    logger.info("Reconcilation complete: %d items", processed)
++    logger.info("Reconciliation complete: %d items", processed)
+     return processed

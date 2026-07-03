@@ -1,0 +1,8 @@
+[
+  { "query": "Run a retrospective on Epic 1 of my game.", "should_trigger": true },
+  { "query": "Let's retro the epic we just finished and pull out the lessons.", "should_trigger": true },
+  { "query": "Do a post-epic review of the combat epic and assess whether it really succeeded.", "should_trigger": true },
+  { "query": "Check the sprint status and tell me what to work on next.", "should_trigger": false },
+  { "query": "Create the next story for Epic 2.", "should_trigger": false },
+  { "query": "Run sprint planning to regenerate the sprint-status.yaml.", "should_trigger": false }
+]

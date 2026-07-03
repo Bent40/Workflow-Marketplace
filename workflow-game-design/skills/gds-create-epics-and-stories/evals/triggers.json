@@ -1,0 +1,8 @@
+[
+  { "query": "Create the epics and stories from my game's GDD.", "should_trigger": true },
+  { "query": "Break the EmberFall GDD requirements into epics and a full list of stories.", "should_trigger": true },
+  { "query": "Create stories with acceptance criteria for the dev team from these game requirements.", "should_trigger": true },
+  { "query": "Generate the sprint-status.yaml from the epics file.", "should_trigger": false },
+  { "query": "Create the next single story file for the dev agent to implement.", "should_trigger": false },
+  { "query": "Help me write the Game Design Document for my roguelite.", "should_trigger": false }
+]

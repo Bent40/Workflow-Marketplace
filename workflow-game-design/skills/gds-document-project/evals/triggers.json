@@ -1,0 +1,8 @@
+[
+  { "query": "Document project — scan this Unity game's scripts and generate the architecture and systems docs.", "should_trigger": true },
+  { "query": "Generate docs for this existing Godot game so an agent can understand the systems before changing them.", "should_trigger": true },
+  { "query": "I inherited this game codebase with no documentation. Produce documentation covering the game architecture and key systems.", "should_trigger": true },
+  { "query": "Generate the project-context.md of unobvious rules AI agents must follow when writing this game's code.", "should_trigger": false },
+  { "query": "Create the GDD for this platformer — pillars, mechanics, progression, and levels.", "should_trigger": false },
+  { "query": "Investigate why the player falls through the floor after a hazard collision and grade your confidence.", "should_trigger": false }
+]

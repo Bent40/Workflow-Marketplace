@@ -1,0 +1,43 @@
+{
+  "skill_name": "bmad-testarch-automate",
+  "evals": [
+    {
+      "id": "auto-1-fill-coverage-gap",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT ask which mode (Standalone), do NOT halt for confirmation, and do NOT require `_bmad/tea/config.yaml`. The test framework IS initialized (a `vitest.config.ts` and an existing passing test are staged) so do NOT halt for a missing framework — proceed straight through and write the new test file(s) directly. Defer any questions to the very end.\n\nUse the bmad-testarch-automate skill in Standalone mode to expand automated test coverage for this codebase. The coverage gap is the untested `src/discount.ts` module. Write the new tests to ./src/discount.test.ts following the existing test pattern.\n\nStaged inputs (treat as the project):\n- evals/files/bmad-testarch-automate/package.json\n- evals/files/bmad-testarch-automate/vitest.config.ts\n- evals/files/bmad-testarch-automate/src/tax.ts          (already covered)\n- evals/files/bmad-testarch-automate/src/tax.test.ts     (EXISTING test pattern to mirror)\n- evals/files/bmad-testarch-automate/src/discount.ts     (UNTESTED — the gap to fill)\n\nGenerate new tests that cover the untested behavior, follow the existing patterns, and would PASS against the current implementation (this runs AFTER implementation, so tests are green-phase, not red-phase scaffolds).",
+      "expected_output": "A new test file src/discount.test.ts that targets the previously-untested applyDiscount function: it covers the percent branch, the flat branch including the floor-at-zero behavior (a flat discount larger than the subtotal yields 0, not a negative total), and the three throwing cases (negative subtotal, percent value out of 0..100, unknown kind). The tests mirror the existing tax.test.ts pattern (vitest describe/it, expect, toThrow for errors), are real assertions against the actual implementation behavior, and do not re-test the already-covered applyTax.",
+      "files": [
+        "evals/files/bmad-testarch-automate/package.json",
+        "evals/files/bmad-testarch-automate/vitest.config.ts",
+        "evals/files/bmad-testarch-automate/src/tax.ts",
+        "evals/files/bmad-testarch-automate/src/tax.test.ts",
+        "evals/files/bmad-testarch-automate/src/discount.ts"
+      ],
+      "expectations": [
+        "New automated tests are generated for the previously-UNTESTED `applyDiscount` in `src/discount.ts` (the identified coverage gap), not for the already-covered `applyTax` — a run that produces tests only for `tax.ts`, or that re-tests `applyTax`, fails this expectation.",
+        "The tests cover the flat-discount floor behavior: a `flat` discount whose value exceeds the subtotal returns `0` (never a negative total) — omitting this boundary, the single most important edge case in `applyDiscount`, fails this expectation.",
+        "The tests cover the error/throw paths via `toThrow` (or equivalent): a negative subtotal, a `percent` value outside 0..100, and an unknown discount kind — a run that asserts only happy-path percent/flat math and skips the throwing cases fails this expectation.",
+        "The generated tests follow the EXISTING project pattern from `tax.test.ts` (vitest `describe`/`it` blocks, `expect(...)`, `toThrow(...)` for errors) rather than introducing a different framework, runner, or assertion style — a file written in a foreign style (e.g. Jest globals against a different config, or Python) fails this expectation.",
+        "The tests assert the implementation's ACTUAL behavior (e.g. percent reduction rounded to 2 decimals, flat floored at 0) so they would pass against the current `discount.ts` — fabricated assertions that contradict the real implementation, or trivial always-true assertions, fail this expectation.",
+        "The run does NOT modify the production source (`src/discount.ts`) or the existing passing `tax.test.ts`; it adds a new test file to close the gap rather than rewriting source or existing tests."
+      ]
+    },
+    {
+      "id": "auto-2-levels-and-no-duplication",
+      "prompt": "Run headless and fully automated: no greeting, no mode prompt, no halting, no config file required. Framework is initialized; do not halt. Defer questions to the end. Use the bmad-testarch-automate skill in Standalone mode and write the new tests to ./src/discount.test.ts.\n\nStaged inputs:\n- evals/files/bmad-testarch-automate/package.json\n- evals/files/bmad-testarch-automate/vitest.config.ts\n- evals/files/bmad-testarch-automate/src/tax.ts\n- evals/files/bmad-testarch-automate/src/tax.test.ts\n- evals/files/bmad-testarch-automate/src/discount.ts\n\nFirst identify the automation targets and pick the appropriate test LEVEL for `applyDiscount` (it is pure logic), then generate the tests. Avoid duplicate coverage — do not re-cover what tax.test.ts already covers. Also produce a short coverage summary stating what was added and at what level/priority.",
+      "expected_output": "A coverage analysis that identifies applyDiscount as the gap and selects Unit level for it (pure deterministic logic, no I/O), produces the new discount.test.ts at that level, and a concise summary that lists the added tests by level and priority. It does not duplicate the applyTax coverage that already exists.",
+      "files": [
+        "evals/files/bmad-testarch-automate/package.json",
+        "evals/files/bmad-testarch-automate/vitest.config.ts",
+        "evals/files/bmad-testarch-automate/src/tax.ts",
+        "evals/files/bmad-testarch-automate/src/tax.test.ts",
+        "evals/files/bmad-testarch-automate/src/discount.ts"
+      ],
+      "expectations": [
+        "The run selects `Unit` level for `applyDiscount` (pure, deterministic, no I/O) rather than proposing an unnecessary E2E or integration test for a pure function — choosing a heavyweight level for pure logic fails this expectation.",
+        "The run identifies `applyDiscount`/`src/discount.ts` as the automation TARGET because it is untested, and explicitly avoids duplicating the existing `applyTax` coverage — a run that adds redundant `applyTax` tests, or treats already-covered code as a gap, fails this expectation.",
+        "A concise coverage summary is produced that lists what was added by test level and priority (e.g. new `Unit` tests for `applyDiscount`), rather than emitting only the raw test file with no summary of coverage added.",
+        "The new tests cover both branches of `applyDiscount` (`percent` and `flat`) and at least one error path, so the added coverage is genuinely comprehensive for the target module rather than a single token test — a summary that claims the gap is closed while the test file covers only one branch fails this expectation."
+      ]
+    }
+  ]
+}

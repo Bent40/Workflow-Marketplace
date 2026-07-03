@@ -1,0 +1,9 @@
+{
+  "name": "workflow-method",
+  "version": "0.2.0",
+  "description": "BMad Method — the agile SDLC: analyst/PM/architect/dev/UX agents, PRD, epics, stories, sprints, and the dev/review loop. Needs workflow-core.",
+  "author": {
+    "name": "B.T."
+  },
+  "license": "MIT"
+}
