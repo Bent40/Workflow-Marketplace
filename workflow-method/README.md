@@ -7,7 +7,7 @@ rebuilt by `wf plugin build` from the private workflow source.
 
 ## What it is
 
-- 29 domain skill(s) under `skills/` — a pure à-la-carte pack.
+- 30 domain skill(s) under `skills/` — a pure à-la-carte pack.
 - **No hook.** The operating model lives in `workflow-core`. Install that
   first for the discipline layer; on Claude Code **web** (where plugin hooks
   do not run) invoke the `workflow-operating-model` skill to load it.
@@ -55,3 +55,4 @@ rebuilt by `wf plugin build` from the private workflow source.
 - `bmad-retrospective`
 - `bmad-sprint-planning`
 - `bmad-sprint-status`
+- `bmad-competitive-features`

@@ -12,7 +12,7 @@ rebuilt by `wf plugin build` from the private workflow source.
   `additionalContext` at session start — no external dependency). Ships both
   a bash hook (macOS/Linux) and a PowerShell hook (Windows), so the operating
   model loads on every platform, not just Unix.
-- 117 skill(s) under `skills/`.
+- 119 skill(s) under `skills/`.
 
 ## Install
 
@@ -146,3 +146,5 @@ rebuilt by `wf plugin build` from the private workflow source.
 - `wds-6-asset-generation`
 - `wds-7-design-system`
 - `wds-8-product-evolution`
+- `workflow-operating-model`
+- `bmad-competitive-features`

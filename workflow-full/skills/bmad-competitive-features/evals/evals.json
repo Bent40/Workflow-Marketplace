@@ -1,0 +1,31 @@
+{
+  "skill_name": "bmad-competitive-features",
+  "evals": [
+    {
+      "id": "cf-1-todo-table-stakes-and-mvp-tagging",
+      "prompt": "Use the bmad-competitive-features skill. App concept: a team todo app (web, for a small team, small scope). Run the skill's method and produce its output: the category expectation / table-stakes baseline, the tagged feature set, the MVP-first build order, the user-agreement prompt, and the hand-off. Do NOT write a brief or PRD — produce the feature-discovery output only.",
+      "expected_output": "A right-sized competitive feature set for a team todo app: a table-stakes baseline that includes the obvious features a strong plain build ships, every feature tagged on BOTH axes (table-stakes vs differentiator AND MVP vs later) with a user-visible-value rationale, an MVP-first build order ordered by value/dependency, a presentation for user agreement, and a named hand-off to the planning skills — not the brief or PRD itself.",
+      "expectations": [
+        "Establishes a CATEGORY EXPECTATION / table-stakes baseline for a todo app and does NOT omit the obvious table-stakes a strong plain build ships — it explicitly includes add, edit, complete, delete, filter, SEARCH, and PERSISTENCE. An output that omits search or persistence for a todo app FAILS this expectation (that omission is the exact A/B loss this skill answers).",
+        "Tags EVERY feature on BOTH axes: table-stakes vs differentiator AND MVP vs later. An output that only lists features, or tags only one axis, fails.",
+        "Each feature's rationale is its USER-VISIBLE VALUE. The MVP cut is justified by user-visible value (or by unlocking a table-stakes flow / dependency), NOT by implementation ease or 'it's cheap to build'. An output that justifies the MVP cut by coding effort fails.",
+        "Produces an ORDERED, MVP-first build sequence (not an unordered list), ordering by user-visible value and dependency (e.g. persistence before search/filter), and naming at least one dependency that drives the order.",
+        "PRESENTS the set and the MVP cut to the user for confirmation/edit (AskUserQuestion-style) rather than silently finalizing the feature set or the MVP.",
+        "NAMES the hand-off to a downstream planning skill (bmad-product-brief / bmad-prd / bmad-create-epics-and-stories) and does NOT itself write the brief, the PRD, requirements, or epics.",
+        "Right-sized: a short table-stakes pass appropriate to a small todo app, not a sprawling 30-feature treatise."
+      ]
+    },
+    {
+      "id": "cf-2-tiny-app-right-sized-not-market-research",
+      "prompt": "Use the bmad-competitive-features skill. App concept: a single-screen pomodoro timer (tiny, web). What's the competitive feature set, what's MVP, and in what order should I build it? Keep it proportionate to a tiny app.",
+      "expected_output": "A short, right-sized table-stakes pass for a tiny timer app: the obvious baseline (start/pause/reset, configurable interval, an audible/visible end signal, persistence of the running state/settings), a one-line MVP-vs-later cut, a quick MVP-first build order, a user-agreement prompt, and a hand-off — without market sizing, customer segmentation, or a bloated feature treatise.",
+      "expectations": [
+        "Stays inside the boundary: it does NOT produce market sizing, TAM, customer segmentation, or competitor/customer research (that is bmad-market-research) — and does NOT write a brief or PRD. If research would help ground the baseline, it RECOMMENDS bmad-market-research / bmad-domain-research as an input rather than performing or fabricating it.",
+        "Right-sizes to a TINY app per gating.right_size_process_to_project: a short table-stakes pass with a concise MVP cut and build order — NOT a 30-feature treatise. An output that over-produces for a tiny timer fails.",
+        "Establishes the obvious table-stakes for a timer (start/pause/reset, set the interval, an end-of-interval signal, persistence of state/settings) and does not omit the obvious ones.",
+        "Tags features table-stakes-vs-differentiator AND MVP-vs-later, with the MVP cut justified by user-visible value, and gives an MVP-first build order.",
+        "Still PRESENTS for user agreement and NAMES the downstream hand-off even though the pass is short — these two steps are never dropped."
+      ]
+    }
+  ]
+}
