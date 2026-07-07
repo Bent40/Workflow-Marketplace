@@ -1,0 +1,10 @@
+[
+  { "query": "3d setup", "should_trigger": true },
+  { "query": "set up the 3D box — which models do I need to download?", "should_trigger": true },
+  { "query": "get my machine ready to turn concept art into 3D prints", "should_trigger": true },
+  { "query": "the pipeline says it can't find its models — what do I install?", "should_trigger": true },
+  { "query": "set up a Postgres database schema for the orders service", "should_trigger": false },
+  { "query": "install the dev dependencies for this Node repo", "should_trigger": false },
+  { "query": "pip install the latest torch into my ML training env", "should_trigger": false },
+  { "query": "scaffold a new React project for me", "should_trigger": false }
+]

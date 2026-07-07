@@ -1,0 +1,11 @@
+[
+  { "query": "writer help", "should_trigger": true },
+  { "query": "writer-help: what should I do next with my novel?", "should_trigger": true },
+  { "query": "Where were we with my book? What's the next step?", "should_trigger": true },
+  { "query": "Which tool should I use to fix my pacing?", "should_trigger": true },
+  { "query": "bmad help — what should I start with?", "should_trigger": false },
+  { "query": "what to do next in the sprint plan?", "should_trigger": false },
+  { "query": "help me brainstorm my story", "should_trigger": false },
+  { "query": "review my chapter", "should_trigger": false },
+  { "query": "how do I set up a CI pipeline?", "should_trigger": false }
+]

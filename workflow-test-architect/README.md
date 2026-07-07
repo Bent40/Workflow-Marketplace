@@ -3,7 +3,7 @@
 BMad Test Architect — quality strategy, ATDD, CI gates, traceability, NFR audits, and test automation. Needs workflow-core.
 
 This is a GENERATED Claude Code plugin artifact — do not hand-edit; it is
-rebuilt by `wf plugin build` from the private workflow source.
+regenerated from source and republished as a whole.
 
 ## What it is
 
@@ -16,7 +16,7 @@ rebuilt by `wf plugin build` from the private workflow source.
 
 1. Add the marketplace:
    ```
-   /plugin marketplace add <github-owner>/<repo>
+   /plugin marketplace add Bent40/Workflow-Marketplace
    ```
 2. Install the foundation first, then this module:
    ```

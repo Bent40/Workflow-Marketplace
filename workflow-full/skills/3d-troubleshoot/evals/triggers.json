@@ -1,0 +1,10 @@
+[
+  { "query": "3d troubleshoot", "should_trigger": true },
+  { "query": "my print has holes even though the tool said it was watertight", "should_trigger": true },
+  { "query": "the mesh came out as a tiny mangled sliver", "should_trigger": true },
+  { "query": "it OOMed during the decode step — what do I change?", "should_trigger": true },
+  { "query": "my 3D render is empty / the model is lying down in the image", "should_trigger": true },
+  { "query": "my unit tests are failing in CI", "should_trigger": false },
+  { "query": "debug why my API endpoint returns a 500", "should_trigger": false },
+  { "query": "why is my database query so slow?", "should_trigger": false }
+]

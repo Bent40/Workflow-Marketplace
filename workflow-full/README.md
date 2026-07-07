@@ -3,7 +3,7 @@
 Every stock BMAD skill (all upstream modules) — the one-shot everything bundle, on top of workflow-core.
 
 This is a GENERATED Claude Code plugin artifact — do not hand-edit; it is
-rebuilt by `wf plugin build` from the private workflow source.
+regenerated from source and republished as a whole.
 
 ## What it is
 
@@ -12,13 +12,13 @@ rebuilt by `wf plugin build` from the private workflow source.
   `additionalContext` at session start — no external dependency). Ships both
   a bash hook (macOS/Linux) and a PowerShell hook (Windows), so the operating
   model loads on every platform, not just Unix.
-- 121 skill(s) under `skills/`.
+- 131 skill(s) under `skills/`.
 
 ## Install
 
 1. Add the marketplace:
    ```
-   /plugin marketplace add <github-owner>/<repo>
+   /plugin marketplace add Bent40/Workflow-Marketplace
    ```
 2. Install this plugin:
    ```
@@ -150,3 +150,13 @@ rebuilt by `wf plugin build` from the private workflow source.
 - `bmad-competitive-features`
 - `bmad-decision-propagation`
 - `bmad-security-decision-framing`
+- `3d-mode`
+- `3d-help`
+- `3d-create`
+- `3d-setup`
+- `3d-troubleshoot`
+- `writer-mode`
+- `writer-help`
+- `lit-author-style-research`
+- `lit-teach`
+- `lit-genre-atlas`

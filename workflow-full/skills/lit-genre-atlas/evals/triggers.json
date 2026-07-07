@@ -1,0 +1,12 @@
+[
+  { "query": "What are the conventions of cozy mystery?", "should_trigger": true },
+  { "query": "Find comps for my book — lighthouse keeper gets letters from her future self, literary with a speculative engine", "should_trigger": true },
+  { "query": "Is 175k words okay for a debut epic fantasy?", "should_trigger": true },
+  { "query": "Check my LitRPG against genre expectations before I publish on Royal Road", "should_trigger": true },
+  { "query": "What tropes define romantasy right now?", "should_trigger": true },
+  { "query": "What genre is my story, actually?", "should_trigger": true },
+  { "query": "Research the market size for romance novels", "should_trigger": false },
+  { "query": "Teach me how to write a fair-play mystery", "should_trigger": false },
+  { "query": "How does Brandon Sanderson write? Build me a profile", "should_trigger": false },
+  { "query": "Review my chapter for prose issues", "should_trigger": false }
+]

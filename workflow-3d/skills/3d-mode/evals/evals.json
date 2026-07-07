@@ -1,0 +1,58 @@
+{
+  "skill_name": "3d-mode",
+  "evals": [
+    {
+      "id": "mm-1-model-means-mesh",
+      "prompt": "You are in 3d mode (the 3d-mode skill body is loaded). The user says: \"Let's make a model of this dragon.\" Say which skill(s) you would route this to and why, then begin.",
+      "expected_output": "Treats 'model' as the 3D mesh and routes to 3d-create (or 3d-help to pick the output first). Explicitly does NOT route to bmad-create-architecture (data model), ML-model training, or database-schema work.",
+      "files": [],
+      "expectations": [
+        "The response treats 'model' as a 3D mesh and routes to 3d-create or 3d-help.",
+        "The response does NOT route to data-model / bmad-create-architecture / ML-model-training / database-schema handling (explicitly naming them as excluded is fine and expected).",
+        "No engineering ceremony (PRD, architecture, tests) is offered."
+      ]
+    },
+    {
+      "id": "mm-2-watertight-verify-not-assert",
+      "prompt": "You are in 3d mode. The user says: \"The generator finished — is this ready to 3D print?\" Describe how you decide.",
+      "expected_output": "Refuses to call it printable on trimesh/generator say-so. Requires a Blender bmesh manifold/boundary audit AND a backface-cull render to both pass before declaring it watertight/printable; separates 'generated a mesh' from 'validated printable'.",
+      "files": [],
+      "expectations": [
+        "The response states that trimesh cannot be trusted for watertightness (it silently repairs and reports a repaired copy watertight).",
+        "The response requires both a Blender bmesh manifold/boundary audit and a backface-cull render before calling it printable.",
+        "The response separates 'generated' from 'validated printable' rather than asserting it is ready."
+      ]
+    },
+    {
+      "id": "mm-3-engine-routing-by-output",
+      "prompt": "You are in 3d mode. The user says: \"I want a version of this creature for my game, and also a physical print I'll paint.\" Which engine(s) do you use for each and why?",
+      "expected_output": "Game asset → Hybrid (Hunyuan geometry + TRELLIS texture); print → Hunyuan single-view (watertight solid). Routes by OUTPUT, notes single-view Hunyuan is the shipped shape engine, and that one Hunyuan shape can feed both.",
+      "files": [],
+      "expectations": [
+        "The print is routed to Hunyuan (watertight solid) and the game asset to the Hybrid path (Hunyuan geometry + TRELLIS texture).",
+        "The response routes by the OUTPUT the user needs, not by a single default engine.",
+        "Multiview is not proposed as a default (single-view Hunyuan is the shipped shape engine)."
+      ]
+    },
+    {
+      "id": "mm-4-no-pip-into-venv",
+      "prompt": "You are in 3d mode. A generation step errors and the user says: \"Just pip install a newer torch into the ComfyUI venv to fix it.\" How do you respond?",
+      "expected_output": "Declines to pip install/upgrade torch (or anything) into the ComfyUI .venv — a hard constraint; the baseline torch 2.8.0+cu128 must not change. Suggests a download/settings/VRAM fix instead. Model downloads are fine; package installs are not.",
+      "files": [],
+      "expectations": [
+        "The response refuses to pip install/upgrade into the ComfyUI .venv and explains it is a hard constraint (do not touch torch/xformers/flash_attn).",
+        "The response distinguishes allowed model downloads from disallowed package installs, and proposes a non-venv-mutating fix."
+      ]
+    },
+    {
+      "id": "mm-5-exit-drops-posture",
+      "prompt": "You are in 3d mode; the session-end harvest has not run. The user says: \"exit 3d mode.\" Show your response.",
+      "expected_output": "A one-line confirmation that 3d mode's overrides are dropped (vocabulary routing back to normal), plus an offer to run the session-end harvest since it hasn't run yet.",
+      "files": [],
+      "expectations": [
+        "The response confirms the 3d-mode overrides are dropped, in about one line.",
+        "The response offers the session-end harvest (skill-gap retrospective / 3d-mode-feedback file) because it has not run."
+      ]
+    }
+  ]
+}

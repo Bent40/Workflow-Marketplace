@@ -1,6 +1,6 @@
 {
   "name": "workflow-test-architect",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "BMad Test Architect — quality strategy, ATDD, CI gates, traceability, NFR audits, and test automation. Needs workflow-core.",
   "author": {
     "name": "B.T."

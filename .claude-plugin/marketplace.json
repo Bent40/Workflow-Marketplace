@@ -51,6 +51,16 @@
       "name": "workflow-editorial",
       "source": "./workflow-editorial",
       "description": "Editorial & review — prose and structural copy-editing plus adversarial and edge-case content review. Needs workflow-core."
+    },
+    {
+      "name": "workflow-3d",
+      "source": "./workflow-3d",
+      "description": "Concept-art → 3D — a guided LOCAL pipeline (ComfyUI + Blender) that turns one image into a watertight 3D print, a textured game asset, or a Minecraft build. Escorts each step with a human-review gate at the watertight check. Needs workflow-core."
+    },
+    {
+      "name": "workflow-writer",
+      "source": "./workflow-writer",
+      "description": "Writer's studio — a literary posture loader (writer mode), a state-aware writing guide, and craft skills for author-style study, genre positioning/comps, and teaching. Reroutes the toolset for writing fiction/prose. Needs workflow-core."
     }
   ]
 }

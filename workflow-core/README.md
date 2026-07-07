@@ -3,7 +3,7 @@
 The workflow operating model (ambient router, honesty gates, right-sizing) + a thin set of universal helpers. Install this first; add domain modules à la carte.
 
 This is a GENERATED Claude Code plugin artifact — do not hand-edit; it is
-rebuilt by `wf plugin build` from the private workflow source.
+regenerated from source and republished as a whole.
 
 ## What it is
 
@@ -18,7 +18,7 @@ rebuilt by `wf plugin build` from the private workflow source.
 
 1. Add the marketplace:
    ```
-   /plugin marketplace add <github-owner>/<repo>
+   /plugin marketplace add Bent40/Workflow-Marketplace
    ```
 2. Install this plugin:
    ```

@@ -103,7 +103,7 @@ After all grading is done, generate the aggregate report — `python3 {skill-roo
 
 ## Counterfactual mode (`--mode counterfactual`)
 
-A skill that is *present* is not necessarily a skill that *helps*. Counterfactual evals measure whether the skill's content actually changes the agent's output — the antidote to a skill that only inflates the always-loaded surface and erodes the instruction-adherence ceiling (`wf-doctor` check 34). **Opt-in and priority-scoped** (it doubles model spend); never a default gate, never part of `both`.
+A skill that is *present* is not necessarily a skill that *helps*. Counterfactual evals measure whether the skill's content actually changes the agent's output — the antidote to a skill that only inflates the always-loaded surface and erodes the instruction-adherence ceiling. **Opt-in and priority-scoped** (it doubles model spend); never a default gate, never part of `both`.
 
 **Format.** `counterfactual.json` has the *same shape as `evals.json`* — an object with a non-empty `evals` list of `{id, prompt, files, expectations}` — discovered the same way (`<skill>/evals/counterfactual.json` or colocated). `wf eval coverage` recognizes it as a third artifact kind.
 
