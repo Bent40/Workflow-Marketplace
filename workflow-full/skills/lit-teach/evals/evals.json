@@ -1,0 +1,48 @@
+{
+  "skill_name": "lit-teach",
+  "evals": [
+    {
+      "id": "lt-1-explain-review-finding",
+      "prompt": "You are in a session where a prose review earlier flagged: \"sensory filter — 'Cael felt a warm streak of blood' — filtering distances the reader.\" The user now asks: \"What did you mean by that filter thing?\" Teach, following the lit-teach lesson shape.",
+      "expected_output": "A lesson anchored to THAT flagged line, not a generic lecture: locates filter words vs narrated perception; a working and a failing example; states the writer's question ('am I inside his head or watching him?'); runs a tinker micro-exercise on the flagged sentence (e.g. de-filtered variant offered as an option, not imposed); gives the caveat (filtering is deliberate POV-distance control in some voices, citing the detector-caveat pairing); ends with a small check-by-doing prompt.",
+      "files": [],
+      "expectations": [
+        "The lesson explains the SPECIFIC flagged instance, pulling the line back up, rather than only defining the concept in the abstract.",
+        "All seven lesson-shape steps are recognizable: locate (incl. what it is NOT), working example, failing example, the writer's internal question stated explicitly, a tinker exercise on the user's sentence, the caveat/when-not-to-apply, and a closing check-by-doing prompt.",
+        "The de-filtered rewrite is offered as an option with reasoning, never imposed as the only correct form."
+      ]
+    },
+    {
+      "id": "lt-2-intent-diagnosis-near-chiasmus",
+      "prompt": "You have the lit-teach skill loaded, including its intent-first diagnosis rule. The user writes: \"She gave the city her youth, and the city, in return, gave nothing to her age — I don't know, something's off but I can't tell what I'm even doing here.\" Diagnose and teach.",
+      "expected_output": "Recognizes an attempted chiasmus/antimetabole (give-youth / give-nothing mirrored structure with near-symmetry), NAMES it, shows a completed canonical form of the figure, explains what breaks the symmetry in their version (the second limb's balance), and offers 1-3 repairs that finish the mirror — treating it as a device at 70%, never as a plain grammar or wordiness error.",
+      "files": [],
+      "expectations": [
+        "The response names the attempted figure (chiasmus/antimetabole family) via intent signatures rather than flagging the sentence as generic awkwardness.",
+        "It shows what the completed figure looks like and pinpoints where the user's version loses the symmetry.",
+        "It offers concrete completion options and frames the attempt positively (device partially landed), never as a mere error to delete."
+      ]
+    },
+    {
+      "id": "lt-3-caveat-honors-voice-contract",
+      "prompt": "You have the lit-teach skill loaded. The project's voice contract declares: 'protected device — sensory filter verbs (I hear it / I feel it) carry the narrator's dissociation; do not remove.' The user asks: \"How do I cut filter words? I read they're bad.\" Teach.",
+      "expected_output": "Teaches the filter-word concept and the standard cutting technique honestly (the rule is real), AND surfaces the caveat prominently: THIS manuscript's contract protects filter verbs as a load-bearing dissociation device, so the technique applies elsewhere but not to the protected pattern; explains the POV-distance reasoning that makes both the rule and the exception coherent.",
+      "files": [],
+      "expectations": [
+        "The lesson teaches the general rule accurately instead of refusing to teach it.",
+        "It explicitly cites the manuscript's voice-contract protection and tells the user NOT to apply the cut to the protected dissociation pattern, explaining why via POV distance.",
+        "The rule and the exception are presented as one coherent way of thought (distance control), not as a contradiction."
+      ]
+    },
+    {
+      "id": "lt-4-knowledge-base-routing",
+      "prompt": "You have the lit-teach skill loaded in the workflow repo. The user asks: \"How do page-turn reveals work in manga pacing?\" Describe how you prepare the lesson before teaching it.",
+      "expected_output": "Reads the medium-conventions research doc (docs/research/literary-pack/R2-mediums.md) manga section as ground truth rather than answering purely from memory; notes the medium inversion (edit against the page, not the paragraph); builds the lesson from that source with the page-turn question as the writer's question.",
+      "files": [],
+      "expectations": [
+        "The response consults the committed R2 research doc for the manga section before teaching, per the knowledge-base rule.",
+        "The prepared lesson centers the page-turn reveal mechanic and the medium-specific way of thought (design against the physical page)."
+      ]
+    }
+  ]
+}

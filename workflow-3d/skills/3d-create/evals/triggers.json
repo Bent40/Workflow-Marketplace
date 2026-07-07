@@ -1,0 +1,10 @@
+[
+  { "query": "turn this image into a 3D print I can paint", "should_trigger": true },
+  { "query": "make a 3D model from this concept art for my game", "should_trigger": true },
+  { "query": "voxelize this creature for a Minecraft build", "should_trigger": true },
+  { "query": "print this character as a mini", "should_trigger": true },
+  { "query": "take input/wolf.png all the way to a watertight STL", "should_trigger": true },
+  { "query": "update the data model for the orders table", "should_trigger": false },
+  { "query": "generate the TypeScript API client from this OpenAPI spec", "should_trigger": false },
+  { "query": "train a diffusion model from scratch on my dataset", "should_trigger": false }
+]

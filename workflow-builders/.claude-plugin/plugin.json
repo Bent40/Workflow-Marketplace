@@ -1,6 +1,6 @@
 {
   "name": "workflow-builders",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "BMad Builder — meta-tooling for authors of AI agents, workflows, and skills (agent/workflow/module builders, eval runner, customize). Needs workflow-core.",
   "author": {
     "name": "B.T."

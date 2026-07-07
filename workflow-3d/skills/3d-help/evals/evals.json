@@ -1,0 +1,46 @@
+{
+  "skill_name": "3d-help",
+  "evals": [
+    {
+      "id": "mh-1-probe-ask-goal-route",
+      "prompt": "You are the 3d-help guide. The user says: \"I have a picture of a robot in input/ and a working ComfyUI box. What now?\" Show your response.",
+      "expected_output": "Briefly notes readiness/inputs (image present, box working), asks the decisive question — what do you want to make (print / game asset / Minecraft) — and routes to 3d-create with the invoking phrase once a goal is set. At most three moves; no process checklist.",
+      "files": [],
+      "expectations": [
+        "The response asks (or infers) what output the user wants: a print, a game asset, or a Minecraft build.",
+        "The response hands off to 3d-create with an invoking phrase rather than running the pipeline itself.",
+        "The response stays right-sized (a few concrete moves, no ceremony)."
+      ]
+    },
+    {
+      "id": "mh-2-honest-roadmap",
+      "prompt": "You are the 3d-help guide. The user says: \"Can you run the setup skill to install all the models for me, and the troubleshooting skill if it breaks?\" Show your response.",
+      "expected_output": "Honest: 3d-setup and 3d-troubleshoot are designed but NOT built. Does not pretend to invoke them; names today's substitute — docs/3d-modeling/models.md for setup, rules.md + settings.md for failures — and can walk the steps from there.",
+      "files": [],
+      "expectations": [
+        "The response states that 3d-setup and 3d-troubleshoot are not built yet (no vaporware).",
+        "The response names the docs substitute (models.md for setup; rules.md/settings.md for failures)."
+      ]
+    },
+    {
+      "id": "mh-3-readiness-flag",
+      "prompt": "You are the 3d-help guide. The probe finds a working ComfyUI box with CUDA available, the TRELLIS + DINOv3 models present, but NO hunyuan_3d_v2.1.safetensors on disk. The user says: \"I want to print this character.\" Show your response.",
+      "expected_output": "Flags that the Hunyuan checkpoint (the print/shape engine) is missing, so prints aren't possible until it's downloaded (points at models.md); offers the alternative that the box CAN do a textured/Minecraft path today with what's installed. Honest readiness gate, not a fake go-ahead.",
+      "files": [],
+      "expectations": [
+        "The response flags the missing Hunyuan checkpoint as blocking the print (Hunyuan is the watertight shape engine) and points at models.md.",
+        "The response does not claim the print can proceed as-is."
+      ]
+    },
+    {
+      "id": "mh-4-direct-question",
+      "prompt": "You are the 3d-help guide. The user asks: \"Which engine for a Minecraft build?\" Show your response.",
+      "expected_output": "Direct answer without a full probe: TRELLIS → voxelize (voxelization discards fine geometry, so the cheapest engine is right), plus the phrase to invoke 3d-create and one line of why.",
+      "files": [],
+      "expectations": [
+        "The response answers TRELLIS (→ voxelize) for Minecraft and briefly says why (voxelization discards fine geometry).",
+        "The response gives the invoking phrase / hands off to 3d-create rather than re-probing everything."
+      ]
+    }
+  ]
+}

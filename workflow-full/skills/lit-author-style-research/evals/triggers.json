@@ -1,0 +1,11 @@
+[
+  { "query": "Research Ursula K. Le Guin's style for me", "should_trigger": true },
+  { "query": "How does Cormac McCarthy write? I want to study him", "should_trigger": true },
+  { "query": "Build a style profile of Terry Pratchett", "should_trigger": true },
+  { "query": "What makes Hemingway's prose Hemingway? Break it down so I can practice it", "should_trigger": true },
+  { "query": "Research the market for cozy fantasy novels", "should_trigger": false },
+  { "query": "I want a domain research report on the publishing industry", "should_trigger": false },
+  { "query": "Improve my prose style in this chapter", "should_trigger": false },
+  { "query": "What literary device am I attempting in this sentence?", "should_trigger": false },
+  { "query": "Research how React server components work", "should_trigger": false }
+]

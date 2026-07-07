@@ -1,0 +1,11 @@
+[
+  { "query": "Enter writer mode", "should_trigger": true },
+  { "query": "writer mode please — we're working on my novel today", "should_trigger": true },
+  { "query": "Can you set this session up for writing fiction?", "should_trigger": true },
+  { "query": "I want to work on my short story collection — load the writing setup", "should_trigger": true },
+  { "query": "I'd like to talk to the tech writer about documenting this API.", "should_trigger": false },
+  { "query": "Talk to Paige — the project docs need updating.", "should_trigger": false },
+  { "query": "create the next story from the sprint plan", "should_trigger": false },
+  { "query": "review this code before I merge it", "should_trigger": false },
+  { "query": "help me write a README for my library", "should_trigger": false }
+]

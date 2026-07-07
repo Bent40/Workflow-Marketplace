@@ -1,0 +1,10 @@
+[
+  { "query": "3d help", "should_trigger": true },
+  { "query": "what can I make with this 3D setup?", "should_trigger": true },
+  { "query": "where do I start — I have some concept art and want a 3D thing", "should_trigger": true },
+  { "query": "is my box ready to do this? which models do I still need?", "should_trigger": true },
+  { "query": "which engine should I use for a Minecraft build?", "should_trigger": true },
+  { "query": "bmad help — what should I do next on this project?", "should_trigger": false },
+  { "query": "what should I do next on the sprint?", "should_trigger": false },
+  { "query": "help me write a README for my library", "should_trigger": false }
+]
