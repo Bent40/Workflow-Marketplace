@@ -1,6 +1,6 @@
 {
   "name": "workflow-writer",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Writer's studio — a literary posture loader (writer mode), a state-aware writing guide, and craft skills for author-style study, genre positioning/comps, and teaching. Reroutes the toolset for writing fiction/prose. Needs workflow-core.",
   "author": {
     "name": "B.T."

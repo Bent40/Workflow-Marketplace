@@ -1,6 +1,6 @@
 {
   "name": "workflow-game-design",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "BMad Game Dev Studio — GDD, game architecture, narrative, playtest planning, and the game dev loop for Unity/Unreal/Godot/Phaser. Needs workflow-core.",
   "author": {
     "name": "B.T."

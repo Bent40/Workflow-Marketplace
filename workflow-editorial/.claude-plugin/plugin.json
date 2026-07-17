@@ -1,6 +1,6 @@
 {
   "name": "workflow-editorial",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Editorial & review — prose and structural copy-editing plus adversarial and edge-case content review. Needs workflow-core.",
   "author": {
     "name": "B.T."
