@@ -47,23 +47,26 @@ type Profile = Types.Profile
 
 Net.build()
 
--- Order matters: SyncService must be live before anything can push, and
--- BaseService builds the map that CombatService then drives.
+-- Everything that registers a DataService.onLoaded callback must do so before
+-- DataService.start() connects PlayerAdded, or a player who joins during boot
+-- would load with only a partial set of callbacks attached.
 SyncService.start()
-DataService.start()
 BaseService.start()
 CombatService.start()
 ShopService.start()
 MonetizationService.start()
 MutationEventService.start()
 
--- Push a full snapshot the moment a profile lands, and hand out a base.
+-- Registered last so it runs after BaseService has claimed a plot — the first
+-- snapshot the client sees then already includes its base.
 DataService.onLoaded(function(player, profile)
 	InventoryService.pruneLoadout(player, profile)
 	SyncService.pushNow(player)
 	SyncService.pushShop(player)
 	BaseService.broadcastAll()
 end)
+
+DataService.start()
 
 --------------------------------------------------------------------------------
 -- Handler dispatch
@@ -134,22 +137,32 @@ end)
 -- Inventory
 --------------------------------------------------------------------------------
 
+--[[
+	Selling or merging can destroy a unit that is currently deployed, which would
+	leave a model on the board with no inventory entry behind it. Clear the board
+	*after* the operation succeeds — clearing first would strand the placement
+	when the operation is then refused (a locked unit, a mismatched merge).
+]]
 bind("SellUnit", function(player, profile, uid)
 	if type(uid) ~= "string" then
 		return { ok = false, err = "Invalid unit." }
 	end
-	-- Selling a placed unit has to clear the board first, or the model outlives
-	-- its inventory entry and the combat loop reads a nil owner every tick.
-	BaseService.onUnitRemovedFromInventory(player, uid)
-	return InventoryService.sell(player, profile, uid)
+	local result = InventoryService.sell(player, profile, uid)
+	if result.ok then
+		BaseService.onUnitRemovedFromInventory(player, uid)
+	end
+	return result
 end)
 
 bind("MergeUnit", function(player, profile, sourceUid, targetUid)
 	if type(sourceUid) ~= "string" or type(targetUid) ~= "string" then
 		return { ok = false, err = "Invalid units." }
 	end
-	BaseService.onUnitRemovedFromInventory(player, sourceUid)
-	return InventoryService.merge(player, profile, sourceUid, targetUid)
+	local result = InventoryService.merge(player, profile, sourceUid, targetUid)
+	if result.ok then
+		BaseService.onUnitRemovedFromInventory(player, sourceUid)
+	end
+	return result
 end)
 
 bind("ToggleLock", function(player, profile, uid)

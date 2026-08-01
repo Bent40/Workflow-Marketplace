@@ -704,6 +704,11 @@ function CombatService.start()
 		CombatService.markAurasDirty(state.Index)
 	end
 
+	-- A wiped plot must not leave live-enemy bookkeeping behind for its next owner.
+	BaseService.onBaseReset = function(state: BaseState)
+		CombatService.clearBase(state.Index)
+	end
+
 	RunService.Heartbeat:Connect(function(dt)
 		-- Every frame: movement, spawning, and the auto-wave countdown. These are
 		-- cheap and want the finest timestep available.

@@ -21,6 +21,7 @@ local Players = game:GetService("Players")
 
 local Shared = game:GetService("ReplicatedStorage"):WaitForChild("Shared")
 local GameConfig = require(Shared.Config.GameConfig)
+local Mutations = require(Shared.Config.Mutations)
 local Net = require(Shared.Net)
 local StatMath = require(Shared.Util.StatMath)
 local Units = require(Shared.Config.Units)
@@ -76,6 +77,14 @@ local baseByPlayer: { [Player]: BaseState } = {}
 	are not introducing a cycle for one notification.
 ]]
 BaseService.onBoardChanged = nil :: ((BaseState) -> ())?
+
+--[[
+	Also set by CombatService. Fired when a plot is wiped for a new owner, so the
+	combat run's live-enemy bookkeeping is discarded along with the parts. Without
+	this, a reset base keeps a non-zero LiveCount and the next owner's waves never
+	register as cleared.
+]]
+BaseService.onBaseReset = nil :: ((BaseState) -> ())?
 
 local function notifyBoardChanged(state: BaseState)
 	local hook = BaseService.onBoardChanged
@@ -190,6 +199,12 @@ local function resetBase(state: BaseState)
 	state.MaxIntegrity = GameConfig.Bases.BaseIntegrity
 	state.Integrity = state.MaxIntegrity
 	state.Plot.EnemyFolder:ClearAllChildren()
+
+	-- Discard the combat run's enemy bookkeeping too, not just the parts.
+	local hook = BaseService.onBaseReset
+	if hook then
+		hook(state)
+	end
 end
 
 BaseService.resetBase = resetBase
@@ -351,7 +366,6 @@ end
 local MIN_UNIT_SPACING = 7
 
 local function buildUnitModel(unitId: Units.UnitId, position: Vector3, parent: Instance, owned: Types.OwnedUnit): Model
-	local Mutations = require(Shared.Config.Mutations)
 	local unit = Units.expect(unitId)
 	local mutation = Mutations.get(owned.Mutation)
 

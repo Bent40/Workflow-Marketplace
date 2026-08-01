@@ -10,6 +10,8 @@
 	wave without asking the server.
 ]]
 
+local GameConfig = require(script.Parent.GameConfig)
+
 export type EnemyId = string
 
 export type Enemy = {
@@ -278,7 +280,6 @@ function Waves.spec(wave: number): WaveSpec
 		})
 	end
 
-	local GameConfig = require(script.Parent.GameConfig)
 	local clearBonus =
 		math.floor(GameConfig.Economy.WaveClearBase * GameConfig.Economy.WaveClearGrowth ^ (wave - 1) + 0.5)
 
