@@ -1,0 +1,107 @@
+name: Prune merged branches
+
+# Weekly housekeeping: delete remote branches whose commits are already
+# merged into the default branch (safe — the content lives on in the
+# default branch's history; this only removes a now-redundant pointer).
+# Never touches unmerged branches — those are reported, not deleted, in the
+# job summary below, so real work-in-progress is never at risk.
+
+on:
+  schedule:
+    - cron: '17 6 * * 1'   # weekly, Monday ~06:17 UTC
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Preview only — report what would be deleted, delete nothing'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  prune:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prune merged branches, report stale unmerged ones
+        run: |
+          set -euo pipefail
+          DEFAULT_BRANCH="${{ github.event.repository.default_branch }}"
+
+          DRY_RUN=false
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.dry_run }}" = "true" ]; then
+            DRY_RUN=true
+          fi
+
+          git fetch origin --prune
+
+          {
+            echo "## Branch prune — $(date -u +%Y-%m-%d)"
+            echo ""
+            if [ "$DRY_RUN" = "true" ]; then
+              echo "_Dry run — nothing was deleted._"
+              echo ""
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          # Remote branches already merged into the default branch, excluding
+          # the default branch itself and the origin/HEAD symref line.
+          mapfile -t merged < <(
+            git branch -r --merged "origin/$DEFAULT_BRANCH" \
+              | sed 's/^[* ]*origin\///' \
+              | grep -v -E "^(${DEFAULT_BRANCH}|HEAD)$" \
+              | grep -v -- '->' || true
+          )
+
+          if [ "${#merged[@]}" -eq 0 ]; then
+            echo "No merged branches to delete." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "### Deleted (already merged into \`$DEFAULT_BRANCH\`)" >> "$GITHUB_STEP_SUMMARY"
+            for b in "${merged[@]}"; do
+              if [ "$DRY_RUN" = "true" ]; then
+                echo "Would delete merged branch: $b (dry run)"
+              else
+                echo "Deleting merged branch: $b"
+                git push origin --delete "$b" || echo "  (failed to delete $b — see log)"
+              fi
+              echo "- \`$b\`" >> "$GITHUB_STEP_SUMMARY"
+            done
+          fi
+
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Stale — unmerged, still open (never auto-deleted)" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+
+          # Re-sync remote-tracking refs so anything just deleted above
+          # (real run only) drops out of this listing — what's left here is,
+          # by construction, exactly the unmerged set.
+          git fetch origin --prune
+
+          stale_rows="$(
+            git for-each-ref "refs/remotes/origin" --format='%(refname:short)%09%(committerdate:iso-strict)' \
+              | sed 's#^origin/##' \
+              | grep -v -E "^(${DEFAULT_BRANCH}|HEAD)$" \
+              | grep -v -- '->' \
+              | while IFS=$'\t' read -r name date; do
+                  idle=$(( ( $(date -u +%s) - $(date -u -d "$date" +%s) ) / 86400 ))
+                  printf '%s\t%s\t%s\n' "$idle" "$name" "$date"
+                done \
+              | sort -rn || true
+          )"
+
+          if [ -z "$stale_rows" ]; then
+            echo "None — every branch is merged (or was just deleted)." >> "$GITHUB_STEP_SUMMARY"
+          else
+            {
+              echo "| branch | last commit | idle |"
+              echo "|---|---|---|"
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "$stale_rows" | while IFS=$'\t' read -r idle name date; do
+              echo "| \`$name\` | $date | ${idle}d |" >> "$GITHUB_STEP_SUMMARY"
+            done
+          fi
