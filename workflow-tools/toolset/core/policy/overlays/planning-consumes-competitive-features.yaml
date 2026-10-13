@@ -1,0 +1,38 @@
+# Policy overlay — PRD / brief skills, COMPETITIVE-FEATURES sequencing.
+# Owned layer (core/policy/): imposes a SEQUENCING obligation on the vendored
+# PRD/brief skills WITHOUT editing them. Surfaced by `wf policy show <skill>`;
+# the agent honors it before invoking the skill. Schema: core/policy/policy-schema.md.
+#
+# WHY: in a documented A/B contest (docs/field-feedback-backlog.md, 2026-06-22
+# todo round), BMAD's full planning chain produced a product judged LESS
+# competitive than a bare agent's build — it optimized requirement-traceability
+# over visible product value and missed obvious table-stakes (search, dark-mode,
+# toggle-all) because the spec was never checked against "what would a strong
+# plain build obviously include?" BEFORE planning. This overlay is the SEQUENCING
+# fix: before producing the PRD/brief, establish (or consume) an agreed
+# competitive, MVP-first feature set via bmad-competitive-features. The PRD/brief
+# CONSUMES that set; it does not re-derive features ad hoc and does not replace
+# bmad-competitive-features.
+id: planning-consumes-competitive-features
+title: "Planning consumes the competitive feature set (run bmad-competitive-features BEFORE the PRD/brief)"
+
+applies_to:
+  # fnmatch globs over skill names under .claude/skills/. Each must match >=1 real
+  # skill (wf policy check fails closed otherwise). Targets the PRD and brief
+  # surfaces — the planning skills that consume an agreed feature set.
+  skill_globs:
+    - "bmad-prd"            # BMM PRD (create/update/validate)
+    - "bmad-product-brief"  # BMM product brief
+    - "gds-prd"             # Game Dev Studio PRD
+  categories:
+    - prd
+    - planning
+    - brief
+
+requirements:
+  - "SEQUENCING obligation: BEFORE producing the PRD / brief, check whether an agreed competitive feature set + MVP cut has been established. If it has NOT, FIRST invoke bmad-competitive-features — the generative upfront pass that turns the app type into an agreed, competitive, MVP-first feature set with a build order — and consume its agreed output. Do this before writing requirements, not after."
+  - "CONSUME, do not re-derive: the PRD / brief frames itself around the agreed MVP-tagged, sequenced feature set that bmad-competitive-features produced. Do NOT re-derive the feature set ad hoc inside the PRD, and do NOT optimize requirement-traceability over visible product value — that is the exact failure mode that lost the documented A/B contest (docs/field-feedback-backlog.md): missing obvious table-stakes (search / dark-mode / toggle-all) a strong plain build ships."
+  - "DO NOT REPLACE the upstream skill: this overlay routes work TO bmad-competitive-features; the PRD/brief consumes its hand-off and does not do its job. If a competitive feature set already exists (a prior bmad-competitive-features run, or an equivalent agreed table-stakes + MVP cut), consume that instead of re-running the pass."
+  - "Honesty: if the feature set was chosen WITHOUT the competitive pass (no bmad-competitive-features run and no equivalent agreed table-stakes/MVP cut), say so explicitly in the PRD/brief — surface that the baseline-parity check was skipped rather than implying the feature set was competitively grounded."
+
+enforcement: instructions

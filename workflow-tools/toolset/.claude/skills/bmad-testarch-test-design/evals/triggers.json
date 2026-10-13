@@ -1,0 +1,8 @@
+[
+  { "query": "Let's design a test plan for this epic — I want a risk-based test strategy with priorities and levels mapped to the requirements before we start building.", "should_trigger": true },
+  { "query": "I want to create a test strategy for the funds-transfer epic: assess the risks, decide what to test at unit vs API vs E2E, and set coverage priorities.", "should_trigger": true },
+  { "query": "Before development starts, do a testability review of this architecture and produce a per-epic test design with a risk assessment matrix.", "should_trigger": true },
+  { "query": "We've already written and run the tests — build a requirements-to-tests traceability matrix and tell me whether the quality gate is PASS or FAIL.", "should_trigger": false },
+  { "query": "Let's write red-phase acceptance tests for this story so we can do ATDD before the feature is implemented.", "should_trigger": false },
+  { "query": "The feature is implemented but under-tested — expand the automated test coverage and fill the gaps following our existing test patterns.", "should_trigger": false }
+]

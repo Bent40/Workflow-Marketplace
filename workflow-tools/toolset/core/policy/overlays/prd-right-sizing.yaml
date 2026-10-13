@@ -1,0 +1,34 @@
+# Policy overlay — PRD skills, SIZE-AWARE right-sizing.
+# Owned layer (core/policy/): imposes obligations on the vendored PRD skills
+# WITHOUT editing them or shattering them into sub-skills. Surfaced by
+# `wf policy show <skill>`; the agent honors it before invoking the skill.
+# Schema: core/policy/policy-schema.md.
+#
+# WHY: bmad-prd / gds-prd can drive the full PRD ceremony (requirements + stories
+# + ADRs + gates) onto a 3-file toy, burning tokens on process that does not
+# reduce risk. This overlay tells the agent to RIGHT-SIZE the PRD effort to
+# project size (gating.right_size_process_to_project) WITHOUT under-planning a
+# platform. Mirrors the voice of code-review-right-sizing.yaml.
+id: prd-right-sizing
+title: "PRD right-sizing (size-tier the PRD effort to project size)"
+
+applies_to:
+  # fnmatch globs over skill names under .claude/skills/. Each must match >=1 real
+  # skill (wf policy check fails closed otherwise). Targets BOTH PRD surfaces —
+  # the BMM PRD and the Game Dev Studio PRD; they share the same ceremony risk.
+  skill_globs:
+    - "bmad-prd"   # BMM PRD (create/update/validate)
+    - "gds-prd"    # Game Dev Studio PRD
+  categories:
+    - prd
+    - planning
+
+requirements:
+  - "RIGHT-SIZE the PRD effort to project size before producing the document, per gating.right_size_process_to_project. Classify the project (Tiny/Small/Medium/Large) up front and cap the artifact set to that tier — process volume is a cost, not a virtue. State the chosen tier and WHY at the top of the PRD output."
+  - "TINY tier (a toy / single-screen utility / a few files): produce a ONE-PAGE, brief-level PRD only — goals, the agreed MVP feature set, and acceptance criteria. Do NOT run the full ceremony (no separate requirements doc, no ADR set, no gate scaffolding) on a toy — that is the disproportionate ceremony right-sizing exists to prevent."
+  - "SMALL tier (a small CRUD-scale app): the TINY one-pager PLUS an explicit requirements list, a short architecture sketch, and a test plan."
+  - "MEDIUM tier: the FULL PRD plus epics/stories, ADRs for the load-bearing decisions, and the review gates. No layer is dropped at this tier."
+  - "LARGE tier: the FULL workflow — full PRD, full story breakdown, ADRs, gates, and the complete planning chain. Never under-plan a platform."
+  - "Honesty: state the chosen tier and its justification explicitly. Never run full ceremony on a toy, and never under-plan a platform. When a lite tier is chosen, say which artifacts were intentionally OMITTED — never imply a one-pager is the full PRD."
+
+enforcement: instructions

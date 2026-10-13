@@ -1,0 +1,6 @@
+id: copilot
+summary: GitHub Copilot — repo + path-specific instructions; GitHub-native; no subagents.
+capabilities:
+  - repo_guidance
+  - github_native
+  - path_instructions

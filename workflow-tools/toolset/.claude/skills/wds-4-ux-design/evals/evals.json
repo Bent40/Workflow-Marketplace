@@ -1,0 +1,34 @@
+{
+  "skill_name": "wds-4-ux-design",
+  "evals": [
+    {
+      "id": "wds4-1-page-spec-from-scenario-step",
+      "prompt": "Use the wds-4-ux-design skill (Freya) to produce Phase 4's primary development-ready artifact: a detailed page specification for the FreshBox scenario step described in the attached file. Use the 'Write Specifications' design activity. Work in a single pass and produce the spec directly — do not stop to interview me.\n\nScenario step: evals/files/wds4/freshbox-scenario-step.md\n\nProduce a development-ready page specification that covers, for this 'How It Works' page: layout structure / content zones, the actual content (real copy, not lorem ipsum) for each element, interactions and the primary CTA that leads onward, and styling notes (spacing, typography, responsive/mobile-first behavior). Write it as page-spec.md.",
+      "expected_output": "A page-spec.md that is development-ready for the 'How It Works' page: a layout broken into content zones, concrete content/copy for each element (a 3-4 step explanation of the weekly cycle, a visible penalty-free skip/pause reassurance, a 'what's in a box' example), interaction notes including a primary 'Choose a plan' CTA that fulfills the step's exit action, and styling/spec detail (spacing, typography, mobile-first 390px behavior). It is scenario-driven — every element traces to the step's purpose and the busy-parent driving forces — and does not regress to a vague prose description.",
+      "files": [
+        "evals/files/wds4/freshbox-scenario-step.md"
+      ],
+      "expectations": [
+        "The spec lays out the page as structured content zones/sections (not undifferentiated prose), covering at minimum the weekly-cycle explanation, the skip/pause reassurance, the box-example, and the onward CTA.",
+        "It provides concrete, real content/copy for the key elements (e.g. the 3-4 step 'how it works' sequence and the skip/pause message) rather than placeholder or lorem-ipsum text, and the skip/pause reassurance is made unmistakable and placed before signup as the step requires.",
+        "It specifies interactions including a clearly primary call-to-action that takes the user to plan selection — matching the step's stated exit action ('Choose a plan') — distinguished from any secondary actions.",
+        "It includes development-ready styling/specification detail — e.g. spacing, typography, and explicit mobile-first / 390px responsive behavior consistent with the stated constraint — rather than leaving visual treatment unspecified.",
+        "Each major element is justified against the scenario step's purpose and the busy-parent driving forces (predictability hope, lock-in worry) — the spec is scenario-driven and addresses the worry about being locked in, not a generic marketing page."
+      ]
+    },
+    {
+      "id": "wds4-2-honesty-scope-to-step",
+      "prompt": "Use the wds-4-ux-design skill (Freya) to write the page specification for ONLY the page in the attached scenario step. Specify just this one 'How It Works' page. Do NOT design or specify the downstream plan-selection page, the checkout page, or any page beyond this step, and do NOT invent product features, pricing numbers, or content the scenario step did not give you.\n\nScenario step: evals/files/wds4/freshbox-scenario-step.md\n\nWrite the spec as page-spec.md, scoped strictly to this single page.",
+      "expected_output": "A page-spec.md scoped strictly to the single 'How It Works' page from the step: it links onward to plan selection via the CTA but does NOT specify the layout/content of the plan-selection, checkout, or any later page, and it does not fabricate concrete pricing figures, plan tiers, or features the scenario step never supplied. Unknowns it would need (e.g. exact box price, number of plans) are flagged rather than invented.",
+      "files": [
+        "evals/files/wds4/freshbox-scenario-step.md"
+      ],
+      "expectations": [
+        "The specification covers only the single 'How It Works' page from the scenario step; it references the onward CTA to plan selection but does NOT specify the layout, content, or design of the plan-selection page, the checkout page, or any later step.",
+        "It does NOT fabricate concrete details the step never supplied — e.g. specific box prices, the number or names of plan tiers, or unstated product features — presenting any such needed value as a placeholder/open item rather than an invented fact.",
+        "The page's content stays faithful to the step's stated requirements (weekly-cycle explanation, visible penalty-free skip/pause, box example, onward CTA) without expanding scope into adjacent pages.",
+        "A run that designs multiple pages of the funnel, or that invents pricing/plan specifics presented as decided, fails this expectation."
+      ]
+    }
+  ]
+}

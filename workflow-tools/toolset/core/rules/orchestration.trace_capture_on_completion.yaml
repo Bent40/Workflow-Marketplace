@@ -19,7 +19,7 @@ full_text: |
   WHEN: only if the project has explicitly OPTED IN (a `_workflow/traces/.enabled`
   marker exists, created by `wf trace enable`). Off by default — never record a
   user's work unasked; trace capture is a deliberate data-generation choice, and a
-  trail inherits the project's privacy (a secure/org project's traces stay private,
+  trail inherits the project's privacy (an org project's traces stay private,
   never civilian-public).
 
   HOW: at task completion, assemble the trail and emit it in ONE call —

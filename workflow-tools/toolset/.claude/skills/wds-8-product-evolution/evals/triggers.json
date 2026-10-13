@@ -1,0 +1,8 @@
+[
+  {"query": "Scope a focused brownfield improvement to our existing live product — one view, branch-based, full pipeline in miniature.", "should_trigger": true},
+  {"query": "Phase 8 product evolution: pick a view that needs improving, scope it as a scenario, and plan the Kaizen change.", "should_trigger": true},
+  {"query": "We have an existing app and want to make skip-a-week obvious on the dashboard — scope this incremental improvement.", "should_trigger": true},
+  {"query": "Write the strategic product brief for a brand-new greenfield web app before any design work.", "should_trigger": false},
+  {"query": "Turn the trigger map into linear sunshine-path scenario outlines for a new product.", "should_trigger": false},
+  {"query": "Onboard me to WDS and decide whether this is greenfield or brownfield and which phase to start in.", "should_trigger": false}
+]

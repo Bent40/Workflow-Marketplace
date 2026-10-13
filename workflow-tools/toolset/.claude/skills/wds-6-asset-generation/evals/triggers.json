@@ -1,0 +1,8 @@
+[
+  {"query": "Craft an optimized generation prompt from this page spec and design system so I can paste it into an external screen-generation tool.", "should_trigger": true},
+  {"query": "Phase 6 asset generation — turn the spec into prompts for wireframes / page designs / images.", "should_trigger": true},
+  {"query": "Generate the visual assets for these screens from the specs using the style library and reference images.", "should_trigger": true},
+  {"query": "Write the development-ready page specification (content, interactions, spacing, typography) for this screen.", "should_trigger": false},
+  {"query": "Create and maintain the design system — extract shared components and define the design tokens.", "should_trigger": false},
+  {"query": "Map our business goals to personas with their wants and fears — build the trigger map.", "should_trigger": false}
+]

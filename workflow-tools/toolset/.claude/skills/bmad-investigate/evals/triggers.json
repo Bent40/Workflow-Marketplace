@@ -1,0 +1,8 @@
+[
+  { "query": "Investigate this bug — the first page of results is missing the newest items. Trace what's causing it and grade your confidence.", "should_trigger": true },
+  { "query": "Something intermittently times out at checkout and we can't reproduce it. Build a case file from what evidence we have and tell me what's confirmed vs hypothesized.", "should_trigger": true },
+  { "query": "I need to understand this unfamiliar module before I change it — walk through the code area and build a mental model of what it does.", "should_trigger": true },
+  { "query": "Review this pull request's diff for correctness bugs and edge cases before I merge.", "should_trigger": false },
+  { "query": "Just fix the off-by-one in the pagination function and update the tests.", "should_trigger": false },
+  { "query": "Run a retrospective on the epic we just finished to extract lessons learned.", "should_trigger": false }
+]

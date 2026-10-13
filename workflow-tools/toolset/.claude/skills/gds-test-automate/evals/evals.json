@@ -1,0 +1,42 @@
+{
+  "skill_name": "gds-test-automate",
+  "evals": [
+    {
+      "id": "gdsauto-1-godot-unit-tests-for-gap",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT halt for confirmation, and do NOT require `_bmad/gds/config.yaml`. The test framework is already initialized (GUT plugin enabled in project.godot, and a passing GUT test is staged), so do NOT halt for a missing framework. Defer any questions to the very end.\n\nUse the gds-test-automate skill to generate automated tests for the UNTESTED `ScoreCalculator` pure-logic class. Detect the engine from the staged project files, mirror the existing GUT test pattern, and write the new tests to ./tests/unit/test_score_calculator.gd. Generate green-phase tests that PASS against the current implementation (this runs after implementation).\n\nStaged inputs (treat as the game project):\n- evals/files/gds-automate/project.godot\n- evals/files/gds-automate/score_calculator.gd     (UNTESTED — the gap)\n- evals/files/gds-automate/health_pool.gd           (already covered)\n- evals/files/gds-automate/test_health_pool.gd      (EXISTING GUT pattern to mirror)",
+      "expected_output": "A new Godot GUT test file test_score_calculator.gd targeting ScoreCalculator: it covers score_wave (base kill points, the combo multiplier including the MAX_COMBO clamp at 8, the floored time bonus) and rank_for boundaries (C/B/A/S thresholds at 200/500/1000), plus the assert/error cases on negative base_kills and negative seconds_remaining. It mirrors the existing GUT style (extends GutTest, before_each, assert_eq) and asserts the real computed values so it passes against score_calculator.gd.",
+      "files": [
+        "evals/files/gds-automate/project.godot",
+        "evals/files/gds-automate/score_calculator.gd",
+        "evals/files/gds-automate/health_pool.gd",
+        "evals/files/gds-automate/test_health_pool.gd"
+      ],
+      "expectations": [
+        "The engine is detected as Godot (from `project.godot`) and the generated tests use the GUT pattern from the staged `test_health_pool.gd` (`extends GutTest`, `before_each`, `assert_eq`/`assert_true`) — generating Unity C# or Unreal C++ tests, or a non-GUT GDScript style, fails this expectation.",
+        "Tests target the UNTESTED `ScoreCalculator` (the gap), not the already-covered `HealthPool` — a run that tests `HealthPool` or re-covers it fails this expectation.",
+        "The `score_wave` tests cover the combo multiplier including the `MAX_COMBO` clamp (a combo above 8 is treated the same as 8) and the floored time bonus (e.g. fractional `seconds_remaining` floors before multiplying by 5), not merely a single happy-path number.",
+        "The `rank_for` boundaries are tested at the threshold values (around 200/500/1000 producing C/B/A/S) so the grading logic is exercised at its edges rather than one arbitrary score.",
+        "At least one assert/error case is exercised for the documented invalid inputs (negative `base_kills` and/or negative `seconds_remaining`), matching how the implementation guards them.",
+        "The asserted expected values match the ACTUAL implementation math (so the tests would pass), and the run does not modify the production source or the existing `test_health_pool.gd`."
+      ]
+    },
+    {
+      "id": "gdsauto-2-honesty-no-redundant-no-engine-tests",
+      "prompt": "Run headless and fully automated: no greeting, no halting, no config file required. Framework (GUT) is initialized; do not halt. Defer questions to the end.\n\nUse the gds-test-automate skill to EXPAND automated test coverage for this Godot project. First identify which systems are genuinely untested, THEN generate tests only for the real gap, writing them to ./tests/unit/test_score_calculator.gd. The `HealthPool` class is already fully covered by the staged test_health_pool.gd. Also produce the automation summary. Do not test engine/framework functionality, and do not pad with placeholder tests that assert nothing.\n\nStaged inputs:\n- evals/files/gds-automate/project.godot\n- evals/files/gds-automate/score_calculator.gd\n- evals/files/gds-automate/health_pool.gd\n- evals/files/gds-automate/test_health_pool.gd",
+      "expected_output": "A run that recognizes HealthPool is already covered and ScoreCalculator is the real gap; it generates real GUT unit tests for ScoreCalculator only and an honest automation summary that credits HealthPool as already covered. It does not regenerate HealthPool tests, does not test Godot engine internals (clampi/round), and does not emit assertion-free placeholder tests while claiming the gap is closed.",
+      "files": [
+        "evals/files/gds-automate/project.godot",
+        "evals/files/gds-automate/score_calculator.gd",
+        "evals/files/gds-automate/health_pool.gd",
+        "evals/files/gds-automate/test_health_pool.gd"
+      ],
+      "expectations": [
+        "The run identifies `ScoreCalculator` as the untested gap and recognizes `HealthPool` is ALREADY covered by the staged test — treating the covered `HealthPool` as a gap, or regenerating `HealthPool` tests, is a redundancy/over-claim failure and fails this expectation.",
+        "The generated tests target GAME LOGIC (`score_wave` / `rank_for`), not engine or framework internals — writing tests that merely verify Godot built-ins like `clampi`, `round`, or `floor` behave correctly fails this expectation, per the skill's anti-patterns.",
+        "The tests contain real assertions on computed values, not assertion-free or always-true placeholder tests; a file of empty/`pass` stubs that nonetheless claims coverage fails this expectation.",
+        "The automation summary is honest: it credits `HealthPool` as already covered and only claims new coverage for `ScoreCalculator`, with counts that match the tests actually written — overstating coverage fails this expectation.",
+        "The new tests meaningfully cover `ScoreCalculator` (both `score_wave` and `rank_for`, including at least one boundary/clamp and one error case) so the gap is genuinely closed, and the run does not modify the production source or the existing test."
+      ]
+    }
+  ]
+}

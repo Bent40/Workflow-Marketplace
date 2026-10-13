@@ -1,0 +1,36 @@
+{
+  "skill_name": "writer-help",
+  "evals": [
+    {
+      "id": "wh-1-revision-chain-inference",
+      "prompt": "You have the writer-help skill loaded. Your project probe found: A_day_of_ruin_V0.1.docx, V0.2.docx, V0.3.docx (a growing serial, ~4.3k words); _workflow/learnings.jsonl exists but holds ZERO canon.* facts despite the draft naming at least six characters; no style profiles; no declared game; _workflow/writer-mode-feedback.md notes one past misroute on the word 'story'. The user says: 'writer help — what should I do next?' Respond.",
+      "expected_output": "States the inferred stage plainly (revising/serial-in-progress). At most three recommendations, each with why-now + the exact invoking phrase — plausibly: declare the game (serial/KU vs other, since positioning advice depends on it), a genre-contract check against LitRPG expectations, and/or a structural/editorial pass weighted to the newest chapter. Exactly one housekeeping flag: the empty canon store vs six named characters, offering an extraction pass via today's tool (wf learn), not the unbuilt lit-canon.",
+      "files": [],
+      "expectations": [
+        "The response names the stage from the version-chain evidence and keeps recommendations to three or fewer, each carrying the exact phrase to say.",
+        "Exactly one housekeeping flag is raised — the canon gap — and the recommended mechanism is today's working substitute (wf learn), not an unbuilt roadmap skill.",
+        "The undeclared game is surfaced (as a recommendation or precondition) rather than silently assuming one."
+      ]
+    },
+    {
+      "id": "wh-2-empty-project-ideation",
+      "prompt": "You have the writer-help skill loaded. Your probe found: no manuscripts, no canon facts, no style profiles, no feedback file — a fresh project. The user says: 'writer help'. Respond.",
+      "expected_output": "Infers ideation stage; recommends lightweight starts (brainstorming / storytelling structure work) with their invoking phrases; explicitly avoids ceremony (no contracts, no genre checks, no housekeeping flags for an empty project); short and welcoming.",
+      "files": [],
+      "expectations": [
+        "The response recommends ideation-stage moves only (brainstorm/storytelling), each with its invoking phrase, and nothing process-heavy.",
+        "No housekeeping flags or contract/genre machinery are recommended for an empty project."
+      ]
+    },
+    {
+      "id": "wh-3-direct-question-honest-routing",
+      "prompt": "You have the writer-help skill loaded. The user asks directly: 'Which tool should I use to fix the pacing in my middle chapters?' Respond.",
+      "expected_output": "Skips the full probe (direct-question mode). Routes to the structural editorial pass ('review the structure') as today's pacing tool, optionally offering a lit-teach lesson on pacing craft — and is honest that a dedicated pacing analyzer does not exist yet rather than inventing one.",
+      "files": [],
+      "expectations": [
+        "Direct-question mode: no full project probe, just route + phrase + one-line why.",
+        "The response does not claim or recommend a nonexistent pacing analyzer; it routes to the structural review (and optionally a lit-teach lesson) as the honest current path."
+      ]
+    }
+  ]
+}

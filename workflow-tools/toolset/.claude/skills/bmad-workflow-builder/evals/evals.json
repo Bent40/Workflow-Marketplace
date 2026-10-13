@@ -1,0 +1,56 @@
+{
+  "skill_name": "bmad-workflow-builder",
+  "evals": [
+    {
+      "id": "wb-1-dispatch-and-classify",
+      "prompt": "Use the bmad-workflow-builder skill. A user submits the following request:\n\n\"I need a workflow that: first asks the user what kind of content they want (blog post, tweet thread, or newsletter), then asks for the topic, then asks the user to rate how formal or casual the tone should be on a scale of 1-5, then asks for the target audience, then generates a content outline, then writes a first draft, then asks the user if they want to revise it, then if yes goes back to the outline step, and if no asks for a title, then outputs a final formatted document with title, metadata header, body, and a summary.\"\n\nDispatch the intent, classify the skill type, produce a leaner SKILL.md for this workflow that removes mechanical detail the LLM would infer, and explain any pruning decisions.",
+      "expected_output": "Intent dispatched as BUILD. Skill classified as Simple Workflow (inline in SKILL.md, not complex enough to carve). A cleaned SKILL.md that collapses the over-specified multi-step intake into a discovery section (e.g. 'Gather content type, topic, tone (formal/casual), and audience'), eliminates the mechanical 1-5 rating scale procedure (LLM can interpret 'more formal or casual' without a numeric protocol), and describes the draft/revise loop as an outcome ('iterate on the draft with the user until satisfied') rather than a rigid branching flowchart. Pruning rationale explains which steps were collapsed and why.",
+      "files": [],
+      "expectations": [
+        "The builder dispatches the intent as BUILD (new workflow) and classifies the skill type — Simple Workflow is appropriate since the workflow fits inline in SKILL.md without exceeding ~250 lines.",
+        "The output SKILL.md collapses the sequential question-by-question intake into a discovery section that names the information to gather (content type, topic, tone, audience) without scripting each exchange as a numbered step.",
+        "Mechanical procedure that an LLM would infer from context — such as the 1-5 tone scale, the explicit if/else revision branch, or the exact metadata header format — is pruned or described at outcome level.",
+        "The pruning rationale is stated: the builder explains which steps were removed and why they are not needed for an LLM to execute the workflow correctly.",
+        "The resulting SKILL.md is leaner than the input specification and focuses on WHAT to achieve at each stage rather than HOW to mechanically execute each micro-step."
+      ]
+    },
+    {
+      "id": "wb-2-rebuild-over-specified-skill",
+      "prompt": "Use the bmad-workflow-builder skill to rebuild the following existing skill. Treat it as a rebuild (rethink from core outcomes, use it as reference material only).\n\n--- EXISTING SKILL ---\nname: onboarding-checklist-runner\ndescription: Runs a new employee onboarding checklist.\n\nOn Activation:\n1. Ask for the new employee's name.\n2. Ask for their start date.\n3. Ask for their department.\n4. Ask for their manager's name.\n5. Create a checklist with these 12 items: [Laptop setup, Email account, Slack invite, HR paperwork, Benefits enrollment, Building access badge, IT security training, Team introduction meeting, 30-day plan meeting with manager, First project assignment, Mentor assignment, Performance review schedule].\n6. Print each checklist item as a checkbox: [ ] item.\n7. For each item, ask if it is complete. If yes, mark [x]. If no, mark [ ].\n8. After all 12 items, print a summary showing how many are complete.\n9. Ask if the user wants to save the checklist.\n10. If yes, output the checklist as a formatted markdown file.\n--- END EXISTING SKILL ---\n\nRebuild this as an outcome-driven SKILL.md that prunes mechanical procedure the LLM would infer, and produce a leaner skill.",
+      "expected_output": "A rebuilt SKILL.md that captures the core outcome (guide a new employee's onboarding to completion, tracking which steps are done) without scripting the 12-step checklist as rigid code-like procedure. The rebuild prunes: the step-by-step checkbox marking loop (LLM can present and track a checklist without being instructed item-by-item), the explicit summary calculation instruction, and the if/yes/no save-file branch. The rebuilt skill describes stages at outcome level (Gather, Track, Close) and defers mechanical execution to the LLM.",
+      "files": [],
+      "expectations": [
+        "The rebuilt SKILL.md is outcome-driven: it describes what the skill achieves at each stage (collect employee context, guide through the onboarding items, produce a completion summary) without scripting each of the 12 checklist items as literal instructions.",
+        "Mechanical procedure the LLM would infer is pruned: the explicit checkbox-marking loop, the numeric count instruction, and the if/else save branch are replaced with higher-level stage descriptions.",
+        "The skill retains the core outcome and functional scope of the original — it still guides onboarding and tracks completion — but expresses it in fewer, leaner lines.",
+        "The rebuild decision is stated: the builder explains it is rethinking from core outcomes, using the original only as reference material, not inheriting its verbosity or mechanical structure.",
+        "The output is a complete SKILL.md ready to use, not a list of suggestions — it produces the actual rebuilt artifact."
+      ]
+    },
+    {
+      "id": "wb-3-negative-ambiguous-intent-must-ask",
+      "prompt": "Use the bmad-workflow-builder skill. A user says only: \"I have a workflow for writing product specs.\"\n\nDo not assume the intent is to build, analyze, or rebuild. Instead, respond as the builder should when intent is ambiguous: ask a clarifying question to determine what the user actually wants to do.",
+      "expected_output": "The builder identifies that the message is ambiguous — it could mean the user wants to build a new workflow, analyze an existing one, or rebuild/edit it — and asks one focused clarifying question to determine intent before proceeding. It does NOT pick an intent and start discovery without confirmation.",
+      "files": [],
+      "expectations": [
+        "The builder does NOT assume or pick an intent — it does not start a build, analyze, or rebuild flow without clarification.",
+        "The builder asks exactly one focused question to resolve the ambiguity (e.g. 'Are you looking to build a new workflow, analyze an existing one, or edit/rebuild what you have?') — it does not ask multiple unrelated questions.",
+        "The response is concise — it identifies the ambiguity briefly and asks the question without lengthy preamble.",
+        "The builder does not open the floor with a generic 'tell me everything' invitation when the sole missing piece is intent — it targets the ambiguity directly."
+      ]
+    },
+    {
+      "id": "wb-4-new-build-prunes-inferred-procedure",
+      "prompt": "Use the bmad-workflow-builder skill to build a new workflow. The user provides this description:\n\n\"Build a workflow called 'sprint-retrospective' that facilitates a team sprint retrospective. It should: greet the team, explain what a retrospective is, ask each person to share what went well (collect all answers before moving on), then ask each person to share what could be improved, then have a voting step where team members vote on the top improvement to prioritize, then the facilitator summarizes the vote outcome, then generates a retrospective report with sections: What Went Well, Improvements, Top Priority, and Action Items.\"\n\nClassify the skill, then build a SKILL.md that is outcome-driven and pruned of mechanical procedure the LLM would infer from context.",
+      "expected_output": "Classification: Simple Workflow. A SKILL.md with stages: Open (greet and frame), Collect (gather went-well and improvement inputs), Prioritize (facilitate voting on top improvement), Close (summarize and generate report). The 'explain what a retrospective is' step is noted as context the LLM carries from the persona, not a mandatory scripted speech. The step-by-step 'ask each person in turn' collection protocol is expressed as an outcome ('gather individual input on what went well, then what could be improved') without scripting a rigid round-robin procedure. The report structure is captured as named sections without being a literal formatting script.",
+      "files": [],
+      "expectations": [
+        "The skill is classified as Simple Workflow and the SKILL.md is written inline (not carved into references/) — the workflow fits within reasonable size limits.",
+        "The 'explain retrospectives' step is pruned or compressed — an LLM facilitating a retrospective does not need to be scripted to define the format; it carries that knowledge from context.",
+        "The collection stages ('what went well', 'what could be improved') are expressed as outcomes — gather input from team members — not as rigid turn-by-turn scripts.",
+        "The voting step is described at outcome level ('facilitate team prioritization') without prescribing mechanical vote-counting steps.",
+        "The report structure is captured as named sections (What Went Well, Improvements, Top Priority, Action Items) in the skill without becoming a literal template-filling script that the LLM would infer."
+      ]
+    }
+  ]
+}

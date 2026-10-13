@@ -1,0 +1,8 @@
+[
+  { "query": "Hey Paige, create a clear technical explanation of OAuth for a junior dev.", "should_trigger": true },
+  { "query": "Can I talk to the technical writer about documenting a concept?", "should_trigger": true },
+  { "query": "Paige, help me write a doc that explains this concept with a diagram.", "should_trigger": true },
+  { "query": "Hey John, let's write the PRD.", "should_trigger": false },
+  { "query": "I want to talk to Amelia to implement the next story.", "should_trigger": false },
+  { "query": "Run a market research report on the EV charging market.", "should_trigger": false }
+]

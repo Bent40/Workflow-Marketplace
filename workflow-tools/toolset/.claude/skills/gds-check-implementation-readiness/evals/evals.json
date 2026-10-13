@@ -1,0 +1,37 @@
+{
+  "skill_name": "gds-check-implementation-readiness",
+  "evals": [
+    {
+      "id": "gdsreadi-1-finds-traceability-gap",
+      "prompt": "Use the gds-check-implementation-readiness skill. Run headless and fully autonomous: do NOT greet, do NOT pause for menus or input, do NOT ask 'incremental vs batch'. Run the readiness analysis straight through and produce the readiness report as your output.\n\nThe planning artifacts are staged and available — analyze ONLY these two files:\n- evals/files/gds-readiness/gdd-excerpt.md (the GDD mechanics excerpt: mechanics M1 double-jump, M2 wall-slide, M3 three-phase boss, M4 save system)\n- evals/files/gds-readiness/epics-and-stories-gap.md (the current epics/stories backlog)\n\nCheck requirements traceability — does every GDD mechanic have a covering epic/story? Report your findings and an overall readiness status (READY / NEEDS WORK / NOT READY) with rationale tied to the artifacts.",
+      "expected_output": "A readiness report that catches the traceability gap: the GDD's M4 save system (Ember-shrine save + autosave on biome transition) has NO covering epic or story in the backlog, while M1/M2/M3 are covered by Epic 1 and Epic 2. The overall status is NEEDS WORK or NOT READY (never READY) given the uncovered requirement, and findings cite the specific GDD mechanic and the absence in the backlog.",
+      "files": [
+        "evals/files/gds-readiness/gdd-excerpt.md",
+        "evals/files/gds-readiness/epics-and-stories-gap.md"
+      ],
+      "expectations": [
+        "It identifies that the GDD's save system (M4 — Ember-shrine save and autosave on biome transition) has NO covering epic or story in the backlog — a genuine requirements-traceability gap — rather than reporting a clean alignment or a vague 'planning looks incomplete'.",
+        "It confirms that the other mechanics ARE covered — double-jump (M1) by Story 1.1, wall-slide (M2) by Story 1.2, and the three-phase boss (M3) by Stories 2.1/2.2/2.3 — so the save-system finding stands out as the specific uncovered requirement rather than a blanket complaint.",
+        "The overall readiness status is NEEDS WORK or NOT READY (explicitly NOT READY-to-proceed/READY) and the status is justified by the uncovered save-system requirement.",
+        "Findings are tied to the actual artifacts — naming the GDD mechanic that lacks coverage and the backlog that omits it — rather than abstract criticism, consistent with a requirements-traceability review.",
+        "The output is structured as a readiness report (findings plus an overall status verdict), not a freeform paragraph or a rewritten backlog."
+      ]
+    },
+    {
+      "id": "gdsreadi-2-aligned-reports-ready-no-fabrication",
+      "prompt": "Use the gds-check-implementation-readiness skill. Run headless and fully autonomous: do NOT greet, do NOT pause for menus or input, do NOT ask 'incremental vs batch'. Run the readiness analysis straight through and produce the readiness report as your output.\n\nThe planning artifacts are staged and available — analyze ONLY these two files:\n- evals/files/gds-readiness/gdd-excerpt.md (the GDD mechanics excerpt: M1 double-jump, M2 wall-slide, M3 three-phase boss, M4 save system)\n- evals/files/gds-readiness/epics-and-stories-aligned.md (the current epics/stories backlog)\n\nCheck requirements traceability — does every GDD mechanic have a covering epic/story? Report your findings and an overall readiness status (READY / NEEDS WORK / NOT READY) with rationale tied to the artifacts.",
+      "expected_output": "A readiness report finding that every GDD mechanic IS covered: M1 by Story 1.1, M2 by Story 1.2, M3 by Stories 2.1/2.2/2.3, and M4 (save system) by Epic 3's Stories 3.1 (Ember-shrine save) and 3.2 (autosave). The overall status is READY (or no critical traceability gaps), and the report does NOT manufacture a fake gap to look productive.",
+      "files": [
+        "evals/files/gds-readiness/gdd-excerpt.md",
+        "evals/files/gds-readiness/epics-and-stories-aligned.md"
+      ],
+      "expectations": [
+        "It recognizes that ALL four GDD mechanics are covered — including the save system (M4), which Epic 3 covers via Story 3.1 (Ember-shrine save) and Story 3.2 (autosave on biome transition) — and does NOT report the save system as an uncovered gap.",
+        "It does NOT invent or manufacture a requirements-traceability gap, a missing mechanic, or a fabricated epic-quality failure where none exists, just to appear thorough — fabricating gaps against an aligned backlog is the failure mode under test.",
+        "The overall readiness status is READY (or equivalently 'no critical traceability gaps blocking production'), consistent with the full coverage actually present in the artifacts.",
+        "Any minor observations it offers (e.g. art/audio tracked elsewhere) are framed as non-blocking notes, not as critical readiness blockers, and it does not downgrade the status without a real uncovered requirement.",
+        "The output is structured as a readiness report with an overall status verdict tied to the artifacts, not a freeform paragraph."
+      ]
+    }
+  ]
+}

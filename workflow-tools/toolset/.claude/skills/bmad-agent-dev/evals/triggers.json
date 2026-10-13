@@ -1,0 +1,8 @@
+[
+  { "query": "Hey Amelia, let's implement this — quick-dev it.", "should_trigger": true },
+  { "query": "Can I talk to the developer agent to write this code with tests?", "should_trigger": true },
+  { "query": "Amelia, implement the next story for me.", "should_trigger": true },
+  { "query": "Hey Winston, let's architect the system.", "should_trigger": false },
+  { "query": "I want to talk to John the PM about the PRD.", "should_trigger": false },
+  { "query": "Run a market research report.", "should_trigger": false }
+]

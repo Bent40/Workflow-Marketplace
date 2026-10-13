@@ -27,7 +27,7 @@ THE HONESTY CORE (the whole point — read this before changing anything):
   suite is non-gameable.
 
 PRIVACY: a trace captures the actual work, so it inherits the PROJECT's privacy.
-Traces from a secure/org project stay in that project's private repo — they are
+Traces from an org/private project stay in that project's private repo — they are
 never civilian-public. The tool is civilian; the data is the project's.
 
 STORAGE: one JSON file per trace under the traces dir (default _workflow/traces/;

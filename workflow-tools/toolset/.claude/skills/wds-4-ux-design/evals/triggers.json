@@ -1,0 +1,8 @@
+[
+  {"query": "Write the development-ready page specification for this screen: content, interactions, spacing, typography.", "should_trigger": true},
+  {"query": "Let's do the Phase 4 UX design — Freya, create the detailed spec for the How It Works page from this scenario.", "should_trigger": true},
+  {"query": "I want to specify the UX for this scenario step — layout zones, real copy, the primary CTA and responsive behavior.", "should_trigger": true},
+  {"query": "Turn the trigger map into linear sunshine-path scenario outlines that list the pages.", "should_trigger": false},
+  {"query": "Create the design system — extract shared components and design tokens from the specs.", "should_trigger": false},
+  {"query": "Generate the actual wireframe and page-design images for these screens with AI image tools.", "should_trigger": false}
+]

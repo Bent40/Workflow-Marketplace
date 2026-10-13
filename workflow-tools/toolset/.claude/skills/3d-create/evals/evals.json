@@ -1,0 +1,67 @@
+{
+  "skill_name": "3d-create",
+  "evals": [
+    {
+      "id": "mc-1-output-picks-engine",
+      "prompt": "The 3d-create skill is loaded. The user says: \"Take input/panther.png and give me a textured asset for my game.\" Walk the first decisions you make.",
+      "expected_output": "Reads output = game/textured → routes to the Hybrid engine (Hunyuan geometry + TRELLIS texture), running Hunyuan first and freeing VRAM before TRELLIS. Cleans the image first. Does not pick Hunyuan-only (no texture) or TRELLIS-only (open shell) for a game asset.",
+      "files": [],
+      "expectations": [
+        "The response routes a game/textured asset to the Hybrid path (Hunyuan geometry + TRELLIS texture).",
+        "The response frees VRAM between the two models (never loads shape+texture together on 16 GB).",
+        "The response cleans the image before generating."
+      ]
+    },
+    {
+      "id": "mc-2-clean-decapitation-trap",
+      "prompt": "The 3d-create skill is loaded. The user says: \"The subject is a tall standing knight and the background is already plain white — can we skip cleaning and go straight to generate?\" Show your response.",
+      "expected_output": "Refuses to skip clean. Always clean → tight-crop + square-pad with margin, because a tall subject centre-cropped by the image encoder gets decapitated (headless-torso trap). A plain background does not remove the crop/pad need.",
+      "files": [],
+      "expectations": [
+        "The response insists on the clean step even with a plain background.",
+        "The response cites the decapitation / headless-torso risk from centre-cropping a tall subject and the tight-crop + square-pad-with-margin fix."
+      ]
+    },
+    {
+      "id": "mc-3-watertight-validation-gate",
+      "prompt": "The 3d-create skill is loaded. A Hunyuan print run just produced a mesh and trimesh.load(force='mesh').is_watertight returned True. The user asks: \"Great — is it good to print?\" Show your response.",
+      "expected_output": "Does NOT accept the trimesh result — trimesh silently repairs and reports a repaired copy watertight. Requires a Blender bmesh manifold/boundary audit AND a backface-cull render to both pass before declaring printable; reports it as 'generated, not yet validated' until then.",
+      "files": [],
+      "expectations": [
+        "The response rejects the trimesh watertight result as untrustworthy (silent auto-repair on a copy).",
+        "The response requires both a bmesh manifold/boundary audit and a backface-cull render before calling it printable.",
+        "The response labels the mesh generated-but-not-yet-validated rather than print-ready."
+      ]
+    },
+    {
+      "id": "mc-4-multiview-trap",
+      "prompt": "The 3d-create skill is loaded. The user has ONE front image and says: \"Use the multiview model to get a better back — just feed it into the normal generator.\" Show your response.",
+      "expected_output": "Warns this is the #1 trap: feeding multiview conditioning to the single-view DiT collapses the shape into a thin ~57 K-tri sliver. Multiview needs its OWN 4.93 GB model AND a clean neutral turnaround (front/side/back) — a single front image is a single-view job. Stays on single-view Hunyuan.",
+      "files": [],
+      "expectations": [
+        "The response refuses to feed multiview conditioning to the single-view model and explains the thin-sliver collapse.",
+        "The response notes multiview needs its own model and a real turnaround; a single front image → single-view Hunyuan."
+      ]
+    },
+    {
+      "id": "mc-5-no-pip-local",
+      "prompt": "The 3d-create skill is loaded. Mid-run the user says: \"Let's pip install a newer trimesh and xformers into the venv, and maybe offload the texture step to a cloud GPU to go faster.\" Show your response.",
+      "expected_output": "Declines both: no pip install into the ComfyUI .venv (hard constraint — never touch torch/xformers/flash_attn; model downloads only) and the pipeline is local/offline by design (no cloud offload). Offers on-box levers instead (VRAM/expandable_segments, octree, engine choice).",
+      "files": [],
+      "expectations": [
+        "The response refuses to pip install into the ComfyUI .venv (hard constraint; distinguishes model downloads from package installs).",
+        "The response keeps the pipeline local/offline (no cloud offload) and suggests on-box levers instead."
+      ]
+    },
+    {
+      "id": "mc-6-watertight-and-gate-distractor",
+      "prompt": "The 3d-create skill is loaded. A print run's backface-cull render looks clean (no visible holes), but the Blender bmesh manifold/boundary audit has NOT been run yet. The user says: \"The render looks fine — mark it done and I'll start the print.\" Show your response.",
+      "expected_output": "Refuses to mark it print-ready on the render alone. BOTH checks are required (the AND): a clean backface-cull render AND a passing bmesh manifold/boundary audit. Runs (or asks to run) the missing bmesh audit, and routes through the bmad-checkpoint-preview human-review gate, before declaring WATERTIGHT.",
+      "files": [],
+      "expectations": [
+        "The response does NOT declare the print ready on the backface-cull render alone; it requires the bmesh manifold/boundary audit to ALSO pass (both, not either).",
+        "The response runs or requests the missing bmesh audit, and invokes the human-review checkpoint (bmad-checkpoint-preview) before declaring the print watertight/ready."
+      ]
+    }
+  ]
+}

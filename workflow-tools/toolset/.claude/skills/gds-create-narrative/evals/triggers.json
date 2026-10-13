@@ -1,0 +1,8 @@
+[
+  { "query": "Let's do narrative design for my game — here's my story vision, help me structure it into acts, characters, and world-building.", "should_trigger": true },
+  { "query": "Create narrative documentation for my game's story, with story structure and themes.", "should_trigger": true },
+  { "query": "I want to build out the narrative — character arcs, world lore, and the three-act structure for my game.", "should_trigger": true },
+  { "query": "Create the Game Design Document covering pillars, mechanics, and progression.", "should_trigger": false },
+  { "query": "Run an implementation readiness check on my GDD and epics.", "should_trigger": false },
+  { "query": "Scaffold the E2E test infrastructure for my Unity project.", "should_trigger": false }
+]

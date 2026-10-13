@@ -1,0 +1,12 @@
+# core/roles/docs_writer.yaml — worker role (Epic F / F2).
+id: docs_writer
+summary: Updates documentation for the change; touches no code.
+activation: default
+applies_to: [claude, codex, copilot, gemini, local]
+applicable_modes: [act]
+render:
+  claude:  "Subagent: update only the docs for the change; no code edits; report files changed."
+  codex:   "Update the docs affected by the change; no code edits; report files changed."
+  copilot: "Update documentation for the change; do not edit code."
+  gemini:  "Update the docs for the change; no code edits; report files changed."
+  local:   "PACKET DOCS — update only the listed doc files; no code edits; output a diff; stop."

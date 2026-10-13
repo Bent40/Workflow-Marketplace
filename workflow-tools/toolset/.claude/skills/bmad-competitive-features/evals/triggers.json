@@ -1,0 +1,13 @@
+[
+  { "query": "What features do I need for my todo app to actually be competitive with what's out there?", "should_trigger": true },
+  { "query": "Help me figure out the MVP feature set for a team task manager before I write anything.", "should_trigger": true },
+  { "query": "What are the table-stakes features a strong build of a note-taking app would obviously ship?", "should_trigger": true },
+  { "query": "Give me a build order — what to build first vs later — for this recipe-saving app concept.", "should_trigger": true },
+  { "query": "Before we plan, what's the competitive baseline feature set and which of it is MVP vs later for a habit tracker?", "should_trigger": true },
+  { "query": "Sequence the feature build for my expense tracker by user-visible value and what unlocks what.", "should_trigger": true },
+  { "query": "I need market research on the competition and customers in the meal-kit space — TAM and segments.", "should_trigger": false },
+  { "query": "Write a product brief for my idea so I can pressure-test the problem and the audience.", "should_trigger": false },
+  { "query": "Create the PRD with full requirements for the features we've already settled on.", "should_trigger": false },
+  { "query": "Our app is live — what should we improve and add next for existing users? Run product evolution.", "should_trigger": false },
+  { "query": "Help me brainstorm a clever name and tagline for this new app.", "should_trigger": false }
+]

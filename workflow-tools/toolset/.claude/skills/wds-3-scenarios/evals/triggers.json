@@ -1,0 +1,8 @@
+[
+  {"query": "Turn the trigger map into UX scenario outlines — linear sunshine paths that expose every page for design.", "should_trigger": true},
+  {"query": "Write the Phase 3 scenario for the primary persona becoming a subscriber: transaction, driving forces, shortest path.", "should_trigger": true},
+  {"query": "I need concrete user journey scenarios with a step-by-step linear path of named pages, no branches.", "should_trigger": true},
+  {"query": "Map our business goals to personas with wants and fears — build the trigger map first.", "should_trigger": false},
+  {"query": "Write the detailed page specification for one screen: content, interactions, spacing, typography.", "should_trigger": false},
+  {"query": "Generate wireframe images for these pages using AI image tools.", "should_trigger": false}
+]

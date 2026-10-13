@@ -1,0 +1,34 @@
+{
+  "skill_name": "bmad-editorial-review-prose",
+  "evals": [
+    {
+      "id": "erp-1-finds-real-errors",
+      "prompt": "Use the bmad-editorial-review-prose skill to review the prose in the file below for communication issues that impede comprehension. Treat reader_type as the default (humans). Produce the skill's three-column table of suggested fixes (Original Text | Revised Text | Changes). Do NOT rewrite for stylistic preference — only fix genuine communication issues.\n\nText to review: evals/files/edit-prose/release-notes.md",
+      "expected_output": "A three-column markdown table flagging the genuine errors: the subject-verb / agreement faults ('will processes' -> 'processes', 'would sometimes freezes' -> 'would sometimes freeze', 'The team are' -> 'The team is'), the misspellings ('alot' -> 'a lot', 'becuase' -> 'because', 'consistant' -> 'consistent', 'effecting' -> 'affecting', 'Their is' -> 'There is'), 'a issue' -> 'an issue', 'take stability very serious' -> 'seriously', and the run-on 'and then ... and then ...' instruction sentence. Each row gives original, minimal revision, and a brief reason.",
+      "files": [
+        "evals/files/edit-prose/release-notes.md"
+      ],
+      "expectations": [
+        "The review is delivered as a three-column markdown table with columns for the original text, the revised text, and a brief explanation of each change — not as freeform prose or a rewritten document.",
+        "It catches the subject-verb / agreement errors, including 'will processes' (should be 'processes'), 'would sometimes freezes' (should be 'freeze'), and 'The team are' (should be 'is'), with the minimal fix rather than a wholesale rewrite.",
+        "It catches the spelling errors present in the text: 'alot', 'becuase', 'consistant', 'effecting' (should be 'affecting'), and 'Their is' (should be 'There is'), and the article error 'a issue' (should be 'an issue').",
+        "It flags at least one genuine clarity problem beyond spelling — for example the run-on chained-'and then' instruction sentence, or the adverb error 'take stability very serious' (should be 'seriously') — and proposes a clear, minimal revision.",
+        "It does NOT challenge the ideas or content of the release notes (what features shipped) — it only corrects how the text is expressed, consistent with the skill's CONTENT IS SACROSANCT principle."
+      ]
+    },
+    {
+      "id": "erp-2-clean-prose-no-fabrication",
+      "prompt": "Use the bmad-editorial-review-prose skill to review the prose in the file below for communication issues that impede comprehension (reader_type: humans). Produce the skill's output. Only flag genuine issues — do not invent problems or rewrite for preference.\n\nText to review: evals/files/edit-prose/clean-note.md",
+      "expected_output": "The prose is clean, correct, and clear, so the review should report 'No editorial issues identified' (or at most one or two genuinely defensible micro-suggestions phrased as optional queries) rather than manufacturing a table of changes to justify itself.",
+      "files": [
+        "evals/files/edit-prose/clean-note.md"
+      ],
+      "expectations": [
+        "The review recognizes the text is already clear and grammatically correct and does NOT manufacture a long list of changes to appear productive — fabricating issues where none exist is the failure mode under test.",
+        "It either outputs 'No editorial issues identified' (the skill's valid completion for clean text) or proposes at most one to two genuinely defensible micro-edits, each phrased as an optional consideration/query rather than a definitive correction.",
+        "It does NOT rewrite the passage for stylistic preference, reword correct sentences, or 'improve' the author's intentional plain voice.",
+        "No invented grammar or spelling 'errors' are claimed for words that are in fact spelled and used correctly."
+      ]
+    }
+  ]
+}

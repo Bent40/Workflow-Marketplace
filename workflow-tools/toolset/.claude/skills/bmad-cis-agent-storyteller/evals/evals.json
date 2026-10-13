@@ -1,0 +1,41 @@
+{
+  "skill_name": "bmad-cis-agent-storyteller",
+  "evals": [
+    {
+      "id": "sophia-1-activate-and-frame-story",
+      "prompt": "Use the bmad-cis-agent-storyteller skill. The user's opening message already names a clear intent, so per the skill's dispatch rule greet briefly in persona and then go straight into the work — do not stop at a bare menu, and treat the brief as fully specified rather than interviewing the user beat by beat.\n\nUser message: 'Sophia, help me craft an origin story for Maker's Loft, a community makerspace started by two friends after their local repair shop closed. Audience: local residents and small donors. Tone: heartfelt but not sappy.'\n\nGreet as Sophia the Master Storyteller, then produce a first storytelling artifact: recommend ONE named story framework with rationale, lay out the beats, name the central conflict/tension and the transformation, and draft a strong opening hook in the requested tone.",
+      "expected_output": "A short in-character greeting as Sophia followed immediately by a first storytelling artifact: one named framework with rationale, the beats, the central conflict and transformation, and a compelling opening hook in a heartfelt-not-sappy tone — persona activates AND produces real story craft.",
+      "files": [],
+      "expectations": [
+        "The response opens in character as Sophia, the Master Storyteller (evocative, narrative-craft voice), rather than as a generic assistant.",
+        "After greeting, it actually dispatches into the work and produces a first storytelling artifact — it does NOT stall by only greeting or only presenting a menu.",
+        "It recommends exactly one NAMED story framework (e.g. Origin Story, Hero's Journey, Brand Story, Pixar Spine) with rationale tied to the audience and purpose, and lays out the beats grounded in the Maker's Loft context.",
+        "It names a central conflict/tension and a transformation, and drafts a concrete opening hook in the requested heartfelt-but-not-sappy tone rather than a flat description."
+      ]
+    },
+    {
+      "id": "sophia-2-pitch-narrative-variations",
+      "prompt": "Use the bmad-cis-agent-storyteller skill. The opening message names a clear intent; greet briefly in persona and dispatch straight into the work with the brief treated as fully specified.\n\nUser message: 'Sophia, I need a pitch narrative for Rootline, an app that maps a small farm's soil health over time so growers can prove sustainability to buyers. Audience: impact investors. Tone: confident, credible.'\n\nStay in Sophia's persona, use a fitting NAMED framework (e.g. Pitch Narrative): show the problem landscape, solution vision, proof/traction placeholders, and the desired action; identify the emotional arc; and provide THREE length variations — a 1-3 sentence short version, a 1-2 paragraph medium version, and an extended version.",
+      "expected_output": "An in-character Sophia artifact using a named framework (problem -> vision -> proof -> action), an explicit emotional arc, and three genuinely scaled length variations (short, medium, extended) all carrying the same core Rootline message in a confident, credible tone.",
+      "files": [],
+      "expectations": [
+        "The response stays consistently in Sophia's master-storyteller persona rather than a generic tone.",
+        "It uses a NAMED framework appropriate to an investor pitch (e.g. Pitch Narrative) covering problem landscape, solution vision, proof/traction, and a clear desired action.",
+        "It identifies an emotional arc — how the audience should feel at the start, the turn, and the end — rather than only listing facts.",
+        "It provides THREE clearly distinct, genuinely scaled length variations (1-3 sentence short, 1-2 paragraph medium, and a longer extended version) all expressing the same core Rootline 'prove sustainability' message."
+      ]
+    },
+    {
+      "id": "sophia-3-honesty-no-flat-blurb",
+      "prompt": "Use the bmad-cis-agent-storyteller skill. The opening message names a clear intent; greet briefly in persona and dispatch straight into the work.\n\nUser message: 'Sophia, write a customer-success story for Cinch, a scheduling tool that cut a 20-person clinic's no-show rate from 22% to 7%. Audience: other small clinics. Tone: credible, concrete.'\n\nIMPORTANT: A correct response must BOTH stay in persona AND apply the storytelling METHOD — choose and name a story framework, build a real narrative arc with conflict and transformation, and use vivid show-don't-tell detail. It must NOT just produce a flat marketing blurb or a feature/benefit bullet list and call it a story.",
+      "expected_output": "An in-character Sophia response that names a framework and builds a real narrative arc (conflict and transformation, vivid before/after detail) for the clinic's no-show turnaround. A flat marketing blurb or a feature-benefit bullet list with no narrative arc is the failure this case targets.",
+      "files": [],
+      "expectations": [
+        "The response is in Sophia's persona and proceeds to actually craft a story rather than only greeting or menu-listing.",
+        "It names and applies a story framework appropriate to a customer-success/case story (e.g. Customer Journey / Before-After, Challenge-Overcome Arc).",
+        "It builds a genuine narrative arc with a clear conflict (the clinic's prior 22% no-show pain) and transformation (the drop to 7% and its impact), using vivid, concrete show-don't-tell detail grounded in the Cinch/clinic scenario.",
+        "HONESTY CONTROL: a response that produces a flat marketing blurb or a feature/benefit bullet list with no named framework and no narrative arc (no conflict, no transformation) FAILS this expectation, even if polished."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+[
+  { "query": "Document this project for AI context — scan the codebase and generate the architecture and module docs.", "should_trigger": true },
+  { "query": "Generate project docs for this brownfield Express API so an agent can understand it before changing it.", "should_trigger": true },
+  { "query": "I inherited this codebase with no documentation. Can you produce a documentation set covering the architecture, key modules, and data model?", "should_trigger": true },
+  { "query": "Generate a project-context.md of the unobvious rules AI agents must follow in this repo.", "should_trigger": false },
+  { "query": "Investigate why the first page of orders is missing the newest items and grade your confidence.", "should_trigger": false },
+  { "query": "Create a PRD for the new checkout feature we want to build.", "should_trigger": false }
+]

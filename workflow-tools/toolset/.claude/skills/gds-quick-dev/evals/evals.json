@@ -1,0 +1,63 @@
+{
+  "skill_name": "gds-quick-dev",
+  "evals": [
+    {
+      "id": "gqd-1-oneshot-follows-pattern",
+      "prompt": "Use the gds-quick-dev skill to add a dash ability to the player controller. Treat this as a clear, low-blast-radius one-shot change: implement it directly, do not stop to ask clarifying questions, and do not push to any remote.\n\nThe existing code is at evals/files/gds-quick-dev/scripts/player_controller.gd — read it first and follow its established conventions exactly. Add a dash: when the player presses the `dash` action, the character lunges in the current input direction at a tunable dash speed for a brief, designer-tunable burst. The dash magnitude and any timing must be exported (`@export`) tunables, and the dash must be applied through a new helper called from `_physics_process`, matching how `_apply_walk` is wired. Also produce the spec-trace artifact the skill generates.\n\nWrite the implementation into evals/files/gds-quick-dev/scripts/player_controller.gd and write the spec file to ./spec-add-player-dash.md.",
+      "expected_output": "An edit to player_controller.gd adding a new `_apply_dash`-style helper that reads the `dash` input action and mutates `velocity`, with the dash speed (and any duration) declared as `@export` tunables rather than hardcoded magnitudes, and called from `_physics_process` alongside `_apply_walk` (not inlined). Plus a spec file produced from the skill's spec template with an Intent (Problem/Approach) section, Tasks & Acceptance in Given/When/Then form, frontmatter marking route 'one-shot' and a terminal status.",
+      "files": [
+        "evals/files/gds-quick-dev/scripts/player_controller.gd"
+      ],
+      "expectations": [
+        "`player_controller.gd` gains a new private movement helper (e.g. `_apply_dash(delta)`) that reads the `dash` input action and mutates `velocity`, following the file's `_apply_<ability>` convention rather than inventing a different structure or mutating position directly.",
+        "The dash speed (and any dash duration/cooldown introduced) is declared as an `@export` tunable at the top of the script — magnitudes are NOT hardcoded inside the helper, per the file's stated convention.",
+        "The new helper is wired in by being called from `_physics_process` (as `_apply_walk` already is); the dash movement math is NOT inlined directly into `_physics_process`.",
+        "The dash moves the character in the current input direction (reusing the existing input-vector approach), so a dash with no directional input does not fling the player in an arbitrary fixed direction.",
+        "A spec file `spec-add-player-dash.md` is written from the skill's spec template with an `## Intent` section containing both a `Problem` and an `Approach` line, and a `## Tasks & Acceptance` section expressing at least one acceptance criterion in Given/When/Then form that names `player_controller.gd` as a touched file.",
+        "The spec frontmatter marks this as the one-shot route (e.g. `route: 'one-shot'`) and a terminal `status` (not left at `draft`), reflecting that the one-shot path completed implementation."
+      ]
+    },
+    {
+      "id": "gqd-2-reuse-not-reinvent",
+      "prompt": "Use the gds-quick-dev skill to add a score bonus for collecting a power-up gem. Implement directly as a one-shot change; no clarifying questions, no remote push.\n\nRead evals/files/gds-quick-dev/scripts/score_system.gd first. Add a rule that awards 250 points when the player collects a power-up gem. Respect the existing architecture and patterns in that file — do not create a parallel scoring mechanism, and make sure the HUD still updates the way it does for the existing rules. Write the change into evals/files/gds-quick-dev/scripts/score_system.gd and write the spec to ./spec-powerup-gem-score.md.",
+      "expected_output": "A new `award_<event>` method (e.g. `award_powerup_gem`) that adds 250 points by calling the existing `_add` helper so the `score_changed` signal fires for the HUD, rather than assigning `_score` directly or introducing a second scoring path/signal. The spec documents the constraint of following the existing scoring convention.",
+      "files": [
+        "evals/files/gds-quick-dev/scripts/score_system.gd"
+      ],
+      "expectations": [
+        "The change adds a new `award_<event>` method (e.g. `award_powerup_gem`) consistent with the existing `award_enemy_kill` / `award_coin` methods, awarding 250 points.",
+        "The new rule mutates the score through the existing `_add(points)` helper — it does NOT assign `_score` directly, which the file's convention forbids and which would skip the `score_changed` signal.",
+        "Because the change routes through `_add`, the existing `score_changed` signal still fires so the HUD updates the same way it does for the existing rules; the change does NOT introduce a second/parallel signal or scoring mechanism.",
+        "The existing `award_enemy_kill`, `award_coin`, `_add`, and `score_changed` definitions are preserved — the change is additive, not a rewrite of the scoring system.",
+        "The spec file `spec-powerup-gem-score.md` records, in its constraints/Boundaries or Code Map section, that the implementation must follow the existing score_system.gd convention (mutate via `_add`, keep the signal) rather than introducing a new mechanism, and names `score_system.gd` as the changed file."
+      ]
+    },
+    {
+      "id": "gqd-3-scope-does-not-creep",
+      "prompt": "Use the gds-quick-dev skill to add a `award_combo` scoring rule to the score system. Implement as a one-shot change; no clarifying questions, no remote push.\n\nRead evals/files/gds-quick-dev/scripts/score_system.gd first. The new rule should award points equal to 50 times the supplied combo multiplier (an integer argument), routed through the existing `_add` helper. Follow the file's existing conventions exactly.\n\nWrite the change into evals/files/gds-quick-dev/scripts/score_system.gd and write the spec to ./spec-combo-score.md.\n\nConstraint: this task covers ONLY the combo scoring rule. Do NOT add any other scoring rules, do NOT refactor the existing `award_enemy_kill` or `award_coin` rules, and do NOT touch player_controller.gd.",
+      "expected_output": "A targeted edit to score_system.gd adding only `award_combo(multiplier)` that awards 50 * multiplier via `_add`. The existing rules, `_add`, and `score_changed` are preserved. player_controller.gd is not touched. The spec file is focused on the single goal and marks the other rules / player_controller.gd out of scope.",
+      "files": [
+        "evals/files/gds-quick-dev/scripts/score_system.gd"
+      ],
+      "expectations": [
+        "The change adds exactly one new method `award_combo` taking a combo multiplier and awarding `50 * multiplier` points through the existing `_add` helper (not by assigning `_score` directly).",
+        "The existing `award_enemy_kill`, `award_coin`, `_add`, and `score_changed` definitions are preserved unchanged — the change is purely additive and does not refactor the existing rules.",
+        "No additional, unrequested scoring rules are added — only `award_combo` is introduced; inventing extra rules fails this expectation.",
+        "player_controller.gd is NOT touched — the task boundary is score_system.gd only, and scope creep into the player controller (or any other file) fails this expectation.",
+        "The spec file `spec-combo-score.md` targets a single goal and its Boundaries/Never section explicitly notes that other scoring rules and player_controller.gd are out of scope."
+      ]
+    },
+    {
+      "id": "gqd-4-no-spec-for-out-of-scope-request",
+      "prompt": "Use the gds-quick-dev skill. A game developer asks: 'Rewrite the entire player controller to use a state-machine architecture, add online multiplayer netcode with client-side prediction, build a full inventory and crafting system, and redesign the HUD with an animated minimap — all in one change.'\n\nDo NOT implement this. Instead, apply the skill's SCOPE STANDARD: assess whether this is a single user-facing goal or multiple independent shippable deliverables. Report whether this request should be split, and if so, describe the natural split points. Do not produce a spec or write any code.",
+      "expected_output": "The skill correctly identifies this as multiple independent top-level deliverables (state-machine controller rewrite, multiplayer netcode, inventory/crafting system, HUD/minimap redesign) — each independently reviewable and shippable. It recommends splitting into at least 3-4 separate tasks/specs and explains why (each is an independent shippable deliverable; combining them risks context rot above the token ceiling). It does NOT produce a monolithic spec for all four goals.",
+      "files": [],
+      "expectations": [
+        "The skill applies its SCOPE STANDARD and identifies at least three or four distinct top-level independent shippable deliverables in the request (state-machine controller, multiplayer netcode, inventory/crafting, HUD/minimap) rather than treating them as one goal.",
+        "The skill recommends splitting the work and names the natural split points — one spec per independent deliverable — rather than producing a single large spec.",
+        "The skill does NOT generate a combined monolithic spec or write any GDScript for all four goals at once — proceeding with a single over-scoped spec fails this expectation.",
+        "The reasoning distinguishes correctly: the 'and's here separate truly independent deliverables (each mergeable/playable alone), not surface verbs within a single cohesive feature."
+      ]
+    }
+  ]
+}

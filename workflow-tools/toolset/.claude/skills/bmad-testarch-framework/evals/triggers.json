@@ -1,0 +1,8 @@
+[
+  { "query": "We don't have any end-to-end testing yet — initialize a test framework for this project with config, a sample test, and the right directory layout.", "should_trigger": true },
+  { "query": "Set up Playwright for our web app: scaffold the config, fixtures, helpers, and an example spec following best practices.", "should_trigger": true },
+  { "query": "I want to bootstrap our testing framework from scratch — pick Playwright or Cypress and lay down the initial architecture.", "should_trigger": true },
+  { "query": "We already have Playwright set up and a passing suite — now create the CI pipeline that runs it and gates on coverage.", "should_trigger": false },
+  { "query": "Review the quality of our existing Playwright tests and flag flakiness, hard waits, and missing assertions.", "should_trigger": false },
+  { "query": "Write the red-phase failing acceptance test scaffolds for this story before we implement the feature.", "should_trigger": false }
+]

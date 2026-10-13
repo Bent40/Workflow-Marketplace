@@ -1,0 +1,8 @@
+[
+  { "query": "Let's create the architecture for this project.", "should_trigger": true },
+  { "query": "Create the technical architecture and solution design from the PRD.", "should_trigger": true },
+  { "query": "I need a solution design that makes all our AI coding agents implement consistently.", "should_trigger": true },
+  { "query": "Break the PRD requirements into epics and user stories.", "should_trigger": false },
+  { "query": "Frame the upfront security-architecture trust-boundary decision for our agent that reads untrusted email.", "should_trigger": false },
+  { "query": "Help me write the PRD for this product.", "should_trigger": false }
+]

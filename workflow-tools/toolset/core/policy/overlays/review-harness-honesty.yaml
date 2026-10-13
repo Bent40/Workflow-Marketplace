@@ -1,0 +1,42 @@
+# Policy overlay — review / test skills, HARNESS-HONESTY lens.
+# Owned layer (core/policy/): imposes an obligation on the vendored review/test
+# skills WITHOUT editing them. Surfaced by `wf policy show <skill>`; the agent
+# honors it before invoking the skill. Schema: core/policy/policy-schema.md.
+#
+# WHY: when a code review / traceability pass is asked to bless a proof,
+# measurement, or test HARNESS — or trust a "green" claim — the general
+# adversarial review asks "is the code correct/safe?" but NOT "does a GREEN here
+# actually mean the claimed property holds?". A harness can pass green while
+# overclaiming what it proves (a recurring real-world miss). This overlay is a
+# LENS (not size-tiering): it tells the agent to apply the harness-honesty checks
+# listed under `requirements` below before trusting any green harness/gate. The
+# checks are self-contained here (no other skill is needed to apply them). It
+# targets the HARNESS ITSELF — distinct from the general adversarial review of the
+# code under test.
+id: review-harness-honesty
+title: "Review harness-honesty lens (a GREEN proof/measurement harness is not trusted until its claim holds)"
+
+applies_to:
+  # fnmatch globs over skill names under .claude/skills/. Each must match >=1 real
+  # skill (wf policy check fails closed otherwise). Targets the adversarial
+  # code-review surfaces and the traceability/gate surface — the places a harness
+  # or a "green" claim gets blessed.
+  skill_globs:
+    - "bmad-code-review"     # BMM adversarial code review
+    - "gds-code-review"      # Game Dev Studio adversarial code review
+    - "bmad-testarch-trace"  # traceability matrix + quality-gate decision
+  categories:
+    - review
+    - test
+
+requirements:
+  - "LENS, not size-tiering: when the review touches a PROOF / MEASUREMENT / TEST HARNESS or a binary/absolute 'green' claim (a gate, a '0 X', an 'X is impossible / unrepresentable', an 'only X is permitted'), apply the harness-honesty checks below BEFORE trusting the green. This targets the harness itself — it is distinct from, and runs in addition to, the general adversarial review of the code under test."
+  - "CLAIM vs COVERAGE: write the exact claim verbatim and enumerate EVERY path / channel / input class / constructor it covers; confirm the harness observes each one. An unobserved member of the claimed set is an OVERCLAIMS."
+  - "POSITIVE CONTROL WITH TEETH: a deliberate violation must actually FAIL the harness — demanded PER channel, not just the easy path. A proof with no positive control, or one whose control only exercises the already-measured path, is presumed RIGGED until shown otherwise."
+  - "MEASURED vs ASSERTED vs HARDCODED: trace every value reported as a 'measurement' back to the syscall / counter / probe that produced it. A hardcoded literal, constant tuple, or bare assertion dressed as a measurement is a FAIL."
+  - "FAIL-CLOSED ON THE UNOBSERVABLE: where the harness cannot observe a path, confirm it counts that path as forbidden (fail-closed), not silently dropped from the tally (fail-open). Fail-open on an unmeasured path IS the hole — the green is purchased by not looking."
+  - "ALLOWLIST, NOT DENYLIST: an 'inspected / only X permitted' claim implemented as a denylist of known-bad markers is an overclaim — it passes anything not on the list. The claim is honest only if enforcement is an allowlist (everything not provably permitted is rejected)."
+  - "CORPUS / INVARIANT FLOOR: check whether the corpus or the invariant was quietly SHRUNK, swapped, or pin-downgraded to make the run pass — a green against a shrunk corpus is a FAIL (corpus-floor rule). Also check for self-marking bypass (the thing under test marking itself 'permitted/trusted')."
+  - "GATE: a GREEN run is NOT trusted until all of the above hold. On a binary/absolute claim, an overclaiming-but-green harness is a BLOCKER — hand back the required-fix list and re-review after the harness is hardened. Honest scoping ('this proves TCP egress = 0; UDP is verify-live-deferred and fails closed meanwhile') is acceptable; a silent unmeasured path sold as a full proof is not."
+
+enforcement: instructions

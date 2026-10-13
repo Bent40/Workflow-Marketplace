@@ -1,0 +1,42 @@
+# generated: 01-05-2025 09:00
+# last_updated: 01-05-2025 09:00
+# project: GroceryCap
+# project_key: NOKEY
+# tracking_system: file-system
+# story_location: stories
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:    backlog | in-progress | done
+# Story Status:   backlog | ready-for-dev | in-progress | review | done
+# Retrospective:  optional | done
+
+# NOTE: last_updated above is intentionally old (more than 7 days before any
+# recent date) so the staleness risk fires. There is also a story in `review`
+# (a concrete blocker requiring code-review), an in-progress story with no
+# ready-for-dev backlog ahead of it, an orphaned story (5-1-*, but no epic-5),
+# and an in-progress epic that has no stories of its own.
+
+generated: 01-05-2025 09:00
+last_updated: 01-05-2025 09:00
+project: GroceryCap
+project_key: NOKEY
+tracking_system: file-system
+story_location: stories
+
+development_status:
+  epic-1: done
+  1-1-create-a-household-account: done
+  1-2-join-a-household-by-invite: done
+  epic-1-retrospective: optional
+
+  epic-2: in-progress
+  2-1-scan-a-receipt: done
+  2-2-correct-an-ocr-total: review
+  2-3-same-day-duplicate-prompt: in-progress
+  epic-2-retrospective: optional
+
+  epic-3: in-progress
+  epic-3-retrospective: optional
+
+  5-1-orphaned-export-feature: backlog

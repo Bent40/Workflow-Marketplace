@@ -1,0 +1,8 @@
+[
+  {"query": "Map our business goals to user psychology — build the trigger map with a primary goal, personas, and their wants and fears.", "should_trigger": true},
+  {"query": "Run the Phase 2 effect-mapping / trigger-mapping workshop and produce the trigger-map.md with driving forces per persona.", "should_trigger": true},
+  {"query": "Connect FreshBox's business goals to the personas' driving forces (positive and negative) and prioritize them.", "should_trigger": true},
+  {"query": "Write the strategic product brief with vision, positioning and success criteria before we map anything.", "should_trigger": false},
+  {"query": "Turn the trigger map into linear sunshine-path UX scenario outlines that expose every page.", "should_trigger": false},
+  {"query": "Write the detailed page specification for the checkout screen — content, interactions, spacing and typography.", "should_trigger": false}
+]

@@ -1,0 +1,50 @@
+# core/path-groups.yaml — fixed path-group vocabulary (RD-2)
+#
+# Single source of the `applyTo` globs used by path-scoped adapter output
+# (currently the Copilot `.github/instructions/<group>.instructions.md` files).
+# A rule opts into a group with `path_group: <name>`; the generator routes it
+# out of the repo-wide file and into that group's scoped file, using the globs
+# defined here. Globs are GENERIC defaults shipped by bmad (RD-3) — a consumer
+# repo may override this file for its own layout.
+#
+# The vocabulary is FIXED (RD-2): generate-adapters.py rejects any group name
+# not in its KNOWN_PATH_GROUPS set, and rejects any rule whose path_group is not
+# defined here. Adding/removing a group is one edit here + the known set.
+groups:
+  backend:
+    summary: Server routes, controllers, request/response contracts, services.
+    paths:
+      - "server/**"
+      - "api/**"
+      - "src/server/**"
+      - "src/api/**"
+  frontend:
+    summary: Frontend views, components, pages, client-side validation.
+    paths:
+      - "src/components/**"
+      - "src/pages/**"
+      - "src/app/**"
+      - "ui/**"
+  tests:
+    summary: Test suites and fixtures.
+    paths:
+      - "tests/**"
+      - "**/*.test.*"
+      - "**/*.spec.*"
+      - "**/*_test.*"
+  security:
+    summary: Auth, permissions, input validation, secrets, data exposure.
+    paths:
+      - "server/auth/**"
+      - "server/middleware/**"
+      - "src/auth/**"
+      - "**/security/**"
+  docs:
+    # NOTE: `**/*.md` is intentionally broad and would also match generated
+    # instruction files and READMEs. Harmless while no rule uses `docs`; narrow
+    # it (e.g. drop the bare `**/*.md`) before activating this group.
+    summary: Documentation and long-form project knowledge.
+    paths:
+      - "docs/**"
+      - "**/*.md"
+      - "README*"

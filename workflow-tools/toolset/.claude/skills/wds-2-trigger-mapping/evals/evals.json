@@ -1,0 +1,33 @@
+{
+  "skill_name": "wds-2-trigger-mapping",
+  "evals": [
+    {
+      "id": "wds2-1-trigger-map-from-brief",
+      "prompt": "Use the wds-2-trigger-mapping skill to produce Phase 2's primary artifact: a Trigger Map that connects FreshBox's business goals to user psychology (Effect Mapping, WDS-adapted with positive AND negative driving forces). Work from the attached Phase 1 brief in a single pass — synthesize the trigger map directly rather than running a live workshop dialog.\n\nUpstream Phase 1 brief: evals/files/wds2/freshbox-brief.md\n\nProduce: prioritized business goals (a single PRIMARY goal marked as THE ENGINE plus secondary/tertiary goals), and for each of the personas in the brief, their driving forces as wants AND fears each paired with how FreshBox answers them. Write it as trigger-map.md.",
+      "expected_output": "A trigger-map.md that names ONE primary business goal explicitly marked as THE ENGINE (retainable weekly subscribers) with secondary/tertiary goals beneath it, each goal carrying a metric/target, and a persona section for the brief's three personas (busy parents primary, solo professionals secondary, gift-givers tertiary). Each persona lists driving forces split into wants and fears, and each driving force is paired with a specific FreshBox promise/answer — e.g. the parents' fear of being locked into a rigid plan is answered by penalty-free skip/pause. It does not invent personas or goals absent from the brief.",
+      "files": [
+        "evals/files/wds2/freshbox-brief.md"
+      ],
+      "expectations": [
+        "Exactly one business goal is designated the PRIMARY goal / THE ENGINE (steady retainable weekly subscribers), with the remaining goals positioned as secondary/tertiary that the primary goal drives — not a flat undifferentiated list.",
+        "Business goals carry measurable framing (a metric and/or target and timeframe such as subscriber growth, 8-week retention, or support-email reduction) consistent with the brief's success criteria, rather than vague aspirations.",
+        "Personas correspond to the three groups in the brief — busy parents (primary), health-conscious solo professionals (secondary), and gift-givers/parents-of-students (tertiary) — and are prioritized rather than treated as equal.",
+        "Each persona's driving forces are explicitly split into positive forces (wants) AND negative forces (fears), reflecting the WDS adaptation that adds negative driving forces — a map with only wants and no fears fails this expectation.",
+        "Each driving force is paired with a concrete FreshBox promise/answer that addresses it specifically — e.g. the parents' fear of being locked into a rigid plan is answered by penalty-free skip/pause, and their fear of wasted food/money is addressed — not generic filler.",
+        "Driving forces are traceable to the brief's persona notes and are not fabricated; the map connects the personas' forces back up to the prioritized business goals."
+      ]
+    },
+    {
+      "id": "wds2-2-honesty-no-invented-personas",
+      "prompt": "Use the wds-2-trigger-mapping skill to produce a Trigger Map from the minimal brief excerpt below. The brief only describes ONE user group. Build the trigger map honestly from what is actually there — do NOT invent additional personas, driving forces, or business goals the brief never stated.\n\nMinimal brief excerpt (FreshBox):\n- Business goal: grow steady weekly subscribers; the owner is at kitchen capacity and wants retention, not explosive growth.\n- The only user group described: busy two-income parents (30-45) who can cook but have no time to plan or shop. They want predictability and penalty-free skip/pause. They fear being locked into a rigid plan and fear wasting food and money.\n- Nothing else about other audiences, secondary goals, or metrics has been provided.\n\nProduce the trigger map as trigger-map.md.",
+      "expected_output": "A trigger-map.md built only from the supplied material: the single retention-focused primary business goal and the one busy-parents persona with its stated wants (predictability, penalty-free skip/pause) and fears (rigid lock-in, wasted food/money), each paired with a FreshBox answer. It does NOT fabricate a secondary or tertiary persona, additional business goals, or invented driving forces; any gaps (other audiences, metrics) are flagged as open rather than filled in.",
+      "files": [],
+      "expectations": [
+        "The map includes only the busy-parents persona that the brief actually describes, with its stated wants (predictability, penalty-free skip/pause) and fears (rigid lock-in, wasting food and money) — and does NOT invent a second or third persona that the minimal brief never mentioned.",
+        "The single retention-focused business goal is represented as the primary goal; the map does NOT fabricate additional secondary/tertiary business goals or invented metrics/targets that the brief did not supply.",
+        "Each of the one persona's driving forces is paired with a specific FreshBox answer drawn from the stated material, without inventing new wants or fears beyond those given.",
+        "Where the trigger map's normal structure would expect more (e.g. multiple personas, success metrics, secondary goals) the run flags those as not-yet-provided / open rather than fabricating them, so the map honestly reflects the thin input."
+      ]
+    }
+  ]
+}

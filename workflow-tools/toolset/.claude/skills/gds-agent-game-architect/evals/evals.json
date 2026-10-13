@@ -1,0 +1,32 @@
+{
+  "skill_name": "gds-agent-game-architect",
+  "evals": [
+    {
+      "id": "cloud-1-activate-and-produce-game-architecture",
+      "prompt": "Hey Cloud, let's architect this game. Work headless and single-pass: don't stop for an interactive menu or step-by-step approval gates — batch any open questions as explicit [ASSUMPTION] or [OPEN] tags and produce the actual scale-adaptive game architecture for the game described below. Per the game architect's dispatch rule, greet briefly as the persona and then go straight into producing the architecture.\n\nContext: evals/files/cloud/coop-survival-context.md\n\nDeliver a real game-architecture artifact grounded in the context: the high-level systems design (gathering/inventory, crafting, base building, day/night, enemy waves, survival stats) and how they fit together in Unity, the networking model (host-authoritative co-op for up to 4 players, drop-in/drop-out, late-joiner state sync) with the authority boundaries that prevent desync, the save/load design for a host-owned mutable world, performance considerations for many structures + wave enemies on a mid-range PC, and the decisions you are deferring.",
+      "expected_output": "Cloud Dragonborn activates as the Game Architect persona and, rather than only greeting or showing a menu, produces a real scale-adaptive architecture for Embertide: a systems design for the v1 features mapped to Unity, a host-authoritative networking model for 4-player drop-in/drop-out co-op with clear authority boundaries (host owns world state: resources, spawns, structures) and a late-joiner state-sync approach, a save/load design for a host-owned mutable world (placed structures, depleted nodes, inventories), performance considerations for many structures and wave enemies on a mid-range PC, and explicit [ASSUMPTION]/[OPEN] tags for the undecided items (transport/middleware choice, dedicated servers post-v1, serialization format, mod support). It respects the locked constraints (Unity, PC-first, no dedicated-server budget) and avoids over-engineering for a 3-person team.",
+      "files": [
+        "evals/files/cloud/coop-survival-context.md"
+      ],
+      "expectations": [
+        "The response is delivered in the Cloud Dragonborn / Game Architect persona (veteran, scope-aware, balances today vs tomorrow) AND actually produces a game-architecture artifact rather than only greeting or showing a numbered menu.",
+        "It presents a coherent systems design for the v1 features (gathering/inventory, crafting, base building, day/night cycle, enemy wave spawning + combat, survival stats) and how they compose within Unity, the locked engine.",
+        "It specifies a host-authoritative co-op networking model for up to 4 players with drop-in/drop-out, makes the authority boundaries explicit (the host owns world state — resources, enemy spawns, structure placement — so clients can't desync/cheat trivially), and addresses how a late joiner receives current world state.",
+        "It designs save/load for a host-owned mutable world (placed structures, gathered/depleted resource nodes, player inventories) and addresses performance for many placed structures and wave enemies on a mid-range PC.",
+        "Genuinely undecided items from the context (networking transport/middleware choice such as Netcode for GameObjects vs Mirror vs Photon, dedicated servers post-v1, save/serialization format, mod support) are surfaced as [ASSUMPTION]/[OPEN] decisions rather than silently chosen, and it does not over-engineer beyond what a 3-person indie team can ship (e.g. it doesn't mandate dedicated servers against the stated no-budget constraint)."
+      ]
+    },
+    {
+      "id": "cloud-2-honesty-right-size-tiny-game",
+      "prompt": "Hey Cloud, I need a game architecture, but this is a tiny offline game — please size it honestly. Work headless and single-pass (no menus, no approval gates).\n\nScenario: a single-player, offline, local-only Flappy-Bird-style 2D mobile game made in Unity. Tap to flap, avoid pipes, score goes up, one screen, a local high-score saved on-device. No accounts, no online play, no multiplayer, no backend, no live service.\n\nProduce the game architecture sized to exactly this.",
+      "expected_output": "Cloud Dragonborn activates in persona and produces a deliberately minimal architecture faithful to a tiny single-player offline 2D game: core gameplay loop/state, simple input, spawning/scrolling obstacles, scoring, and local on-device high-score persistence (e.g. PlayerPrefs/local file) in Unity. It does NOT invent networking, multiplayer, a backend/server, accounts, matchmaking, live-service infrastructure, or other systems the offline single-player scope does not warrant.",
+      "files": [],
+      "expectations": [
+        "The response is in the Cloud Dragonborn persona and produces a game architecture, while staying faithful to the stated scope — a single-player, offline, local-only 2D Unity game with one screen.",
+        "It covers the genuinely relevant pieces (core gameplay loop and state, tap input, obstacle spawning/scrolling, collision/scoring, and simple local on-device high-score persistence) proportional to the tiny scope.",
+        "It does NOT over-engineer: no networking, multiplayer, dedicated/backend servers, accounts/auth, matchmaking, cloud saves, or live-service infrastructure is presented as required for an offline single-player game — inventing such systems is the honesty failure being tested.",
+        "Any optional future idea (e.g. leaderboards, ads) is clearly marked as out-of-scope/optional rather than asserted as a needed component, keeping the architecture right-sized."
+      ]
+    }
+  ]
+}

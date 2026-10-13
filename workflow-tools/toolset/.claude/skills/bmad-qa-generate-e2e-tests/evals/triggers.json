@@ -1,0 +1,9 @@
+[
+  { "query": "create qa automated tests for the checkout feature", "should_trigger": true },
+  { "query": "generate end-to-end tests for my existing login flow", "should_trigger": true },
+  { "query": "write automated API tests for the implemented todos endpoints", "should_trigger": true },
+  { "query": "I need e2e tests for the user profile page that already works", "should_trigger": true },
+  { "query": "design a risk-based test strategy with quality gates and NFR assessment", "should_trigger": false },
+  { "query": "teach me testing fundamentals over several sessions", "should_trigger": false },
+  { "query": "review the quality of our existing test suite", "should_trigger": false }
+]

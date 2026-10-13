@@ -1,0 +1,39 @@
+{
+  "skill_name": "gds-e2e-scaffold",
+  "evals": [
+    {
+      "id": "gdse2e-1-godot-scaffold-detects-and-generates",
+      "prompt": "Use the gds-e2e-scaffold skill. Run headless and fully autonomous: do NOT greet, do NOT pause at menus or for input. Analyze the staged project, then GENERATE the E2E test infrastructure as file paths plus file contents in your output. Do NOT run, build, or execute any command, test, or engine — only produce the files you would write and a summary.\n\nThe existing game project is staged and available:\n- evals/files/gds-e2e-scaffold/project.godot (engine project file: main_scene = res://scenes/main.tscn, GameManager autoloaded)\n- evals/files/gds-e2e-scaffold/scripts/game_manager.gd (the game-state manager: has an `is_ready` property, an `is_run_active()` method, run state, and a `load_from_save()` method)\n- evals/files/gds-e2e-scaffold/tests/unit/test_game_manager.gd (an existing GUT unit test, proving the test framework is already initialized)\n\nThere is NO existing E2E infrastructure in this project. Detect the engine and core systems, then generate the E2E infrastructure pieces (a test fixture base, a scenario builder, an input simulator, an async-assert utility, a working example test, and a README) in the engine-appropriate language and locations.",
+      "expected_output": "Generated E2E infrastructure for a Godot 4 project: it detects the engine as Godot (from project.godot), identifies GameManager as the game-state manager class, res://scenes/main.tscn as the main scene, and the `is_ready` property as the ready signal, then generates GDScript infrastructure files (e.g. tests/e2e/infrastructure/game_e2e_test_fixture.gd, scenario_builder.gd, input_simulator.gd, async_assert.gd), a working example test, and a README — in .gd / Godot conventions, NOT Unity C#.",
+      "files": [
+        "evals/files/gds-e2e-scaffold/project.godot",
+        "evals/files/gds-e2e-scaffold/scripts/game_manager.gd",
+        "evals/files/gds-e2e-scaffold/tests/unit/test_game_manager.gd"
+      ],
+      "expectations": [
+        "It correctly detects the engine as Godot (e.g. from project.godot / .gd files / autoload) and generates GDScript (.gd) infrastructure in Godot-appropriate locations (such as tests/e2e/), NOT Unity C# (.cs / .asmdef) or Unreal C++.",
+        "It identifies the game-state manager as GameManager, the main scene as res://scenes/main.tscn, and the readiness signal as the `is_ready` property — tying the generated fixture's ready-wait to that actual property rather than a generic placeholder.",
+        "It generates the expected infrastructure pieces: a test fixture base, a scenario builder, an input simulator, and an async-assert / wait-for-condition utility — as distinct files with real GDScript content, not just names in a list.",
+        "It generates a working example test that exercises the infrastructure (e.g. verifies the game loads and reaches its ready state via the fixture) plus a README documenting the infrastructure and how to extend it.",
+        "It GENERATES file contents/paths rather than running or executing any build, test, or engine command, and the generated scenario builder reflects the project's domain (run/wave/ember/enemy/save concepts) rather than an unrelated generic example."
+      ]
+    },
+    {
+      "id": "gdse2e-2-preflight-halt-on-existing-infra",
+      "prompt": "Use the gds-e2e-scaffold skill. Run headless and autonomous: do NOT greet. Analyze the staged project against the skill's preflight requirements before generating anything.\n\nThe existing game project is staged and available:\n- evals/files/gds-e2e-scaffold/project.godot (engine project file)\n- evals/files/gds-e2e-scaffold/scripts/game_manager.gd (the game-state manager)\n- evals/files/gds-e2e-scaffold/tests/e2e/infrastructure/game_e2e_test_fixture.gd (an ALREADY-EXISTING E2E test fixture under tests/e2e/infrastructure/)\n\nNote that this project ALREADY has an E2E infrastructure directory (tests/e2e/infrastructure/ with a fixture base). Run the preflight check and proceed appropriately. Do NOT run or execute any command — analyze and report.",
+      "expected_output": "A preflight HALT: the skill detects that E2E infrastructure already exists (tests/e2e/infrastructure/game_e2e_test_fixture.gd), recognizes this violates the 'No existing E2E infrastructure' preflight requirement, and stops to guide the user (e.g. asks how to proceed — extend, replace, or abort) rather than blindly overwriting the existing fixture or pretending to scaffold fresh infrastructure on top of it.",
+      "files": [
+        "evals/files/gds-e2e-scaffold/project.godot",
+        "evals/files/gds-e2e-scaffold/scripts/game_manager.gd",
+        "evals/files/gds-e2e-scaffold/tests/e2e/infrastructure/game_e2e_test_fixture.gd"
+      ],
+      "expectations": [
+        "It detects that an E2E infrastructure directory/fixture already exists in the project (tests/e2e/infrastructure/game_e2e_test_fixture.gd) and recognizes this fails the 'No existing E2E infrastructure' preflight requirement.",
+        "It HALTS / flags the preflight failure and guides the user (e.g. asking whether to extend, replace, or abort) rather than proceeding to scaffold as if the project were empty.",
+        "It does NOT blindly overwrite or clobber the existing fixture file, and does NOT emit a full fresh set of infrastructure files as though no E2E infra existed — fabricating a clean scaffold over existing infrastructure is the failure mode under test.",
+        "It does not falsely claim a scaffold completed successfully; the outcome is an honest blocked/halt state with a recommended next action, not a fake green completion.",
+        "It does not run or execute any build/test/engine command — it analyzes the staged project and reports the preflight result."
+      ]
+    }
+  ]
+}

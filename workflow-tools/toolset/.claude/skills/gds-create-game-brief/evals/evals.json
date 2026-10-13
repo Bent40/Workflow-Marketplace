@@ -1,0 +1,52 @@
+{
+  "skill_name": "gds-create-game-brief",
+  "evals": [
+    {
+      "id": "gds-brief-1-create-from-idea",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT ask clarifying questions, do NOT halt for confirmation. Use the gds-create-game-brief skill with intent=create to produce the game brief directly from the idea notes below, and end with the headless Create JSON status (status, intent 'create', and the brief path). Write the brief as brief.md. Defer any questions to the open_questions[] array of the final JSON, not mid-run. Do not pad, do not fabricate moats or comparables the notes do not contain, and surface what is genuinely unknown rather than inventing answers.\n\nIdea notes (the raw brain dump to work from, for the game 'Tidewright'):\n- evals/files/gds-create-game-brief/idea.md",
+      "expected_output": "A brief.md meeting the game-brief quality bar: a one-sentence core fantasy (the steady light keeping a coastal community alive), 2-4 specific pillars (tactile/tense night beam-aiming, day-night feedback loop, small named cast), a clear core loop (day manage/repair, night beam-aiming minigame, outcomes feed the next day), a specific audience (cozy-management/sim players who want more moment-to-moment tension — NOT 'everyone'), the named comparables with what is taken vs deliberately left (Spiritfarer's warmth and Papers Please's pressure, but not PP's bleakness or Spiritfarer's slow pace), an honestly minimal MVP, and explicit non-goals (no multiplayer, no infinite procedural map, no combat). The genuinely unresolved items (night-minigame difficulty, fail-state vs soft setback, budget/timeline) are surfaced as open questions/assumptions, not invented away. Ends with the headless Create JSON.",
+      "files": [
+        "evals/files/gds-create-game-brief/idea.md"
+      ],
+      "expectations": [
+        "The brief states a single-sentence core fantasy and 2-4 specific gameplay pillars drawn from the notes (tactile/tense night beam-aiming, the day-night feedback loop, the small named cast) — a brief with a vague multi-paragraph 'fantasy' or more than four/zero clear pillars fails this expectation.",
+        "The brief captures a clear core loop matching the notes: a day phase (manage/repair/upgrade the lighthouse and town) and a night beam-aiming/timing phase guiding ships, with outcomes feeding back into the next day — a brief that omits the day-night feedback loop fails this expectation.",
+        "The target audience is specific (cozy management/sim players who want more moment-to-moment tension than a pure farming sim, single-player PC/Switch) and is explicitly NOT 'everyone' / 'all gamers' — a brief that widens the audience to everyone fails this expectation.",
+        "Comparables are the ones the notes name (Spiritfarer and Papers, Please) WITH what is taken vs deliberately left (Spiritfarer's warmth and named-cast care; Papers Please's repeated-minigame pressure; NOT Papers Please's bleakness or Spiritfarer's slow pace) — and the brief does NOT invent additional comparables or fabricate a 'moat'/differentiator the notes never claimed.",
+        "Explicit non-goals are carried over from the notes: no multiplayer, no procedurally infinite map (the coastline is hand-authored), and no combat — dropping these scope boundaries fails this expectation.",
+        "The genuinely open items (how hard the night minigame should be, whether the town has a hard fail-state or a softer setback, budget/team/timeline) are surfaced as open questions / assumptions rather than resolved with invented specifics — fabricating a firm difficulty curve, fail-state design, or budget the notes left open fails this expectation.",
+        "The run ends with the headless Create JSON status object containing a `status` field, `\"intent\": \"create\"`, and a `brief` path key — a run that produces prose only and never emits the headless JSON payload fails this expectation."
+      ]
+    },
+    {
+      "id": "gds-brief-2-validate-weak-brief-honest",
+      "prompt": "Run headless and fully automated: no greeting, no clarifying questions, no halting. Use the gds-create-game-brief skill with intent=validate to critique the existing brief WITHOUT changing it. Return findings inline and end with the headless Validate JSON status including \"offer_to_update\": true. Apply the game-brief quality bar honestly: surface the brief's REAL weaknesses, but do NOT invent weaknesses that are not actually present.\n\nExisting brief to validate (a weak draft of 'Tidewright'):\n- evals/files/gds-create-game-brief/brief.md",
+      "expected_output": "An honest validation that, against the game-brief quality bar, flags the real weaknesses present: the audience is 'everyone' (must be specific), the differentiator is vague hand-waving ('better... more fun and more polished') rather than a genuine specific differentiator, the comparables are named but lack what-is-taken-vs-left, and there is no MVP / scope-matching-team section at all. It does NOT fabricate problems that are not present (the core fantasy IS a single clear sentence and the three pillars ARE specific, so it must not claim those are missing). Does not rewrite the brief. Ends with the Validate JSON and offer_to_update true.",
+      "files": [
+        "evals/files/gds-create-game-brief/brief.md"
+      ],
+      "expectations": [
+        "The validation does NOT modify the source `brief.md` — Validate intent is critique-only; a run that rewrites or appends to the brief body fails this expectation.",
+        "It flags that the Target Audience ('Everyone who likes games... casual and hardcore alike') violates the quality bar's 'audience is not everyone' rule and must be made specific — a validation that accepts the audience as adequate fails this expectation.",
+        "It flags the Differentiation section as vague / non-specific ('better... more fun and more polished' is hand-waving, not a genuine specific differentiator) — a validation that treats the differentiator as adequate fails this expectation.",
+        "It identifies that the brief has no minimal-MVP / scope-matching-team content (the quality bar expects a truly minimal MVP that validates the core gameplay hypothesis and scope matching the team) — a validation that overlooks the missing MVP fails this expectation.",
+        "It does NOT fabricate weaknesses that are absent: the core fantasy is already a single clear sentence and the three pillars are already specific, so the validation must not claim the fantasy is missing/unclear or the pillars are vague — manufacturing non-existent gaps to pad the critique fails this expectation.",
+        "The run ends with the headless Validate JSON status with `\"intent\": \"validate\"` and `\"offer_to_update\": true` — omitting the offer_to_update flag fails this expectation."
+      ]
+    },
+    {
+      "id": "gds-brief-3-update-resolve-open-item",
+      "prompt": "Run headless and fully automated: no greeting, no clarifying questions, no halting. Use the gds-create-game-brief skill with intent=update to apply the change signal to the existing brief, log every change with rationale to .decision-log.md before applying, and end with the headless Update JSON status. \n\nExisting brief:\n- evals/files/gds-create-game-brief/brief.md\n\nChange signal: A decision has been approved that 'Tidewright' has NO hard town fail-state — a disastrous night produces a softer setback (extra repair work and a temporarily reduced crew), never a game-over. Also narrow the audience from 'everyone' to the intended segment: cozy management/sim players (Stardew, Spiritfarer fans) who want more moment-to-moment tension than a pure farming sim, single-player on PC and Switch. Apply both changes and tighten the brief accordingly.",
+      "expected_output": "An updated brief.md that (1) replaces the 'everyone' audience with the specific cozy-management/sim segment that wants more tension, single-player PC/Switch, and (2) adds the approved no-hard-fail-state design (a soft setback of extra repair work and a temporarily reduced crew instead of game-over). Every change is recorded with rationale to .decision-log.md. Ends with the headless Update JSON (status, intent 'update').",
+      "files": [
+        "evals/files/gds-create-game-brief/brief.md"
+      ],
+      "expectations": [
+        "The updated brief replaces the 'everyone' audience with the specific intended segment (cozy management/sim players who want more moment-to-moment tension than a pure farming sim, single-player on PC and Switch) — an update that leaves the audience as 'everyone' fails this expectation.",
+        "The updated brief incorporates the approved no-hard-fail-state decision: a disastrous night yields a softer setback (extra repair work and a temporarily reduced crew), never a game-over — an update that omits this or contradicts it fails this expectation.",
+        "Every change is recorded with rationale to `.decision-log.md` — an update that mutates the brief body but never logs the changes fails this expectation (the skill makes the Update audit trail mandatory).",
+        "The run ends with the headless Update JSON status containing `\"intent\": \"update\"` — a run that omits the headless JSON payload fails this expectation."
+      ]
+    }
+  ]
+}

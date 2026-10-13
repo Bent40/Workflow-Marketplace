@@ -1,0 +1,45 @@
+{
+  "skill_name": "bmad-ux",
+  "evals": [
+    {
+      "id": "bmadux-1-parkpal-spines-from-brief",
+      "prompt": "Use the bmad-ux skill in fast-path Create mode to produce the UX design specification for the product described in the brief below. This is a headless single-pass run: do not ask me interactive questions — batch any gaps as explicit [ASSUMPTION] tags. Produce the two peer contracts the skill is built around, DESIGN.md (visual identity) and EXPERIENCE.md (information architecture, behavior, states, interactions, accessibility, key flows), as your answer.\n\nBrief: evals/files/bmadux/parkpal-brief.md",
+      "expected_output": "Two artifacts: a DESIGN.md with visual-identity tokens (colors, typography, spacing, components) in the canonical section order, and an EXPERIENCE.md covering Foundation (responsive web, mobile-first), Information Architecture (map / spot-detail / active-session surfaces), state and interaction patterns, an Accessibility Floor that addresses sunlight legibility and one-handed/glanceable use, and at least one named-protagonist key flow following Devin from circling the block to paying and extending. EXPERIENCE.md references DESIGN.md tokens by name and unknowns are marked [ASSUMPTION] rather than silently invented.",
+      "files": [
+        "evals/files/bmadux/parkpal-brief.md"
+      ],
+      "expectations": [
+        "The output produces two distinct peer artifacts named DESIGN.md and EXPERIENCE.md (not a single merged spec), with DESIGN.md owning how it looks and EXPERIENCE.md owning how it works.",
+        "DESIGN.md defines visual-identity tokens — at minimum colors, typography, spacing, and components — in a calm/trustworthy/non-flashy direction consistent with the brief's brand note, and does not contradict the 'transit app, not a game' steer.",
+        "EXPERIENCE.md's Information Architecture covers the stated surfaces (a map of nearby available spots, a spot-detail view with live block rules, and an active parking session with timer/extend), and every stated need maps to a surface.",
+        "EXPERIENCE.md includes an Accessibility Floor that concretely addresses the brief's real constraints — bright-sunlight legibility, one-handed and glanceable use, and arm's-length mounted viewing (e.g. contrast, target size, glanceable hierarchy) — rather than generic boilerplate.",
+        "At least one Key Flow is a named-protagonist journey following Devin from circling the block to confirming a legal spot and paying/extending, with a clear climax beat, rather than an abstract 'the user' walkthrough.",
+        "EXPERIENCE.md cross-references DESIGN.md tokens by name (the two spines are linked), and gaps not answered by the brief are flagged as [ASSUMPTION] rather than presented as settled facts."
+      ]
+    },
+    {
+      "id": "bmadux-2-shadcn-inherit-not-reinvent",
+      "prompt": "Use the bmad-ux skill in fast-path Create mode (headless, single pass, no interactive questions — tag gaps as [ASSUMPTION]) to produce DESIGN.md and EXPERIENCE.md for the following internal tool.\n\nScenario: A small internal admin dashboard for a B2B SaaS support team. One surface: a web app, desktop-first. The team already standardized on the shadcn/ui component library and Tailwind, and that decision is fixed. Screens: a ticket queue list, a ticket-detail panel, and a simple filter bar. The protagonist is Priya, a support lead who triages the queue each morning and reassigns tickets. There is no separate brand — it should look like a clean shadcn app.",
+      "expected_output": "Two spines where Foundation in EXPERIENCE.md names shadcn/ui + Tailwind as the UI system, DESIGN.md tokens reference or extend the system's defaults rather than re-deriving a full bespoke palette/type scale, and EXPERIENCE.md specifies only the behavioral delta (queue triage IA, ticket-detail states, filter interactions) with a named Priya morning-triage flow. Accessibility and state patterns are covered at a level appropriate to an internal tool.",
+      "files": [],
+      "expectations": [
+        "EXPERIENCE.md's Foundation explicitly names shadcn/ui (and Tailwind) as the inherited UI system, and both spines treat that decision as fixed rather than proposing a different framework or ignoring it.",
+        "DESIGN.md references or extends the shadcn/ui defaults rather than authoring a full bespoke design system from scratch — it specifies only the tokens that genuinely differ, consistent with 'look like a clean shadcn app'.",
+        "EXPERIENCE.md specifies the behavioral delta for the three surfaces (ticket queue list, ticket-detail panel, filter bar) — IA, key state patterns, and interactions — with a named-protagonist flow following Priya's morning triage and reassignment.",
+        "The depth is proportional to a small internal admin tool: it does not invent consumer-grade branding, marketing language, or surfaces beyond the three stated, and unknowns are marked [ASSUMPTION]."
+      ]
+    },
+    {
+      "id": "bmadux-3-honesty-no-invented-scope",
+      "prompt": "Use the bmad-ux skill in fast-path Create mode (headless, single pass, no interactive questions) to produce the UX spec for this deliberately tiny tool.\n\nScenario: A single-purpose web page that converts a temperature between Celsius and Fahrenheit. One input field, a unit toggle, and a result. No accounts, no persistence, no other screens, no brand requirements stated. The user has asked for nothing beyond this converter.\n\nProduce DESIGN.md and EXPERIENCE.md sized honestly to this scope.",
+      "expected_output": "A minimal, scope-faithful pair of spines: EXPERIENCE.md covers the single converter surface (input, unit toggle, result), its core states (empty, valid input, invalid input) and accessibility basics; DESIGN.md gives only the small token set such a page needs. Crucially the output does NOT invent unrequested scope — no login/onboarding, no multi-screen IA, no full enterprise design system, no analytics dashboards — and any minor additions are flagged as optional [ASSUMPTION]s, not presented as requirements.",
+      "files": [],
+      "expectations": [
+        "The output stays faithful to the stated one-screen scope: a single converter surface with an input, a unit toggle, and a result — it does not fabricate additional screens, user accounts, onboarding, persistence, or social/analytics features the user never asked for.",
+        "DESIGN.md is proportionally minimal — a small token set appropriate to a single utility page — rather than a sprawling multi-section enterprise design system with components the page will never use.",
+        "EXPERIENCE.md covers the genuinely relevant behavior and states for a converter (e.g. valid input, invalid/non-numeric input, the unit toggle) plus basic accessibility, without padding out invented complexity.",
+        "Any optional enhancement the spec chooses to mention (e.g. remembering last unit) is clearly marked as an [ASSUMPTION] or optional suggestion, not asserted as a required feature — inventing requirements not implied by the brief is an honesty failure."
+      ]
+    }
+  ]
+}

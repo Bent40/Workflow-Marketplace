@@ -1,0 +1,8 @@
+[
+  { "query": "Check sprint status and tell me what's blocked or at risk and what I should work on next.", "should_trigger": true },
+  { "query": "Show sprint status — summarize where every story sits and surface any risks.", "should_trigger": true },
+  { "query": "Give me a read on the current sprint: how many stories are in review, in progress, done, and what's the next recommended action?", "should_trigger": true },
+  { "query": "Run sprint planning and generate the sprint-status.yaml tracking file from my epics.", "should_trigger": false },
+  { "query": "We hit a significant mid-sprint change and need to decide whether to cut scope or re-plan.", "should_trigger": false },
+  { "query": "Run a retrospective on the epic we just finished to extract lessons and assess success.", "should_trigger": false }
+]

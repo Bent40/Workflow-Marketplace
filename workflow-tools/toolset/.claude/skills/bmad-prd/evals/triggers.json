@@ -1,0 +1,8 @@
+[
+  { "query": "Help me write a PRD for my new grocery-budgeting app.", "should_trigger": true },
+  { "query": "Update the PRD to add an offline-mode requirement.", "should_trigger": true },
+  { "query": "Validate my PRD and tell me what's missing before we hand it to architecture.", "should_trigger": true },
+  { "query": "I need a one-page product brief to pitch this idea, nothing as heavy as a full PRD.", "should_trigger": false },
+  { "query": "Break the PRD requirements into epics and a list of user stories.", "should_trigger": false },
+  { "query": "Create the technical architecture and solution design from this PRD.", "should_trigger": false }
+]

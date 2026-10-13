@@ -1,0 +1,8 @@
+[
+  { "query": "Run a retrospective on Epic 1 now that it's done — extract the lessons and tell me honestly whether it succeeded.", "should_trigger": true },
+  { "query": "Let's retro the epic we just finished: what went well, what didn't, and what should we change for the next one?", "should_trigger": true },
+  { "query": "We completed the epic. Do a post-epic review to capture lessons learned and assess whether the success criteria were met.", "should_trigger": true },
+  { "query": "We're mid-sprint and a requirement just changed significantly — help me decide whether to re-plan or cut scope.", "should_trigger": false },
+  { "query": "Investigate why this sync bug happens and trace what caused it.", "should_trigger": false },
+  { "query": "Check sprint status and show me which stories are blocked or in review.", "should_trigger": false }
+]

@@ -1,0 +1,8 @@
+[
+  { "query": "Review the quality of these test files against best practices — flag hard waits, flakiness, missing assertions, and shared state with specific locations.", "should_trigger": true },
+  { "query": "I want to evaluate our test suite's quality: are the tests deterministic, isolated, and well structured, or are there anti-patterns to fix?", "should_trigger": true },
+  { "query": "Let's review these Playwright specs for test-quality issues and give each finding a severity and a recommended fix.", "should_trigger": true },
+  { "query": "Review this pull request's application code for bugs, security issues, and correctness problems.", "should_trigger": false },
+  { "query": "Build a requirements-to-tests traceability matrix and a PASS/FAIL coverage gate for this story.", "should_trigger": false },
+  { "query": "Audit our NFR evidence and grade performance, security, reliability, and scalability PASS/CONCERNS/FAIL.", "should_trigger": false }
+]

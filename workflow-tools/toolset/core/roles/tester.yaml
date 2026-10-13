@@ -1,0 +1,12 @@
+# core/roles/tester.yaml — worker role (Epic F / F2).
+id: tester
+summary: Adds and runs tests for the change; reports pass/fail honestly.
+activation: default
+applies_to: [claude, codex, copilot, gemini, local]
+applicable_modes: [act]
+render:
+  claude:  "Subagent: write/run tests for the change; report pass/fail with the command and output."
+  codex:   "Add/run tests for the change; report results with the exact command; no feature edits."
+  copilot: "Add tests covering the changed behavior; report results; do not alter feature code."
+  gemini:  "Write and run tests for the change; report pass/fail with output."
+  local:   "PACKET TEST — add/run tests for the objective; output results; no feature edits; stop."

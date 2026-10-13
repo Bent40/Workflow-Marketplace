@@ -1,0 +1,41 @@
+{
+  "skill_name": "bmad-cis-problem-solving",
+  "evals": [
+    {
+      "id": "ps-1-diagnose-before-solving",
+      "prompt": "Use the bmad-cis-problem-solving skill on this single message. Treat the scenario as fully specified and produce the initial structured problem-solving artifact directly (do not stop to interview the user step by step).\n\nProblem as stated by the user: 'Our customer support team is drowning — tickets keep piling up and customers are angry.'\nContext: a 40-person SaaS company; ticket volume up ~60% over six months; the same handful of issue types recur; the team size has not changed.\n\nProduce a first-pass structured artifact that: (1) sharpens the vague complaint into a precise problem statement with a current-vs-desired gap; (2) bounds the problem (where/when it does and does NOT occur) using an Is/Is-Not style cut; (3) does root-cause analysis with a NAMED method (e.g. Five Whys or Fishbone) that drills past symptoms; and (4) only THEN generates a set of solution options spanning incremental and breakthrough approaches.",
+      "expected_output": "A diagnosis-first artifact that reframes the complaint into a precise problem statement, bounds it with an Is/Is-Not style analysis, applies a named root-cause method to reach underlying causes (not just symptoms), and only afterward proposes a diverse set of solution options.",
+      "files": [],
+      "expectations": [
+        "The response transforms the vague complaint into a precise problem statement that articulates the gap between the current state and a desired state, rather than treating 'team is drowning' as the problem to solve directly.",
+        "It bounds the problem with an Is/Is-Not style analysis (where/when/who the problem does and does not affect), surfacing patterns from those boundaries.",
+        "It performs root-cause analysis using at least one explicitly NAMED method (such as Five Whys, Fishbone/Ishikawa, or Systems Thinking) and reaches underlying causes rather than stopping at surface symptoms.",
+        "Solution generation comes AFTER diagnosis and offers multiple options spanning incremental and more transformative approaches — the response does not jump straight to 'hire more agents' as the sole fix before any root-cause work."
+      ]
+    },
+    {
+      "id": "ps-2-named-methods-and-evaluation",
+      "prompt": "Use the bmad-cis-problem-solving skill on this single message; produce the initial structured artifact directly without an interactive back-and-forth.\n\nProblem: a mid-size warehouse has rising order-fulfillment errors (wrong items shipped). Errors spike on high-volume days and during shift handovers. Returns and re-ships are eating margin.\n\nProduce a structured problem-solving artifact: refine the problem statement and success criteria, run a named root-cause analysis, generate at least 8 solution options using named generation methods, then evaluate the options against explicit criteria using a named evaluation method (e.g. a decision matrix) and recommend a direction with its rationale and remaining risks.",
+      "expected_output": "An artifact with a refined problem statement and success criteria, a named root-cause analysis tied to the high-volume / shift-handover signals, 8+ solution options from named methods, and a named evaluation method (e.g. decision matrix) producing a reasoned recommendation with residual risks.",
+      "files": [],
+      "expectations": [
+        "The response produces a refined problem statement plus explicit success criteria for what 'solved' looks like.",
+        "It applies a NAMED root-cause method and connects the analysis to the given signals (errors spiking on high-volume days and at shift handovers) rather than ignoring those clues.",
+        "It generates at least 8 distinct solution options, ideally noting the generation method(s) used, spanning a mix of process, tooling, and human/organizational fixes.",
+        "It evaluates options against explicit criteria using a NAMED evaluation method (such as a decision matrix, cost-benefit, or risk matrix) and recommends a direction with clear rationale and remaining risks — rather than asserting one fix with no comparison."
+      ]
+    },
+    {
+      "id": "ps-3-honesty-no-symptom-jump",
+      "prompt": "Use the bmad-cis-problem-solving skill on this single message; produce the initial structured artifact directly.\n\nProblem as stated: 'Our mobile app's onboarding is bad — new users drop off, so we need a redesign of the onboarding screens.'\nContext: 70% of new signups never complete account setup; drop-off is concentrated at the email-verification and permissions-request steps.\n\nIMPORTANT: A correct response applies the skill's diagnose-before-solve method — it must NOT accept the user's pre-baked solution ('redesign the onboarding screens') as the problem and jump straight to UI suggestions. It must reframe the actual problem, bound it, and reach root causes with a named method BEFORE proposing solutions.",
+      "expected_output": "A diagnosis-first artifact that resists the user's pre-supplied solution, reframes the real problem (signup completion / drop-off at specific steps), bounds it, applies a named root-cause method, and only then proposes options. Jumping straight to 'redesign the screens' UI tips with no root-cause work is the failure this case targets.",
+      "files": [],
+      "expectations": [
+        "The response explicitly resists treating the user's pre-baked solution ('redesign the onboarding screens') as the problem, and instead reframes the underlying problem (e.g. low signup-completion rate, drop-off concentrated at email-verification and permissions steps).",
+        "It bounds the problem and applies at least one NAMED root-cause method to investigate WHY users drop off at those specific steps before proposing fixes.",
+        "Any solutions appear only after diagnosis and address the diagnosed root causes, spanning more than just visual/screen redesign.",
+        "HONESTY CONTROL: a response that accepts 'redesign the onboarding screens' at face value and jumps straight to UI/screen suggestions with no problem reframing and no named root-cause analysis FAILS this expectation."
+      ]
+    }
+  ]
+}

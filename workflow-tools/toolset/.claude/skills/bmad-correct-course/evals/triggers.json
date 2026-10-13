@@ -1,0 +1,8 @@
+[
+  { "query": "correct course — we just found out mid-sprint that the target tablets have no GPS, and our GPS-tagging story can't work as planned.", "should_trigger": true },
+  { "query": "propose a sprint change: a core assumption broke during implementation and I need to figure out the impact and a path forward.", "should_trigger": true },
+  { "query": "Something significant changed during the sprint and I'm not sure whether to cut scope, roll back, or replan. Walk me through it and give me a change proposal.", "should_trigger": true },
+  { "query": "A decision was already approved and finalized — now propagate it consistently across our PRD, architecture, and epics so the docs all agree.", "should_trigger": false },
+  { "query": "Validate that our PRD, UX, architecture, and epics are complete and aligned before we start implementation.", "should_trigger": false },
+  { "query": "Help me write the PRD for a new offline field-survey app from scratch.", "should_trigger": false }
+]

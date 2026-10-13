@@ -1,0 +1,9 @@
+[
+  { "query": "Walk me through this change before I review it — help me understand what it does and where I should focus.", "should_trigger": true },
+  { "query": "Checkpoint this diff for me: orient me on the intent, point me at the risky parts, and tell me what to test.", "should_trigger": true },
+  { "query": "Run a human review on this commit so I can make sense of it and decide whether to ship it.", "should_trigger": true },
+  { "query": "I need to review this PR but I don't know where to start — guide my attention to what matters.", "should_trigger": true },
+  { "query": "Run an adversarial code review and hunt for every bug and edge case in this diff to gate the merge.", "should_trigger": false },
+  { "query": "Just implement the refund-rounding fix and write the unit tests for it.", "should_trigger": false },
+  { "query": "Investigate why partial refunds are off by a cent and trace the root cause.", "should_trigger": false }
+]

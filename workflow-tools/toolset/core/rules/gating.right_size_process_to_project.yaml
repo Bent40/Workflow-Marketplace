@@ -31,6 +31,4 @@ full_text: |
   right-sizing failure; apply the check to yourself up front, not in a
   postmortem. Producing above the mode is overkill
   (guardrails.flag_overkill_or_undercooked); skipping a risk-reducing gate below
-  it is undercooked. (For SECURE work, gating.complexity_tier_classification
-  governs WHERE the human reviews; this rule governs HOW MUCH process runs at
-  all.)
+  it is undercooked.

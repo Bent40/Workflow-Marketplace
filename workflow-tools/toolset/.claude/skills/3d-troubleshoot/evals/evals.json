@@ -1,0 +1,55 @@
+{
+  "skill_name": "3d-troubleshoot",
+  "evals": [
+    {
+      "id": "mt-1-holes-despite-watertight",
+      "prompt": "The 3d-troubleshoot skill is loaded. The user says: \"trimesh said the mesh is watertight but the slicer shows holes and my print failed.\" Diagnose and fix.",
+      "expected_output": "Cause: trimesh silently repairs a copy and reports it watertight (a false positive) — or the mesh came from TRELLIS (open shell) rather than Hunyuan. Fix: verify with a Blender bmesh manifold/boundary audit + backface-cull render; use Hunyuan (watertight by construction) for prints. Does NOT propose a venv/pip change.",
+      "files": [],
+      "expectations": [
+        "The response names trimesh's silent-repair false positive (and/or using an open-shell TRELLIS mesh for a print) as the cause.",
+        "The fix is to verify with a bmesh audit + backface-cull render and to use Hunyuan for prints — not a pip/venv change."
+      ]
+    },
+    {
+      "id": "mt-2-thin-sliver",
+      "prompt": "The 3d-troubleshoot skill is loaded. The user says: \"my shape came out as a thin ~57k-triangle sliver.\" What happened and how do I fix it?",
+      "expected_output": "The #1 trap: multiview conditioning was fed to the single-view DiT. Fix: use the dedicated MV model (hunyuan3d-dit-v2-mv) for multiview, or use single-view Hunyuan for a single image. Note that lowering octree can't recover it — the shape is baked at sampling.",
+      "files": [],
+      "expectations": [
+        "The response identifies multiview conditioning fed to the single-view model as the cause.",
+        "The fix is to use the dedicated MV model (or single-view for one image); it notes octree cannot fix an already-collapsed shape."
+      ]
+    },
+    {
+      "id": "mt-3-oom-decode",
+      "prompt": "The 3d-troubleshoot skill is loaded. The user says: \"it OOMs on 16 GB during the decode.\" What do you change?",
+      "expected_output": "Causes/levers: don't load shape+texture together (texture is a separate stage — free VRAM between models); keep expandable_segments:True; lower octree_resolution; for multiview use front+back only (4 views OOM). Not a venv change.",
+      "files": [],
+      "expectations": [
+        "The response gives on-box VRAM levers: separate the texture stage / free VRAM between models, keep expandable_segments, lower octree, and (for MV) fewer views.",
+        "The response does not propose editing the ComfyUI venv."
+      ]
+    },
+    {
+      "id": "mt-4-lying-down-render",
+      "prompt": "The 3d-troubleshoot skill is loaded. The user says: \"my validation render is empty or the model is lying on its side.\" What's wrong?",
+      "expected_output": "A Y-up vs Z-up mismatch, not a mesh failure. STLs from print_prep are Z-up; the glTF importer converts Y-up→Z-up on import — get the camera up-axis right and the render is fine. It misreads as a failure otherwise.",
+      "files": [],
+      "expectations": [
+        "The response identifies a Y-up vs Z-up axis mismatch (not a broken mesh) as the cause.",
+        "The response frames it as a camera/axis fix, noting print_prep STLs are Z-up and glTF import converts Y-up→Z-up."
+      ]
+    },
+    {
+      "id": "mt-5-no-pip-fix",
+      "prompt": "The 3d-troubleshoot skill is loaded. The user says: \"should I pip install a newer trimesh into the ComfyUI venv to fix the watertight false positives?\" Show your response.",
+      "expected_output": "No — refuses a venv pip install (hard constraint). The watertight false positive is fixed by not trusting trimesh at all (use the bmesh audit + backface-cull render), not by upgrading it. The fix is verification method + engine choice, never a venv edit.",
+      "files": [],
+      "expectations": [
+        "The response refuses the pip install into the ComfyUI venv (hard constraint).",
+        "The response redirects to the real fix: stop trusting trimesh; verify via bmesh audit + backface-cull render."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "skill_name": "bmad-agent-builder",
+  "evals": [
+    {
+      "id": "ab-1-create-discovery-questions",
+      "prompt": "Use the bmad-agent-builder skill in CREATE mode. A user has said: \"I want to build an agent that helps writers with their creative work.\" The build process requires Phase-1 discovery questions to understand who the agent is, how it should make the user feel, and what the core outcome is. Ask the discovery questions appropriate to this stage — do not invent capabilities or write a SKILL.md yet. Show the questions you would ask to move from this rough concept to a concrete agent design.",
+      "expected_output": "A set of Phase-1 discovery questions covering: who IS this agent (personality, voice), how should it make the user feel (interaction model), what is the core outcome, what capabilities serve that outcome, and what is the one thing this agent must get right. The builder should NOT yet produce a SKILL.md or enumerate capabilities — it is still in discovery. It should NOT fabricate specifics like agent name, capability list, or output format.",
+      "files": [],
+      "expectations": [
+        "The response is in discovery mode — it asks clarifying questions rather than producing a completed agent or SKILL.md skeleton.",
+        "At least one question directly probes who the agent IS — its personality, voice, or identity — not just what it does.",
+        "At least one question asks about the core outcome or what success looks like for the user, anchoring capabilities to genuine need rather than assumed features.",
+        "The questions do not prescribe or assume specific capabilities (e.g. 'does it edit prose?' or 'does it brainstorm plots?') — they surface what the user actually needs before any capability is named.",
+        "The response does not produce mechanical step-by-step procedures or bake procedural workflows into what it imagines the future capabilities will be — discovery stays at the level of identity and outcome."
+      ]
+    },
+    {
+      "id": "ab-2-agent-skeleton-from-rich-brief",
+      "prompt": "Use the bmad-agent-builder skill in CREATE mode. A user has provided this detailed brief:\n\n\"I want a code review agent named 'Arlo'. Arlo should feel like a senior colleague who genuinely cares about code quality — not a linter robot. The core outcome: the user ships code they're proud of, with fewer surprises in production. Key capabilities: (1) reviews a diff or file and flags actual problems, not style nits; (2) explains WHY something matters, not just that it's wrong; (3) prioritizes — tells the user what's critical vs. what's a nice-to-have. Arlo never produces a wall of comments; the user should feel helped, not judged. This agent doesn't need memory.\"\n\nProduce a focused agent SKILL.md skeleton: persona block (name, title, identity, communication style) and 2-3 outcome-driven capability statements. Do not include mechanical step-by-step procedures inside capability prompts. Confirm the agent type decision.",
+      "expected_output": "A SKILL.md skeleton for Arlo with: a clear persona block capturing the 'senior colleague' identity and 'helpful not judgmental' communication style; 2-3 capability statements that describe WHAT each achieves (e.g. 'surfaces real problems in a diff with severity tiers') without prescribing HOW the agent must do it step by step; an explicit agent-type decision (stateless, since no memory is needed); and no mechanical procedures embedded in the capability prompts.",
+      "files": [],
+      "expectations": [
+        "The persona block captures Arlo's identity — 'senior colleague who cares about quality, not a linter robot' — and communication style that reflects helping without judging.",
+        "Each capability is outcome-driven: it describes what the capability achieves and what good looks like, not a numbered procedure the LLM must follow step by step.",
+        "The agent type is declared as stateless (no memory required, since the user said memory is not needed) with a brief rationale.",
+        "Capability prompts do not repeat persona/style guidance already in the SKILL.md identity block — they rely on the persona context to inform HOW each capability is executed.",
+        "The response does not invent capabilities beyond what the user described (e.g. does not add 'generates PR descriptions' or other un-asked features)."
+      ]
+    },
+    {
+      "id": "ab-3-negative-underspecified-must-ask",
+      "prompt": "Use the bmad-agent-builder skill in CREATE mode. A user says only: \"Build me a productivity agent.\"\n\nDo not invent an agent concept, capability list, or SKILL.md. Instead, respond as the builder should when the concept is too thin to proceed: identify what core information is missing and ask for it.",
+      "expected_output": "The builder identifies that 'productivity agent' is too vague to design — it lacks identity, core outcome, and user feel. It asks for the core outcome (what does productivity mean here? what problem does this solve?) and probes who the agent should be, without fabricating a concept like 'task management' or 'calendar assistant' on the user's behalf.",
+      "files": [],
+      "expectations": [
+        "The builder does NOT invent a concept or assume what 'productivity' means — it does not produce a SKILL.md or capability list without asking.",
+        "The builder explicitly asks for the core outcome: what does the user actually want to accomplish, and what does success look like?",
+        "The builder asks who this agent should be — personality, voice, how it should make the user feel — rather than defaulting to a generic assistant persona.",
+        "The response is concise and does not pad the question set with low-value follow-ups — it targets the minimum needed to proceed with discovery."
+      ]
+    },
+    {
+      "id": "ab-4-no-mechanical-procedures-in-capabilities",
+      "prompt": "Use the bmad-agent-builder skill in CREATE mode. A user says:\n\n\"Build an interview prep agent called 'Quinn'. Quinn helps job seekers practice for technical interviews. Core outcome: the user goes into their interview confident and prepared. Capabilities needed: (1) runs a mock interview session, (2) gives targeted feedback after each answer, (3) tracks which topics the user has practiced. Quinn should feel like a calm, encouraging coach — not a test-giver. Needs to remember between sessions.\"\n\nProduce a SKILL.md skeleton and confirm the agent type. Ensure that capability prompts describe outcomes, not mechanical interview scripts.",
+      "expected_output": "A SKILL.md skeleton for Quinn with: a 'calm, encouraging coach' persona; 3 capability statements that describe outcomes (e.g. 'creates a realistic mock interview environment where the user can practice answering without fear of judgment') without embedding mechanical interview scripts or rigid Q&A procedures; agent type confirmed as memory agent (because the user needs session-to-session topic tracking); and no step-by-step procedure inside any capability prompt.",
+      "files": [],
+      "expectations": [
+        "The persona block captures Quinn as a calm, encouraging coach — not a test-giver — and the communication style reflects that identity.",
+        "Each capability describes an outcome ('what success looks like') without prescribing rigid, step-by-step procedures an LLM would infer from the persona context alone.",
+        "The agent type is confirmed as a memory agent, with a rationale tied to the session-to-session topic tracking requirement.",
+        "No capability prompt contains mechanical procedure text such as 'Step 1: ask the candidate to introduce themselves, Step 2: ...' — the persona context carries the HOW.",
+        "The skeleton is complete enough to proceed to Phase 2 without requiring the user to re-specify what they already said."
+      ]
+    }
+  ]
+}

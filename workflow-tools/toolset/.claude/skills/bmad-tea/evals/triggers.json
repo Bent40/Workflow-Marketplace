@@ -1,0 +1,8 @@
+[
+  { "query": "Hey Murat, let's design the test plan for this checkout feature.", "should_trigger": true },
+  { "query": "Can I talk to the test architect about a risk-based test strategy?", "should_trigger": true },
+  { "query": "Murat, help me build a coverage strategy for this epic.", "should_trigger": true },
+  { "query": "Hey Amelia, let's implement the next story.", "should_trigger": false },
+  { "query": "I want to talk to Winston about the system architecture.", "should_trigger": false },
+  { "query": "Create the epics and stories list for this PRD.", "should_trigger": false }
+]

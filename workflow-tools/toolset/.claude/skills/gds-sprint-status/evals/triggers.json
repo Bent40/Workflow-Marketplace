@@ -1,0 +1,8 @@
+[
+  { "query": "Check sprint status for my game and surface any risks.", "should_trigger": true },
+  { "query": "Show sprint status and tell me what to work on next.", "should_trigger": true },
+  { "query": "Where does the EmberFall sprint stand and what's blocking us?", "should_trigger": true },
+  { "query": "Run sprint planning to generate the sprint-status.yaml from my epics.", "should_trigger": false },
+  { "query": "Run a retrospective on the epic we just finished.", "should_trigger": false },
+  { "query": "Implement the next story in the sprint plan.", "should_trigger": false }
+]

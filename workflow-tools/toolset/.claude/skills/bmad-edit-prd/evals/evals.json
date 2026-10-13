@@ -1,0 +1,36 @@
+{
+  "skill_name": "bmad-edit-prd",
+  "evals": [
+    {
+      "id": "edit-prd-1-deprecation-forward-and-update",
+      "prompt": "Run headless and fully automated: do NOT greet conversationally, do NOT ask clarifying questions, do NOT halt. Invoke the bmad-edit-prd skill. This skill is a deprecated compatibility shim that forwards to bmad-prd with UPDATE intent — emit its deprecation notice, then complete the update as bmad-prd would: apply the change signal to the existing PRD, log the change with rationale to the decision log, and end with the headless Update JSON status (including changes_summary and conflicts_with_prior_decisions[]).\n\nExisting PRD:\n- evals/files/bmad-edit-prd/prd.md\n\nChange signal: A decision has been approved that GroceryCap MUST work fully offline for receipt capture and must guarantee both household devices converge to the same Remaining after they reconnect. Add this as cross-cutting non-functional requirements. This intentionally settles the existing §8 Open Question about reconciling offline scans — resolve that open question rather than leaving it dangling.",
+      "expected_output": "First a deprecation notice that bmad-edit-prd is deprecated and now forwards to bmad-prd (update intent). Then the forwarded UPDATE: an updated prd.md adding cross-cutting NFR(s) for offline receipt capture and cross-device convergence of Remaining, the §8 open question marked resolved/closed by the change (not left dangling), the change logged with rationale to the decision log, ending with the headless Update JSON (status, intent 'update', changes_summary, conflicts_with_prior_decisions[]).",
+      "files": [
+        "evals/files/bmad-edit-prd/prd.md"
+      ],
+      "expectations": [
+        "The run emits a deprecation notice making clear that `bmad-edit-prd` is deprecated and now forwards to `bmad-prd` (with update intent) — a run with no deprecation notice at all fails this expectation.",
+        "The intent is UPDATE applied to the EXISTING PRD (not a from-scratch rewrite and not a validate-only critique): the final headless JSON carries `\"intent\": \"update\"`; a run that emits a create or validate payload fails this expectation.",
+        "The updated PRD adds at least one cross-cutting non-functional requirement covering offline receipt capture AND cross-device convergence of Remaining after reconnect — an update that only restates an existing FR without introducing the offline/consistency NFR fails this expectation.",
+        "The §8 Open Question about reconciling offline scans across both members is resolved/closed by the update (marked resolved or removed because the new NFR settles it), NOT left as a still-open question contradicting the change just applied.",
+        "The change is recorded to the decision log with a rationale — an update that mutates the PRD body but never logs the decision fails this expectation.",
+        "The run ends with the headless Update JSON status containing a `changes_summary` describing what changed and why, and a `conflicts_with_prior_decisions` key — a run that omits the changes_summary fails this expectation."
+      ]
+    },
+    {
+      "id": "edit-prd-2-scoped-no-overreach-control",
+      "prompt": "Run headless and fully automated: no conversational greeting, no clarifying questions, no halting. Invoke the bmad-edit-prd shim (it forwards to bmad-prd with update intent — emit the deprecation notice, then update). Apply ONLY the change signal below to the existing PRD; do not rewrite unrelated sections, do not invent new scope, and do not switch to creating a brand-new PRD. End with the headless Update JSON.\n\nExisting PRD:\n- evals/files/bmad-edit-prd/prd.md\n\nChange signal: Add a single cross-cutting NFR that receipt images never leave the Household's own cloud space (only the extracted total is transmitted). That is the entire change.",
+      "expected_output": "A scoped UPDATE (preceded by the deprecation notice) that adds exactly the privacy NFR (receipt images never leave the Household's cloud space; only the extracted total is transmitted) and logs it, WITHOUT inventing additional features, rewriting the existing FRs/Glossary/Non-Goals, switching to a create, or changing scope the signal did not touch. Ends with the headless Update JSON, intent 'update'.",
+      "files": [
+        "evals/files/bmad-edit-prd/prd.md"
+      ],
+      "expectations": [
+        "The update adds exactly the requested privacy NFR — receipt images never leave the Household's own cloud space, only the extracted total is transmitted — and does not omit it.",
+        "The update does NOT invent additional scope beyond the change signal (no new features, no bank linking, no categorization, no web client introduced) — over-reaching beyond the single requested change fails this expectation.",
+        "The update does NOT rewrite or restructure the unrelated existing sections (the Glossary, the existing FR-1..FR-3 and their consequences, the Non-Goals, the MVP scope) — a wholesale rewrite rather than a surgical edit fails this expectation.",
+        "The run treats this as an UPDATE to the existing PRD, not a from-scratch create: the headless JSON carries `\"intent\": \"update\"`; switching to a create payload fails this expectation.",
+        "The run emits the deprecation notice, logs the change to the decision log, and ends with the headless Update JSON including a changes_summary — omitting the notice, the log entry, or the changes_summary fails this expectation."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "skill_name": "bmad-shard-doc",
+  "evals": [
+    {
+      "id": "sd-1-split-by-h2",
+      "prompt": "Use the bmad-shard-doc skill's sharding logic to split the markdown document below into smaller files by its level-2 (##) sections. Run headless and autonomous: do not ask for source/destination paths and do not prompt about deleting the original. For THIS exercise, instead of describing a command, directly PRODUCE the sharded result inline — show, for each level-2 section, the destination filename and that file's full contents (the H2 heading plus everything under it, including its H3 subsections), and produce the generated index.md that links to every shard.\n\nDocument to shard: evals/files/shard-doc/architecture.md",
+      "expected_output": "One shard file per level-2 section: Overview (with its 'Responsibilities' H3 nested inside), Data Model (with the 'charges table' H3), API Endpoints, and Failure Handling — each shard containing the complete content beneath its H2. Plus an index.md linking to each shard file. The level-1 title and intro are not turned into a content shard; H3 subsections stay nested within their parent H2 shard, not split into separate files.",
+      "files": [
+        "evals/files/shard-doc/architecture.md"
+      ],
+      "expectations": [
+        "It produces exactly one shard per level-2 (##) section — Overview, Data Model, API Endpoints, and Failure Handling — and does NOT create a separate shard for each level-3 (###) subsection.",
+        "Each shard's contents include the full body under that H2, with nested H3 subsections kept inside their parent shard — e.g. the 'Responsibilities' subsection stays within the Overview shard and the 'charges table' subsection stays within the Data Model shard.",
+        "It generates an index.md that lists/links to every shard file, so the sharded set is navigable.",
+        "Section content is preserved during the split (no rewriting, summarizing, or dropping of the section bodies) — sharding is a structural transform, not an edit.",
+        "It does not turn the document's level-1 title and its intro paragraph into a spurious content shard, and the shard filenames are derived from the section headings."
+      ]
+    },
+    {
+      "id": "sd-2-no-h2-sections",
+      "prompt": "Use the bmad-shard-doc skill's sharding logic on the following short markdown document. Run headless. Produce the sharded result inline as in the prior exercise (per-section files + index), but only if sharding is actually meaningful here — report honestly if it is not.\n\n---\n# Release Checklist\n\nThis is a single short note with no level-2 sections.\n\n- Bump the version\n- Tag the release\n- Publish the changelog\n---",
+      "expected_output": "The document has no level-2 (##) sections, so there is nothing to split on. The honest result is to report that the document has no H2 sections to shard (and therefore would produce only the document itself / a single trivial entry) rather than fabricating multiple shard files by inventing section boundaries or splitting on the list items or the H1.",
+      "files": [],
+      "expectations": [
+        "It correctly recognizes the document contains no level-2 (##) sections to split on.",
+        "It does NOT fabricate multiple shard files by inventing section boundaries — it does not split on the bullet list items or treat the level-1 title as a level-2 section.",
+        "It reports the honest outcome: there is nothing meaningful to shard (no H2 sections), rather than claiming a successful multi-file split."
+      ]
+    }
+  ]
+}

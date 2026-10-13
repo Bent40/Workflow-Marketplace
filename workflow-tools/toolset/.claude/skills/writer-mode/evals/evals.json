@@ -1,0 +1,57 @@
+{
+  "skill_name": "writer-mode",
+  "evals": [
+    {
+      "id": "wm-1-story-routes-literary",
+      "prompt": "You are in writer mode (the writer-mode skill body is loaded). The user says: \"Let's create a story about a lighthouse keeper who starts receiving letters from her future self.\" Say which skill(s) you would route this to and why, then begin.",
+      "expected_output": "Routes to literary ideation/structure (bmad-brainstorming, bmad-cis-storytelling, or the Sophia/Carson agents). Explicitly does NOT invoke bmad-create-story, bmad-dev-story, gds-create-story, or any sprint/agile machinery.",
+      "files": [],
+      "expectations": [
+        "The response treats 'story' as the literary work and routes to bmad-cis-storytelling, bmad-brainstorming, or their persona agents.",
+        "The response does NOT invoke or mention routing to bmad-create-story, bmad-dev-story, gds-create-story, any dev-story pipeline, or sprint planning.",
+        "No engineering ceremony (PRD, architecture, tests) is offered."
+      ]
+    },
+    {
+      "id": "wm-2-review-chapter-editorial",
+      "prompt": "You are in writer mode. The user says: \"Review my chapter — here's the draft.\" Say which skill(s) you would use and what you need from the user first.",
+      "expected_output": "Routes to bmad-editorial-review-structure and/or bmad-editorial-review-prose; before a line/copy pass it elicits a short voice contract (POV, tense, register, deliberate rule-breaks) to edit against. No code-review skill fires.",
+      "files": [],
+      "expectations": [
+        "The response routes to the editorial review skills, not bmad-code-review/gds-code-review or adversarial code review.",
+        "Before (or as part of) a prose-level pass, the response elicits a voice contract covering at least POV/tense/register so the copy-edit doesn't flatten voice."
+      ]
+    },
+    {
+      "id": "wm-3-canon-supersede",
+      "prompt": "You are in writer mode, working in a project with the wf toolset available. The user says: \"Actually I've decided Mira's eyes are green, not brown like we established in chapter 2 — make that canon.\" Describe exactly how you record this.",
+      "expected_output": "Records the new fact via {project-root}/scripts/wf learn so the green-eyes fact SUPERSEDES the brown-eyes fact (add adjudicates ADD/UPDATE; the stale fact is retracted/closed) — it does not append the new fact alongside the old one, and it does not leave both live.",
+      "files": [],
+      "expectations": [
+        "The response uses wf learn (the persistent store), not an ad-hoc note or ephemeral memory.",
+        "The response states that the new fact supersedes/retracts the contradicting earlier fact rather than both remaining live."
+      ]
+    },
+    {
+      "id": "wm-4-harvest-process-signal-only",
+      "prompt": "You are in writer mode at the end of a long session. During it, the user's request 'review my story' initially confused you, and the user wished aloud for a chapter-pacing analysis that no skill covers. The user says: \"Let's wrap up.\" Describe what you do before the session closes.",
+      "expected_output": "Runs bmad-skill-gap-retrospective over the session's friction and appends proposed-skill specs / misroutes / missing capabilities to {project-root}/_workflow/writer-mode-feedback.md under a date-stamped heading — process signal only, none of the user's prose — and asks before committing the file.",
+      "files": [],
+      "expectations": [
+        "The response runs (or explicitly invokes) bmad-skill-gap-retrospective as the harvest step.",
+        "The feedback lands in _workflow/writer-mode-feedback.md with a date-stamped session heading, and the response notes it contains process signal only — never the user's prose.",
+        "The response asks before committing the feedback file rather than committing silently."
+      ]
+    },
+    {
+      "id": "wm-5-exit-drops-posture",
+      "prompt": "You are in writer mode; the session-end harvest has not run. The user says: \"exit writer mode.\" Show your response.",
+      "expected_output": "A one-line confirmation that writer mode's overrides are dropped (vocabulary routing back to normal), plus an offer to run the session-end harvest since it hasn't run yet.",
+      "files": [],
+      "expectations": [
+        "The response confirms the writer-mode overrides are dropped, in about one line.",
+        "The response offers the session-end harvest (skill-gap retrospective / feedback file) because it has not run."
+      ]
+    }
+  ]
+}

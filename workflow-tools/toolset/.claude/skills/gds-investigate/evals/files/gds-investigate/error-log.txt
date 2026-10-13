@@ -1,0 +1,15 @@
+=== Playtest report: BUG-209 "killing the last enemy in a wave doesn't advance the wave" ===
+
+Symptom (reproduced every run): On the final enemy kill of a wave, the wave counter never increments and the next wave never spawns. The arena just sits empty.
+
+=== Automated test output ===
+tests/test_wave_manager.gd
+
+FAIL test_wave_clears_when_all_enemies_dead
+  Spawned 5 enemies for wave 1.
+  Killed all 5 enemies (enemies_alive went 5 -> 4 -> 3 -> 2 -> 1 -> 0).
+  Expected: wave_cleared signal emitted, current_wave == 2
+  Actual:   wave_cleared NOT emitted, current_wave == 1
+  Assertion: expected enemies_alive < 1 to trigger clear, but clear check used `enemies_alive <= 0` only AFTER decrement guarded by `if enemies_alive > 1`
+
+1 failed, 7 passed

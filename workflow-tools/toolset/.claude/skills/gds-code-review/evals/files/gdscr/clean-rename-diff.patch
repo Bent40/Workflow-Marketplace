@@ -1,0 +1,13 @@
+diff --git a/src/colors.py b/src/colors.py
+index 4d5e6f7..8a9b0c1 100644
+--- a/src/colors.py
++++ b/src/colors.py
+@@ -1,9 +1,9 @@
+-# Default tint applied to UI panels
+-PANEL_TINT = (40, 40, 48)
++# Default tint applied to UI panels (renamed for clarity)
++PANEL_BACKGROUND_TINT = (40, 40, 48)
+
+ def panel_style():
+-    return {"background": PANEL_TINT, "border": (80, 80, 96)}
++    return {"background": PANEL_BACKGROUND_TINT, "border": (80, 80, 96)}

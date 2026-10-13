@@ -1,0 +1,36 @@
+# Policy overlay — architecture skill, UPFRONT security-framing lens.
+# Owned layer (core/policy/): imposes an obligation on the vendored architecture
+# skill WITHOUT editing it. Surfaced by `wf policy show <skill>`; the agent honors
+# it before invoking the skill. Schema: core/policy/policy-schema.md.
+#
+# WHY: bmad-create-architecture can lock a design for a system that handles
+# untrusted content (agentic/LLM systems especially) WITHOUT first framing the
+# security-architecture decision — where trust boundaries sit, how agents are
+# split, sandbox tier, capability grants. By the time injection-boundary review
+# runs, the design is already fixed and the costly decision was made implicitly.
+# This overlay is a LENS: it tells the agent to run the UPFRONT security-decision
+# framing distilled from .claude/skills/bmad-security-decision-framing/SKILL.md
+# BEFORE the design is locked. It COMPOSES with architecture-right-sizing (both
+# can apply to the same architecture run).
+id: architecture-security-framing
+title: "Architecture security framing (upfront trust-boundary / capability framing for untrusted-content systems)"
+
+applies_to:
+  # fnmatch globs over skill names under .claude/skills/. Each must match >=1 real
+  # skill (wf policy check fails closed otherwise). Targets the BMM solution-design
+  # surface — the place architecture decisions get locked.
+  skill_globs:
+    - "bmad-create-architecture"   # BMM solution / technical architecture
+  categories:
+    - architecture
+    - security
+
+requirements:
+  - "LENS: when the architecture touches UNTRUSTED-CONTENT / agent / tool / capability boundaries (agentic/LLM systems especially — anything that processes email, web, documents, files of unknown origin, or other agents' output AND also touches private data or real-world actions), run the UPFRONT security-architecture framing distilled from bmad-security-decision-framing BEFORE the design is locked, not after. This composes with architecture-right-sizing — both overlays can apply to the same run."
+  - "MAP the system and assets: components/agents and the data flows between them, the trust level of each input source (TRUSTED = direct human request vs UNTRUSTED = web/email/docs/other-agent output/derived memory), and the assets/sensitive systems reachable from each component (data stores, credentials, money-moving or state-changing APIs, the user's reputation). Never invent system facts — a missing fact is a question or an ASSUMPTION-NEEDED flag, not an assertion."
+  - "APPLY THE LENSES, each mark citing its earner: the Lethal Trifecta (all three of [1] access to private/sensitive data, [2] exposure to untrusted content, [3] ability to externally communicate or act in ONE flow = a trifecta hit); Meta's Rule of Two (no more than two of [A] untrustworthy inputs, [B] sensitive systems/private data, [C] state-change or external communication without a human in the loop — 3/3 mandates a human gate); plus a least-privilege / blast-radius note (what the component could do if fully compromised, and which capabilities exceed its actual need)."
+  - "BUILD AN OPTION TABLE with per-option RESIDUAL RISK: enumerate the candidate architectures that answer the decision (planner/quarantined-executor split, capability stripping, human-approval gating, sandbox tiers, taint/provenance tracking, deny-by-default scoping), and for each record which legs/properties remain, the mitigations it adds, the residual risk an attacker can still achieve, and cost/complexity. 'No viable option' is a legitimate outcome — say so and what must change rather than forcing a recommendation."
+  - "DRIVE TO A DECISION and emit DECISION-LOG-READY entries: get the human to choose (record any divergence from the recommendation and the human's stated reason verbatim), and emit one entry per settled decision in the shape bmad-decision-propagation consumes (ID / Invariant / Supersedes / Surface terms + rationale + rejected options + follow-ons). The framing happens BEFORE design is locked — an injection-boundary review of the already-designed flow is the follow-on, not a substitute."
+  - "Honesty: if the architecture touches these boundaries and the framing was NOT done upfront, say so explicitly — do not retrofit a security rationale onto an already-locked design and present it as upfront framing."
+
+enforcement: instructions

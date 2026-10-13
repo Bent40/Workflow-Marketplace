@@ -1,0 +1,8 @@
+[
+  { "query": "Hey Indie, let's prototype this game mechanic fast.", "should_trigger": true },
+  { "query": "Can I talk to the game solo dev to quick-dev this prototype?", "should_trigger": true },
+  { "query": "Indie, help me rapidly build and ship this indie game feature.", "should_trigger": true },
+  { "query": "Hey Cloud, let's architect a scalable multiplayer backend.", "should_trigger": false },
+  { "query": "I want to talk to Samus about the game's narrative design.", "should_trigger": false },
+  { "query": "Run a full test design for this epic.", "should_trigger": false }
+]

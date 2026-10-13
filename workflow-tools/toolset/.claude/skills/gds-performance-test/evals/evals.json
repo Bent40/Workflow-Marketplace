@@ -1,0 +1,51 @@
+{
+  "skill_name": "gds-performance-test",
+  "evals": [
+    {
+      "id": "gdsperf-1-unity-pc-mobile-plan",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT ask for platforms or targets (they are in the brief), do NOT halt for confirmation, and do NOT require `_bmad/gds/config.yaml`. Defer any clarifying questions to the very end.\n\nUse the gds-performance-test skill to produce a complete Performance Test Plan for the game described in the staged brief, and write it to ./performance-test-plan.md following the skill's structure. Detect the engine and target platforms from the brief; do not invent platforms or content the brief does not mention.\n\nStaged input (treat as the loaded game brief):\n- evals/files/gds-perf/game-brief.md",
+      "expected_output": "A Performance Test Plan for the Unity roguelike covering PC and mobile (NOT console): FPS targets (PC 60; mobile 60 high-tier / 30 mid-low), memory budgets and loading-time targets scoped to the actual structure, frame-rate stress scenarios anchored on the 150+ enemy swarm, a memory soak scenario for the 60-90 min run using the auto-play bot, Unity-specific automated test examples (Unity Performance Testing / Profiler) and manual profiling checklists, a benchmark suite with baseline-capture and regression thresholds, a PC+mobile platform matrix, and CI/schedule for regression gates.",
+      "files": [
+        "evals/files/gds-perf/game-brief.md"
+      ],
+      "expectations": [
+        "The plan sets frame-rate targets matching the brief (PC 60 FPS; mobile 60 on high-tier and 30 on mid/low-tier) and includes memory budgets and loading-time targets — emitting only generic prose with no concrete FPS/memory/load targets fails this expectation.",
+        "A frame-rate stress scenario is anchored on the game's actual worst case — the 150+ enemy 'swarm' with dense particles/bullets — rather than a generic unrelated stress test; missing the swarm stress scenario fails this expectation.",
+        "A memory/soak scenario addresses the stated memory-creep risk over a 60-90 minute run (e.g. using the auto-play soak bot to detect leaks / pooled-object growth), reflecting the brief's specific concern.",
+        "The automated-test methodology is Unity-specific (Unity Performance Testing package / Unity Profiler-style measurement) and the plan asks for test ARTIFACTS/code rather than instructing anyone to execute a command — it does not generate Unreal or Godot test code for this Unity project.",
+        "A benchmark suite is defined with a baseline-capture process and quantified regression thresholds (e.g. an FPS-drop % and a memory-growth % that fail the gate) plus CI integration / a run schedule.",
+        "The platform matrix covers PC and mobile testing requirements (e.g. mobile thermal throttling and tiered devices; PC quality settings/resolutions) appropriate to the brief."
+      ]
+    },
+    {
+      "id": "gdsperf-2-honesty-no-invented-platforms-or-scenarios",
+      "prompt": "Run headless and fully automated: no greeting, no platform prompt, no halting, no config file required. Defer questions to the end.\n\nUse the gds-performance-test skill to produce a Performance Test Plan for the staged game and write it to ./performance-test-plan.md. Scope the plan strictly to what the brief supports: the brief lists PC and mobile only (no console), single-player (no multiplayer/networking), and a run-based structure with no open world, no fast-travel, and no level streaming. Do not add platforms, scenarios, or budgets the brief does not justify.\n\nStaged input:\n- evals/files/gds-perf/game-brief.md",
+      "expected_output": "A Performance Test Plan that stays within the brief: it does NOT add console (PS5/Xbox/Switch) platform rows, does NOT add a fast-travel or level-streaming loading scenario, and does NOT add multiplayer/network performance scenarios — because the brief excludes all of those. It filters the skill's reference tables down to PC and mobile only and keeps loading scenarios to boot + single run-start load, honestly reflecting the game's structure rather than padding with inapplicable boilerplate.",
+      "files": [
+        "evals/files/gds-perf/game-brief.md"
+      ],
+      "expectations": [
+        "The platform matrix and FPS/memory tables are filtered to PC and mobile ONLY; the plan does NOT add console rows (PS5/Xbox Series X/Switch) — including console targets the brief explicitly rules out is a fabrication and fails this expectation.",
+        "The plan does NOT invent loading scenarios the game does not have: no fast-travel scenario and no level-streaming scenario, since the brief states there is no open world, no fast-travel, and no streaming — loading tests are scoped to initial boot and the single run-start load.",
+        "The plan does NOT add multiplayer or network-performance scenarios, since the game is single-player with no networking — adding network/latency performance tests fails this expectation.",
+        "The frame-rate and memory scenarios it DOES include are the ones the brief actually supports (the 150+ enemy swarm stress and the long-run memory soak), demonstrating that scoping down did not drop the real risks.",
+        "The plan reads as honestly tailored to this title rather than a padded copy of the generic template — keeping inapplicable platform/scenario boilerplate just because the template lists it fails this expectation."
+      ]
+    },
+    {
+      "id": "gdsperf-3-benchmark-and-regression-gates",
+      "prompt": "Run headless and fully automated: no greeting, no platform prompt, no halting, no config file required. Defer questions to the end.\n\nUse the gds-performance-test skill to produce the benchmark-suite and regression-criteria portions of a Performance Test Plan for the staged game (you may still write the full plan to ./performance-test-plan.md, but focus on a CI-gated benchmark suite). Define benchmark scenarios drawn from the actual game content, a baseline-capture process on documented reference hardware, and quantified pass/fail regression thresholds suitable for a CI gate. Provide the benchmark/test ARTIFACT and thresholds, not commands to execute.\n\nStaged input:\n- evals/files/gds-perf/game-brief.md",
+      "expected_output": "A benchmark suite tied to real content (e.g. a swarm-gauntlet combat benchmark, a long-run soak benchmark, a hub/boot benchmark) each with a purpose and duration; a baseline-capture process that records avg FPS, a frame-time percentile (e.g. P95), and peak memory on documented reference hardware; and quantified regression thresholds (e.g. FPS regression %, memory-growth %, load-time delta) wired as gated CI checks. Engine-appropriate (Unity) and expressed as artifacts/thresholds rather than command invocations.",
+      "files": [
+        "evals/files/gds-perf/game-brief.md"
+      ],
+      "expectations": [
+        "The benchmark suite lists concrete benchmarks tied to the actual game content (e.g. the swarm/combat stress benchmark and a long-run soak benchmark), each with a stated purpose and duration, rather than abstract placeholders.",
+        "A baseline-capture process is described that records quantitative metrics — at least average FPS, a frame-time percentile (e.g. P95 frame time), and peak memory — on documented reference hardware.",
+        "Regression thresholds are quantified (e.g. an FPS-drop percentage and a memory-growth percentage that constitute a FAIL, plus a load-time delta) so the gate is objective rather than vague — purely qualitative 'watch for regressions' guidance fails this expectation.",
+        "The benchmarks are integrated as gated CI checks with a stated run cadence (e.g. nightly / per-sprint / pre-release) and an owner for triaging regressions.",
+        "The benchmark/test content is engine-appropriate (Unity) and is presented as an artifact and threshold definitions — the prompt's deliverable is the plan/thresholds, NOT an instruction to run a command."
+      ]
+    }
+  ]
+}

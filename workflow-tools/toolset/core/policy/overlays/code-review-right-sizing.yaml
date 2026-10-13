@@ -1,0 +1,38 @@
+# Policy overlay — code-review skills, SIZE-AWARE right-sizing.
+# Owned layer (core/policy/): imposes obligations on the vendored code-review
+# skills WITHOUT editing them or shattering them into sub-skills. Surfaced by
+# `wf policy show <skill>`; the agent honors it before invoking the skill.
+# Schema: core/policy/policy-schema.md.
+#
+# WHY: bmad-code-review / gds-code-review run ALL their adversarial layers
+# (Blind Hunter + Edge Case Hunter + Acceptance Auditor) on every diff, burning
+# tokens on a 3-file toy. This overlay tells the agent to RIGHT-SIZE the review
+# to project size (gating.right_size_process_to_project) WITHOUT dropping the
+# security-critical layer — a hard floor that mirrors
+# orchestration.subagent_trigger_thresholds. The size tiers reference the skill's
+# REAL layers (step-02-review.md), not invented ones.
+id: code-review-right-sizing
+title: "Code-review right-sizing (size-aware review layers + hard security floor)"
+
+applies_to:
+  # fnmatch globs over skill names under .claude/skills/. Each must match >=1 real
+  # skill (wf policy check fails closed otherwise). Targets BOTH adversarial
+  # code-review surfaces; they share the same Blind/Edge/Auditor layer set.
+  skill_globs:
+    - "bmad-code-review"   # BMM adversarial code review
+    - "gds-code-review"    # Game Dev Studio adversarial code review (same layers)
+  categories:
+    - review
+
+requirements:
+  # The real layers (from step-02-review.md): Blind Hunter = correctness/adversarial
+  # (bmad-review-adversarial-general, diff-only); Edge Case Hunter = boundary/edge
+  # sweep (bmad-review-edge-case-hunter); Acceptance Auditor = spec conformance.
+  - "RIGHT-SIZE the review to project size before launching layers, per gating.right_size_process_to_project. Classify the diff (Tiny/Small/Medium/Large) up front and run ONLY that tier's layers — process volume is a cost, not a virtue. State the chosen tier and why in the review output."
+  - "TINY tier (diff is <=~5 files AND touches none of: auth, DB schema, payments, customer-data, untrusted input): run the CORRECTNESS pass (Blind Hunter, bmad-review-adversarial-general) PLUS the Acceptance Auditor pass (when a spec exists). SKIP the deep adversarial Edge Case Hunter sweep — the boundary sweep is not worth the tokens on a toy. Blind Hunter (correctness) is the floor that is NEVER skipped at any tier."
+  - "SMALL tier (a small CRUD-scale app, still no security-critical surface): the TINY layers PLUS the Edge Case Hunter pass (bmad-review-edge-case-hunter) for boundary/empty/oversized-input conditions."
+  - "MEDIUM and LARGE tiers: run the FULL multi-layer adversarial review — Blind Hunter, Edge Case Hunter, AND Acceptance Auditor — with full triage. No layer is dropped at these tiers."
+  - "HARD SECURITY FLOOR (NON-NEGOTIABLE, overrides file count): NEVER run a lite path (TINY/SMALL) when the diff touches auth, DB schema, payments, customer-data, or untrusted input. Right-sizing MUST NOT drop the security-critical adversarial layer regardless of how few files changed — a 1-file auth change is NOT tiny. When ANY of these surfaces is touched, escalate to the FULL multi-layer review (mirrors orchestration.subagent_trigger_thresholds). If unsure whether a surface is security-critical, treat it as security-critical and run the full review."
+  - "Honesty: when a lite tier is chosen, state explicitly which layer(s) were SKIPPED and that the lite path is calibrated to retain correctness coverage while trading the edge-case sweep for tokens — never imply a lite review is as exhaustive as the full one."
+
+enforcement: instructions

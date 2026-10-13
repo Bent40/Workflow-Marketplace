@@ -57,10 +57,21 @@ Step kinds (in a flow file):
                              flow (analytics/favicon noise can be ignored)
   assert_no_failed_requests [ignore: [..substrings..]]
                              fail if any request failed or returned >= 400 so far
+  dblclick / hover (ref/text/selector) double-click / hover (hover menus)
+  press <key> [selector|ref]           keyboard key (Enter, Tab, Escape, ArrowDown,
+                             Control+A...) on the page or a focused field
+  select (selector|ref) + option       pick a <select> option by value or label
+  set_viewport width + height          resize (e.g. 375x667 for a phone)
+  set_offline true|false     drop / restore the network mid-flow
+  reload / back              reload the page / browser back button
+  snapshot [path]            re-mint @refs for the CURRENT page mid-flow (and
+                             optionally write its outline to path)
   assert_a11y [fail_on: [critical,serious]] [ignore: [rule-ids]] [tags: [wcag2aa]]
                              inject axe-core and FAIL on accessibility violations
                              at the given impact levels (FAILS CLOSED if axe can't
                              load — a silently-skipped a11y gate is a fake-green)
+                             ($WF_BROWSE_AXE_SRC=<path to axe.min.js> loads axe
+                             from a local file when the CDN is blocked)
 
 A step is a mapping; `kind:` (or the bare first key) names it. Examples:
   - goto: https://example.com
@@ -77,6 +88,8 @@ Usage:
     wf browse shot <url> <out.png> [--full-page]
     wf browse snapshot <url> [--json]
     wf browse run <steps-file>
+    wf browse effort <steps-file> [--baseline <steps-file>]
+    wf browse --profile <name> run <steps-file>   # isolated profile + refs
     wf browse --selftest        # BROWSER-FREE: routing + fail-closed + parser + ref map
 """
 from __future__ import annotations
@@ -117,12 +130,32 @@ def _browse_dir() -> Path:
     return Path(env) if env else DEFAULT_BROWSE_DIR
 
 
+# Named profiles isolate concurrent runs (e.g. two persona testers driving the
+# same app at once): each gets its own Chromium user-data-dir AND its own @ref
+# map, so they never collide on Chromium's profile lock or overwrite each other's
+# refs. Selected by `--profile NAME` (or $WF_BROWSE_PROFILE); unset keeps the
+# original single shared profile layout.
+_PROFILE_NAME_RE = re.compile(r"^[A-Za-z0-9_-]{1,64}$")
+
+
+def _profile_name() -> str | None:
+    name = os.environ.get("WF_BROWSE_PROFILE") or None
+    if name is not None and not _PROFILE_NAME_RE.match(name):
+        _die(f"invalid profile name {name!r} (use letters, digits, - or _)")
+    return name
+
+
+def _state_dir() -> Path:
+    name = _profile_name()
+    return _browse_dir() / "profiles" / name if name else _browse_dir()
+
+
 def _refs_path() -> Path:
-    return _browse_dir() / "refs.json"
+    return _state_dir() / "refs.json"
 
 
 def _profile_dir() -> Path:
-    return _browse_dir() / "profile"
+    return _state_dir() / "profile"
 
 
 def _die(msg: str, code: int = 2) -> "NoReturn":  # type: ignore[name-defined]
@@ -206,8 +239,14 @@ def _derive_install_layout(exe_path: str | None = None):
         rev = m.group(1) if m else None
         if rev is None:
             return root, None, None
-        headless = (root / f"chromium_headless_shell-{rev}"
-                    / "chrome-headless-shell-linux64" / "chrome-headless-shell")
+        shell_dir = root / f"chromium_headless_shell-{rev}"
+        # Two on-disk layouts exist: the current CfT one and the older
+        # `chrome-linux/headless_shell` one (still shipped in some prebuilt
+        # images, e.g. cloud containers with /opt/pw-browsers). Prefer whichever
+        # exists; default to the CfT path so a missing install still fails closed.
+        candidates = (shell_dir / "chrome-headless-shell-linux64" / "chrome-headless-shell",
+                      shell_dir / "chrome-linux" / "headless_shell")
+        headless = next((c for c in candidates if c.exists()), candidates[0])
         return root, rev, headless
     except Exception:
         return None, None, None
@@ -406,7 +445,16 @@ def read_refs() -> dict:
 STEP_KINDS = (
     "goto", "click", "fill", "wait_for", "screenshot", "assert_text", "assert_title",
     "assert_no_console_errors", "assert_no_failed_requests", "assert_a11y",
+    # interaction + environment kinds (persona testers: keyboard-only users,
+    # double-clickers, hover menus, small screens, flaky networks, back-button use)
+    "dblclick", "hover", "press", "select", "set_viewport", "set_offline",
+    "reload", "back", "snapshot",
 )
+
+# Steps a USER performs — the honest "effort" a flow costs. Navigation (goto) is
+# counted separately (a typed URL is not an in-app click); waits, asserts,
+# screenshots and environment changes are the harness, not the user.
+EFFORT_ACTION_KINDS = ("click", "dblclick", "fill", "press", "select", "hover")
 
 # axe-core source for the a11y gate (assert_a11y). Loaded into the page at run
 # time via add_script_tag; offline this raises and the gate FAILS CLOSED.
@@ -501,10 +549,32 @@ def _validate_step_args(step: dict, idx: int) -> None:
     elif kind == "screenshot":
         if not (step.get("value") or step.get("path")):
             raise ValueError(f"step {idx}: screenshot requires a path")
-    elif kind == "click":
+    elif kind in ("click", "dblclick", "hover"):
         if not (step.get("ref") or step.get("text") or step.get("selector")
                 or step.get("value")):
-            raise ValueError(f"step {idx}: click requires one of ref/text/selector")
+            raise ValueError(f"step {idx}: {kind} requires one of ref/text/selector")
+    elif kind == "press":
+        if not (step.get("key") or step.get("value")):
+            raise ValueError(f"step {idx}: press requires a key (e.g. Enter, Tab, Escape)")
+    elif kind == "select":
+        if not (step.get("selector") or step.get("ref")):
+            raise ValueError(f"step {idx}: select requires a selector or @ref")
+        if step.get("option") is None and step.get("value") is None:
+            raise ValueError(f"step {idx}: select requires an option (value or label)")
+    elif kind == "set_viewport":
+        try:
+            w, h = int(step.get("width")), int(step.get("height"))
+        except (TypeError, ValueError):
+            raise ValueError(f"step {idx}: set_viewport requires integer width and height")
+        if w <= 0 or h <= 0:
+            raise ValueError(f"step {idx}: set_viewport width/height must be positive")
+    elif kind == "set_offline":
+        if not isinstance(step.get("value"), bool):
+            raise ValueError(f"step {idx}: set_offline requires true or false")
+    elif kind == "snapshot":
+        v = step.get("path") or step.get("value")
+        if v is not None and not isinstance(v, str):
+            raise ValueError(f"step {idx}: snapshot `path` must be a string")
     elif kind == "fill":
         target = step.get("selector") or step.get("ref")
         if not target:
@@ -528,6 +598,25 @@ def _validate_step_args(step: dict, idx: int) -> None:
 
 
 # --- per-step result serialization (pure, browser-free) -----------------------
+
+def effort_summary(steps: list[dict]) -> dict:
+    """Count what a flow costs its user: in-app actions (clicks, typing, keys,
+    selects, hovers) and navigations. Pure and deterministic over the steps, so a
+    before/after diff over the SAME frozen task flow is a measurement, not a
+    persona's self-report."""
+    by_kind = {k: 0 for k in EFFORT_ACTION_KINDS}
+    for s in steps:
+        if s.get("kind") in by_kind:
+            by_kind[s["kind"]] += 1
+    return {"actions": sum(by_kind.values()),
+            "navigations": sum(1 for s in steps if s.get("kind") == "goto"),
+            "by_kind": {k: v for k, v in by_kind.items() if v}}
+
+
+def render_effort(e: dict) -> str:
+    parts = ", ".join(f"{k} {v}" for k, v in e["by_kind"].items()) or "none"
+    return f"effort: {e['actions']} action(s) ({parts}), {e['navigations']} navigation(s)"
+
 
 def make_result(idx: int, kind: str, status: str, detail: str = "") -> dict:
     """Build one per-step result record. `status` is PASS or FAIL."""
@@ -566,7 +655,7 @@ def _redirect_screenshots(steps: list[dict], evidence_dir: Path) -> None:
 
 
 def write_evidence(evidence_dir: Path, steps_file: str,
-                   results: list[dict], rc: int) -> dict:
+                   results: list[dict], rc: int, effort: dict | None = None) -> dict:
     """Persist a run's proof-of-work into evidence_dir: results.json (the machine
     signal — per-step PASS/FAIL + the run exit code, so the artifact is earned not
     asserted) and walkthrough.md (a one-page human summary: PASS/FAIL table,
@@ -586,11 +675,16 @@ def write_evidence(evidence_dir: Path, steps_file: str,
         "results": results,
         "screenshots": shots,
     }
+    if effort is not None:
+        manifest["effort"] = effort
     (evidence_dir / "results.json").write_text(json.dumps(manifest, indent=2) + "\n")
     lines = [f"# Browser verification — {evidence_dir.name}", "",
              f"**Result:** {'PASS' if rc == 0 else 'FAIL'} "
              f"({passed}/{total} steps) — exit {rc}",
-             f"Flow: `{steps_file}`", "", "## Steps", "",
+             f"Flow: `{steps_file}`"]
+    if effort is not None:
+        lines.append(f"Effort: {render_effort(effort)}")
+    lines += ["", "## Steps", "",
              "| # | step | status | detail |", "| --- | --- | --- | --- |"]
     for r in results:
         detail = (r.get("detail") or "").replace("|", "\\|").replace("\n", " ")
@@ -616,6 +710,16 @@ def _resolve_click(page, refs: dict, step: dict):
             else page.get_by_role(spec["role"])
     text = step.get("text") or step.get("value")
     return page.get_by_text(text, exact=False)
+
+
+def _resolve_field(page, refs: dict, target: str, default_role: str):
+    """Locator for a form field addressed by @ref or CSS selector."""
+    if target and target.startswith("@"):
+        spec = refs.get(target) or {}
+        role = spec.get("role", default_role)
+        return page.get_by_role(role, name=spec.get("name")) if spec.get("name") \
+            else page.get_by_role(role)
+    return page.locator(target)
 
 
 def cmd_shot(url: str, out: str, full_page: bool) -> int:
@@ -678,7 +782,7 @@ def run_flow(steps: list[dict], *, browse_dir: Path | None = None) -> tuple[list
             # Accumulate runtime errors across the whole flow so an
             # assert_no_console_errors / assert_no_failed_requests step can check
             # everything that happened since the first goto.
-            state = {"console_errors": [], "failed_requests": []}
+            state = {"console_errors": [], "failed_requests": [], "ctx": ctx}
 
             def _on_console(msg):
                 try:
@@ -784,16 +888,63 @@ def _exec_step(page, refs: dict, step: dict, state: dict | None = None) -> str:
         loc = _resolve_click(page, refs, step)
         loc.first.click(timeout=10000)
         return "clicked"
+    if kind == "dblclick":
+        _resolve_click(page, refs, step).first.dblclick(timeout=10000)
+        return "double-clicked"
+    if kind == "hover":
+        _resolve_click(page, refs, step).first.hover(timeout=10000)
+        return "hovered"
+    if kind == "press":
+        key = step.get("key") or step.get("value")
+        target = step.get("selector") or step.get("ref")
+        if target:
+            _resolve_field(page, refs, target, "textbox").first.press(key, timeout=10000)
+            return f"pressed {key!r} in {target!r}"
+        page.keyboard.press(key)
+        return f"pressed {key!r}"
+    if kind == "select":
+        target = step.get("selector") or step.get("ref")
+        option = step.get("option") if step.get("option") is not None else step.get("value")
+        loc = _resolve_field(page, refs, target, "combobox").first
+        try:
+            loc.select_option(str(option), timeout=10000)
+        except Exception:
+            loc.select_option(label=str(option), timeout=10000)
+        return f"selected {option!r} in {target!r}"
+    if kind == "set_viewport":
+        w, h = int(step["width"]), int(step["height"])
+        page.set_viewport_size({"width": w, "height": h})
+        return f"viewport {w}x{h}"
+    if kind == "set_offline":
+        ctx = state.get("ctx")
+        if ctx is None:
+            raise RuntimeError("set_offline needs the browser context (run inside `wf browse run`)")
+        ctx.set_offline(bool(step["value"]))
+        return "offline" if step["value"] else "online"
+    if kind == "reload":
+        page.reload(wait_until="load")
+        return "reloaded"
+    if kind == "back":
+        if page.go_back(wait_until="load") is None:
+            raise AssertionError("no previous page in history to go back to")
+        return f"back -> {page.url}"
+    if kind == "snapshot":
+        rows, ref_map = flatten_axtree(_capture_axtree(page) or {})
+        # Re-mint @refs for the CURRENT page so later steps (and the next run's
+        # first steps) can target what is on screen now, mid-flow.
+        refs.clear()
+        refs.update(ref_map)
+        write_refs(ref_map)
+        out = step.get("path") or step.get("value")
+        if out:
+            Path(out).parent.mkdir(parents=True, exist_ok=True)
+            Path(out).write_text(f"# accessibility snapshot: {page.url}\n"
+                                 + render_outline(rows) + "\n")
+        return f"{len(ref_map)} @ref(s) on {page.url}" + (f" -> {out}" if out else "")
     if kind == "fill":
         target = step.get("selector") or step.get("ref")
         value = step.get("value", "")
-        if target and target.startswith("@"):
-            spec = refs.get(target) or {}
-            loc = page.get_by_role(spec.get("role", "textbox"), name=spec.get("name")) \
-                if spec.get("name") else page.get_by_role(spec.get("role", "textbox"))
-            loc.first.fill(value, timeout=10000)
-        else:
-            page.fill(target, value, timeout=10000)
+        _resolve_field(page, refs, target, "textbox").first.fill(value, timeout=10000)
         return f"filled {target!r}"
     if kind == "wait_for":
         sel = step.get("selector") or step.get("value")
@@ -836,7 +987,13 @@ def _exec_step(page, refs: dict, step: dict, state: dict | None = None) -> str:
         # cannot be loaded/run (offline, CDN blocked), the gate FAILS — a silently
         # skipped a11y check is a fake-green.
         try:
-            page.add_script_tag(url=AXE_CDN)
+            # $WF_BROWSE_AXE_SRC: a local axe.min.js (e.g. from `npm i axe-core`)
+            # for boxes whose egress blocks the CDN. Still fails closed if bad.
+            local_axe = os.environ.get("WF_BROWSE_AXE_SRC")
+            if local_axe:
+                page.add_script_tag(path=local_axe)
+            else:
+                page.add_script_tag(url=AXE_CDN)
             violations = page.evaluate(
                 """(tags) => axe.run(document, tags && tags.length
                        ? { runOnly: { type: 'tag', values: tags } } : {})
@@ -888,13 +1045,15 @@ def cmd_run(steps_file: str, evidence_dir: str | None = None) -> int:
     print(f"wf browse run: {len(steps)} step(s) from {steps_file}")
     results, rc = run_flow(steps)
     print(render_results(results))
+    effort = effort_summary(steps)
+    print(f"wf browse run: {render_effort(effort)}")
     if rc != 0:
         failed = next((r for r in results if r["status"] == "FAIL"), None)
         if failed:
             print(f"wf browse run: FAILED at step {failed['step']} "
                   f"({failed['kind']}): {failed['detail']}")
     if ev is not None:
-        m = write_evidence(ev, steps_file, results, rc)
+        m = write_evidence(ev, steps_file, results, rc, effort)
         print(f"wf browse run: evidence -> {ev}/results.json + walkthrough.md "
               f"({m['passed']}/{m['total']} steps, exit {rc})")
     return rc
@@ -1496,6 +1655,72 @@ def selftest() -> int:
             if "assert_no_console_errors" not in wt or "exit 1" not in wt:
                 problems.append("f: walkthrough.md missing the step table / exit code")
 
+    # --- (g) persona-tester step kinds, effort counter, isolated profiles (pure) --
+    good = json.dumps([
+        {"goto": "http://x"}, {"kind": "dblclick", "text": "Row 1"},
+        {"kind": "hover", "selector": "#menu"}, {"press": "Tab"},
+        {"kind": "press", "key": "Enter", "selector": "#q"},
+        {"kind": "select", "selector": "#size", "option": "L"},
+        {"kind": "set_viewport", "width": 375, "height": 667},
+        {"set_offline": True}, "reload", "back", "snapshot",
+        {"kind": "fill", "selector": "#q", "value": "x"}, {"click": "Save"},
+    ])
+    try:
+        gsteps = parse_steps(good)
+        if [s_["kind"] for s_ in gsteps][-4:] != ["back", "snapshot", "fill", "click"]:
+            problems.append("g: new step kinds parsed in the wrong order/kind")
+        e = effort_summary(gsteps)
+        if e["actions"] != 7 or e["navigations"] != 1 or e["by_kind"].get("press") != 2:
+            problems.append(f"g: effort counted wrong: {e}")
+        if effort_summary(parse_steps(good)) != e:
+            problems.append("g: effort count is not deterministic")
+    except ValueError as ex:
+        problems.append(f"g: valid persona flow rejected: {ex}")
+    for bad, why in (
+        ('[{"kind": "set_viewport", "width": 375}]', "set_viewport without height"),
+        ('[{"kind": "set_viewport", "width": -1, "height": 5}]', "negative viewport"),
+        ('[{"set_offline": "yes"}]', "non-bool set_offline"),
+        ('[{"kind": "select", "selector": "#s"}]', "select without option"),
+        ('[{"kind": "press"}]', "press without key"),
+        ('["dblclick"]', "dblclick without target"),
+    ):
+        try:
+            parse_steps(bad)
+            problems.append(f"g: accepted {why}")
+        except ValueError:
+            pass
+    with tempfile.TemporaryDirectory() as gd:
+        os.environ["WF_BROWSE_DIR"] = gd
+        try:
+            shared_refs, shared_prof = _refs_path(), _profile_dir()
+            os.environ["WF_BROWSE_PROFILE"] = "lazy"
+            lazy = (_refs_path(), _profile_dir())
+            os.environ["WF_BROWSE_PROFILE"] = "chaos"
+            chaos = (_refs_path(), _profile_dir())
+            if len({shared_refs, lazy[0], chaos[0]}) != 3 or \
+                    len({shared_prof, lazy[1], chaos[1]}) != 3:
+                problems.append("g: named profiles do not isolate refs/profile dirs")
+            os.environ["WF_BROWSE_PROFILE"] = "../escape"
+            rc, _o, _e = capture(_profile_name)
+            if rc != 2:
+                problems.append("g: path-traversal profile name was not rejected")
+        finally:
+            os.environ.pop("WF_BROWSE_PROFILE", None)
+            os.environ.pop("WF_BROWSE_DIR", None)
+        # both headless-shell install layouts are detected.
+        root = Path(gd) / "pw"
+        exe = root / "chromium-1194" / "chrome-linux" / "chrome"
+        old = root / "chromium_headless_shell-1194" / "chrome-linux" / "headless_shell"
+        old.parent.mkdir(parents=True)
+        old.write_text("")
+        if _derive_install_layout(str(exe))[2] != old:
+            problems.append("g: older chrome-linux/headless_shell layout not detected")
+        old.unlink()
+        cft = (root / "chromium_headless_shell-1194" / "chrome-headless-shell-linux64"
+               / "chrome-headless-shell")
+        if _derive_install_layout(str(exe))[2] != cft:
+            problems.append("g: missing headless shell should default to the CfT path")
+
     if problems:
         print("wf browse selftest: FAIL — " + "; ".join(problems))
         return 1
@@ -1507,8 +1732,32 @@ def selftest() -> int:
           "fails critical/serious violations and honors ignore/impact levels; result "
           "serialization + @ref map "
           "round-trip + axtree flatten + CDP-axtree->nested converter + "
-          "--evidence-dir screenshot redirect & results.json/walkthrough manifest all "
-          "browser-free)")
+          "--evidence-dir screenshot redirect & results.json/walkthrough manifest + "
+          "persona step kinds, deterministic effort count, isolated named profiles "
+          "and both headless-shell layouts all browser-free)")
+    return 0
+
+
+def cmd_effort(flow: str, baseline: str | None) -> int:
+    """Browser-free: report the user effort a flow costs, optionally diffed
+    against a baseline flow for the SAME task. Only meaningful when both flows
+    PASS under `wf browse run` (a shorter failing flow proves nothing)."""
+    def load(f: str) -> list[dict]:
+        if not Path(f).is_file():
+            _die(f"steps file not found: {f}")
+        try:
+            return parse_steps(Path(f).read_text())
+        except ValueError as e:
+            _die(f"bad steps file {f}: {e}")
+    cur = effort_summary(load(flow))
+    print(f"{flow}: {render_effort(cur)}")
+    if baseline:
+        base = effort_summary(load(baseline))
+        print(f"{baseline}: {render_effort(base)}")
+        d = cur["actions"] - base["actions"]
+        verdict = "fewer" if d < 0 else ("more" if d > 0 else "same")
+        print(f"delta: {d:+d} action(s) ({verdict} than baseline); "
+              f"navigations {cur['navigations'] - base['navigations']:+d}")
     return 0
 
 
@@ -1527,6 +1776,9 @@ def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(prog="wf browse", add_help=True)
     ap.add_argument("--selftest", action="store_true",
                     help="run the browser-free selftest and exit")
+    ap.add_argument("--profile", default=None,
+                    help="named, isolated browser profile + @ref map (for concurrent "
+                         "runs, e.g. one per persona tester); default: the shared one")
     sub = ap.add_subparsers(dest="action")
 
     sub.add_parser("status", help="report playwright + chromium availability")
@@ -1548,12 +1800,20 @@ def main(argv: list[str]) -> int:
                             "DIR (use a COMMITTED tree, e.g. _workflow/evidence/<task>/, "
                             "not the gitignored .wf/) so the verification is durable proof")
 
+    p_eff = sub.add_parser("effort", help="count a flow's user actions (browser-free); "
+                                          "diff against a baseline flow for the same task")
+    p_eff.add_argument("steps_file")
+    p_eff.add_argument("--baseline", default=None, help="baseline flow for the same task")
+
     args = ap.parse_args(argv)
+    if args.profile:
+        os.environ["WF_BROWSE_PROFILE"] = args.profile
+        _profile_name()  # validate early (exit 2 on a bad name)
 
     if args.selftest:
         return selftest()
     if not args.action:
-        ap.error("a subcommand (status|setup|shot|snapshot|run) or --selftest is required")
+        ap.error("a subcommand (status|setup|shot|snapshot|run|effort) or --selftest is required")
 
     if args.action == "status":
         return cmd_status()
@@ -1566,6 +1826,8 @@ def main(argv: list[str]) -> int:
     if args.action == "run":
         # cmd_run does its own fail-closed handling
         return cmd_run(args.steps_file, args.evidence_dir)
+    if args.action == "effort":
+        return cmd_effort(args.steps_file, args.baseline)
     ap.error(f"unknown action {args.action!r}")  # unreachable
 
 

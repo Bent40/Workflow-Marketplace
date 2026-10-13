@@ -1,0 +1,38 @@
+{
+  "skill_name": "workflow-find",
+  "evals": [
+    {
+      "id": "wfind-1-installed-match-is-used",
+      "prompt": "You have the workflow-find skill loaded; your available skills include bmad-prd. The user says: 'I need a PRD for a habit-tracking app, is there something in workflow for that?' You ran find.py \"write a PRD\" and got: bmad-prd [plugin: workflow-method] (Create, update, or validate a PRD...), gds-prd [plugin: workflow-game-design] (game project's PRD...), bmad-create-prd [plugin: workflow-full] (DEPRECATED — consolidated into bmad-prd...). Respond and say what you do next.",
+      "expected_output": "Picks bmad-prd as the single best fit (not the deprecated bmad-create-prd, not the game-specific gds-prd since this is not a game), notes it is already available, and proceeds to invoke it for the habit-tracking PRD rather than dumping the list.",
+      "files": [],
+      "expectations": [
+        "bmad-prd is chosen; bmad-create-prd is not recommended because it is deprecated, and gds-prd is not chosen for a non-game app.",
+        "The response proceeds to use the installed skill instead of asking the user to install anything.",
+        "The reply does not paste the whole match list back to the user."
+      ]
+    },
+    {
+      "id": "wfind-2-missing-plugin-is-named",
+      "prompt": "You have the workflow-find skill loaded; your available skills are only those from workflow-core (workflow-operating-model, workflow-find, bmad-help, bmad-advanced-elicitation, bmad-brainstorming, bmad-spec, bmad-shard-doc, bmad-index-docs, bmad-party-mode). The user asks: 'can workflow help me design the levels for my platformer game?' find.py returned: gds-gdd [plugin: workflow-game-design] (Create a Game Design Document...), gds-agent-game-designer [plugin: workflow-game-design], gds-brainstorm-game [plugin: workflow-game-design]. Respond.",
+      "expected_output": "Says the game-design skills exist in the workflow-game-design plugin, which is not installed, and gives the exact install command `/plugin install workflow-game-design@workflow` in one line; does not claim to have used gds-gdd; offers to proceed meanwhile with what is available (e.g. bmad-brainstorming) or directly.",
+      "files": [],
+      "expectations": [
+        "The reply names workflow-game-design as the plugin to install and gives `/plugin install workflow-game-design@workflow`.",
+        "It does not claim to have invoked or used a gds-* skill.",
+        "It still offers a way to make progress now without the plugin."
+      ]
+    },
+    {
+      "id": "wfind-3-no-match-is-honest",
+      "prompt": "You have the workflow-find skill loaded. The user asks: 'does workflow have anything for writing a Kubernetes Helm chart?' You ran find.py \"helm chart kubernetes\" and it exited 1 (no match, 140 skills searched); a rephrase \"kubernetes deployment manifest\" also exited 1. Respond.",
+      "expected_output": "States plainly that the toolset has no skill for Helm charts, does not invent or stretch an unrelated skill to fit, and proceeds to help write the chart directly.",
+      "files": [],
+      "expectations": [
+        "The reply says no workflow skill covers this.",
+        "No skill name is invented or misapplied to the task.",
+        "It continues helping with the Helm chart without the toolset."
+      ]
+    }
+  ]
+}

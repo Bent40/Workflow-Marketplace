@@ -13,15 +13,14 @@ composes with — never replaces — the BMAD authoring skills (`bmad-spec`,
 constraints:
   - id: SEC-1                     # unique across ALL files
     statement: <the constraint>   # non-empty string
-    activation: default           # default | secure_only
+    activation: default           # only `default` exists
     check: <verify hint>          # human how-to-verify pointer
     severity: high                # low | medium | high
 ```
 
-- **`activation` reuses the proven civilian/secure split:** `default` constraints
-  are active in every profile; `secure_only` constraints are active **only** in the
-  secure profile and **never** load into a civilian profile (same mechanism as
-  `secure_only` rules — re-proven by the selftest's isolation assertion).
+- **`activation`:** `default` constraints are active in every profile. (The
+  former `secure_only` level was removed with the secure posture on 2026-10-13 —
+  core/DECISIONS.md D6.)
 - Fail-closed: duplicate id, missing/blank statement, `activation`/`severity` out
   of range, or a non-mapping constraint ⇒ typed error (exit 2).
 
@@ -39,13 +38,12 @@ constraints:
 | Invocation | Behavior |
 |---|---|
 | `spec init <feature>` | scaffold the 4 files (idempotent); seeds `acceptance.md`'s acknowledgements with the **default** constraint ids |
-| `spec check <feature> [--profile civilian\|secure]` | structural (sections) + constitution gate |
+| `spec check <feature> [--profile civilian]` | structural (sections) + constitution gate |
 | `spec split <feature>` | `tasks.md` → `split-task.py` microtask packets |
 | `spec --selftest` | self-check (wf-doctor check 19) |
 
 `--profile` defaults to **civilian**. The **constitution gate** loads the
 constraints active for the profile and asserts `acceptance.md` acknowledges every
 active `id` — an acknowledgement is a list item beginning `- <ID>:` (deterministic
-presence check; no LLM). Civilian excludes `secure_only`, so an `init`-seeded spec
-passes civilian `check` and (correctly) fails secure `check` until the
-`secure_only` ids are acknowledged. Exit 0 ok / 1 violations / 2 config error.
+presence check; no LLM). An `init`-seeded spec passes `check`; dropping any
+acknowledgement fails it. Exit 0 ok / 1 violations / 2 config error.

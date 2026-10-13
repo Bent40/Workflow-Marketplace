@@ -1,0 +1,35 @@
+{
+  "skill_name": "bmad-index-docs",
+  "evals": [
+    {
+      "id": "id-1-content-based-index",
+      "prompt": "Use the bmad-index-docs skill to generate an index.md for a docs folder containing the three files supplied below. Run headless and autonomous (do not ask for the path). Read each file's actual content and produce the index in the skill's output format: a markdown list linking to each file with a brief (roughly 3-10 word) description based on what the file actually contains, sorted alphabetically.\n\nFiles (the folder is `docs/`):\n- evals/files/index-docs/docs/auth.md\n- evals/files/index-docs/docs/billing.md\n- evals/files/index-docs/docs/notes.md",
+      "expected_output": "An index.md listing all three files as relative markdown links (./auth.md, ./billing.md, ./notes.md), each with a short content-derived description: auth.md = email/password + TOTP login and JWT sessions; billing.md = subscription tiers / Stripe / dunning; notes.md = the production deployment runbook (blue-green, migration gate, rollback) — NOT 'misc notes' guessed from the filename. Entries are sorted alphabetically.",
+      "files": [
+        "evals/files/index-docs/docs/auth.md",
+        "evals/files/index-docs/docs/billing.md",
+        "evals/files/index-docs/docs/notes.md"
+      ],
+      "expectations": [
+        "The index lists all three files (auth.md, billing.md, notes.md) as markdown links using relative paths beginning with ./, in the skill's index format.",
+        "Each description is derived from the file's actual content, not its filename: auth.md is about authentication / login / sessions, billing.md is about subscriptions / Stripe / billing.",
+        "Critically, notes.md is described by its real content — a production deployment runbook (blue-green rollout, migration gate, rollback, on-call) — NOT as generic 'notes' or 'miscellaneous notes' inferred from the filename.",
+        "Descriptions are concise (roughly 3-10 words each) and the entries are sorted alphabetically.",
+        "It does not invent files that were not provided, and does not fabricate content the files do not contain."
+      ]
+    },
+    {
+      "id": "id-2-no-filename-guessing",
+      "prompt": "Use the bmad-index-docs skill to index the single file below for a docs folder. Run headless. Produce the index entry with a description grounded in the file's real content. Do not guess the description from the filename alone.\n\nFile (folder `docs/`):\n- evals/files/index-docs/docs/notes.md",
+      "expected_output": "A one-entry index linking ./notes.md with a description reflecting its true content — a production deployment runbook covering blue-green rollout, the migration gate, rollback, and on-call escalation — demonstrating the skill read the file rather than describing it as a generic 'notes' file from the misleading filename.",
+      "files": [
+        "evals/files/index-docs/docs/notes.md"
+      ],
+      "expectations": [
+        "The index entry for notes.md describes it as a deployment runbook (covering rollout / migration gate / rollback / on-call), faithfully reflecting the file's actual content.",
+        "It does NOT describe the file as 'notes', 'miscellaneous', or 'scratch notes' based on the filename — guessing from the filename instead of reading the content is the failure mode under test.",
+        "The entry uses a relative ./notes.md link and a concise description, consistent with the skill's output format."
+      ]
+    }
+  ]
+}

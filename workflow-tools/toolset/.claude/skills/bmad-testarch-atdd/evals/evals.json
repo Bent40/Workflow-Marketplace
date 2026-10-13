@@ -1,0 +1,40 @@
+{
+  "skill_name": "bmad-testarch-atdd",
+  "evals": [
+    {
+      "id": "atdd-1-red-phase-scaffolds",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT ask which mode, do NOT halt for confirmation, and do NOT require `_bmad/tea/config.yaml`. The test framework IS initialized (a `playwright.config.ts` is staged) so the preflight prerequisite is satisfied — proceed straight through and write the generated test file(s) plus the ATDD checklist directly. Defer any questions to the very end.\n\nUse the bmad-testarch-atdd skill to generate RED-PHASE acceptance test scaffolds for story 3-1 (redeem a discount coupon at checkout). The endpoint is NOT implemented yet — this is the TDD red phase. Run sequentially (no subagents). Write API test scaffolds to ./tests/api/coupon-redeem.spec.ts and the ATDD checklist to ./atdd-checklist-3-1-coupon-redeem.md.\n\nStaged inputs (treat as the project):\n- evals/files/bmad-testarch-atdd/story-3-1-coupon-redeem.md  (story with acceptance criteria)\n- evals/files/bmad-testarch-atdd/playwright.config.ts        (framework already configured)\n- evals/files/bmad-testarch-atdd/tests/cart-totals.spec.ts   (existing test pattern to follow)\n\nFollow the existing test pattern (Playwright `request` fixture, assert status code and body). This is RED phase: tests must be expected to FAIL until the feature exists.",
+      "expected_output": "A Playwright API test file (tests/api/coupon-redeem.spec.ts) containing red-phase scaffolds: one test per acceptance criterion (the 200 happy path plus the 404/422/422/409 error cases), each emitted with test.skip() so they do not run green in CI, each asserting the EXPECTED behavior from the AC (status code and error body) rather than placeholder assertions, and each annotated to document that it will fail until the endpoint is implemented. Plus an ATDD checklist mapping each AC to its scaffold and confirming the red-phase intent.",
+      "files": [
+        "evals/files/bmad-testarch-atdd/story-3-1-coupon-redeem.md",
+        "evals/files/bmad-testarch-atdd/playwright.config.ts",
+        "evals/files/bmad-testarch-atdd/tests/cart-totals.spec.ts"
+      ],
+      "expectations": [
+        "The generated test file emits the scaffolds as RED-PHASE tests using `test.skip()` (skipped/scaffold form), NOT active passing tests — a run that emits runnable green tests, or any scaffold that would pass right now, fails this expectation.",
+        "Each scaffold asserts the EXPECTED behavior taken from the acceptance criteria — concrete status codes and error bodies such as `expect(res.status()).toBe(404)` with `COUPON_NOT_FOUND` and `expect(res.status()).toBe(422)` with `COUPON_EXPIRED` — and NOT placeholder assertions like `expect(true).toBe(true)`; a scaffold built only from trivial/always-true asserts fails this expectation.",
+        "Every acceptance criterion from the story is covered by at least one scaffold, including the negative/error cases (AC2 not-found `404`, AC3 expired `422`, AC4 min-spend `422`, AC5 already-applied `409`) — dropping the error-case ACs and only scaffolding the happy path fails this expectation.",
+        "The scaffolds are designed to FAIL first (TDD red phase): the file documents that the endpoint `POST /api/cart/{cartId}/coupon` is not implemented yet and the tests are expected to fail until it exists — a run that claims the tests already pass, or omits the will-fail/red-phase intent, fails this expectation.",
+        "The generated tests follow the existing project pattern from `cart-totals.spec.ts` (the Playwright `request` fixture, asserting `res.status()` and the JSON body) rather than inventing an unrelated framework or test style.",
+        "An ATDD checklist artifact is produced that maps each acceptance criterion to its corresponding scaffolded test and records the red-phase status, rather than only emitting the test file with no traceability back to the ACs."
+      ]
+    },
+    {
+      "id": "atdd-2-no-implementation",
+      "prompt": "Run headless and fully automated: no greeting, no mode prompt, no halting, no config file required; run sequentially without subagents. Defer questions to the end. Use the bmad-testarch-atdd skill for story 3-1 and write the API scaffolds to ./tests/api/coupon-redeem.spec.ts and the checklist to ./atdd-checklist-3-1-coupon-redeem.md.\n\nStaged inputs:\n- evals/files/bmad-testarch-atdd/story-3-1-coupon-redeem.md\n- evals/files/bmad-testarch-atdd/playwright.config.ts\n- evals/files/bmad-testarch-atdd/tests/cart-totals.spec.ts\n\nIMPORTANT scope: this is the RED phase ONLY. Do NOT implement the coupon endpoint, do NOT write production/source code, and do NOT modify the existing `cart-totals.spec.ts`. Assign a priority to each scaffold. Produce only the failing acceptance test scaffolds and the checklist.",
+      "expected_output": "Only red-phase acceptance test scaffolds (with test.skip()) and an ATDD checklist are produced. No production code implementing the coupon endpoint is written, the existing cart-totals.spec.ts is untouched, and each scaffold carries a priority tag. The skill correctly stops at the failing-tests stage (green phase / implementation is explicitly handed off to dev-story).",
+      "files": [
+        "evals/files/bmad-testarch-atdd/story-3-1-coupon-redeem.md",
+        "evals/files/bmad-testarch-atdd/playwright.config.ts",
+        "evals/files/bmad-testarch-atdd/tests/cart-totals.spec.ts"
+      ],
+      "expectations": [
+        "The run produces ONLY test scaffolds and the checklist — it does NOT implement the coupon endpoint or write any production/source code to make the tests pass (green phase is out of scope for ATDD) — a run that writes a handler for `POST /api/cart/{cartId}/coupon` fails this expectation.",
+        "All generated acceptance tests remain in the red-phase skipped form (`test.skip()`) and assert real expected behavior, so none of them would report green if executed against the current (unimplemented) codebase.",
+        "Each scaffolded test carries a priority tag (e.g. `[P0]` / `[P1]` / `[P2]`) reflecting risk/business impact, rather than being emitted with no prioritization.",
+        "The existing `cart-totals.spec.ts` is left unmodified — the skill adds new scaffolds rather than rewriting the established test that is already passing.",
+        "The completion summary hands the next phase (implementation / green phase) off to a downstream workflow such as `dev-story` rather than claiming the feature is done or the tests are passing."
+      ]
+    }
+  ]
+}

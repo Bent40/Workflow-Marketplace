@@ -1,0 +1,13 @@
+[
+  { "query": "What did you mean by 'filter words' in that review?", "should_trigger": true },
+  { "query": "How do I foreshadow without telegraphing the twist?", "should_trigger": true },
+  { "query": "What's a zeugma? Show me how one works", "should_trigger": true },
+  { "query": "Teach me how to write dialogue subtext", "should_trigger": true },
+  { "query": "Help me land this metaphor, it's not working", "should_trigger": true },
+  { "query": "What device am I attempting in this sentence?", "should_trigger": true },
+  { "query": "Teach me testing, I want to study test practices", "should_trigger": false },
+  { "query": "Review my chapter for prose issues", "should_trigger": false },
+  { "query": "Research Ursula K. Le Guin's style", "should_trigger": false },
+  { "query": "How do I set up a CI pipeline?", "should_trigger": false },
+  { "query": "What did you mean by that git rebase command?", "should_trigger": false }
+]

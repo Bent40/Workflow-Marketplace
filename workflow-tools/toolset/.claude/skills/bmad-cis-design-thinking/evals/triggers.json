@@ -1,0 +1,8 @@
+[
+  { "query": "Let's run design thinking on this clinic check-in problem — empathize and define.", "should_trigger": true },
+  { "query": "I want to apply design thinking: build an empathy map and frame the problem from these user interviews.", "should_trigger": true },
+  { "query": "Guide me through a human-centered design process for our app's drop-off problem.", "should_trigger": true },
+  { "query": "Help me brainstorm a bunch of feature ideas for my note-taking app.", "should_trigger": false },
+  { "query": "Create the UX design spec and information architecture for this product.", "should_trigger": false },
+  { "query": "Run a structured problem-solving session to root-cause this production incident.", "should_trigger": false }
+]

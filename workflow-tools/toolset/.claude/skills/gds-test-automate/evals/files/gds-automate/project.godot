@@ -1,0 +1,8 @@
+; Minimal Godot 4 project marker so engine detection resolves to Godot.
+config_version=5
+
+[application]
+config/name="Hollow Drift"
+
+[editor_plugins]
+enabled=PackedStringArray("res://addons/gut/plugin.cfg")

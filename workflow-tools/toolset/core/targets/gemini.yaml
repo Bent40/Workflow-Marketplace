@@ -1,0 +1,5 @@
+id: gemini
+summary: Gemini — reads a context file; broad repo understanding; no subagents.
+capabilities:
+  - repo_guidance
+  - context_file

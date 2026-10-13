@@ -1,0 +1,8 @@
+[
+  { "query": "Correct course — playtesting showed our stamina mechanic kills the fun and we want to cut it mid-sprint. Help me navigate the change.", "should_trigger": true },
+  { "query": "We hit a significant mid-sprint change and need a Sprint Change Proposal with impact analysis across the GDD and epics.", "should_trigger": true },
+  { "query": "Propose a sprint change: assess the blast radius of removing the stamina system across our stories and artifacts before we commit.", "should_trigger": true },
+  { "query": "Create the next story for the parry mechanic in our sprint.", "should_trigger": false },
+  { "query": "Check whether our GDD and epics are ready to start production.", "should_trigger": false },
+  { "query": "Run a retrospective on the epic we just shipped.", "should_trigger": false }
+]

@@ -1,0 +1,8 @@
+[
+  { "query": "Sophia, help me craft an origin story for our community makerspace.", "should_trigger": true },
+  { "query": "Can I talk to the Master Storyteller about a pitch narrative for my soil-health app?", "should_trigger": true },
+  { "query": "Sophia, write a customer-success story about how our scheduling tool cut no-shows.", "should_trigger": true },
+  { "query": "Victor, where is the disruption opportunity in my market?", "should_trigger": false },
+  { "query": "Carson, let's brainstorm names for a new feature.", "should_trigger": false },
+  { "query": "Audit the NFR evidence for the payments service.", "should_trigger": false }
+]

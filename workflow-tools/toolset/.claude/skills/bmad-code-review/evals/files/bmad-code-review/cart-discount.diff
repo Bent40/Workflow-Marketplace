@@ -1,0 +1,25 @@
+diff --git a/src/cart.py b/src/cart.py
+index 1a2b3c4..5d6e7f8 100644
+--- a/src/cart.py
++++ b/src/cart.py
+@@ -10,6 +10,21 @@ class Cart:
+     def subtotal(self):
+         return sum(item.price * item.quantity for item in self.items)
+
++    def apply_discount(self, percent):
++        # Reduce the subtotal by the given percentage.
++        factor = 1 - percent / 100
++        self.discounted_total = self.subtotal() * factor
++        return self.discounted_total
++
++    def remove_item(self, index):
++        # Pre-existing TODO from a much older change: this silently does nothing
++        # when the index is out of range, unlike the rest of the API which raises.
++        if index < len(self.items):
++            del self.items[index]
++
+     def add_item(self, item):
+         self.items.append(item)
++        # Recompute cached total. NOTE: leftover debug print.
++        print("DEBUG added item", item)
++        self.cached_total = self.subtotal()

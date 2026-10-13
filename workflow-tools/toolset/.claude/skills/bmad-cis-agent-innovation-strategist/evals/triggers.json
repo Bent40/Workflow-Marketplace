@@ -1,0 +1,8 @@
+[
+  { "query": "Victor, where's the disruption opportunity for my plateauing board-game cafes?", "should_trigger": true },
+  { "query": "Can I talk to the Disruptive Innovation Oracle about rethinking my textbook-printing business model?", "should_trigger": true },
+  { "query": "Victor, our budget gym is losing members to home-fitness apps — what's the play?", "should_trigger": true },
+  { "query": "Dr. Quinn, help me root-cause our flaky deployments.", "should_trigger": false },
+  { "query": "Sophia, help me craft an origin story for my brand.", "should_trigger": false },
+  { "query": "Generate a traceability matrix for the auth epic.", "should_trigger": false }
+]

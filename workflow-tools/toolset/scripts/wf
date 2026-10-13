@@ -17,7 +17,7 @@ exit code, so everything is usable through one entry point.
     wf spec init|check|split|markers|analyze <feat>   -> scripts/wf-spec.py
     wf audit <story> [--base <ref>] [--block]  -> scripts/wf-audit.py
     wf eval [<glob>] | coverage [...]  -> scripts/wf-eval.py (coverage -> wf-eval-coverage.py)
-    wf scaffold --out <dir> [--secure] [--team]  -> scripts/wf-scaffold.py
+    wf scaffold --out <dir> [--profile <id>]  -> scripts/wf-scaffold.py
     wf install --out <dir> [--packs ...] [--targets ...] [--profile P]  -> scripts/wf-install.py
     wf lock claim|release|check|list   -> scripts/wf-lock.py
     wf guard status|careful|freeze|on|off|check  -> scripts/wf-guard.py
@@ -102,7 +102,7 @@ Commands:
   audit <story> [--base <ref>] [--block]  story-completion audit vs the diff (wf-audit.py)
   eval [<glob>]                 deterministic golden evals (wf-eval.py)
   eval coverage [--gate]        skill eval-coverage report + gate (wf-eval-coverage.py)
-  scaffold --out <dir> [--secure] [--team]  generate a project starter (wf-scaffold.py)
+  scaffold --out <dir> [--profile <id>]  generate a minimal project starter (wf-scaffold.py)
   install --out <dir> [--packs ...] [--targets ...]  pick packs+targets, materialize (wf-install.py)
   lock claim|release|check|list  module/file concurrency leases (wf-lock.py)
   guard status|careful|freeze|on|off  command-safety guardrails (wf-guard.py)

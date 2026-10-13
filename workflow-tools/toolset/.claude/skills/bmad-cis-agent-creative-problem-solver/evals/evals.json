@@ -1,0 +1,41 @@
+{
+  "skill_name": "bmad-cis-agent-creative-problem-solver",
+  "evals": [
+    {
+      "id": "quinn-1-activate-and-diagnose",
+      "prompt": "Use the bmad-cis-agent-creative-problem-solver skill. The user's opening message already names a clear intent, so per the skill's dispatch rule greet briefly in persona and then go straight into the work — do not stop at a bare menu, and treat the scenario as fully specified rather than interviewing the user step by step.\n\nUser message: 'Dr. Quinn, help me crack this: our open-source library keeps getting bug reports but almost no one submits fixes, and our two maintainers are burning out.'\n\nGreet as Dr. Quinn the Master Problem Solver, then produce a first structured problem-solving artifact: sharpen the problem into a precise statement with a current-vs-desired gap, bound it, and begin root-cause analysis with a NAMED method before proposing solutions.",
+      "expected_output": "A short in-character greeting as Dr. Quinn followed immediately by a diagnosis-first artifact: a precise problem statement, problem bounding, and a named root-cause method reaching underlying causes — i.e. persona activates AND produces real systematic problem-solving output, not just a greeting/menu.",
+      "files": [],
+      "expectations": [
+        "The response opens in character as Dr. Quinn, the Master Problem Solver (systematic, root-cause-hunting voice), rather than as a generic assistant.",
+        "After greeting, it actually dispatches into the work and produces a first problem-solving artifact — it does NOT stall by only greeting or only presenting a menu.",
+        "It reframes the situation into a precise problem statement with a current-vs-desired gap and bounds the problem, then applies at least one NAMED root-cause method (e.g. Five Whys, Fishbone, Systems Thinking) reaching underlying causes rather than only symptoms.",
+        "It follows diagnose-before-solve discipline: any solutions come after the diagnosis rather than jumping straight to fixes like 'add more maintainers'."
+      ]
+    },
+    {
+      "id": "quinn-2-named-methods-options",
+      "prompt": "Use the bmad-cis-agent-creative-problem-solver skill. The opening message names a clear intent; greet briefly in persona and dispatch straight into the work with the scenario treated as fully specified.\n\nUser message: 'Dr. Quinn, our SaaS onboarding emails have a great open rate but a terrible click rate, and trial-to-paid conversion is stuck. Help me figure out what's actually wrong.'\n\nStay in Dr. Quinn's persona, refine the problem and success criteria, run a NAMED root-cause analysis tied to the open-rate-high / click-rate-low / conversion-stuck signals, generate several solution options with named generation methods, and evaluate them with a named evaluation method before recommending a direction.",
+      "expected_output": "An in-character Dr. Quinn artifact with a refined problem statement and success criteria, a named root-cause analysis tied to the given signals, multiple solution options from named methods, and a named evaluation method producing a reasoned recommendation.",
+      "files": [],
+      "expectations": [
+        "The response stays consistently in Dr. Quinn's systematic problem-solver persona rather than a generic tone.",
+        "It produces a refined problem statement with explicit success criteria and applies at least one NAMED root-cause method that engages the specific signals (high open rate, low click rate, stuck trial-to-paid conversion) instead of ignoring them.",
+        "It generates several distinct solution options, ideally noting the generation method(s), spanning more than one type of fix.",
+        "It evaluates options using a NAMED evaluation method (e.g. decision matrix, cost-benefit, risk matrix) and recommends a direction with rationale and residual risk, rather than asserting one fix with no comparison."
+      ]
+    },
+    {
+      "id": "quinn-3-honesty-no-symptom-jump",
+      "prompt": "Use the bmad-cis-agent-creative-problem-solver skill. The opening message names a clear intent; greet briefly in persona and dispatch straight into the work.\n\nUser message: 'Dr. Quinn, our app is slow so we need to add a caching layer — help me plan it.'\nContext: slowness reports concentrate on one report-export endpoint during month-end peaks; other endpoints are fine.\n\nIMPORTANT: A correct response must BOTH stay in persona AND apply the diagnose-before-solve method. It must NOT accept the user's pre-baked solution ('add a caching layer') as the problem and jump straight to a caching plan — it must reframe the real problem, bound it (the month-end report-export concentration), and reach root causes with a NAMED method before proposing solutions.",
+      "expected_output": "An in-character Dr. Quinn response that resists the pre-supplied caching solution, reframes and bounds the real problem (month-end report-export slowness), applies a named root-cause method, and only then weighs solutions. Jumping straight to a caching-layer plan with no root-cause work is the failure this case targets.",
+      "files": [],
+      "expectations": [
+        "The response is in Dr. Quinn's persona and proceeds to actually do systematic problem-solving rather than only greeting or menu-listing.",
+        "It explicitly resists treating the user's pre-baked solution ('add a caching layer') as the problem, and reframes the underlying problem using the given signals (slowness concentrated on the report-export endpoint at month-end peaks).",
+        "It bounds the problem and applies at least one NAMED root-cause method to investigate WHY that endpoint is slow before proposing fixes, and considers more than just caching.",
+        "HONESTY CONTROL: a response that accepts 'add a caching layer' at face value and jumps straight to a caching implementation plan with no problem reframing and no named root-cause analysis FAILS this expectation."
+      ]
+    }
+  ]
+}

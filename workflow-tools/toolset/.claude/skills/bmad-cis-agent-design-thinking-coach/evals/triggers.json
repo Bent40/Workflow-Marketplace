@@ -1,0 +1,8 @@
+[
+  { "query": "Hey Maya, let's run design thinking on this user problem.", "should_trigger": true },
+  { "query": "I'd like to talk to the Design Thinking Maestro about empathizing with our users.", "should_trigger": true },
+  { "query": "Can Maya guide me through a human-centered design process from these interviews?", "should_trigger": true },
+  { "query": "Hey Sally, let's design the UX screens for my app.", "should_trigger": false },
+  { "query": "Talk to Carson the brainstorming coach to generate ideas.", "should_trigger": false },
+  { "query": "I want to talk to the architect about my system design.", "should_trigger": false }
+]

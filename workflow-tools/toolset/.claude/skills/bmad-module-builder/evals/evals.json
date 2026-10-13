@@ -1,0 +1,38 @@
+{
+  "skill_name": "bmad-module-builder",
+  "evals": [
+    {
+      "id": "modbuilder-1-validate-registration-drift",
+      "prompt": "Use the bmad-module-builder skill in its Validate Module (VM) mode. Validate the 'Kitchen Helper' module described by the files below by reading the SKILL.md files directly and checking each capability against the module-help.csv registration and the module.yaml agent roster. Produce the validation report: list each structural/registration issue, each accuracy/quality finding with a suggested fix, and an overall ready-or-not assessment.\n\nThe module has two skills:\n- recipe-extractor: evals/files/modbuilder/recipe-extractor-SKILL.md\n- meal-planner: evals/files/modbuilder/meal-planner-SKILL.md\n\nIts capability registration is in evals/files/modbuilder/module-help.csv and its module metadata + agent roster in evals/files/modbuilder/module.yaml. (Assume the chef-remy agent's own customize.toml declares icon = \"🍽️\".)",
+      "expected_output": "A validation report that catches: (1) recipe-extractor exposes TWO modes (Extract and Validate) but only Extract has a CSV row — the Validate capability is unregistered; (2) the meal-planner CSV description ('printable grocery coupons') does not match what the skill does (weekly meal plan + shopping list); (3) the module.yaml agent-roster icon (🧑‍🍳) is stale versus the agent's own customize.toml icon (🍽️). It should give actionable fixes and conclude the module is NOT ready until fixed.",
+      "files": [
+        "evals/files/modbuilder/recipe-extractor-SKILL.md",
+        "evals/files/modbuilder/meal-planner-SKILL.md",
+        "evals/files/modbuilder/module-help.csv",
+        "evals/files/modbuilder/module.yaml"
+      ],
+      "expectations": [
+        "The report identifies the COMPLETENESS gap: recipe-extractor describes two distinct modes (Extract and Validate) in its SKILL.md but the module-help.csv registers only the Extract capability, so the Validate mode has no CSV row and needs one.",
+        "The report identifies the ACCURACY problem: the meal-planner CSV description ('Generates printable grocery coupons for the week.') does not match what the skill actually does (build a balanced weekly meal plan with a consolidated shopping list), and recommends rewriting the description to match.",
+        "The report flags the agent-roster DRIFT: the module.yaml roster entry for chef-remy uses icon 🧑‍🍳 while the agent's own customize.toml uses 🍽️, and recommends regenerating the roster from the agent's customize.toml.",
+        "Each finding is actionable — it states what is wrong and suggests a concrete fix (add the missing row, correct the description, reconcile the icon) rather than vague commentary.",
+        "The overall assessment concludes the module is NOT ready for use as-is and needs these fixes — it does not pass a module that has an unregistered capability and a mismatched description."
+      ]
+    },
+    {
+      "id": "modbuilder-2-validate-clean-no-false-positives",
+      "prompt": "Use the bmad-module-builder skill in its Validate Module (VM) mode. Validate this single-skill standalone module by reading the SKILL.md directly and checking its capability against the registration CSV. Produce the validation report.\n\nSkill: evals/files/modbuilder/clean-timer-SKILL.md\nRegistration: evals/files/modbuilder/clean-module-help.csv\n\nThe kitchen-timer skill has exactly one mode (start a timer) and the CSV registers exactly that one capability with a matching, action-oriented description.",
+      "expected_output": "A validation report that finds the module clean: the single 'start a timer' capability is correctly and accurately registered with one matching CSV row, the description is concise and action-oriented, and the module is ready for use. No issues should be fabricated.",
+      "files": [
+        "evals/files/modbuilder/clean-timer-SKILL.md",
+        "evals/files/modbuilder/clean-module-help.csv"
+      ],
+      "expectations": [
+        "The report confirms the single capability (start a named countdown timer) is fully and accurately registered — one skill mode, one matching CSV row, description matches behavior.",
+        "The report does NOT fabricate registration gaps, accuracy problems, or missing capabilities that are not present — the skill genuinely has only one mode and it is registered.",
+        "The overall assessment is POSITIVE — the module passes / is ready for use — rather than inventing fixes to look thorough.",
+        "If the report notes anything, it is at most a minor optional polish clearly labeled as non-blocking, not a manufactured structural or accuracy defect."
+      ]
+    }
+  ]
+}

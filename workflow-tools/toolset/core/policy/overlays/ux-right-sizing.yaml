@@ -1,0 +1,38 @@
+# Policy overlay — UX-spec skills, SIZE-AWARE right-sizing.
+# Owned layer (core/policy/): imposes obligations on the vendored UX skills
+# WITHOUT editing them or shattering them into sub-skills. Surfaced by
+# `wf policy show <skill>`; the agent honors it before invoking the skill.
+# Schema: core/policy/policy-schema.md.
+#
+# WHY: bmad-ux / gds-ux can drive a full UX spec + design-system onto a
+# two-screen utility, burning tokens on spec that does not reduce risk. This
+# overlay tells the agent to RIGHT-SIZE the UX spec by SURFACE COUNT (number of
+# screens), per gating.right_size_process_to_project, WITHOUT under-specifying a
+# multi-surface product. It COMPOSES with the ux-ui-design overlay: this one
+# governs SIZE (how much UX spec to produce), that one governs QUALITY
+# (mockup-first, Claude-generated, >=2 reviews, plus the Claude-design
+# outside-help instructions). BOTH apply to bmad-ux / gds-ux — neither replaces
+# the other. Mirrors the voice of code-review-right-sizing.yaml.
+id: ux-right-sizing
+title: "UX right-sizing (size-tier the UX spec by surface count; composes with ux-ui-design)"
+
+applies_to:
+  # fnmatch globs over skill names under .claude/skills/. Each must match >=1 real
+  # skill (wf policy check fails closed otherwise). Targets the UX-spec surfaces
+  # in BMM and Game Dev Studio. These ALSO match the ux-ui-design overlay, by
+  # design — the two overlays compose (size + quality).
+  skill_globs:
+    - "bmad-ux"   # BMM UX patterns + specifications
+    - "gds-ux"    # Game Dev Studio game UX / HUD / UI
+  categories:
+    - ux
+
+requirements:
+  - "RIGHT-SIZE the UX spec to the surface count before producing it, per gating.right_size_process_to_project. Count the screens/surfaces up front and cap the spec to that tier — process volume is a cost, not a virtue. State the chosen tier and WHY at the top of the UX output."
+  - "TINY tier (a toy / one or a few key screens): spec the KEY SCREENS plus their primary states only (empty / loading / error). Do NOT produce a full UX spec or a design-system for a two-screen utility — that is the disproportionate ceremony right-sizing exists to prevent."
+  - "SMALL tier (a small multi-screen app): the TINY key-screens-and-states PLUS the primary user flows between them and responsive/breakpoint notes."
+  - "MEDIUM and LARGE tiers: produce the FULL UX spec — complete screen inventory with all states, full flows, responsive behavior, interaction patterns, and (where the product warrants) a design-system. No layer is dropped at these tiers. Never under-specify a multi-surface product."
+  - "COMPOSITION: this overlay governs SIZE only. The ux-ui-design overlay (which ALSO applies to these skills) governs QUALITY — mockup-first, Claude-generated design, >=2 independent reviews, and the Claude-design outside-help connect instructions. BOTH overlays apply; honor each. Right-sizing the spec NEVER waives the ux-ui-design quality obligations (e.g. you still ship a real mockup artifact for the screens you DO spec)."
+  - "Honesty: state the chosen tier and its justification explicitly. Never run a full UX spec on a two-screen toy, and never under-specify a multi-surface product. When a lite tier is chosen, say which deeper UX artifacts (full flows, responsive matrix, design-system) were intentionally OMITTED."
+
+enforcement: instructions

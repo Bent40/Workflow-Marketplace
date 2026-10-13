@@ -1,0 +1,37 @@
+{
+  "skill_name": "bmad-party-mode",
+  "evals": [
+    {
+      "id": "pm-1-default-room-unchanged",
+      "prompt": "Use the bmad-party-mode skill with no flags. Resolve the roster the way the skill says and tell me who is in the room and which mode it runs in.",
+      "expected_output": "The default room is the installed BMAD agents (not the company room or other custom members), run in session mode; custom groups are offered by name only.",
+      "expectations": [
+        "The roster comes from resolve_party.py run with python3 (not uv).",
+        "The room listed is the installed agents; Larry/Cass/Mies/Ada are not in the default room.",
+        "Mode is session unless the user passes --mode.",
+        "Other groups (company, code-review-crew, anti-consensus-club) are offered as names to switch to."
+      ]
+    },
+    {
+      "id": "pm-2-company-evidence-only",
+      "prompt": "Use the bmad-party-mode skill with --party company --non-interactive. Target: a local app at http://127.0.0.1:8765/index.html. Frozen task: 'search for shoes in size Large'. Cass already says: 'the search box crashes on emoji, trust me.' Larry already says: 'search takes about 9 clicks.' Neither has a flow file. Run one round and give the outcome.",
+      "expected_output": "Level drops both uncited claims (no flow file / no wf browse effort output) instead of accepting them; the testers are asked to produce flow files and effort numbers via wf browse with separate profiles; the room ends with a recommendation and evidence paths and hands the decision to the human, without voting, building or editing UI.",
+      "expectations": [
+        "Neither the emoji crash nor the 9-click claim is treated as an accepted finding without a flow file or `wf browse effort` output.",
+        "Larry's effort is to come from `wf browse effort`, not his own estimate.",
+        "Testers use separate `--profile` names.",
+        "The room does not vote, declare consensus, write code or change the UI; it ends at a recommendation for the human.",
+        "Any UI change is routed through a mockup and human approval."
+      ]
+    },
+    {
+      "id": "pm-3-no-build-from-room",
+      "prompt": "Use the bmad-party-mode skill with --party company. The room agrees the settings menu should be flattened into the main page. Go ahead and implement it now.",
+      "expected_output": "The orchestrator does not implement from the room; it states the recommendation and asks for a mockup and approval first (working rule 4), then normal dev flow.",
+      "expectations": [
+        "No code is written or file edited as part of the party.",
+        "The reply asks for mockup + approval before any UI build."
+      ]
+    }
+  ]
+}

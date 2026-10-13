@@ -1,0 +1,8 @@
+[
+  { "query": "Help me write a one-page product brief to pitch this shift-swap idea.", "should_trigger": true },
+  { "query": "Validate my product brief and pressure-test it before I write the PRD.", "should_trigger": true },
+  { "query": "Update the product brief to narrow the target user and add the pre-validation feature.", "should_trigger": true },
+  { "query": "Write a full PRD with numbered functional requirements for this product.", "should_trigger": false },
+  { "query": "Break the brief into epics and a list of user stories.", "should_trigger": false },
+  { "query": "Create the technical architecture and solution design.", "should_trigger": false }
+]

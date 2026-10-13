@@ -1,0 +1,8 @@
+[
+  { "query": "Set up a CI pipeline for this repo that runs our test suite on every PR and fails the build when tests fail or coverage drops below threshold.", "should_trigger": true },
+  { "query": "I want to create quality gates in CI/CD — scaffold a GitHub Actions workflow that executes the tests, enforces a coverage gate, and blocks merges on failure.", "should_trigger": true },
+  { "query": "We have a passing test suite but no continuous integration — generate a pipeline config that runs the tests and gates promotion on a clean run.", "should_trigger": true },
+  { "query": "We don't have a testing framework yet — initialize Playwright for this project with config and a sample test.", "should_trigger": false },
+  { "query": "Review these existing test files for quality problems — flag hard waits, missing assertions, and shared state.", "should_trigger": false },
+  { "query": "Audit our non-functional requirements against the implementation evidence and grade performance, security, and reliability.", "should_trigger": false }
+]

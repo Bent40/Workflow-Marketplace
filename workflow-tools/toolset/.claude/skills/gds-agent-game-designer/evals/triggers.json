@@ -1,0 +1,8 @@
+[
+  { "query": "Hey Samus, let's design my game — help me nail the core fantasy and pillars.", "should_trigger": true },
+  { "query": "I want to talk to the Game Designer about my game's core loop and creative vision.", "should_trigger": true },
+  { "query": "Can the game designer help me turn this pitch into a game brief?", "should_trigger": true },
+  { "query": "Hey Sally, let's design the UX screens for my web app.", "should_trigger": false },
+  { "query": "Talk to Cloud the game architect about the engine and networking design.", "should_trigger": false },
+  { "query": "I want to talk to the product manager about writing a SaaS PRD.", "should_trigger": false }
+]

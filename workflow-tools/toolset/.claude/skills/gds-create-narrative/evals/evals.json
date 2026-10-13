@@ -1,0 +1,30 @@
+{
+  "skill_name": "gds-create-narrative",
+  "evals": [
+    {
+      "id": "narr-1-structure-from-user-vision",
+      "prompt": "Use the gds-create-narrative skill. Run headless and autonomous (do not stall on greeting or menus). The user has already provided their full story vision below — your job is to organize and develop THEIR material into a structured narrative design document (story structure, character development, world-building, themes), not to invent a different story. Produce the narrative design document grounded in this vision.\n\nUSER'S STORY VISION:\n'My game is called EMBERROOT. It's a melancholy 2D exploration game set in Hollowmere, a drowned forest where a great World-Tree died a century ago and its roots now hold back a rising black tide. You play Wren, a young root-tender, the last of an order sworn to keep the dead tree's roots alive. The emotional core is grief and stubborn care — keeping something alive past its time. Wren travels the flooded forest reigniting dormant root-shrines, meeting the forest's lingering spirits (a drowned fisherman, a fox-spirit who lies, a choir of moths). The central question is whether to keep the tree alive at terrible cost, or let it finally die and let the tide take Hollowmere. Themes: grief, duty, letting go. Tone: quiet, mournful, with small warmth. I want three acts and an ending that branches on the central choice.'",
+      "expected_output": "A structured narrative design document built from the EMBERROOT vision: a three-act story structure ending in a branch on the keep-alive-vs-let-die choice; characters developed from the given cast (Wren the root-tender, the drowned fisherman, the lying fox-spirit, the moth choir); world-building of Hollowmere / the dead World-Tree / the black tide / root-shrines; and themes of grief, duty, and letting go reflected in the structure and tone. It organizes and deepens the user's material rather than substituting a different premise.",
+      "files": [],
+      "expectations": [
+        "The document is organized as a narrative design artifact with recognizable sections such as story structure, characters, world-building, and themes — not a freeform paragraph or a single prose vignette.",
+        "It uses a three-act structure and an ending that BRANCHES on the central keep-the-tree-alive-vs-let-it-die choice, as the user requested.",
+        "It develops the specific cast and world the user supplied — Wren the root-tender, the drowned fisherman, the lying fox-spirit, the moth choir, Hollowmere, the dead World-Tree, the black tide, the root-shrines — rather than inventing an unrelated story or renaming/replacing the user's elements.",
+        "The themes (grief, duty, letting go) and the quiet, mournful-with-small-warmth tone are carried through the structure and characterization, not just restated.",
+        "It deepens and organizes the user's vision (e.g. mapping beats to acts, tying each spirit/encounter to the themes) rather than contradicting the premise or silently dropping the user's stated emotional core."
+      ]
+    },
+    {
+      "id": "narr-2-no-vision-facilitates-not-fabricates",
+      "prompt": "Use the gds-create-narrative skill. Run headless. The user's entire input is one line: 'I want a story for my fantasy game.' They have given NO premise, characters, world, themes, or vision. Do the right thing for this skill: it facilitates the user's own story rather than inventing one for them. Produce the appropriate response.",
+      "expected_output": "Because the user supplied no actual story vision (no premise, characters, world, or themes), the skill should NOT fabricate a complete invented narrative and present it as the user's. The correct behavior is to facilitate — surface what is missing and ask focused discovery questions (core fantasy, protagonist, central conflict, themes, tone), or offer concrete options/prompts for the user to react to — consistent with its rule to never generate narrative content without user input.",
+      "files": [],
+      "expectations": [
+        "It does NOT fabricate and hand over a complete, fully-specified narrative (named protagonist, invented world, plot, ending) as though it were the user's story — manufacturing a story the user never described is the failure mode under test.",
+        "It facilitates instead: it surfaces that the necessary story material is missing and asks focused discovery questions (e.g. core fantasy/premise, protagonist, central conflict, themes, tone) and/or offers a few concrete directions for the user to choose among or react to.",
+        "Its behavior is consistent with the skill's principle of facilitating the user's own story rather than generating narrative content without user input.",
+        "It does not invent project-specific facts about the game that the user did not provide and present them as established."
+      ]
+    }
+  ]
+}

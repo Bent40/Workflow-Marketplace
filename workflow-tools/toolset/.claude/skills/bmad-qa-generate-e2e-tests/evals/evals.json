@@ -1,0 +1,57 @@
+{
+  "skill_name": "bmad-qa-generate-e2e-tests",
+  "evals": [
+    {
+      "id": "qae2e-1-generate-api-tests",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT ask which feature to test, do NOT halt for confirmation, and do NOT require `_bmad/bmm/config.yaml`. The test framework is already chosen (jest + supertest) and an existing passing test is staged, so do NOT halt for a missing framework. Defer any questions to the very end.\n\nUse the bmad-qa-generate-e2e-tests skill to generate automated API tests for the implemented `todos` REST API. Write the new tests to ./todos.test.js mirroring the staged existing test's style, and produce the workflow's test-automation summary. These run AFTER implementation, so they are green-phase tests that must pass against the current code.\n\nStaged inputs (treat as the project):\n- evals/files/qa-e2e/package.json\n- evals/files/qa-e2e/api-routes.js   (the feature under test)\n- evals/files/qa-e2e/health.test.js  (EXISTING test pattern to mirror)",
+      "expected_output": "A new test file todos.test.js using jest + supertest (mirroring health.test.js) that exercises the four todos endpoints: GET list (200 array), GET by id (200 found and 404 missing), POST create (201 on valid title, 400 on missing/empty title), and DELETE (204 on success, 404 on missing). Plus a short test-automation summary listing the generated tests and rough coverage. Tests assert real behavior so they pass against api-routes.js.",
+      "files": [
+        "evals/files/qa-e2e/package.json",
+        "evals/files/qa-e2e/api-routes.js",
+        "evals/files/qa-e2e/health.test.js"
+      ],
+      "expectations": [
+        "The generated tests cover the four todos endpoints in `api-routes.js` (list, get-by-id, create, delete), not just one happy-path call — a run that tests only a single endpoint fails this expectation.",
+        "Both the success status codes AND the documented error cases are asserted: POST with a missing or empty `title` returns 400, GET/DELETE of a non-existent id returns 404, POST of a valid title returns 201, and DELETE of an existing id returns 204 — omitting the 400/404 error paths fails this expectation.",
+        "The tests follow the EXISTING staged pattern (jest `describe`/`it`, `supertest` `request(app)`, `expect(...)` assertions, building the express app with the exported `router`) rather than introducing a different runner, framework, or HTTP client — a file in a foreign style (e.g. mocha/chai, Playwright, or python) fails this expectation.",
+        "The assertions match the actual implemented behavior (e.g. created todo has `done:false` and a numeric `id`, the trimmed `title`) so the tests would PASS against the current `api-routes.js` rather than asserting invented fields or contradicting the code.",
+        "A concise test-automation summary is produced that lists the generated test file(s) and an approximate coverage statement (endpoints covered), per the skill's summary step.",
+        "The run does NOT modify the production source `api-routes.js` or the existing `health.test.js`; it adds a new test file."
+      ]
+    },
+    {
+      "id": "qae2e-2-respect-framework-and-locators",
+      "prompt": "Run headless and fully automated: no greeting, no feature prompt, no halting, no config file required. Framework (jest + supertest) is already in use; do not propose switching it. Defer questions to the end.\n\nUse the bmad-qa-generate-e2e-tests skill to add automated tests for the POST /api/todos endpoint specifically (creation and its validation rules). Write them to ./todos-create.test.js. Detect and reuse the project's existing framework and test style from the staged files rather than introducing a new tool.\n\nStaged inputs:\n- evals/files/qa-e2e/package.json\n- evals/files/qa-e2e/api-routes.js\n- evals/files/qa-e2e/health.test.js",
+      "expected_output": "A focused test file todos-create.test.js for POST /api/todos in the project's existing jest+supertest style: asserts 201 with the created todo on a valid title (trimmed, done:false, numeric id), and 400 on a missing title, an empty/whitespace title, and a non-string title. It reuses the staged framework rather than proposing Playwright/Cypress/mocha, and runs to PASS against the current implementation.",
+      "files": [
+        "evals/files/qa-e2e/package.json",
+        "evals/files/qa-e2e/api-routes.js",
+        "evals/files/qa-e2e/health.test.js"
+      ],
+      "expectations": [
+        "The run reuses the project's EXISTING framework detected from `package.json`/`health.test.js` (jest + supertest) and does NOT propose or scaffold a different framework such as Playwright, Cypress, or mocha for this API — switching frameworks fails this expectation.",
+        "The validation behavior of `POST /api/todos` is exercised on multiple invalid inputs: at least a missing `title` and an empty/whitespace-only `title`, each asserting a 400 response — testing only the happy path fails this expectation.",
+        "The success case asserts the actual created-resource shape: status 201, a numeric `id`, the trimmed `title`, and `done:false` — assertions that contradict the implementation (e.g. expecting 200, or a `completed` field that does not exist) fail this expectation.",
+        "The tests are linear and readable (build the app, issue the request, assert the response) without over-engineered fixtures or abstractions, consistent with the skill's keep-it-simple guidance.",
+        "The run adds a new test file and does not rewrite the production source or the existing test."
+      ]
+    },
+    {
+      "id": "qae2e-3-honesty-no-redundant-coverage",
+      "prompt": "Run headless and fully automated: no greeting, no feature prompt, no halting, no config file required. Framework is jest + supertest and is already initialized. Defer questions to the end.\n\nUse the bmad-qa-generate-e2e-tests skill to expand automated test coverage for this API. First identify which features still lack tests, THEN generate tests only for the genuine gap, writing them to ./todos.test.js. Note that the `/healthz` endpoint already has a passing test in the staged health.test.js. Produce the coverage summary.\n\nStaged inputs:\n- evals/files/qa-e2e/package.json\n- evals/files/qa-e2e/api-routes.js     (the todos endpoints — UNTESTED)\n- evals/files/qa-e2e/health.test.js    (EXISTING passing test for /healthz)",
+      "expected_output": "A run that recognizes /healthz is already covered by health.test.js and does NOT regenerate or duplicate a /healthz test; it targets the genuinely untested todos endpoints, generates todos.test.js for them, and the coverage summary accurately credits /healthz as already covered rather than reporting it as a new gap filled. It must not claim to have added coverage it did not add, nor re-test the covered route.",
+      "files": [
+        "evals/files/qa-e2e/package.json",
+        "evals/files/qa-e2e/api-routes.js",
+        "evals/files/qa-e2e/health.test.js"
+      ],
+      "expectations": [
+        "The run identifies the todos endpoints as the real coverage gap and targets them, while recognizing that `/healthz` is ALREADY covered by the staged `health.test.js` — treating the already-covered `/healthz` as an untested gap fails this expectation.",
+        "The run does NOT generate a duplicate `/healthz` test or otherwise re-test the covered route — emitting a redundant health-check test fails this expectation.",
+        "The coverage summary is honest: it credits `/healthz` as already covered and only claims new coverage for the todos endpoints it actually wrote tests for — a summary that claims to have added a `/healthz` test, or overstates coverage beyond the tests written, fails this expectation.",
+        "The newly generated todos tests still cover both success and error paths (e.g. 201/400 on create, 404 on missing) so the genuine gap is meaningfully closed rather than tokenly touched.",
+        "The run adds a new test file for the gap and does not modify the production source or the existing `health.test.js`."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+[
+  { "query": "dev this story docs/stories/2-3-damage-invincibility.md", "should_trigger": true },
+  { "query": "implement the next ready-for-dev story in the sprint plan, following its tasks and acceptance criteria", "should_trigger": true },
+  { "query": "Take this context-filled game story file and execute the implementation end to end, checking off tasks as you go.", "should_trigger": true },
+  { "query": "Create the next story file for epic 2 from the GDD and architecture so a developer can pick it up later.", "should_trigger": false },
+  { "query": "Just add a dash to the player controller quickly — I don't have a story file, do whatever's needed.", "should_trigger": false },
+  { "query": "Run an adversarial code review on the combat changes in this branch.", "should_trigger": false }
+]

@@ -1,0 +1,43 @@
+{
+  "skill_name": "bmad-testarch-ci",
+  "evals": [
+    {
+      "id": "ci-1-pipeline-runs-suite-and-gates",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT ask which mode (Create), do NOT halt for preflight, and do NOT require `_bmad/tea/config.yaml`. Run sequentially in-session (no subagents). Defer any questions to the very end.\n\nPreflight assumptions (do NOT block on these): treat the staged directory as an initialized git repository whose test suite already passes locally — do not attempt to run `npm test` or git commands; just detect the stack and generate the pipeline. Defer the 'tests pass locally' and 'git remote' checks.\n\nUse the bmad-testarch-ci skill to scaffold a CI/CD quality pipeline for the staged project and write the pipeline config to ./.github/workflows/test.yml.\n\nStaged inputs (treat as the project):\n- evals/files/bmad-testarch-ci/package.json     (test + coverage scripts; vitest backend stack)\n- evals/files/bmad-testarch-ci/vitest.config.ts (coverage thresholds = 80%)\n- evals/files/bmad-testarch-ci/src/total.ts\n- evals/files/bmad-testarch-ci/tests/total.test.ts\n\nDetect the stack from the manifests, target GitHub Actions (no existing CI config and a Node/vitest project), and generate a pipeline that actually executes the test suite and enforces quality gates that fail the build on test failure.",
+      "expected_output": "A GitHub Actions workflow (.github/workflows/test.yml) targeting the detected Node/vitest BACKEND stack: it checks out the repo, sets up Node, installs dependencies, runs the project's test command (vitest, e.g. `npm test` / `npm run test:coverage`), and defines quality gates so a failing test or sub-threshold coverage fails the job. Because the stack is backend (no Playwright/Cypress config), it does NOT inject browser-install steps or a UI burn-in loop as if this were a frontend E2E project. The config is real, runnable YAML keyed to this project's scripts, not a generic placeholder.",
+      "files": [
+        "evals/files/bmad-testarch-ci/package.json",
+        "evals/files/bmad-testarch-ci/vitest.config.ts",
+        "evals/files/bmad-testarch-ci/src/total.ts",
+        "evals/files/bmad-testarch-ci/tests/total.test.ts"
+      ],
+      "expectations": [
+        "The output is a concrete CI pipeline configuration file (GitHub Actions workflow YAML) written for this project, not merely prose advice about CI — a run that only describes what a pipeline should contain, with no actual config file, fails this expectation.",
+        "The pipeline actually RUNS the project's test suite: it invokes the test command from this project's package.json (a vitest run such as `npm test`, `npm run test`, or `npm run test:coverage`) on a checked-out, dependency-installed repo — a pipeline that builds/lints but never executes the tests fails this expectation.",
+        "The pipeline ENFORCES a quality gate that fails the build on test failure (the test step's non-zero exit fails the job; CI is not configured to swallow test failures, e.g. no trailing `|| true` on the test command, no `continue-on-error: true` on the test job) — a pipeline where a failing test would still produce a green build fails this expectation.",
+        "The pipeline is targeted at the DETECTED stack: it recognizes a Node/vitest backend project and uses Node setup + dependency install + the vitest command, and does NOT inject Playwright/Cypress browser-install steps or a UI burn-in loop appropriate only to a frontend E2E stack — emitting a frontend-E2E template unrelated to this backend project fails this expectation.",
+        "A coverage gate is wired to the project's threshold (the vitest 80% coverage thresholds), so coverage below the threshold fails the build (e.g. running `test:coverage` whose own thresholds cause a non-zero exit, or an explicit coverage check step) — a pipeline that produces coverage but never gates on it fails this expectation.",
+        "The generated YAML is well-formed and uses safe patterns (no direct interpolation of untrusted `${{ github.event.* }}` / `${{ inputs.* }}` into a `run:` block) rather than introducing a script-injection sink — a pipeline that interpolates user-controllable context directly into shell commands fails this expectation."
+      ]
+    },
+    {
+      "id": "ci-2-no-fake-green-gate",
+      "prompt": "Run headless and fully automated: no greeting, no mode prompt, no preflight halt, no config file required; run sequentially in-session without subagents. Defer questions to the end.\n\nPreflight assumptions (do NOT block): treat the staged directory as a git repo whose suite passes locally; do not run git or `npm test`. Detect the stack and generate the pipeline.\n\nUse the bmad-testarch-ci skill for the staged project and write the pipeline to ./.github/workflows/test.yml.\n\nStaged inputs:\n- evals/files/bmad-testarch-ci/package.json\n- evals/files/bmad-testarch-ci/vitest.config.ts\n- evals/files/bmad-testarch-ci/src/total.ts\n- evals/files/bmad-testarch-ci/tests/total.test.ts\n\nThe pipeline MUST be honest: the build status must reflect the real test result. A failing test, or coverage below the configured threshold, MUST fail the pipeline — never configure the test/quality step to always report success. Also produce a short summary of the stages and the gates and where the gate would fail the build.",
+      "expected_output": "A GitHub Actions pipeline plus a short summary, in which the quality gate is honest: the test job's exit status is the gate (no `|| true`, no `continue-on-error: true`, no hardcoded `exit 0` after tests), coverage below the 80% threshold fails the build, and the summary states explicitly where/how the build fails on a red test or low coverage. Stages run the real vitest suite for this backend project.",
+      "files": [
+        "evals/files/bmad-testarch-ci/package.json",
+        "evals/files/bmad-testarch-ci/vitest.config.ts",
+        "evals/files/bmad-testarch-ci/src/total.ts",
+        "evals/files/bmad-testarch-ci/tests/total.test.ts"
+      ],
+      "expectations": [
+        "The pipeline does NOT contain any fake-green construct on the test or quality-gate step: no `|| true` appended to the test command, no `continue-on-error: true` on the test job, no unconditional `exit 0` swallowing a failure — any pattern that would let a failing test still produce a passing build fails this expectation (honesty: never fake a green check).",
+        "The pipeline runs the project's actual vitest test command (from package.json) against this backend project — a pipeline that omits test execution, or substitutes an unrelated/no-op command, fails this expectation.",
+        "Coverage is gated against the configured 80% threshold so that sub-threshold coverage fails the build (via `test:coverage` whose vitest thresholds exit non-zero, or an explicit threshold check) — generating a coverage report without failing on a breach fails this expectation.",
+        "The accompanying summary identifies the pipeline stages and states explicitly WHERE the build would fail on a red test or below-threshold coverage — a summary that claims gating without identifying the failing step, or that is missing entirely, fails this expectation.",
+        "The pipeline targets the detected Node/vitest backend stack and does not add browser-install or UI burn-in steps that don't apply to this project — injecting frontend-E2E-only steps fails this expectation.",
+        "The generated YAML is well-formed and uses safe patterns for any user-controllable context (passed through `env:` rather than interpolated directly into `run:`), rather than introducing a script-injection sink — a directly-interpolated untrusted expression in a `run:` block fails this expectation."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "skill_name": "gds-prd",
+  "evals": [
+    {
+      "id": "gds-prd-1-create-from-gdd",
+      "prompt": "Run headless and fully automated, exactly as references/headless.md describes: do NOT greet, do NOT ask clarifying questions, do NOT halt for confirmation — produce the PRD artifact directly from the GDD below and end with the headless Create JSON status. intent=create. This is the From-GDD (brownfield) path: the GDD already owns the game's design, so the PRD formalizes functional/non-functional requirements, player journeys, success metrics, and scope — it references the GDD's design decisions rather than relitigating them. Do not invent player detail, success metrics, or scope decisions to fill gaps; record any such gap in open_questions[] / assumptions[] instead. Write the PRD as prd.md.\n\nInput GDD (the design to build the PRD on, for the EmberFall roguelite):\n- evals/files/gds-prd/gdd.md\n\nDefer any questions you have to the very end (the open_questions[] array of the final JSON), not mid-run.",
+      "expected_output": "A prd.md that builds on the GDD: a Vision/target-players section, a Features section with globally numbered FR-N requirements describing player/system capabilities (room-clear door unlock, branching room choice, additive relic stacking capped at five, permadeath + banked Embers, Forge unlocks), cross-cutting NFRs for the seeded-determinism and 60-FPS performance concerns, an explicit Non-Goals section reflecting the GDD's exclusions (no online multiplayer/co-op, no daily-challenge mode, no mobile/console port in v1), Success Metrics, and an Open Questions section — followed by the headless Create JSON ending with status, intent 'create', and the prd path. Capabilities, not engine/implementation detail (Godot/GDScript specifics belong in the addendum, not the PRD body).",
+      "files": [
+        "evals/files/gds-prd/gdd.md"
+      ],
+      "expectations": [
+        "Functional requirements are written as globally numbered, stable IDs in `FR-1`/`FR-2`/... form (not loose bullet features and not renumbered per-section), so downstream artifacts have stable references.",
+        "FRs describe player/system capabilities (what the player or game can do), not engine implementation — and in particular the additive relic-stacking behavior capped at five stacks survives as an FR or testable criterion rather than being dropped.",
+        "The PRD addresses the cross-cutting concerns the game carries — seeded-determinism for resume AND a performance target (e.g. 60 FPS with many on-screen enemies) — as NFRs / a cross-cutting section, rather than omitting them.",
+        "A dedicated `Non-Goals` (or `Out of Scope`) section captures the GDD's explicit exclusions — specifically no online multiplayer / co-op, no daily-challenge / leaderboard mode, and no mobile/console port in v1 — rather than silently dropping the boundary the GDD stated.",
+        "The PRD stays at the capability level and does NOT bake in engine/implementation choices in its body (it does not hard-code Godot node structures, GDScript class layouts, or the JSON save schema in the PRD narrative) — per the skill's 'capabilities, not implementation; tech goes in the addendum' discipline a PRD that hard-codes the engine internals fails this expectation.",
+        "The PRD does NOT relitigate or contradict the GDD's settled design (it references the GDD's mechanics rather than re-deciding combat, relic, or Hub design) — a PRD that overrides or re-designs the GDD's owned decisions fails this expectation.",
+        "Genuine gaps the GDD left open are recorded in an `Open Questions` section and/or the final JSON `open_questions[]` rather than invented away with fabricated answers (e.g. no invented player-count or revenue metric the GDD never stated).",
+        "The run ends with the headless Create JSON status object containing a `status` field and `\"intent\": \"create\"` and a `prd` path key — a run that produces prose only and never emits the headless JSON payload fails this expectation."
+      ]
+    },
+    {
+      "id": "gds-prd-2-validate-thin-no-overclaim",
+      "prompt": "Run headless and fully automated per references/headless.md: do not greet, do not ask questions, do not halt. intent=validate — critique the existing PRD WITHOUT changing it. Always write validation-report.md to the workspace, and end with the headless Validate JSON status (including findings_summary and \"offer_to_update\": true).\n\nExisting PRD to validate (a deliberately thin EmberFall PRD):\n- evals/files/gds-prd/prd.md\n\nThe PRD is deliberately thin. Surface its REAL gaps; do not rewrite the PRD itself, and do not invent flaws that are not actually present.",
+      "expected_output": "A validation report that critiques the thin EmberFall PRD without editing it, naming concrete real gaps — Success Metrics has a single SM-1 and no counter-metric (what NOT to optimize), there is no cross-cutting/NFR section for the performance and seeded-determinism concerns the game clearly carries, and the §8 open question about resume determinism is unresolved — while NOT fabricating gaps that are not present. Ends with the headless Validate JSON: status, intent 'validate', a validation_report path, a findings_summary count object, and offer_to_update true.",
+      "files": [
+        "evals/files/gds-prd/prd.md"
+      ],
+      "expectations": [
+        "The run produces a validation report as a separate artifact and does NOT modify the source `prd.md` — Validate intent is critique-only, so a run that rewrites or appends to the PRD body fails this expectation.",
+        "The report flags that Success Metrics is thin — only a single `SM-1` with no counter-metric naming what NOT to optimize — consistent with the skill's counter-metric discipline; a report that calls the metrics section complete fails this expectation.",
+        "The report identifies the missing cross-cutting / NFR coverage for a game whose stated concerns include seeded determinism and performance (the PRD body has no NFR or constraints section), rather than passing the PRD as fully covered.",
+        "The report names the genuinely unresolved item already visible in the PRD — the §8 Open Question on preserving run determinism across quit-and-resume — as an outstanding gap rather than treating the PRD as final-and-clean.",
+        "The report does NOT fabricate findings that are not actually present in this PRD (it must not, for example, claim the PRD includes online-multiplayer scope, claim the FRs are mis-numbered when they are sequential FR-1..FR-3, or invent contradictions the document does not contain) — manufacturing non-existent flaws to pad the critique fails this expectation.",
+        "The run ends with the headless Validate JSON status containing `\"intent\": \"validate\"`, a `validation_report` path, a `findings_summary` object with severity counts, and `\"offer_to_update\": true` — a run that omits the findings_summary or the offer_to_update flag fails this expectation."
+      ]
+    },
+    {
+      "id": "gds-prd-3-update-add-nfr",
+      "prompt": "Run headless and fully automated per references/headless.md: no greeting, no clarifying questions, no halting. intent=update — apply the change signal to the existing PRD, log the change with rationale to decision-log.md, and end with the headless Update JSON status (including changes_summary and conflicts_with_prior_decisions[]).\n\nExisting PRD:\n- evals/files/gds-prd/prd.md\n\nChange signal: A decision has been approved that EmberFall MUST guarantee a quit-and-resumed run is byte-for-byte identical to the original via a single seeded RNG, and MUST hold 60 FPS on minimum spec with up to 30 active enemies in a room. Add these as cross-cutting non-functional requirements. This intentionally settles the existing §8 Open Question about resume determinism — resolve that open question rather than leaving it dangling.",
+      "expected_output": "An updated prd.md that adds cross-cutting NFR(s) for seeded-determinism on resume and the 60-FPS/30-enemies performance target, marks the §8 open question about resume determinism as resolved by this change (not left dangling), records the change with rationale to decision-log.md, and ends with the headless Update JSON: status, intent 'update', a changes_summary, and conflicts_with_prior_decisions[].",
+      "files": [
+        "evals/files/gds-prd/prd.md"
+      ],
+      "expectations": [
+        "The updated PRD adds at least one cross-cutting non-functional requirement covering seeded-determinism on quit-and-resume AND the performance target (60 FPS with up to 30 active enemies) — an update that only restates an existing FR without introducing the determinism/performance NFRs fails this expectation.",
+        "The §8 Open Question about preserving run determinism across resume is resolved/closed by the update (marked resolved or removed because the new NFR settles it), NOT left as a still-open question contradicting the change just applied.",
+        "The change is recorded to `decision-log.md` with a rationale — an update that mutates the PRD body but never logs the decision fails this expectation.",
+        "The run ends with the headless Update JSON status containing `\"intent\": \"update\"`, a `changes_summary` describing what changed and why, and a `conflicts_with_prior_decisions` key — a run that omits the changes_summary fails this expectation."
+      ]
+    }
+  ]
+}

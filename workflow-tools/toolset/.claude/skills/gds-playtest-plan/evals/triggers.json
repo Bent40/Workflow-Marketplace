@@ -1,0 +1,9 @@
+[
+  { "query": "create a playtest plan for our vertical slice", "should_trigger": true },
+  { "query": "I want to set up playtesting to see if the tutorial is clear", "should_trigger": true },
+  { "query": "plan a structured playtest session with external testers", "should_trigger": true },
+  { "query": "help me design a playtesting session and observation guide", "should_trigger": true },
+  { "query": "design a performance benchmark plan for frame rate", "should_trigger": false },
+  { "query": "generate automated unit tests for the inventory system", "should_trigger": false },
+  { "query": "create functional test scenarios for save and load", "should_trigger": false }
+]

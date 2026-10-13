@@ -1,0 +1,50 @@
+{
+  "skill_name": "bmad-review-adversarial-general",
+  "evals": [
+    {
+      "id": "advgen-1-spec-gaps",
+      "prompt": "Use the bmad-review-adversarial-general skill to perform a cynical, adversarial review of the password-reset feature spec in the file below. Produce the skill's findings report (a Markdown list of issues, descriptions only).\n\nSpec to review: evals/files/advgen/password-reset-spec.md",
+      "expected_output": "A skeptical Markdown findings list of at least ten distinct, real issues with the spec — emphasizing what is MISSING or risky: no token expiry, no single-use / invalidation of the token, plaintext token stored in the DB, no rate-limiting / enumeration protection on the request endpoint, no account-enumeration mitigation in the response, no handling of an unknown email, weak 8-char-only password policy, no session invalidation after reset, missing 'passwords must match' / mismatch handling, no token-not-found / expired-token UX, no audit logging.",
+      "files": [
+        "evals/files/advgen/password-reset-spec.md"
+      ],
+      "expectations": [
+        "The output is a Markdown list of findings with a skeptical, problem-hunting tone, and contains at least ten distinct findings.",
+        "The findings emphasize what is MISSING or unsafe, not only surface wording — e.g. they call out the absence of a token expiry, the token not being single-use / not invalidated after use, and the token being stored in plaintext in the users table.",
+        "At least one finding raises account-enumeration / rate-limiting risk on the reset-request flow (the spec gives no abuse protection and no defined behavior for an unknown email).",
+        "At least one finding challenges the password policy as too weak (only an 8-character minimum, no other strength or reuse rule) and at least one notes that existing sessions are not invalidated after a successful reset.",
+        "Each finding is grounded in something actually present in or genuinely absent from the provided spec — the review does not fabricate behavior the spec never describes or invent a feature the spec explicitly placed out of scope (e.g. it does not fault the spec for omitting MFA, which is declared out of scope)."
+      ]
+    },
+    {
+      "id": "advgen-2-also-consider-security",
+      "prompt": "Use the bmad-review-adversarial-general skill to adversarially review the password-reset feature spec in the file below, with also_consider = 'security and abuse resistance'. Produce the skill's findings report as a Markdown list (descriptions only).\n\nSpec to review: evals/files/advgen/password-reset-spec.md",
+      "expected_output": "A skeptical findings list of at least ten issues, with the also_consider focus visibly shaping it toward security and abuse: token expiry/single-use, plaintext token storage, enumeration and rate-limiting, lack of audit logging, lack of session invalidation, weak password policy, token in a URL query string (leakable via logs/referrer).",
+      "files": [
+        "evals/files/advgen/password-reset-spec.md"
+      ],
+      "expectations": [
+        "The output is a Markdown findings list with at least ten distinct findings in a skeptical reviewer tone.",
+        "The review is visibly steered by the also_consider focus on security and abuse resistance — a substantial share of findings concern security or abuse hardening rather than cosmetic concerns.",
+        "Specific security gaps are named: token expiry and single-use/invalidation, plaintext token storage, and abuse protection (rate-limiting / account-enumeration) on the request endpoint.",
+        "At least one finding notes a concrete leakage risk of placing the reset token in a URL query string (e.g. exposure via server logs, browser history, or the HTTP referrer header).",
+        "Findings remain grounded in the actual spec and do not invent out-of-scope requirements (MFA is declared out of scope and is not treated as a defect)."
+      ]
+    },
+    {
+      "id": "advgen-3-clean-code-no-fabrication",
+      "prompt": "Use the bmad-review-adversarial-general skill to adversarially review the small utility module in the file below. It is a clamp() helper with an inverted-range guard and a set of unit tests covering within-range, below-low, above-high, inclusive boundaries, and the inverted-range error. Produce the skill's findings report as a Markdown list (descriptions only).\n\nCode to review: evals/files/advgen/clean-helper.py",
+      "expected_output": "Per the skill's contract the review may still surface improvement ideas (e.g. no NaN handling, no type validation that low/high/value are actually numbers, no test for float values or NaN, no docstring example), but every finding must be TRUE of the actual code. The review must NOT fabricate defects that are demonstrably false — e.g. it must not claim boundaries are handled exclusively (they are inclusive and tested), must not claim the inverted range is unguarded (it raises ValueError), and must not claim there are no tests (there are five).",
+      "files": [
+        "evals/files/advgen/clean-helper.py"
+      ],
+      "expectations": [
+        "Every finding is factually true of the provided code — the review does not invent defects that the code or its tests demonstrably contradict.",
+        "The review does NOT claim the inclusive boundaries are mishandled or untested (clamp returns low at value==low and high at value==high, and both are covered by test_boundaries_inclusive), and does NOT claim the inverted range is unguarded (it raises ValueError, covered by a test).",
+        "The review does NOT claim the module is untested or lacks tests — five unit tests are present and a finding asserting otherwise is a fabrication failure.",
+        "Any genuine improvement suggestions are framed as real gaps (such as missing NaN handling, no numeric type validation of the inputs, or no float/NaN test case) rather than as false accusations about what the code currently does.",
+        "Over-claiming — manufacturing serious bugs that are not actually present in order to reach a quota of findings — is a failure of this case; the value of each finding is judged on its truthfulness, not its count."
+      ]
+    }
+  ]
+}

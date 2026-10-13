@@ -1,0 +1,18 @@
+{
+  "name": "orders-api",
+  "version": "1.2.0",
+  "description": "Minimal Express orders API with PostgreSQL persistence.",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "pg": "^8.11.5",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

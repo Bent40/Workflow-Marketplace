@@ -1,0 +1,9 @@
+# core/roles/local_microtask_worker.yaml — worker role (Epic F / F2).
+# Local-only: the small-context microtask executor (renders into the `local` target).
+id: local_microtask_worker
+summary: Executes exactly one microtask packet within budget, then hands back.
+activation: default
+applies_to: [local]
+applicable_modes: [act]
+render:
+  local: "PACKET — execute exactly one microtask within the budget; output a diff; stop and hand back."

@@ -1,0 +1,35 @@
+{
+  "skill_name": "bmad-validate-prd",
+  "evals": [
+    {
+      "id": "validate-prd-1-deprecation-forward-and-validate",
+      "prompt": "Run headless and fully automated: do NOT greet conversationally, do NOT ask clarifying questions, do NOT halt. Invoke the bmad-validate-prd skill. This skill is a deprecated compatibility shim that forwards to bmad-prd with VALIDATE intent — emit its deprecation notice, then complete the validation as bmad-prd would: critique the existing PRD WITHOUT changing it, write a validation report, and end with the headless Validate JSON status (including findings_summary and \"offer_to_update\": true).\n\nExisting PRD to validate (deliberately thin):\n- evals/files/bmad-validate-prd/prd.md\n\nSurface the PRD's real gaps; do not rewrite the PRD itself.",
+      "expected_output": "First a deprecation notice that bmad-validate-prd is deprecated and now forwards to bmad-prd (validate intent). Then the forwarded VALIDATE result: a validation report that critiques GroceryCap's thin PRD without editing it — naming concrete gaps such as the single primary SM-1 with no counter-metric, the missing NFR/cross-cutting coverage for the offline-sync and cross-device consistency the product carries, and the unresolved §8 open question — ending with the headless Validate JSON (status, intent 'validate', a validation_report path, a findings_summary count object, offer_to_update true).",
+      "files": [
+        "evals/files/bmad-validate-prd/prd.md"
+      ],
+      "expectations": [
+        "The run emits a deprecation notice making clear that `bmad-validate-prd` is deprecated and now forwards to `bmad-prd` (with validate intent) — a run with no deprecation notice at all fails this expectation.",
+        "The intent is VALIDATE and is critique-only: the run produces a validation report as a separate artifact and does NOT modify the source `prd.md` — a run that rewrites/appends to the PRD body, or emits a create/update payload, fails this expectation.",
+        "The report flags that Success Metrics is thin — only a single primary `SM-1` with no counter-metric naming what NOT to optimize — a report that calls the metrics section complete fails this expectation.",
+        "The report identifies the missing cross-cutting / NFR coverage for a product whose stated concerns include offline capture and cross-device Remaining consistency (the PRD body has no NFR/constraints section), rather than passing the PRD as fully covered.",
+        "The report names the unresolved §8 Open Question (reconciling offline scans across both members) as an outstanding gap rather than treating the PRD as final-and-clean.",
+        "The run ends with the headless Validate JSON status containing `\"intent\": \"validate\"`, a `validation_report` path, a `findings_summary` object with severity counts, and `\"offer_to_update\": true` — a run that omits the findings_summary or the offer_to_update flag fails this expectation."
+      ]
+    },
+    {
+      "id": "validate-prd-2-no-fabricated-findings-control",
+      "prompt": "Run headless and fully automated: no conversational greeting, no clarifying questions, no halting. Invoke the bmad-validate-prd shim (it forwards to bmad-prd with validate intent — emit the deprecation notice, then validate). Critique the existing PRD WITHOUT changing it and end with the headless Validate JSON. Be honest: surface only REAL gaps that are actually present; do NOT invent flaws the PRD does not have.\n\nExisting PRD:\n- evals/files/bmad-validate-prd/prd.md",
+      "expected_output": "A VALIDATE critique (preceded by the deprecation notice) that surfaces genuine gaps (thin success metrics with no counter-metric, missing NFR/cross-cutting section, the unresolved §8 open question) while NOT fabricating non-existent problems — it must not claim the Glossary is missing (it is present and defines Trip/Weekly Cap/Household/Remaining), must not claim the FRs are unnumbered (they are FR-1..FR-3), and must not invent contradictions the document does not contain. Does not modify the PRD. Ends with the Validate JSON and offer_to_update true.",
+      "files": [
+        "evals/files/bmad-validate-prd/prd.md"
+      ],
+      "expectations": [
+        "The validation does NOT modify the source `prd.md` (critique-only) — a run that rewrites or appends to the PRD fails this expectation.",
+        "It surfaces at least one GENUINE gap actually present in the PRD (e.g. the single SM-1 with no counter-metric, the absent NFR/cross-cutting section, or the unresolved §8 open question) rather than rubber-stamping it as complete.",
+        "It does NOT fabricate findings that are false for this PRD: it must not claim the Glossary is missing (it is present and defines Trip, Weekly Cap, Household, Remaining), must not claim the functional requirements are unnumbered (they are FR-1, FR-2, FR-3), and must not invent contradictions the document does not contain — manufacturing non-existent flaws to pad the critique fails this expectation.",
+        "The run emits the deprecation notice and ends with the headless Validate JSON carrying `\"intent\": \"validate\"`, a findings_summary, and `\"offer_to_update\": true` — omitting the notice or the offer_to_update flag fails this expectation."
+      ]
+    }
+  ]
+}

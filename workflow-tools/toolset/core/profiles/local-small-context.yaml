@@ -1,0 +1,18 @@
+id: local-small-context
+summary: Civilian defaults for small-context / local models, with microtask discipline.
+# compact (D2): for very small context windows, render every main surface
+# (Claude/Codex/Gemini/Copilot main files + local SYSTEM.md) with critical+high
+# rules in full and medium+low as a short_form-only checklist — nothing dropped,
+# just deprioritized so the budget goes to the load-bearing rules.
+compact: true
+# Same default rule set as civilian, but rendered with a microtask preamble so
+# the model is steered toward narrow work packets (see
+# adapters/local-models/microtask-protocol.md).
+includes_activations:
+  - default
+render_note: |
+  LOCAL-MODEL OPERATING NOTE: work in one narrow microtask at a time. Touch only
+  the explicitly allowed files, make the smallest change that satisfies one
+  objective, prefer patch/diff output, run the stated validation, then stop and
+  hand back a short summary. The orchestrator owns decomposition, integration,
+  and final acceptance. See adapters/local-models/microtask-protocol.md.

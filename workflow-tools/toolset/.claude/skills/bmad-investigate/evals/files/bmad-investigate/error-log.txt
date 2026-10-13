@@ -1,0 +1,18 @@
+$ pytest tests/test_pagination.py -q
+
+==================================== FAILURES ====================================
+______________________ test_first_page_returns_first_chunk _______________________
+
+    def test_first_page_returns_first_chunk():
+        # Expect page 1 to be items 0..9.
+>       assert paginate(ITEMS, page=1, page_size=10) == list(range(0, 10))
+E       assert [10, 11, 12, 13, 14, 15, 16, 17, 18, 19] == [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+tests/test_pagination.py:8: AssertionError
+----------------------------------------------------------------------------------
+
+Production symptom (ticket BUG-412): users report that the first page of the
+results list is missing the newest 10 items, and the very first item only shows
+up if they manually navigate to "page 0" in the URL.
+
+1 failed, 1 passed in 0.05s

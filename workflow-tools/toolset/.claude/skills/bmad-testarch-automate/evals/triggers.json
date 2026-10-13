@@ -1,0 +1,8 @@
+[
+  { "query": "Let's expand test coverage for this codebase — there are untested modules and I want automated tests generated to fill the gaps.", "should_trigger": true },
+  { "query": "I want to automate tests for the discount module; it has no test file yet. Follow our existing test patterns.", "should_trigger": true },
+  { "query": "The feature is implemented but coverage is thin. Generate the missing automated tests for the untested functions.", "should_trigger": true },
+  { "query": "Write the red-phase failing acceptance tests for this story before we implement it, so we can do ATDD.", "should_trigger": false },
+  { "query": "Build a requirements-to-tests traceability matrix and give me a PASS/CONCERNS/FAIL gate decision on coverage.", "should_trigger": false },
+  { "query": "Design the test strategy and risk assessment for this epic before we write any tests.", "should_trigger": false }
+]

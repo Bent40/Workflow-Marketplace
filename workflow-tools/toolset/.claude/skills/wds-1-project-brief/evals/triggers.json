@@ -1,0 +1,8 @@
+[
+  {"query": "Help me create the WDS product brief — establish the strategic foundation, vision, positioning and target users for my new web app before we design anything.", "should_trigger": true},
+  {"query": "I need the Phase 1 project brief for FreshBox: vision, business model, success criteria and constraints.", "should_trigger": true},
+  {"query": "Let's establish project context and the strategic foundation for the design work — write the product brief.", "should_trigger": true},
+  {"query": "Map our business goals to user psychology with personas and driving forces (wants and fears).", "should_trigger": false},
+  {"query": "Turn the trigger map into linear sunshine-path UX scenario outlines exposing every page.", "should_trigger": false},
+  {"query": "Onboard me to WDS and figure out if this is a greenfield or brownfield project and which phase to start in.", "should_trigger": false}
+]

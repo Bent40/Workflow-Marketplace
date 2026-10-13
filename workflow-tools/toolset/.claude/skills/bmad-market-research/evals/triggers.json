@@ -1,0 +1,8 @@
+[
+  { "query": "I need market research on a high-protein, low-prep meal-kit subscription — the customer segment, their pains, and the competition.", "should_trigger": true },
+  { "query": "Can you do market research on the US premium reusable-coffee-cup space, including the competitive set and addressable market?", "should_trigger": true },
+  { "query": "Help me research the market for plant-based dairy alternatives — TAM, segments, and key competitors.", "should_trigger": true },
+  { "query": "I want a domain/industry research report on how the vertical-farming sector is structured.", "should_trigger": false },
+  { "query": "Produce a technical research report comparing Kafka and RabbitMQ for our event pipeline.", "should_trigger": false },
+  { "query": "Write the PRD for our new meal-kit product based on the requirements we discussed.", "should_trigger": false }
+]

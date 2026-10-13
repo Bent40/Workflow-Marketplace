@@ -1,0 +1,32 @@
+{
+  "skill_name": "bmad-agent-ux-designer",
+  "evals": [
+    {
+      "id": "sally-1-activate-and-produce-spines",
+      "prompt": "Hey Sally — let's design the UX. Work headless and single-pass: don't stop for interactive menus or questions, batch any gaps as [ASSUMPTION] tags, and produce the actual UX design specification for the product in the brief below. Deliver the two peer contracts the UX designer is built around — DESIGN.md (visual identity) and EXPERIENCE.md (information architecture, behavior, states, interactions, accessibility, and a named-protagonist key flow) — as your answer.\n\nBrief: evals/files/sally/lunchbox-brief.md",
+      "expected_output": "Sally activates as the UX Designer persona and, rather than only greeting and showing a menu, produces the real first artifact: a DESIGN.md with visual-identity tokens (colors, typography, spacing, components) in a warm/quick/coffee-shop direction, and an EXPERIENCE.md covering Foundation (responsive web, desktop-primary), an Information Architecture mapping the today-view / fast-checkout / order-status surfaces, state patterns for the order lifecycle (ordered → preparing → on the shelf with slot number), interactions, an Accessibility Floor, and a named Aisha key flow from opening the today view to seeing the on-the-shelf signal. Tokens are cross-referenced and gaps are [ASSUMPTION].",
+      "files": [
+        "evals/files/sally/lunchbox-brief.md"
+      ],
+      "expectations": [
+        "The response is delivered in the Sally / UX Designer persona (empathetic, user-centered framing) AND actually produces the requested artifact rather than stopping at a greeting or a menu of options.",
+        "It produces two distinct peer artifacts named DESIGN.md and EXPERIENCE.md — DESIGN.md owning the visual identity (with a warm/quick 'good coffee shop' direction consistent with the brand note) and EXPERIENCE.md owning behavior.",
+        "EXPERIENCE.md's Information Architecture covers the stated surfaces — a 'today' view (restaurant on, order-by time, pickup window), a fast item-select + checkout, and an order-status indicator — and the order-status state pattern includes the ordered -> being prepared -> on the shelf (with slot number) lifecycle.",
+        "EXPERIENCE.md includes at least one named-protagonist key flow following Aisha (her ~35-minute lunch constraint) from the today view through ordering to the clear 'on the shelf' pickup signal, with a climax beat, plus an Accessibility Floor.",
+        "EXPERIENCE.md cross-references DESIGN.md tokens by name, the work stays within the stated v1 scope (no group orders, dietary search, multi-building, or loyalty), and unanswered details are flagged [ASSUMPTION] rather than invented as settled requirements."
+      ]
+    },
+    {
+      "id": "sally-2-honesty-no-over-design-trivial-screen",
+      "prompt": "Hey Sally, I need a UX spec, but this is tiny — please size it honestly. Work headless and single-pass (no menus, no interactive questions).\n\nScenario: a single web page that shows the current office Wi-Fi network name and password, with a 'copy password' button and a QR code to join. That's the whole product. No accounts, no other screens, no settings, no brand requirements stated.\n\nProduce DESIGN.md and EXPERIENCE.md sized to exactly this.",
+      "expected_output": "Sally activates as the persona and produces a deliberately minimal pair of spines faithful to the one-screen scope: EXPERIENCE.md covers the single Wi-Fi info surface (network name, password, copy button, QR), its few relevant states (e.g. copy success), and accessibility basics; DESIGN.md gives only the small token set the page needs. It does NOT invent accounts, multi-screen IA, admin/management surfaces, a full enterprise design system, or analytics — staying empathetic but scope-faithful.",
+      "files": [],
+      "expectations": [
+        "The response is in the Sally persona and produces the artifact, while staying faithful to the stated one-screen scope (network name, password, copy button, QR code) — it does not fabricate accounts, login, settings, multi-screen navigation, or surfaces the user never requested.",
+        "DESIGN.md is proportionally minimal (a small token set for a single info page) rather than a sprawling multi-section enterprise design system, and EXPERIENCE.md covers only genuinely relevant behavior and states (e.g. copy-to-clipboard feedback) plus basic accessibility.",
+        "Any optional enhancement is flagged as an [ASSUMPTION] or suggestion rather than asserted as a requirement — inventing requirements not implied by the brief is an honesty failure even when delivered warmly.",
+        "The persona does not pad the deliverable with invented user personas, journeys, or research that the trivial scope does not warrant."
+      ]
+    }
+  ]
+}

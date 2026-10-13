@@ -1,0 +1,41 @@
+{
+  "skill_name": "bmad-testarch-framework",
+  "evals": [
+    {
+      "id": "framework-1-initialize-playwright",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT ask which mode (Create), do NOT halt for preflight, and do NOT require `_bmad/tea/config.yaml`. Run sequentially in-session (no subagents). Defer any questions to the very end.\n\nPreflight assumptions (do NOT block): treat the staged directory as the project root. It is a frontend project (React + Vite) with NO existing E2E framework — proceed with initialization; do not run `npm install` or any package manager, just scaffold the files.\n\nUse the bmad-testarch-framework skill to initialize a browser test framework for the staged project. Scaffold the framework files INTO the staged project directory (config, sample test, and the support directory layout).\n\nStaged inputs (treat as the project — a bare project to initialize into):\n- evals/files/bmad-testarch-framework/package.json   (React/Vite frontend, no test framework yet)\n- evals/files/bmad-testarch-framework/vite.config.ts\n- evals/files/bmad-testarch-framework/src/App.tsx      (has data-testid attributes)\n\nSelect the appropriate framework for this frontend stack, state the choice and rationale, then scaffold: the framework config file, at least one runnable sample test, and the best-practice directory layout (e2e + support/fixtures + support/helpers).",
+      "expected_output": "The chosen browser framework (Playwright by default for this frontend/Vite stack — Cypress only with a stated rationale) is initialized: a framework config file (playwright.config.ts or cypress.config.ts) is created with sensible defaults (baseURL, reporters, artifacts/trace on failure), at least one runnable sample test under the e2e/spec directory that uses the data-testid selector strategy and a real assertion, and the best-practice directory layout (e2e/, support/fixtures/, support/helpers/). The framework decision is stated with rationale, and the scaffold follows the project's stack (TypeScript) rather than an unrelated language.",
+      "files": [
+        "evals/files/bmad-testarch-framework/package.json",
+        "evals/files/bmad-testarch-framework/vite.config.ts",
+        "evals/files/bmad-testarch-framework/src/App.tsx"
+      ],
+      "expectations": [
+        "A specific framework is SELECTED and named (Playwright or Cypress) with a stated rationale tied to this frontend/Vite stack — Playwright is the expected default; choosing Cypress is acceptable only if justified. A run that scaffolds nothing, or never commits to a framework, fails this expectation.",
+        "A framework configuration file is actually created (`playwright.config.ts` if Playwright, `cypress.config.ts` if Cypress) — a run that describes the framework but produces no config file fails this expectation.",
+        "At least one runnable SAMPLE TEST file is generated under the correct directory for the chosen framework (e.g. `tests/e2e/*.spec.ts` for Playwright, `cypress/e2e/*.cy.ts` for Cypress) and it contains a real assertion (not an empty stub or an always-true `expect(true).toBe(true)`) — a config-only scaffold with no sample test, or a sample test with no meaningful assertion, fails this expectation.",
+        "The scaffold creates the best-practice directory LAYOUT, not just loose files: a test directory plus a support structure for fixtures and helpers (e.g. `tests/e2e/`, `tests/support/fixtures/`, `tests/support/helpers/` or the Cypress equivalent) — dumping a single spec at the repo root with no supporting structure fails this expectation.",
+        "The config reflects sensible defaults from the skill's guidance (a baseURL/env fallback, HTML/JUnit reporting, and failure artifacts such as trace/screenshot/video retain-on-failure) rather than an empty or default-only config — a config missing reporters and failure artifacts entirely fails this expectation.",
+        "The scaffold matches the detected stack: it targets the browser/JS-TS frontend (TypeScript, matching this React/Vite project) and the sample test uses the data-testid selector strategy that the staged `App.tsx` exposes — scaffolding a backend/pytest/JUnit framework, or a non-TypeScript layout, for this frontend project fails this expectation."
+      ]
+    },
+    {
+      "id": "framework-2-respects-existing-and-no-suite-invention",
+      "prompt": "Run headless and fully automated: no greeting, no mode prompt, no preflight halt, no config file required; run sequentially in-session without subagents. Defer questions to the end.\n\nPreflight assumptions (do NOT block): treat the staged directory as the project root; do not run any package manager.\n\nUse the bmad-testarch-framework skill to initialize the test framework for the staged frontend project, scaffolding files INTO the staged directory.\n\nStaged inputs:\n- evals/files/bmad-testarch-framework/package.json\n- evals/files/bmad-testarch-framework/vite.config.ts\n- evals/files/bmad-testarch-framework/src/App.tsx\n\nScope: this is framework INITIALIZATION only. Initialize the framework architecture (config + one sample test + directory layout + fixtures/helpers scaffolding). Do NOT author a full test suite covering the application, do NOT modify the existing application source (`src/App.tsx`, `vite.config.ts`), and do NOT remove or rewrite the existing project files. State the framework choice and rationale.",
+      "expected_output": "Framework initialization that adds new test scaffolding (config, one sample/example test, fixtures + helpers directory structure) without rewriting the application. The existing src/App.tsx and vite.config.ts are left intact, no broad application-covering test suite is invented, and the chosen framework (Playwright by default) is stated with rationale. The example test demonstrates the pattern (Given/When/Then, data-testid, factory/fixture usage) rather than asserting against unbuilt features.",
+      "files": [
+        "evals/files/bmad-testarch-framework/package.json",
+        "evals/files/bmad-testarch-framework/vite.config.ts",
+        "evals/files/bmad-testarch-framework/src/App.tsx"
+      ],
+      "expectations": [
+        "The run INITIALIZES the framework (config + a single example/sample test + fixtures/helpers scaffolding) rather than authoring a full application-covering test suite — generating many feature tests for the storefront app, beyond a demonstrative sample, fails this expectation (initialization scope, not test authoring).",
+        "The existing application source is left UNMODIFIED: `src/App.tsx` and `vite.config.ts` are not rewritten or deleted, and the existing `package.json` is extended (test scripts/devDeps) rather than clobbered — overwriting or replacing the existing app/config files fails this expectation.",
+        "A framework is selected and named with rationale (Playwright by default for this Vite/React frontend; Cypress only if justified) — failing to commit to a framework, or leaving the choice unstated, fails this expectation.",
+        "A config file AND at least one sample test with a real assertion are produced under the correct best-practice directory layout (e2e + support/fixtures + support/helpers) — a run that only writes a config, or only prose, with no sample test and no directory structure fails this expectation.",
+        "The sample/example test demonstrates the recommended patterns (Given/When/Then naming, data-testid selectors, fixture or factory usage) and does NOT assert against application behavior that does not exist yet — a sample full of placeholder/always-true assertions, or one that pretends to test unbuilt features, fails this expectation.",
+        "The scaffold targets the detected TypeScript frontend stack (browser framework, TS config and test files) rather than scaffolding a mismatched backend/other-language framework — a pytest/JUnit/Go scaffold for this React project fails this expectation."
+      ]
+    }
+  ]
+}

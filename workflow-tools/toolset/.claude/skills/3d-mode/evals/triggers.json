@@ -1,0 +1,11 @@
+[
+  { "query": "Enter 3d mode", "should_trigger": true },
+  { "query": "3d mode — let's turn my character art into a printable figure today", "should_trigger": true },
+  { "query": "Can you set this session up for 3D modeling from concept art?", "should_trigger": true },
+  { "query": "I want to turn these drawings into 3D models — load the 3D setup", "should_trigger": true },
+  { "query": "update the data model for the users table before we add the migration", "should_trigger": false },
+  { "query": "train an ML model on this dataset and report accuracy", "should_trigger": false },
+  { "query": "why isn't my React component re-rendering when state changes?", "should_trigger": false },
+  { "query": "add a print statement to debug this loop", "should_trigger": false },
+  { "query": "create the next story from the sprint plan", "should_trigger": false }
+]

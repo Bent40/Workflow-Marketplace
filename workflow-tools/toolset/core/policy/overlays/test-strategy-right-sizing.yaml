@@ -1,0 +1,39 @@
+# Policy overlay — test-strategy / test-design skills, SIZE/RISK-AWARE right-sizing.
+# Owned layer (core/policy/): imposes obligations on the vendored test skills
+# WITHOUT editing them or shattering them into sub-skills. Surfaced by
+# `wf policy show <skill>`; the agent honors it before invoking the skill.
+# Schema: core/policy/policy-schema.md.
+#
+# WHY: bmad-testarch-test-design / bmad-tea / bmad-testarch-test-review /
+# gds-test-design can drive a full test-architecture treatise (strategy +
+# traceability matrix + gates) onto a 3-file toy, burning tokens on process that
+# does not reduce risk. This overlay tells the agent to RIGHT-SIZE the test
+# effort to project size (gating.right_size_process_to_project) WITHOUT skipping
+# the risk-targeted security tests — a HARD RISK FLOOR that mirrors
+# orchestration.subagent_trigger_thresholds and review.security_probe_baseline.
+# Mirrors the voice of code-review-right-sizing.yaml / prd-right-sizing.yaml.
+id: test-strategy-right-sizing
+title: "Test-strategy right-sizing (size-tier the test effort + hard risk floor)"
+
+applies_to:
+  # fnmatch globs over skill names under .claude/skills/. Each must match >=1 real
+  # skill (wf policy check fails closed otherwise). Targets the test-design /
+  # test-strategy / test-review surfaces across BMM and Game Dev Studio.
+  skill_globs:
+    - "bmad-testarch-test-design"   # BMM system/epic-level test plans
+    - "bmad-tea"                    # Murat, the Test Architect
+    - "bmad-testarch-test-review"   # BMM test-quality review
+    - "gds-test-design"             # Game Dev Studio test scenarios
+  categories:
+    - test
+    - qa
+
+requirements:
+  - "RIGHT-SIZE the test effort to project size before producing the plan, per gating.right_size_process_to_project. Classify the change (Tiny/Small/Medium/Large) up front and cap the test artifact set to that tier — process volume is a cost, not a virtue. State the chosen tier and WHY at the top of the test output."
+  - "TINY tier (a toy / a few files / single-screen utility, AND touching none of the risk surfaces in the HARD RISK FLOOR below): produce a FOCUSED test plan only — the critical/happy paths plus the risk-based must-tests. Do NOT write a full test-architecture treatise (no exhaustive strategy doc, no traceability matrix, no gate scaffolding) on a toy — that is the disproportionate ceremony right-sizing exists to prevent."
+  - "SMALL tier (a small CRUD-scale app, still no security-critical surface): the TINY focused plan PLUS explicit edge-case coverage (boundary/empty/oversized-input) and integration coverage across the touched components."
+  - "MEDIUM and LARGE tiers: produce the FULL test strategy — risk-prioritized scenarios, a traceability matrix mapping requirements/acceptance to tests, and the quality gates. No layer is dropped at these tiers. Never under-test a platform."
+  - "HARD RISK FLOOR (NON-NEGOTIABLE, overrides size): when the change touches auth, DB schema, payments, customer-data, or untrusted input, NEVER skip the security / risk-targeted tests regardless of how small the project is — a 1-file auth change is NOT tiny for test purposes. Include the risk-targeted tests for that surface (mirrors orchestration.subagent_trigger_thresholds and review.security_probe_baseline). If unsure whether a surface is risk-critical, treat it as risk-critical and include those tests."
+  - "Honesty: state the chosen tier and its justification explicitly, and say which coverage was intentionally DEFERRED (e.g. the traceability matrix, the full integration sweep) — never imply a focused plan is the full test strategy."
+
+enforcement: instructions

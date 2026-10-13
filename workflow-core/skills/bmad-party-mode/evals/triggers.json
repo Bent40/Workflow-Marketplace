@@ -1,0 +1,10 @@
+[
+  { "query": "Let's do party mode — get a few of the agents to argue about this architecture.", "should_trigger": true },
+  { "query": "Run the company room on my signup flow at localhost:3000.", "should_trigger": true },
+  { "query": "I want a roundtable: have a lazy tester and a chaos tester go at the app and the UI people argue it out.", "should_trigger": true },
+  { "query": "Create a custom party with a skeptical CFO and an excited marketer persona.", "should_trigger": true },
+  { "query": "Review this code for bugs before I merge.", "should_trigger": false },
+  { "query": "Create UX design specifications for the onboarding screens.", "should_trigger": false },
+  { "query": "Write end-to-end tests for the checkout feature.", "should_trigger": false },
+  { "query": "Run wf browse on this flow file and tell me if it passes.", "should_trigger": false }
+]

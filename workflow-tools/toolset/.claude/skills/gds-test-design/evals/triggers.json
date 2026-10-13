@@ -1,0 +1,9 @@
+[
+  { "query": "design tests for our roguelite game", "should_trigger": true },
+  { "query": "create comprehensive game test scenarios and a coverage matrix", "should_trigger": true },
+  { "query": "test design for the crafting and save systems", "should_trigger": true },
+  { "query": "I want a prioritized test plan with P0-P3 scenarios for the game", "should_trigger": true },
+  { "query": "generate the actual GUT test code for the score calculator", "should_trigger": false },
+  { "query": "set up the game test framework with sample tests", "should_trigger": false },
+  { "query": "create a performance benchmark plan for frame rate and memory", "should_trigger": false }
+]

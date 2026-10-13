@@ -1,0 +1,38 @@
+{
+  "skill_name": "bmad-testarch-trace",
+  "evals": [
+    {
+      "id": "trace-1-matrix-and-fail-gate",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT ask which mode (Create), do NOT halt for confirmation, and do NOT require `_bmad/tea/config.yaml`. Resolve the coverage oracle from the formal acceptance criteria provided below (do not ask). Run both phases straight through and write the traceability report directly. Defer any questions to the very end.\n\nUse the bmad-testarch-trace skill to build a requirements-to-tests traceability matrix for story 5-2 (password reset) and make a quality-gate decision. Write the report to ./traceability-matrix.md.\n\nStaged inputs (treat as the project):\n- evals/files/bmad-testarch-trace/story-5-2-password-reset.md       (acceptance criteria = the oracle)\n- evals/files/bmad-testarch-trace/tests/password-reset.spec.ts      (the ONLY existing tests)\n\nMap each acceptance criterion to the existing tests, mark coverage status per requirement (FULL / PARTIAL / NONE), identify the gaps, and apply the gate decision rule (P0 coverage must be 100%; overall >= 80%). Be honest: do not declare coverage that the tests do not provide.",
+      "expected_output": "A traceability matrix mapping AC1..AC5 to the existing tests: AC1/AC3/AC4 covered, AC2 (expired/reused token, a P0 security negative path) and AC5 (unknown-email no-op) marked NONE/uncovered. Because a P0 requirement (AC2) is uncovered, P0 coverage is below 100% and the gate decision is FAIL with a rationale naming the uncovered P0 gap. The report lists the gaps with recommended actions and does NOT claim full coverage or a PASS.",
+      "files": [
+        "evals/files/bmad-testarch-trace/story-5-2-password-reset.md",
+        "evals/files/bmad-testarch-trace/tests/password-reset.spec.ts"
+      ],
+      "expectations": [
+        "The output is a traceability MATRIX that maps each requirement (`AC1`..`AC5`) to the test(s) that cover it (or to nothing), with an explicit per-requirement coverage status (`FULL` / `PARTIAL` / `NONE` or equivalent) — a freeform prose summary with no requirement-to-test mapping fails this expectation.",
+        "`AC2` (expired/reused reset token rejected) is identified as UNCOVERED (`NONE`) because no existing test exercises it, and `AC5` (unknown-email no-op) is likewise marked uncovered — a run that marks AC2 or AC5 as covered, when no test in `password-reset.spec.ts` asserts them, fails this expectation (honesty: do not assert coverage the tests do not provide).",
+        "The gate decision is `FAIL`, driven by the rule that P0 coverage must be 100%: `AC2` is a P0 requirement and is uncovered, so P0 coverage is below 100% — a run that returns `PASS`, `CONCERNS`, or omits the gate decision fails this expectation.",
+        "The gate rationale explicitly names the uncovered P0 requirement (the expired/reused-token security negative path) as the reason for the FAIL, rather than giving an unjustified or generic verdict — a FAIL with no stated cause fails this expectation.",
+        "The report includes a gaps-and-recommendations section that lists the uncovered requirements and recommends concrete next actions (e.g. add tests for AC2/AC5) — a matrix with no gap list or no recommended remediation fails this expectation.",
+        "The run does NOT overstate coverage to reach a passing gate: it must not report overall/P0 coverage as 100% or full when AC2 and AC5 are unmapped — any claim of complete coverage contradicting the matrix fails this expectation (corpus-honesty / no green-on-a-gap)."
+      ]
+    },
+    {
+      "id": "trace-2-gate-reflects-priority",
+      "prompt": "Run headless and fully automated: no greeting, no mode prompt, no halting, no config file required; resolve the oracle from the staged acceptance criteria. Defer questions to the end. Use the bmad-testarch-trace skill for story 5-2 and write the report to ./traceability-matrix.md.\n\nStaged inputs:\n- evals/files/bmad-testarch-trace/story-5-2-password-reset.md\n- evals/files/bmad-testarch-trace/tests/password-reset.spec.ts\n\nIn the matrix, preserve each requirement's PRIORITY (the [P0]/[P1]/[P2] tags from the acceptance criteria) and compute coverage per priority tier. Surface security-relevant blind spots specifically. State the gate decision with the priority-coverage numbers that justify it.",
+      "expected_output": "A traceability matrix that carries each requirement's priority and reports per-tier coverage: P0 at 1 of 2 covered (50%), P1 fully covered, P2 uncovered. It calls out the missing P0 security negative-path (token expiry/reuse) and the account-enumeration no-op as the notable gaps, and the gate decision is FAIL justified by P0 coverage being below the required 100%.",
+      "files": [
+        "evals/files/bmad-testarch-trace/story-5-2-password-reset.md",
+        "evals/files/bmad-testarch-trace/tests/password-reset.spec.ts"
+      ],
+      "expectations": [
+        "Each requirement in the matrix retains its priority tier (`P0` / `P1` / `P2`) carried over from the acceptance criteria, rather than dropping priority and treating all requirements as equal weight.",
+        "Coverage is reported PER priority tier, and the P0 tier is correctly shown as partially covered (1 of 2 / 50%, since `AC1` is covered but `AC2` is not) — a run that reports a single blended coverage number with no per-priority breakdown, or that shows P0 at 100%, fails this expectation.",
+        "The gate decision is `FAIL` and the rationale ties it to the priority math (P0 < 100% because the P0 `AC2` is uncovered), demonstrating the gate reflects real priority-weighted gaps rather than a flat percentage — a PASS/CONCERNS verdict, or a FAIL justified only by overall percentage while ignoring the P0 rule, fails this expectation.",
+        "The report explicitly flags the security-relevant blind spot — that the expired/reused-token rejection (`AC2`, a P0 negative path) has no test — as a notable gap, rather than burying it among lower-severity items or omitting it.",
+        "The skill does not fabricate or resolve an alternative oracle when the formal acceptance criteria are present: the trace is performed against `AC1`..`AC5` from the story, not against invented requirements — tracing against a made-up requirement set fails this expectation."
+      ]
+    }
+  ]
+}

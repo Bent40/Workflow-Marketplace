@@ -1,0 +1,52 @@
+{
+  "skill_name": "bmad-product-brief",
+  "evals": [
+    {
+      "id": "pb-1-create-from-idea",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT ask clarifying questions, do NOT halt for confirmation. Use the bmad-product-brief skill with intent=create to produce the product brief directly from the idea notes below, and end with the headless Create JSON status (status, intent 'create', and the brief path). Write the brief as brief.md. Defer any questions to the open_questions[] array of the final JSON, not mid-run. Do not pad, do not fabricate a moat or competitor claims the notes do not contain, and surface what is genuinely unknown rather than inventing answers.\n\nIdea notes (the raw brain dump to work from, for a product called 'ShiftSwap'):\n- evals/files/bmad-product-brief/idea.md",
+      "expected_output": "A right-sized brief (roughly 1-2 pages) capturing: the problem (chaotic group-chat swaps + manual manager approval), a SPECIFIC target user (floor-level hourly workers and their shift managers at single-location/small-chain businesses — NOT enterprise buyers, NOT 'everyone'), what it does (worker posts an unwanted shift, eligible coworkers claim it, app pre-checks eligibility rules before the manager sees it, manager one-tap approves pre-validated swaps), the genuine wedge (worker-initiated, pre-validated swap — not a full scheduling suite), and explicit non-goals (swaps-only not full scheduling, no payroll/time-clock, mobile-only no web in v1). The genuinely open items (rule source, integration in v1, pricing/business-size) are surfaced as open questions/assumptions, not invented away. Ends with the headless Create JSON.",
+      "files": [
+        "evals/files/bmad-product-brief/idea.md"
+      ],
+      "expectations": [
+        "The brief states the problem grounded in the notes (shift swaps happen in chaotic group chats and managers approve them manually, so mistakes and no-shows slip through) rather than a generic restatement.",
+        "The target user is SPECIFIC — floor-level hourly workers and their shift managers at single-location or small-chain businesses, explicitly NOT enterprise workforce-management buyers and NOT 'everyone' — a brief that widens the audience to everyone/all workers fails this expectation.",
+        "The core of what it does captures the pre-validation wedge: the app pre-checks eligibility rules (overtime threshold, required role certification, minor work-hour limits) BEFORE the manager sees the swap, and the manager gets a one-tap approve/deny on pre-validated swaps only — a brief that reduces it to 'post, claim, approve' and drops the pre-check is missing the load-bearing differentiator and fails this expectation.",
+        "Explicit non-goals are carried over from the notes: swaps-only (not a full scheduling/shift-creation tool), no payroll/time-clock integration, and mobile-only with no web/desktop client in v1 — dropping these scope boundaries fails this expectation.",
+        "The brief does NOT fabricate a moat, market-sizing figure, or named competitor the notes never provided — the notes give a positioning wedge but no specific competitors or numbers, so inventing them is persona/innovation theater and fails this expectation.",
+        "The genuinely open items (where rule definitions come from, whether v1 integrates with an existing scheduler, pricing model / target business size) are surfaced as open questions or assumptions rather than resolved with invented specifics.",
+        "The run ends with the headless Create JSON status object containing a `status` field, `\"intent\": \"create\"`, and a `brief` path key — a run that produces prose only and never emits the headless JSON payload fails this expectation."
+      ]
+    },
+    {
+      "id": "pb-2-validate-thin-no-overclaim",
+      "prompt": "Run headless and fully automated: no greeting, no clarifying questions, no halting. Use the bmad-product-brief skill with intent=validate to critique the existing brief WITHOUT changing it. Return findings inline and end with the headless Validate JSON status including \"offer_to_update\": true. Critique honestly against the brief's own purpose: surface the brief's REAL weaknesses, but do NOT invent weaknesses that are not actually present.",
+      "expected_output": "An honest validation of the thin ShiftSwap brief that flags the real weaknesses present: the target user is 'everyone who works shifts' (must be specific), the 'why it will win' is vague hand-waving ('best... easier and cheaper than anything else') rather than a genuine differentiator, and the brief omits the load-bearing pre-validation mechanic and most of the v1 scope boundaries the product clearly carries. It does NOT fabricate problems that are not present (e.g. the one-liner and problem statement ARE present and coherent, so it must not claim they are missing). Does not rewrite the brief. Ends with the Validate JSON and offer_to_update true.",
+      "files": [
+        "evals/files/bmad-product-brief/brief.md"
+      ],
+      "expectations": [
+        "The validation does NOT modify the source `brief.md` — Validate intent is critique-only; a run that rewrites or appends to the brief body fails this expectation.",
+        "It flags that the target user ('Everyone who works shifts') is too broad and must be made specific — a validation that accepts the audience as adequate fails this expectation.",
+        "It flags the 'Why it will win' section as vague / non-specific ('best... easier and cheaper than anything else' is hand-waving, not a genuine differentiator or evidence) — a validation that treats it as adequate fails this expectation.",
+        "It identifies that the brief omits substantive content the product needs — there is no eligibility/pre-validation mechanic and the non-goals are nearly empty — rather than passing the brief as complete.",
+        "It does NOT fabricate weaknesses that are absent: the one-liner and the problem statement are present and coherent, so the validation must not claim those are missing or incoherent — manufacturing non-existent gaps to pad the critique fails this expectation.",
+        "The run ends with the headless Validate JSON status with `\"intent\": \"validate\"` and `\"offer_to_update\": true` — omitting the offer_to_update flag fails this expectation."
+      ]
+    },
+    {
+      "id": "pb-3-update-narrow-and-resolve",
+      "prompt": "Run headless and fully automated: no greeting, no clarifying questions, no halting. Use the bmad-product-brief skill with intent=update to apply the change signal to the existing brief, log the change with rationale to .decision-log.md, and end with the headless Update JSON status.\n\nExisting brief:\n- evals/files/bmad-product-brief/brief.md\n\nChange signal: A decision has been approved to (1) narrow the target user from 'everyone who works shifts' to floor-level hourly workers and their shift managers at single-location or small-chain businesses (explicitly not enterprise workforce-management buyers), and (2) add the load-bearing mechanic that the app pre-checks eligibility rules (overtime threshold, required role certification, minor work-hour limits) before the manager sees a swap, so the manager only ever approves pre-validated swaps. Apply both and tighten the brief.",
+      "expected_output": "An updated brief.md that (1) replaces the 'everyone who works shifts' audience with the specific floor-worker + shift-manager segment at single-location/small-chain businesses (not enterprise), and (2) adds the pre-validation mechanic (the app checks overtime/certification/minor-hour rules before the manager sees the swap; manager approves pre-validated swaps only). The change is recorded with rationale to .decision-log.md. Ends with the headless Update JSON (status, intent 'update').",
+      "files": [
+        "evals/files/bmad-product-brief/brief.md"
+      ],
+      "expectations": [
+        "The updated brief replaces the 'everyone who works shifts' audience with the specific segment (floor-level hourly workers and their shift managers at single-location/small-chain businesses, not enterprise buyers) — an update that leaves the audience broad fails this expectation.",
+        "The updated brief adds the pre-validation mechanic: the app pre-checks eligibility rules (overtime threshold, required role certification, minor work-hour limits) before the manager sees the swap, and the manager approves pre-validated swaps only — an update that omits this load-bearing mechanic fails this expectation.",
+        "The change is recorded with rationale to `.decision-log.md` — an update that mutates the brief body but never logs the decision fails this expectation.",
+        "The run ends with the headless Update JSON status containing `\"intent\": \"update\"` — a run that omits the headless JSON payload fails this expectation."
+      ]
+    }
+  ]
+}

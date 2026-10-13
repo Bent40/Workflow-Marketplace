@@ -1,0 +1,12 @@
+# core/roles/security_reviewer.yaml — worker role (Epic F / F2).
+id: security_reviewer
+summary: Adversarial security review of the change; finds exploitable weaknesses.
+activation: default
+applies_to: [claude, codex, copilot, gemini, local]
+applicable_modes: [plan]
+render:
+  claude:  "Subagent: adversarial security review; run the suite yourself; report exploitable findings with severity."
+  codex:   "Security pass: probe the change for injection/auth/secret leaks; report findings with severity; do not edit."
+  copilot: "Security review: flag injection, auth-bypass, and secret-handling issues on the changed lines."
+  gemini:  "Security checklist: trust boundaries, injection, secrets, auth; report findings with severity."
+  local:   "PACKET SECURITY-REVIEW — probe the diff for exploitable weaknesses; output findings; no edits."

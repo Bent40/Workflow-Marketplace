@@ -1,0 +1,61 @@
+# Policy overlay — UX / UI / design skills.
+# Owned layer (core/policy/): imposes obligations on the vendored design skills
+# WITHOUT editing them. Surfaced by `wf policy show <skill>`; the agent honors it
+# before invoking a governed skill. Schema: core/policy/policy-schema.md.
+id: ux-ui-design
+title: "UX / UI / design obligations (mockup-first, Claude-generated, reviewed)"
+
+applies_to:
+  # fnmatch globs over skill names under .claude/skills/. Each must match >=1 real
+  # skill (wf policy check fails closed otherwise). These target the UX/UI/design
+  # surfaces — NOT the test-design skills (bmad-testarch-test-design, gds-test-design),
+  # which are deliberately excluded.
+  skill_globs:
+    - "bmad-agent-ux-designer"          # Sally, the UX designer
+    - "bmad-ux"                         # UX patterns + specs
+    - "gds-ux"                          # game UX / HUD / UI
+    - "wds-4-ux-design"                 # Whiteport UX design step
+    - "wds-7-design-system"             # Whiteport design system
+    - "wds-agent-freya-ux"              # Freya, the WDS UX agent
+    - "bmad-cis-agent-design-thinking-coach"   # Maya, design-thinking coach
+  categories:
+    - ux
+    - ui
+    - design
+
+requirements:
+  - "Generate the design with Claude headless (a real generated artifact), not prose describing a design."
+  - "Produce >= 2 independent design reviews before finalizing (orthogonal reviewers, per CLAUDE.md working rule 4)."
+  - "Ship a real mockup artifact (HTML / SVG / image, or a rendered TUI capture), never prose-only, and send it to the user for approval before building."
+  - "Carry forward design choices (hierarchy, spacing, content-quarantine, security-comprehension) to the richer graphical surface — the TUI is a stepping stone, not the end goal."
+
+external_help:
+  - name: "Claude design generation"
+    why: >-
+      The first obligation asks for a Claude-generated design artifact (headless
+      generation of mockups/variants), which depends on programmatic Claude access
+      — a capability available only to Claude customers, not an offline default.
+    availability: >-
+      Paid — requires Claude access (an Anthropic API key, or a Claude subscription
+      such as Claude Code / Claude.ai). Not available without an account; may be
+      rate-limited or region-gated.
+    how_to_connect: >-
+      RECOMMEND, do not auto-connect (CLAUDE.md working rule 2: recommend MCPs,
+      never connect them silently). To connect, the human does ONE of:
+      (1) set ANTHROPIC_API_KEY in the environment with a key from
+      https://console.anthropic.com/ (Settings -> API keys), then call the Claude
+      API / SDK for generation; or
+      (2) use an existing Claude subscription via Claude Code or claude.ai to
+      generate the artifact interactively; or
+      (3) connect a design-capable MCP server (e.g. a Figma/Anthropic design MCP)
+      after the user explicitly approves and configures it.
+      The agent presents these instructions and waits for the human to connect —
+      it never installs, configures, or authenticates a service on its own.
+    fallback: >-
+      If Claude access is unavailable, DEGRADE honestly: produce the mockup
+      manually (hand-authored HTML/SVG, or a TUI capture) and mark the
+      "Claude-generated design" requirement DEGRADED in the report (surfaced, not
+      silently skipped). The other obligations (>=2 reviews, ship a real mockup,
+      carry choices forward) still apply in full.
+
+enforcement: instructions

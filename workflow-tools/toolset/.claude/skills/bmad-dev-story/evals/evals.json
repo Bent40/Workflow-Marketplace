@@ -1,0 +1,44 @@
+{
+  "skill_name": "bmad-dev-story",
+  "evals": [
+    {
+      "id": "ds-1-implement-ready-story",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT ask clarifying questions, do NOT halt for review pauses or 'session boundaries'. Use the bmad-dev-story skill to implement the story file below to completion. There is no sprint-status.yaml; track progress in the story file only. Treat the provided files as the project working tree (the story file's paths resolve against it). Implement every task, write and run the tests, and only mark a task done when its tests actually pass. Defer any questions to the very end.\n\nStory file (already staged, ready-for-dev):\n- evals/files/bmad-dev-story/3-1-slug-uniqueness.md\n\nProject files (the working tree):\n- evals/files/bmad-dev-story/architecture.md\n- evals/files/bmad-dev-story/src/blog/post_repository.py\n- evals/files/bmad-dev-story/src/blog/post_service.py\n\nDo NOT add features beyond the story's tasks/ACs.",
+      "expected_output": "The story is implemented to completion: PostService.create_post raises DuplicateSlugError (defined in src/blog/errors.py) for an existing slug by calling the existing PostRepository.slug_exists, persists nothing on collision, persists+returns on a free slug, and relies on the repository for case-insensitive comparison. Unit tests cover the free, duplicate, and case-insensitive paths and pass. Back in the story file, every Tasks/Subtasks checkbox is marked [x], the File List records the changed/created files, the Dev Agent Record carries completion notes, and Status is updated to 'review'.",
+      "files": [
+        "evals/files/bmad-dev-story/3-1-slug-uniqueness.md",
+        "evals/files/bmad-dev-story/architecture.md",
+        "evals/files/bmad-dev-story/src/blog/post_repository.py",
+        "evals/files/bmad-dev-story/src/blog/post_service.py"
+      ],
+      "expectations": [
+        "`PostService.create_post` is changed so that a slug already present raises a `DuplicateSlugError` and persists nothing (AC 2 is implemented in code, not merely described) — a run that leaves `create_post` unconditionally calling `add` fails this expectation.",
+        "The duplicate check reuses the existing `PostRepository.slug_exists` method rather than introducing a second persistence path or a new ad-hoc query — a run that writes its own SQL/lookup or a new repository fails this expectation, per the Dev Notes 'reuse, do not reinvent' constraint.",
+        "Case-insensitivity (AC 3: `My-Post` collides with `my-post`) is left to the repository — the service passes the raw slug through and does NOT pre-lowercase the slug itself, matching the Dev Notes instruction.",
+        "Unit tests are written that cover the free-slug, duplicate-slug, AND case-insensitive-collision paths, and the run actually executes them and reports them passing — a run that adds no tests, or claims success without running them, fails this expectation.",
+        "Every checkbox in the story's `## Tasks / Subtasks` section is marked `[x]`, and no task is checked off whose corresponding test does not exist/pass (no lying about completion).",
+        "The story file's `## File List` is populated with the new/modified files (at minimum `src/blog/errors.py` and `src/blog/post_service.py`) and the `## Dev Agent Record` gets completion notes — a run that implements code but leaves File List or Dev Agent Record empty fails this expectation.",
+        "The story `## Status` is updated to `review` on completion (not left as `ready-for-dev` and not invented as `done`/`closed`).",
+        "The run does NOT add scope beyond the story's tasks/ACs (no slug auto-generation, no new endpoints, no unrelated refactors) — per the skill's 'NEVER implement anything not mapped to a specific task' rule, an out-of-scope addition fails this expectation."
+      ]
+    },
+    {
+      "id": "ds-2-no-tasks-completion-path",
+      "prompt": "Run headless and fully automated: no greeting, no clarifying questions, no halting for review pauses. Use the bmad-dev-story skill on the staged story below. IMPORTANT: in this run, treat ALL of the story's Tasks/Subtasks as already implemented and already checked [x] in the file, and assume the codebase already contains the corresponding passing tests. Your job is to run the completion/definition-of-done sequence ONLY: verify the tasks are complete, run the regression suite, and take the story to its review state. Do not re-implement work that is already done. Defer questions to the end.\n\nStory file (treat its Tasks as already [x]):\n- evals/files/bmad-dev-story/3-1-slug-uniqueness.md\n\nProject files:\n- evals/files/bmad-dev-story/architecture.md\n- evals/files/bmad-dev-story/src/blog/post_repository.py\n- evals/files/bmad-dev-story/src/blog/post_service.py",
+      "expected_output": "With all tasks treated as complete, the run executes the completion sequence: it re-scans the story to confirm all tasks/subtasks are [x], runs (or states it ran) the full regression suite, walks the definition-of-done checklist (tests pass, File List complete, Dev Notes constraints met, only permitted sections touched), and updates Status to 'review' — rather than re-implementing the already-done tasks or marking the story 'done'/'closed'.",
+      "files": [
+        "evals/files/bmad-dev-story/3-1-slug-uniqueness.md",
+        "evals/files/bmad-dev-story/architecture.md",
+        "evals/files/bmad-dev-story/src/blog/post_repository.py",
+        "evals/files/bmad-dev-story/src/blog/post_service.py"
+      ],
+      "expectations": [
+        "The run treats the completion path as a definition-of-done validation, not a fresh implementation — it does NOT rewrite `create_post` from scratch or duplicate already-present tests, since all tasks are stipulated complete.",
+        "The run explicitly runs (or states it is running) the FULL regression suite before declaring completion, rather than skipping straight to a status change — per Step 9's 'Run the full regression suite (do not skip)'.",
+        "The final story `## Status` is set to `review` (the only valid completion state for this skill) — a run that sets it to `done`, `complete`, or `merged` fails this expectation.",
+        "The run produces a definition-of-done determination (e.g. an explicit `PASS`/`FAIL` or an enumerated DoD check covering tests-pass, File List complete, only-permitted-sections-modified) rather than a bare 'looks done' assertion.",
+        "The run does NOT modify story sections outside the permitted set (Tasks/Subtasks checkboxes, Dev Agent Record, File List, Change Log, Status, and `baseline_commit`) — e.g. it does not rewrite the Story or Acceptance Criteria text — per the skill's hard 'Only modify the story file in these areas' constraint."
+      ]
+    }
+  ]
+}

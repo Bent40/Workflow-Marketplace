@@ -1,0 +1,7 @@
+id: civilian
+summary: Civilian default posture — broadly useful engineering discipline.
+# A rule is included when its activation level is listed here.
+includes_activations:
+  - default
+# Optional preamble rendered ahead of the rules for this profile (or null).
+render_note: null

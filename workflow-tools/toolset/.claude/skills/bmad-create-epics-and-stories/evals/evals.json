@@ -1,0 +1,37 @@
+{
+  "skill_name": "bmad-create-epics-and-stories",
+  "evals": [
+    {
+      "id": "epics-1-breakdown-from-prd",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT ask clarifying questions, do NOT present A/P/C menus or wait for a 'C' continuation, do NOT halt for approval at any step. Defer any questions you have to the very end, after the document is fully written. Produce the epic breakdown directly as epics.md following the skill's template (Requirements Inventory, FR Coverage Map, Epic List, then each Epic with its Stories).\n\nInput PRD (the requirements to decompose):\n- evals/files/bmad-create-epics-and-stories/prd.md\n\nDo not invent requirements absent from the PRD. Organize epics by user value, not technical layers. Each epic must be standalone. Each story must be completable by a single dev agent and must not depend on a future story in the same epic.",
+      "expected_output": "An epics.md following the template: a Requirements Inventory and an FR Coverage Map that maps every FR-1..FR-8 to an epic, an Epic List organized by user value (e.g. Household & Accounts, Receipt Capture, Cap & Remaining/Sync) NOT by technical layer (no 'Database Setup' / 'API Layer' epics), and per-epic stories each in 'As a / I want / So that' form with Given/When/Then acceptance criteria — preserving the same-day duplicate prompt (FR-5) and the OCR-correction-before-commit (FR-4) behaviors as their own stories/criteria.",
+      "files": [
+        "evals/files/bmad-create-epics-and-stories/prd.md"
+      ],
+      "expectations": [
+        "The document includes an `FR Coverage Map` (or clearly equivalent requirement-to-epic mapping) that accounts for every functional requirement `FR-1` through `FR-8` from the PRD — a breakdown that silently drops one or more FRs from the coverage map fails this expectation.",
+        "Epics are organized by user value, NOT by technical layer: there is no epic that is purely a technical stratum such as `Database Setup`, `API Layer`, or `Deployment Pipeline` standing in for an epic. A run that produces layer-based epics fails this expectation.",
+        "Each epic is standalone — its stated goal delivers complete functionality for its domain and does not require a LATER epic to function (an epic may build on earlier epics but not depend on a future one), per the skill's dependency rule.",
+        "Every story is written in the user-story form `As a` {user_type} / `I want` {capability} / `So that` {benefit} — a story listed as a bare title or technical task without this role/benefit framing fails this expectation.",
+        "Acceptance criteria use the `Given` / `When` / `Then` format (with `And` for additional criteria) rather than loose checklist bullets — a story whose ACs are plain bullets with no Given/When/Then structure fails this expectation.",
+        "The same-day duplicate behavior from `FR-5` (when a receipt was already scanned earlier today, the app asks whether this Trip replaces or adds to the earlier one) survives as its own story or an explicit acceptance criterion — a breakdown that drops this edge behavior fails this expectation.",
+        "Stories are sized for a single dev agent and ordered so each is completable from only prior stories — there is no story that says it requires a later story in the same epic to be implemented first (no forward dependency)."
+      ]
+    },
+    {
+      "id": "epics-2-story-sizing-and-no-invention",
+      "prompt": "Run headless and fully automated: no greeting, no clarifying questions, no A/P/C menus, no halting for approval. Defer questions to the very end. Produce epics.md directly from the PRD per the skill's template.\n\nInput PRD:\n- evals/files/bmad-create-epics-and-stories/prd.md\n\nStrict scope discipline: create tables/entities only as the story that needs them requires (do NOT front-load a 'create all the data models' story). Do NOT invent requirements the PRD does not state — in particular do NOT add bank-account linking, per-item categorization, or a web client, none of which are in this PRD. Any questions go at the END of the document.",
+      "expected_output": "An epics.md whose stories are right-sized (no monolithic 'set up the whole database' or 'build the entire app' story; entities created per the story that needs them), that stays inside PRD scope (no invented bank linking, categorization, or web client), and whose acceptance criteria for FR-7 correctly state that Remaining equals the Weekly Cap minus the sum of this week's committed Trip totals. Any clarifying questions appear at the end, after the breakdown.",
+      "files": [
+        "evals/files/bmad-create-epics-and-stories/prd.md"
+      ],
+      "expectations": [
+        "No story front-loads infrastructure for its own sake — there is no `set up the database` / `create all models` / `build the authentication system` mega-story; tables and entities are introduced by the specific story that needs them, per the skill's database/entity-creation principle.",
+        "The breakdown does NOT invent scope absent from the PRD: it adds no bank/card-account linking story, no per-item categorization story, and no web-client story — a run that introduces any of these fabricated requirements fails this expectation.",
+        "An acceptance criterion for the remaining-against-cap requirement (FR-7) states that `Remaining` equals the `Weekly Cap` minus the sum of this week's committed `Trip` totals, matching the PRD rather than an invented formula.",
+        "Each story is scoped to be completable by a single dev agent in one session (no story spanning multiple unrelated capabilities such as 'household accounts AND receipt scanning AND sync' bundled into one) — an oversized catch-all story fails this expectation.",
+        "Any clarifying questions the run raises appear at the END of the document after the full breakdown, not interleaved into or blocking the epics/stories — questions do not pre-empt producing the artifact."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+[
+  { "query": "Help me with storytelling for my refillable-cleaning-products brand narrative.", "should_trigger": true },
+  { "query": "I want to create a narrative through storytelling for my investor pitch.", "should_trigger": true },
+  { "query": "Craft a compelling customer-success story for our logistics platform.", "should_trigger": true },
+  { "query": "Help me brainstorm features for a habit-tracking app.", "should_trigger": false },
+  { "query": "Run structured problem solving on our fulfillment errors.", "should_trigger": false },
+  { "query": "Generate the sprint plan from these epics.", "should_trigger": false }
+]

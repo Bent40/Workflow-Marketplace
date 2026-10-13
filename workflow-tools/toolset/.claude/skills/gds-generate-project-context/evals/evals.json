@@ -1,0 +1,54 @@
+{
+  "skill_name": "gds-generate-project-context",
+  "evals": [
+    {
+      "id": "gds-gen-context-1-captures-unobvious-game-rules",
+      "prompt": "Run headless and fully autonomous: do NOT greet, do NOT show a discovery menu, do NOT HALT for a [C] continue selection or any user approval. There is no existing project-context.md and no config to load — proceed straight through and produce the real project-context.md content.\n\nUse the gds-generate-project-context skill to generate the project-context.md for this small Godot (GDScript) game. The relevant source is provided:\n- evals/files/gds-gen-context/autoload/EventBus.gd\n- evals/files/gds-gen-context/player/Player.gd\n- evals/files/gds-gen-context/pickups/Coin.gd\n\nProduce the project-context.md body: the critical, UNOBVIOUS rules and conventions an AI agent must follow when writing game code here. Focus on project-specific rules an agent would otherwise miss — not generic game-dev best practices.",
+      "expected_output": "A lean project-context.md surfacing the game's actual unobvious rules: (1) cross-system communication ALWAYS goes through the autoloaded EventBus singleton — nodes never call each other directly or get_node() into other systems; emit/subscribe via the bus signals (player_died, score_changed, coin_collected); (2) all movement/physics runs in _physics_process, never _process; (3) tunables (speed, jump_velocity, gravity, coin value) are @export vars, never literals baked into logic. It does NOT pad the file with generic advice (use object pooling, write tests, name things well) that any game would share.",
+      "files": [
+        "evals/files/gds-gen-context/autoload/EventBus.gd",
+        "evals/files/gds-gen-context/player/Player.gd",
+        "evals/files/gds-gen-context/pickups/Coin.gd"
+      ],
+      "expectations": [
+        "It captures the signal-bus rule as a binding convention: cross-system communication must go through the autoloaded EventBus singleton (emit/subscribe to its signals), and nodes must not call across systems directly or reach into other systems with get_node().",
+        "It captures the rule that movement and physics must run in _physics_process, not _process.",
+        "It captures the convention that tunable values (speed, jump_velocity, gravity, coin value) are exposed as @export variables rather than magic numbers baked into the logic.",
+        "The captured rules are specific and unobvious — derived from THIS code (EventBus indirection, _physics_process, @export tunables) — rather than generic game-dev advice such as 'use object pooling', 'write tests', or 'keep frame time low'.",
+        "The output is lean and rule-focused (the project-context.md form) and does NOT pad itself with boilerplate best-practices that any game project would share."
+      ]
+    },
+    {
+      "id": "gds-gen-context-2-rules-are-actionable-and-grounded",
+      "prompt": "Run headless and fully autonomous: do NOT greet, do NOT show a discovery menu, do NOT HALT for a [C] continue selection or any approval. Proceed straight through and produce the real project-context.md content.\n\nUse the gds-generate-project-context skill on the same Godot game, but frame the rules as guidance an AI agent will follow when ADDING a new pickup type and a new moving entity. Source:\n- evals/files/gds-gen-context/autoload/EventBus.gd\n- evals/files/gds-gen-context/player/Player.gd\n- evals/files/gds-gen-context/pickups/Coin.gd\n\nProduce project-context.md rules that, if followed, would keep new code consistent with the existing patterns. Each rule should be concrete enough to act on, and tied to what the code actually does.",
+      "expected_output": "Actionable, code-grounded rules for extending the game consistently: a new pickup announces its effect by emitting a signal on EventBus (mirroring Coin's coin_collected) rather than calling the player/UI/manager directly, and new signals are declared on the EventBus; a new moving entity does its movement in _physics_process and uses move_and_slide on a CharacterBody2D; all of its tunables are @export vars, not literals. The rules are imperative and specific, not vague principles, and trace to the provided scripts.",
+      "files": [
+        "evals/files/gds-gen-context/autoload/EventBus.gd",
+        "evals/files/gds-gen-context/player/Player.gd",
+        "evals/files/gds-gen-context/pickups/Coin.gd"
+      ],
+      "expectations": [
+        "The rules are phrased as concrete, actionable directives for adding content (e.g. 'a new pickup emits its effect on EventBus instead of calling the player/UI/manager directly; declare any new signal on the EventBus') rather than abstract principles.",
+        "It instructs that a new moving entity perform its movement in _physics_process (using move_and_slide on a CharacterBody2D), mirroring Player.gd, not in _process.",
+        "It instructs that new tunables be declared as @export variables rather than hard-coded literals, consistent with speed/jump_velocity/gravity/value in the existing scripts.",
+        "Each rule is traceable to something actually present in the three files (the EventBus signals, _physics_process movement, @export tunables) rather than invented conventions the code does not exhibit.",
+        "The output stays lean and project-specific and does not dilute the rules with generic best-practice filler that would apply to any Godot game."
+      ]
+    },
+    {
+      "id": "gds-gen-context-3-plain-code-no-boilerplate-padding",
+      "prompt": "Run headless and fully autonomous: do NOT greet, do NOT show a discovery menu, do NOT HALT for a [C] continue selection or any approval. Proceed straight through and produce the real project-context.md content.\n\nUse the gds-generate-project-context skill to generate project-context.md for this small, plain GDScript file. Source:\n- evals/files/gds-gen-context-plain/MathUtils.gd\n\nThis is ordinary, idiomatic GDScript with no unusual layering, no autoloads, no signal bus, and no project-specific conventions — just simple static helper functions. Produce project-context.md honestly: capture only genuinely unobvious, project-specific rules that an AI agent could miss. Do not manufacture rules.",
+      "expected_output": "An honest, minimal project-context.md: because the code embodies no unusual conventions, it records essentially nothing project-specific (at most noting it is plain idiomatic GDScript exposing static helpers on a class_name) and explicitly avoids padding the file with generic game-dev best-practices dressed up as project rules — e.g. it must NOT assert invented rules like 'always use object pooling', 'communicate via a signal bus', 'do physics in _physics_process', or fabricate an autoload/event architecture that this code does not have.",
+      "files": [
+        "evals/files/gds-gen-context-plain/MathUtils.gd"
+      ],
+      "expectations": [
+        "It recognizes that the code is plain, idiomatic GDScript with no unusual project-specific conventions, and keeps the project-context.md minimal/sparse accordingly — possibly stating outright that there are few or no unobvious rules to capture.",
+        "It does NOT pad the file with generic best-practice boilerplate ('use object pooling', 'communicate via signals', 'write tests', 'keep frame time low') presented as if they were this project's specific rules — manufacturing rules to fill the document is the failure mode under test.",
+        "It does NOT invent project-specific conventions absent from the code: no fictional EventBus/signal-bus mandate, no _physics_process movement rule, no @export-tunables convention, since MathUtils.gd contains only pure static helper functions.",
+        "Anything it does note is genuinely grounded in the file (e.g. static functions on a class_name extending RefCounted), not asserted without basis.",
+        "The result honors the skill's intent — a lean file of unobvious, must-follow rules — by staying honest and short rather than producing volume for its own sake."
+      ]
+    }
+  ]
+}

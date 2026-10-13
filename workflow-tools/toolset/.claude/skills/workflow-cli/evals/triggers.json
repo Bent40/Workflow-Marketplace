@@ -1,0 +1,11 @@
+[
+  { "query": "wf map query parseConfig", "should_trigger": true },
+  { "query": "run wf start on this repo", "should_trigger": true },
+  { "query": "audit this story against the diff with workflow", "should_trigger": true },
+  { "query": "use the workflow tools to map this project", "should_trigger": true },
+  { "query": "add this to the workflow learnings store", "should_trigger": true },
+  { "query": "is there a workflow skill for writing a PRD?", "should_trigger": false },
+  { "query": "what should I do next in BMad?", "should_trigger": false },
+  { "query": "load the workflow operating model", "should_trigger": false },
+  { "query": "write a unit test for this function", "should_trigger": false }
+]

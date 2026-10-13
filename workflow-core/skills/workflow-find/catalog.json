@@ -393,7 +393,7 @@
     },
     {
       "id": "bmad-party-mode",
-      "description": "Orchestrates group discussions between installed BMAD agents, enabling natural multi-agent conversations where each agent is a real subagent with independent thinking. Use when user requests party mode, wants multiple agent perspectives, group discussion, roundtable, or multi-agent conversation about their project.",
+      "description": "Orchestrates lively group discussions between installed BMAD agents or custom personas, and helps author custom parties. Use when the user requests party mode, a roundtable, or multiple agent perspectives — or wants to create/configure a party, define personas, or build an AI focus-group panel — or run Company Mode (the company room: lazy and chaos persona testers drive a running app via wf browse and argue from evidence)",
       "plugins": [
         "workflow-core",
         "workflow-full"
@@ -1024,7 +1024,7 @@
     },
     {
       "id": "workflow-cli",
-      "description": "Use the workflow `wf` command-line tools on the current project: boot scan and adoption plan (wf start), structural map instead of grepping (wf map), function catalog and probes (wf describe), spec pack, story-completion audit, learnings store, memory pack, guardrails, file leases, real-browser E2E (wf browse), mutation gate, usage readout. Use when the user says \"wf <command>\", asks to map/scan/audit the project with workflow, or a task matches one of the tools below. Distinct from workflow-find (finds skills) and bmad-help (BMAD phase routing).",
+      "description": "Use the workflow `wf` command-line tools on the current project: boot scan and adoption plan (wf start), structural map instead of grepping (wf map), function catalog and probes (wf describe), project starter (wf scaffold), skill-pack install into a repo (wf install), spec pack, story-completion audit, learnings store, memory pack, guardrails, file leases, real-browser E2E (wf browse), mutation gate, local-model baselines, usage readout. Use when the user says \"wf <command>\", asks to map/scan/audit the project with workflow, or a task matches one of the tools below. Distinct from workflow-find (finds skills) and bmad-help (BMAD phase routing).",
       "plugins": [
         "workflow-tools",
         "workflow-full"

@@ -1,0 +1,8 @@
+[
+  { "query": "Design the game architecture for my Godot roguelite from the GDD.", "should_trigger": true },
+  { "query": "Let's create the architecture and engine systems design for EmberFall.", "should_trigger": true },
+  { "query": "I need scale-adaptive game architecture with the engine and save decisions documented for the AI agents.", "should_trigger": true },
+  { "query": "Break the GDD into epics and stories for development.", "should_trigger": false },
+  { "query": "Set up the Godot test framework with unit tests.", "should_trigger": false },
+  { "query": "Create the next story file for the relic-stacking work.", "should_trigger": false }
+]

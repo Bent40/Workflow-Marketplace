@@ -1,0 +1,8 @@
+[
+  { "query": "dev this story docs/stories/3-1-slug-uniqueness.md", "should_trigger": true },
+  { "query": "implement the next ready-for-dev story in the sprint plan, following its tasks and acceptance criteria", "should_trigger": true },
+  { "query": "Take this context-filled story file and execute the implementation end to end, marking the tasks done as you go.", "should_trigger": true },
+  { "query": "Create the next story file for epic 3 from the epics and architecture so a developer can pick it up later.", "should_trigger": false },
+  { "query": "Just fix this bug quickly and tweak the validation — I don't have a story file, do whatever's needed.", "should_trigger": false },
+  { "query": "Review the code changes in this PR for bugs and edge cases.", "should_trigger": false }
+]

@@ -1,0 +1,41 @@
+{
+  "skill_name": "bmad-cis-storytelling",
+  "evals": [
+    {
+      "id": "st-1-framework-and-arc-outline",
+      "prompt": "Use the bmad-cis-storytelling skill on this single message. Treat the brief as fully specified and produce the initial structured story artifact directly (do not stop to interview the user beat by beat).\n\nBrief: We need a brand narrative for 'Tidemark', a small startup that makes refillable cleaning products to cut single-use plastic. Audience: eco-conscious millennials. Key message: small daily swaps add up to real impact. Tone: warm, hopeful, not preachy.\n\nProduce a first-pass storytelling artifact that: (1) recommends ONE named story framework (e.g. Brand Story, Pixar Story Spine, Hero's Journey) with a clear rationale tied to the purpose and audience; (2) lays out the story beats / structure for that framework; (3) identifies the central conflict or tension and the transformation; and (4) drafts a strong opening hook. Keep it anchored to the warm, hopeful, non-preachy tone.",
+      "expected_output": "An artifact that recommends one named framework with audience-tied rationale, maps the beats of that framework, names the central conflict/tension and the transformation, and offers a compelling opening hook in the requested warm, non-preachy tone.",
+      "files": [],
+      "expectations": [
+        "The response recommends exactly one NAMED story framework (such as Brand Story, Pixar Story Spine, Hero's Journey, or Origin Story) and justifies the choice in terms of the stated purpose (brand narrative) and audience (eco-conscious millennials).",
+        "It lays out the story beats or structure consistent with the chosen framework (e.g. for Pixar Spine: once upon a time / every day / until one day / because of that / until finally), grounded in the Tidemark refillable-products context.",
+        "It explicitly identifies a central conflict or tension and a transformation (change is central to story) rather than a flat feature description.",
+        "It drafts a concrete opening hook that surprises, raises a question, or creates relatability, and the overall draft holds the requested warm, hopeful, non-preachy tone rather than a guilt-tripping eco lecture."
+      ]
+    },
+    {
+      "id": "st-2-pitch-narrative-multi-length",
+      "prompt": "Use the bmad-cis-storytelling skill on this single message; produce the initial structured artifact directly without an interactive interview.\n\nBrief: a pitch narrative for 'Lumen', an app that helps freelancers smooth out irregular income by auto-budgeting from each incoming payment. Audience: seed investors. Key message: Lumen turns income chaos into predictable cash flow. Tone: confident, evidence-minded.\n\nProduce a storytelling artifact using a fitting NAMED framework (e.g. Pitch Narrative): show the problem landscape, the solution vision, proof/traction placeholders, and the desired audience action; identify the emotional arc; and then provide THREE length variations of the story — a 1-3 sentence short version, a 1-2 paragraph medium version, and an extended version.",
+      "expected_output": "A pitch-oriented artifact using a named framework (problem -> vision -> proof -> action), an explicit emotional arc, and three distinct length variations (short, medium, extended) all carrying the same core message in a confident, evidence-minded tone.",
+      "files": [],
+      "expectations": [
+        "The response uses a NAMED framework appropriate to an investor pitch (e.g. Pitch Narrative) and covers the problem landscape, solution vision, some form of proof/traction, and a clear desired audience action.",
+        "It identifies an emotional arc — how the audience should feel at the start, the turn, and the end — rather than only listing facts.",
+        "It provides THREE clearly distinct length variations: a 1-3 sentence short version, a 1-2 paragraph medium version, and a longer extended version, all expressing the same core 'income chaos to predictable cash flow' message.",
+        "The tone stays confident and evidence-minded as requested, and the three versions are genuinely scaled (not the same paragraph copied at different lengths)."
+      ]
+    },
+    {
+      "id": "st-3-honesty-no-flat-blurb",
+      "prompt": "Use the bmad-cis-storytelling skill on this single message; produce the initial structured artifact directly.\n\nBrief: a customer-success story for 'GreenRoute', a logistics platform that cut a mid-size grocer's delivery emissions by 28%. Audience: other mid-size grocers. Key message: cutting emissions can also cut cost. Tone: credible, concrete.\n\nIMPORTANT: A correct response must apply the storytelling METHOD — choose and name a story framework, build a real narrative arc with conflict and transformation, and use vivid, concrete, show-don't-tell detail. Do NOT just write a flat marketing blurb or a feature/benefit bullet list and call it a story.",
+      "expected_output": "A method-driven story artifact: a named framework, a real narrative arc with conflict and transformation, and concrete show-don't-tell detail about the grocer's before/after. A flat marketing blurb or a feature-benefit bullet list with no narrative arc is the failure this case targets.",
+      "files": [],
+      "expectations": [
+        "The response names and applies a story framework appropriate to a customer-success/case story (e.g. Customer Journey / Before-After, Challenge-Overcome Arc, or Pixar Spine).",
+        "It builds a genuine narrative arc with a clear conflict or struggle (the grocer's prior delivery/emissions/cost pain) and a transformation (the 28% reduction and cost outcome), not a static description.",
+        "It uses vivid, concrete, show-don't-tell detail grounded in the GreenRoute / grocer scenario rather than abstract claims.",
+        "HONESTY CONTROL: a response that produces a flat marketing blurb or a feature/benefit bullet list with no named framework and no narrative arc (no conflict, no transformation) FAILS this expectation, even if it sounds polished."
+      ]
+    }
+  ]
+}

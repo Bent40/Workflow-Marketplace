@@ -1,0 +1,37 @@
+{
+  "skill_name": "lit-genre-atlas",
+  "evals": [
+    {
+      "id": "ga-1-litrpg-contract-check",
+      "prompt": "Using the lit-genre-atlas skill (read its SKILL.md and the progression/LitRPG + web-serial sections of references/genre-atlas.md), run a CHECK for this manuscript: a first-person LitRPG serial, ~4,300 words across three chapters — a laid-off salesman boards a phantom train into a god-run casino death-game; HUD with Health/Focus bars and a personified Minimap; wry gallows-humor voice; no stats screen, no levels or skill acquisition shown yet; planned as an ongoing Royal Road serial. Declared game: serial/KU.",
+      "expected_output": "A contract check grounded in the atlas's LitRPG/progression and web-serial sections: flags the missing progression payoff (visible power growth / system mechanics beyond HUD cosmetics) as the genre's core promise, notes serial-cadence and Royal Road credibility norms (e.g. backlog/launch expectations), confirms what IS delivering (HUD conventions, system framing), frames gaps as QUERIES/choices not errors, and cites atlas data with as-of framing rather than inventing figures.",
+      "files": [],
+      "expectations": [
+        "The check reads the atlas data and holds the manuscript against the progression/LitRPG reader promise, flagging the absent progression mechanics as the highest-value gap.",
+        "Serial-platform norms (cadence contract, launch/backlog expectations) are cited from the atlas rather than from memory, with honest as-of/directional framing.",
+        "Findings are phrased as queries or author choices (choice or gap?), never as mandatory fixes; what the manuscript already delivers is acknowledged."
+      ]
+    },
+    {
+      "id": "ga-2-comps-method-mode-aware",
+      "prompt": "You have the lit-genre-atlas skill loaded (read SKILL.md and references/comps-method.md). The user says: 'Find comps for my book. Nearest anchor I know is The Time Traveler's Wife. Mine: a lighthouse keeper receives letters from her future self; quiet literary tone; the time mechanism plays fair; grief is the engine.' Describe how you would run the comps search (you may describe the method concretely without live web access).",
+      "expected_output": "Walks the 4-step method: anchor on the named work's trope list; build a 5-10 trope fingerprint from the DISTINCTIVE elements (epistolary time communication, fair-play time mechanics, grief-as-engine) while dropping genre stop-words; pivot through Literature folders; validate by overlap density AND Playing-With mode — noting e.g. that a work sharing 'letters from the future' Played for Horror is an anti-comp for this quiet literary piece; ends with the Goodreads/StoryGraph cross-check and the missing-page-is-not-no-comp caveat.",
+      "files": [],
+      "expectations": [
+        "All four method steps appear in order, with a concrete distinctive-trope fingerprint proposed and genre stop-words explicitly dropped.",
+        "Trope MODE is used in validation — an example of an anti-comp (same trope, opposed mode) is given for this manuscript.",
+        "The coverage caveat (patchy literature coverage; cross-check on Goodreads/StoryGraph) is present."
+      ]
+    },
+    {
+      "id": "ga-3-which-game-positioning",
+      "prompt": "You have the lit-genre-atlas skill loaded (read SKILL.md; consult references/genre-atlas.md as needed). The user asks: 'One month before my KU launch — should I spend it polishing prose or adding more progression payoffs? It's a progression fantasy targeting Kindle Unlimited.' Advise.",
+      "expected_output": "Applies the which-game rule: declared game is commercial/serial (KU), where the evidence says genre-contract fidelity beats prose polish — so progression payoffs take priority; states the evidence honestly (contract violations tank reviews regardless of quality; prestige and bestseller language are different targets), checks the atlas's progression-fantasy contract for what payoff cadence readers expect, and still confirms the author's actual goal rather than assuming (if they secretly want prize-quality prose, the tradeoff is theirs to make).",
+      "files": [],
+      "expectations": [
+        "The advice explicitly invokes the which-game framing and prioritizes progression payoffs for the declared KU/serial game, citing genre-contract-fidelity-beats-prose-polish as evidence, not opinion.",
+        "The opposed-targets finding (prestige vs bestseller language) is surfaced so the author understands WHY, and the final call is framed as the author's choice with the tradeoff made explicit."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+[
+  { "query": "Give this design doc a brutal, cynical review and tell me everything wrong with it.", "should_trigger": true },
+  { "query": "Be skeptical and tear apart my feature spec — what's missing, what's weak?", "should_trigger": true },
+  { "query": "I want a harsh critical review of this proposal before I send it.", "should_trigger": true },
+  { "query": "Adversarially review this document and list the problems.", "should_trigger": true },
+  { "query": "Walk every branch and boundary condition in this function and list only the unhandled edge cases.", "should_trigger": false },
+  { "query": "Run code review on my staged changes and triage the findings into patch/defer buckets.", "should_trigger": false },
+  { "query": "Does this zero-egress proof harness actually prove what it claims, or is the green fake?", "should_trigger": false }
+]

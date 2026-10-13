@@ -1,0 +1,41 @@
+{
+  "skill_name": "gds-brainstorm-game",
+  "evals": [
+    {
+      "id": "bg-1-game-technique-set-and-ideas",
+      "prompt": "Use the gds-brainstorm-game skill on this single message. Treat the prompt as fully specified and produce the initial structured game-brainstorming artifact directly (do not stop to run setup confirmations step by step).\n\nSeed: a cozy co-op game about two players running a lighthouse together. No engine or platform locked in yet.\nGoal: a wide, divergent set of game ideas spanning mechanics, themes, and experiences — quantity and exploration over polish.\n\nProduce a first-pass artifact that: (1) names 2-3 game-specific brainstorming techniques you are applying and why each fits this seed; (2) generates a divergent set of at least 20 concrete game ideas deliberately spanning several different game-design dimensions (core mechanics, co-op interaction, theme/mood, progression, win/lose & tension, art/audio direction); and (3) includes a few deliberately wild or unconventional ideas. Stay in generative exploration mode — do not converge on a single concept.",
+      "expected_output": "A facilitator-style artifact naming 2-3 game-specific brainstorming techniques with rationale, then 20+ concrete lighthouse co-op game ideas deliberately diverged across multiple game-design dimensions (mechanics, co-op, theme, progression, tension, art/audio) with a few wild ideas, staying in divergent mode.",
+      "files": [],
+      "expectations": [
+        "The response names at least 2 brainstorming/ideation techniques framed for game design and gives a short reason each fits a cozy two-player lighthouse co-op seed.",
+        "It generates a divergent set of at least 20 concrete game ideas specific to the lighthouse co-op premise (not generic 'make it fun' filler), each distinct.",
+        "The ideas deliberately span several different game-design dimensions — for example core mechanics, the nature of the two-player co-op interaction, theme/mood, progression, win/lose and tension, and art/audio direction — rather than clustering on one dimension.",
+        "It stays in generative exploration mode appropriate to a brainstorm: at least a few ideas are wild/unconventional, and the response does NOT prematurely converge on one finished game concept or a GDD."
+      ]
+    },
+    {
+      "id": "bg-2-genre-bend-divergence",
+      "prompt": "Use the gds-brainstorm-game skill on this single message; produce the initial structured artifact directly.\n\nSeed: a single-player mobile game built around the core verb 'planting'. \nGoal: push past obvious gardening-sim ideas into novel territory by bending genre and remixing.\n\nApply at least one named game-brainstorming technique (e.g. genre-bending, mechanic remixing, 'what-if' provocation, theme transplant). Generate at least 18 concrete game ideas organized under at least 5 different orthogonal lenses (e.g. genre bends, core-loop twists, narrative framings, control/input ideas, multiplayer hooks, monetization-friendly modes), calling out a handful of deliberately strange ideas. Do not collapse into 18 variations of a standard gardening simulator.",
+      "expected_output": "An artifact naming a game-brainstorming technique, then 18+ 'planting'-verb game ideas organized under 5+ orthogonal lenses with several deliberately strange ideas, demonstrating genre-bending divergence rather than a pile of standard gardening-sim variants.",
+      "files": [],
+      "expectations": [
+        "The response names at least one game-specific ideation technique (such as genre-bending, mechanic remixing, what-if provocation, or theme transplant) and applies it.",
+        "It produces at least 18 distinct, concrete game ideas built around the 'planting' core verb.",
+        "The ideas are organized under at least 5 different orthogonal lenses (e.g. genre bends, core-loop twists, narrative framings, input/control ideas, multiplayer hooks) demonstrating deliberate divergence rather than semantic clustering.",
+        "Several ideas are clearly unconventional / genre-bending, and the set does NOT collapse into many near-duplicate variations of a standard gardening simulator."
+      ]
+    },
+    {
+      "id": "bg-3-honesty-no-single-concept-pitch",
+      "prompt": "Use the gds-brainstorm-game skill on this single message; produce the initial structured artifact directly.\n\nSeed: a roguelike where the player controls weather instead of a character.\nGoal: a divergent, high-volume idea exploration.\n\nIMPORTANT: A correct response applies the brainstorming METHOD — name the technique(s) and deliberately diverge across many distinct game-design angles to produce a broad idea set. Do NOT just pitch one polished game concept (a single elevator pitch with a title, story, and feature list) and present it as the answer; this is a quantity-and-exploration brainstorm, not a one-concept design doc.",
+      "expected_output": "A method-driven divergent idea set: named technique(s) and many ideas spanning distinct game-design angles for a weather-controlling roguelike. A single polished one-concept elevator pitch (title + story + feature list) presented as the answer is the failure this case targets.",
+      "files": [],
+      "expectations": [
+        "The response names and applies at least one brainstorming/ideation technique rather than producing an untitled or methodless output.",
+        "It produces a broad, divergent set of many distinct ideas (well into the double digits) spanning several different game-design angles (mechanics, weather-as-verb interactions, theme, progression, tension, mode/structure) for the weather-controlling roguelike.",
+        "It stays in quantity-and-exploration mode and keeps real divergence across angles rather than narrowing to one concept.",
+        "HONESTY CONTROL: a response that delivers a single polished game concept — one title, one story, one feature list presented as the answer — instead of a divergent multi-idea exploration FAILS this expectation, even if that one concept is appealing."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+# core/roles/implementer.yaml — worker role (Epic F / F2).
+id: implementer
+summary: Implements approved changes within the accepted task boundary.
+activation: default
+applies_to: [claude, codex, copilot, gemini, local]
+applicable_modes: [act]
+render:
+  claude:  "Subagent: implement only the approved files; no nested subagents; validate; report changed files."
+  codex:   "Implement to acceptance; keep the diff minimal; run validation; report changed files."
+  copilot: "Implement the approved change on the listed files; meet acceptance; do not broaden scope."
+  gemini:  "Implement to acceptance; minimal diff; validate before reporting."
+  local:   "PACKET IMPLEMENT — edit only allowed_files; one objective; output a diff; run validation; stop."

@@ -1,0 +1,48 @@
+{
+  "skill_name": "bmad-eval-runner",
+  "evals": [
+    {
+      "id": "evalrunner-1-grade-real-pass",
+      "prompt": "Use the bmad-eval-runner skill's grading method to grade ONE eval's expectations against a captured artifact. You are the runner's grader: you do not execute anything and you do not fix the artifact — you inspect what was produced and decide, per expectation, PASS or FAIL with specific evidence, then surface any weak assertions. Output the grading as the grader's JSON shape: an object with eval_id, an expectations array (each entry has text, passed boolean, and evidence), a summary (passed/failed/total/pass_rate), and eval_feedback (suggestions + overall).\n\neval_id: brief-quality-1\nThe artifact under grading is the product brief in the file below.\nExpectations to grade:\n1. brief.md exists and is non-empty.\n2. The brief states a concrete problem with a quantified pain point (a number or measurable loss).\n3. The brief names the target users specifically (a named role/segment, not a generic 'users').\n4. The brief lists at least one measurable success metric with a target.\n\nArtifact to grade: evals/files/evalrunner/brief-good-artifact.md",
+      "expected_output": "A grading object marking all four expectations PASS with specific cited evidence drawn from the brief: it exists and is substantive; the problem is quantified (~40 minutes lost per tech per day, double-booking); target users are named (field service technicians, the dispatch lead); and success metrics carry targets (40 min -> under 5 min, double-bookings under 1%, 70% daily use). The summary shows 4/4. Weak-assertion feedback may note expectation 1 (existence) is a thin check that an empty file would also pass.",
+      "files": [
+        "evals/files/evalrunner/brief-good-artifact.md"
+      ],
+      "expectations": [
+        "The output is a single grading object in the grader's shape: eval_id, an expectations array where each entry has the assertion text, a passed boolean, and concrete evidence, plus a summary with passed/failed/total/pass_rate and an eval_feedback section.",
+        "All four expectations are marked PASS, and each PASS cites specific evidence quoted or paraphrased from the brief — not a bare 'looks fine' — e.g. the quantified ~40-minutes-per-tech pain, the named users (field technicians, dispatch lead), and the metric targets (under 5 minutes, under 1% double-booking, 70% daily use).",
+        "The summary counts are internally consistent with the per-expectation verdicts (passed=4, failed=0, total=4, pass_rate=1.0).",
+        "The grader does not invent failures that the artifact actually satisfies, nor does it 'fix' or rewrite the artifact — it only judges what is present.",
+        "The eval_feedback honestly flags any weak assertion it sees (for example that expectation 1's existence check is thin and an empty file would also pass it) rather than rubber-stamping the eval set."
+      ]
+    },
+    {
+      "id": "evalrunner-2-grade-superficial-fail",
+      "prompt": "Use the bmad-eval-runner skill's grading method to grade ONE eval's expectations against a captured artifact. You are the runner's grader: do not execute anything and do not fix the artifact — inspect what was produced and decide PASS or FAIL per expectation with specific evidence, applying the grader's rule that a PASS requires substance, not surface compliance (no partial credit; when uncertain, FAIL). Then surface weak assertions. Output the grader's JSON shape (eval_id, expectations array, summary, eval_feedback).\n\neval_id: brief-quality-2\nThe artifact under grading is the product brief in the file below. It is the unfilled template — every section is a placeholder.\nExpectations to grade:\n1. brief.md exists.\n2. The brief states a concrete problem with a quantified pain point.\n3. The brief names the target users specifically.\n4. The brief lists at least one measurable success metric with a target.\n\nArtifact to grade: evals/files/evalrunner/brief-empty-artifact.md",
+      "expected_output": "A grading object where ONLY expectation 1 (existence) passes and expectations 2, 3, and 4 FAIL, because the artifact is an unfilled template containing only placeholders like '<describe the problem>' and '<who>' — no quantified pain, no named users, no metric with a target. The grader must NOT award a PASS to the substantive expectations on the basis that the heading exists; surface compliance is not substance. The summary shows 1/4 (or fewer) passed. eval_feedback should flag that expectation 1 is a weak existence-only check that this placeholder file still satisfies.",
+      "files": [
+        "evals/files/evalrunner/brief-empty-artifact.md"
+      ],
+      "expectations": [
+        "Expectations 2, 3, and 4 are each marked FAIL, with evidence that the corresponding section contains only an unfilled placeholder (e.g. '<describe the problem>', '<who>', '<how we measure success>') rather than real, substantive content.",
+        "The grader does NOT award a PASS to the substantive expectations merely because the matching section heading is present — surface compliance is explicitly treated as insufficient, consistent with the skill's substance-over-surface and no-partial-credit rules.",
+        "Expectation 1 (file exists) may be marked PASS since the file does exist, but the summary still reflects an overall low pass rate (at most 1 of 4 passed) and the counts are internally consistent.",
+        "The eval_feedback honestly flags that expectation 1 is a weak existence-only assertion that even this empty placeholder file satisfies, and would recommend pairing it with a content check.",
+        "Over-claiming is the failure mode under test: marking the placeholder brief as substantively passing (passing 2/3/4) would be an honesty failure, exactly the 'never fake a green check' behavior the runner must avoid."
+      ]
+    },
+    {
+      "id": "evalrunner-3-missing-artifact-fail-closed",
+      "prompt": "Use the bmad-eval-runner skill's grading method to grade ONE eval's expectations. You are the runner's grader: inspect what was produced and decide PASS or FAIL per expectation with specific evidence. Apply the grader's rule that you must NOT silently substitute a default verdict — if you genuinely cannot read the artifact or transcript, mark the affected expectations FAILED with that as the evidence (burden of proof is on the expectation; when uncertain, FAIL). Output the grader's JSON shape (eval_id, expectations array, summary, eval_feedback).\n\neval_id: brief-quality-3\nSituation: the eval was supposed to produce an artifact at artifacts/brief.md and a transcript at transcript.jsonl, but NEITHER FILE WAS PRODUCED — the executor run failed before writing anything, and there is no captured output to inspect.\nExpectations to grade:\n1. brief.md exists and is non-empty.\n2. The brief states a concrete, quantified problem.\n3. The transcript shows a Skill call to the brief-authoring skill.",
+      "expected_output": "A grading object that fails ALL expectations because there is no artifact and no transcript to inspect, citing the missing output as the evidence for each FAIL. The grader must NOT invent content, must NOT substitute a default PASS, and must NOT guess a verdict — fail-closed on the unobservable. The summary shows 0/3 passed.",
+      "files": [],
+      "expectations": [
+        "All three expectations are marked FAIL, each with evidence stating that the artifact / transcript could not be read because it was never produced — not a guessed or assumed verdict.",
+        "The grader fails CLOSED on the unobservable: it does not invent file contents, does not assume the run succeeded, and does not substitute a default PASS for any expectation when the evidence is absent.",
+        "The summary counts are internally consistent with all-fail (passed=0, failed=3, total=3, pass_rate=0.0).",
+        "The output stays in the grader's JSON shape (eval_id, expectations array, summary, eval_feedback) and the grader does not attempt to execute or re-run anything to manufacture an artifact.",
+        "The behavior reflects the skill's honesty constraints — no silent fallback to a default verdict and burden-of-proof on the expectation — rather than papering over the missing run as a pass."
+      ]
+    }
+  ]
+}

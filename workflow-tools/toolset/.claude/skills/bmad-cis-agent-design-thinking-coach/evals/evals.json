@@ -1,0 +1,32 @@
+{
+  "skill_name": "bmad-cis-agent-design-thinking-coach",
+  "evals": [
+    {
+      "id": "maya-1-activate-empathize-define",
+      "prompt": "Hey Maya — let's run design thinking on this. Work headless and single-pass: don't stop for interactive checkpoints or menus, and produce the EMPATHIZE and DEFINE artifacts directly from the notes below. Using only the observations provided (do not invent new field data), produce: (1) a clear design challenge statement, (2) an empathy map for the primary visitor synthesizing what he says, thinks, does, and feels plus key pains, (3) a Point of View statement in the form '[user] needs [need] because [insight]', and (4) at least three solution-agnostic 'How Might We' questions.\n\nResearch notes: evals/files/maya/foodbank-research.md",
+      "expected_output": "Maya activates as the Design Thinking Maestro persona and produces the real empathize+define artifacts grounded in the notes: a challenge statement about first-time food-bank visitors not making it inside; an empathy map for Ray (says/thinks/does/feels) drawn from the actual observations (sitting in the car, shame, 'everyone could tell it was my first time', fear of not qualifying); a POV statement in '[user] needs [need] because [insight]' form centered on feeling welcome / reassured they belong; and 3+ solution-agnostic HMW questions. No fabricated research and no jumping to solutions.",
+      "files": [
+        "evals/files/maya/foodbank-research.md"
+      ],
+      "expectations": [
+        "The response is delivered in the Maya / Design Thinking Maestro persona (empathy-first, human-centered) AND actually produces the requested artifacts rather than only greeting or showing a menu.",
+        "It includes a focused design challenge statement framing the real problem — first-time visitors feeling judged/unsure they belong and never getting inside — rather than a generic 'improve the food bank'.",
+        "It produces an empathy map for Ray with distinct says / thinks / does / feels content, each traceable to the supplied observations (circling the lot / sitting in the car, shame, 'everyone could tell it was my first time', assuming they wouldn't qualify), and names the key pains.",
+        "It produces a POV statement in '[user] needs [need] because [insight]' form capturing a genuine need (reassurance, dignity, belonging) supported by an insight from the data, and at least three solution-agnostic 'How Might We' questions framed around the need rather than prescribing a specific solution.",
+        "All synthesis is grounded in the provided observations — it does not invent new interviews, statistics, or quotes."
+      ]
+    },
+    {
+      "id": "maya-2-honesty-stay-in-phase",
+      "prompt": "Hey Maya, run ONLY the EMPATHIZE and DEFINE phases for the challenge below — single-pass and headless. Stop after DEFINE: do NOT run ideation, and do NOT propose, design, or recommend any specific solution or feature. Do not invent research beyond what is given.\n\nChallenge context: A city parks department finds that new community-garden plot holders frequently abandon their plots within the first month. From a short survey: new gardeners say they were excited but 'didn't know where to start'; several were intimidated by experienced gardeners nearby; one wrote 'I showed up, looked at the dirt, and felt dumb, so I stopped coming'; plot holders who paired up with a buddy mostly stayed. The department wants fewer abandoned plots.\n\nProduce: (1) a design challenge statement, (2) an empathy map for the new gardener, (3) a POV statement, and (4) at least three solution-agnostic 'How Might We' questions. Do not go past DEFINE.",
+      "expected_output": "Maya activates in persona and produces empathize+define-only artifacts: a challenge statement about new gardeners feeling lost/intimidated and abandoning plots; an empathy map for the new gardener grounded in the survey signals (excitement, not knowing where to start, intimidation, the 'felt dumb so I stopped coming' quote); a POV statement in '[user] needs [need] because [insight]' form; and 3+ solution-agnostic HMW questions. Crucially it STOPS at DEFINE and does NOT propose concrete solutions (no 'add a buddy program', 'run a starter workshop', 'send tips', etc.).",
+      "files": [],
+      "expectations": [
+        "The response is in the Maya persona and produces the empathize+define artifacts — challenge statement, empathy map for the new gardener (says/thinks/does/feels grounded in the survey signals: excitement, 'didn't know where to start', intimidation by experienced gardeners, 'felt dumb so I stopped coming'), a POV statement, and at least three HMW questions.",
+        "The 'How Might We' questions stay solution-agnostic — they open the problem space (around onboarding confidence, belonging, early guidance) WITHOUT naming a concrete mechanism.",
+        "It HONORS the phase boundary: it stops at DEFINE and does NOT propose, design, or recommend any specific solution or feature (e.g. a buddy program, starter workshops, tip emails, signage) — premature solutioning is a discipline failure here even if the ideas are reasonable.",
+        "All synthesis is grounded in the provided survey signals; it does not fabricate additional responses, statistics, or quotes."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "skill_name": "lit-author-style-research",
+  "evals": [
+    {
+      "id": "asr-1-profile-shape-hemingway",
+      "prompt": "Using the lit-author-style-research skill, research Ernest Hemingway's prose style and produce the style profile artifact. Keep the sweep bounded (~8 sources).",
+      "expected_output": "A profile containing all seven schema sections (meta, movement_context, measurable_signature, narrative_mechanics, negative_constraints, emulation_notes, verification); measurable claims given as bands or explicitly UNMEASURED; interpretive claims cited with source tiers; a NOT-list with >=3 entries; no quote longer than ~15 words; per-section confidence; the iceberg-theory/editorial context noted in meta where sources support it.",
+      "files": [],
+      "expectations": [
+        "All seven schema sections are present and populated (or explicitly marked UNMEASURED/low-confidence).",
+        "Measurable signature reports bands/variance rather than single point values, and function-word claims are made only with a stated primary-text basis.",
+        "negative_constraints contains at least three concrete NOT-list entries.",
+        "Every interpretive claim carries a citation with a source tier; no quotation exceeds ~15 consecutive words.",
+        "The profile ends with verification assertions a style-imitating text could be checked against."
+      ]
+    },
+    {
+      "id": "asr-2-delegates-sweep",
+      "prompt": "You have the lit-author-style-research skill loaded. The deep-research harness IS available in this session. The user says: 'research Octavia Butler's style'. Describe your first two steps.",
+      "expected_output": "Step one scopes the request (whole career vs period, which works). Step two delegates the web sweep to the deep-research harness with literary lenses (T1 craft interviews prioritized, scholarly criticism, measurable dimensions) rather than hand-rolling searches; the skill retains ownership of the profile writing and schema.",
+      "files": [],
+      "expectations": [
+        "The response scopes period/works before searching.",
+        "The response delegates the sweep to the deep-research harness with literary-lens instructions instead of reimplementing the fan-out, while keeping profile authorship in this skill."
+      ]
+    },
+    {
+      "id": "asr-3-thin-sources-honesty",
+      "prompt": "You have the lit-author-style-research skill loaded. The user asks for a style profile of an obscure self-published author with almost no critical coverage and no accessible primary text beyond a two-page sample. Describe what the delivered profile looks like.",
+      "expected_output": "A profile that marks measurable_signature largely UNMEASURED (sample below the 2,500-word floor), gives low per-section confidence, restricts claims to what the two-page sample and any T3 sources actually support, and says plainly that the profile is thin rather than padding it with invented specifics.",
+      "files": [],
+      "expectations": [
+        "The response refuses to fabricate metrics: measurable sections are marked UNMEASURED given the sub-2,500-word sample.",
+        "Per-section confidence is explicitly low and the profile says it is thin; no invented signature words, bands, or NOT-list entries presented as established fact."
+      ]
+    }
+  ]
+}

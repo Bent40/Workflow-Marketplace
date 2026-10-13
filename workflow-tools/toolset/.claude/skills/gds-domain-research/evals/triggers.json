@@ -1,0 +1,9 @@
+[
+  { "query": "Let's create a research report on the cozy farming-sim genre on Switch and PC before we decide whether to build one.", "should_trigger": true },
+  { "query": "I want game domain research on the mobile roguelike-deckbuilder sub-genre — market structure, engagement drivers, and monetization.", "should_trigger": true },
+  { "query": "Research the battle-royale genre across PC and console: audience, competitive landscape, and trends.", "should_trigger": true },
+  { "query": "Create a research report on age ratings and content regulations for games in Europe.", "should_trigger": true },
+  { "query": "Help me write the Game Design Document for our cozy farming-sim.", "should_trigger": false },
+  { "query": "Do market research on the customers and competitors for our reusable-cup product.", "should_trigger": false },
+  { "query": "Implement the procedural deck-generation system for the roguelike run loop.", "should_trigger": false }
+]

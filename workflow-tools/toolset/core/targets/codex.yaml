@@ -1,0 +1,5 @@
+id: codex
+summary: OpenAI Codex — reads AGENTS.md; edits the repo; no subagent mechanism.
+capabilities:
+  - repo_editing
+  - agents_md

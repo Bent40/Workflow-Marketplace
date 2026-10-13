@@ -1,0 +1,12 @@
+# core/roles/reviewer.yaml — worker role (Epic F / F2).
+id: reviewer
+summary: Independent review of changes against acceptance criteria and the rules.
+activation: default
+applies_to: [claude, codex, copilot, gemini, local]
+applicable_modes: [plan]
+render:
+  claude:  "Subagent: review the diff; run the suite yourself; report BLOCKER/SHOULD-FIX/NICE with file:line."
+  codex:   "Review pass: verify acceptance + rules; list findings; do not edit."
+  copilot: "Review instruction: flag acceptance/rule violations on the changed lines."
+  gemini:  "Review checklist: acceptance, rules, edge cases; report findings; do not edit."
+  local:   "PACKET REVIEW — inputs: diff + acceptance; output: findings list; no edits."

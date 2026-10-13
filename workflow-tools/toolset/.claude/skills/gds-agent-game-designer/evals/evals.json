@@ -1,0 +1,32 @@
+{
+  "skill_name": "gds-agent-game-designer",
+  "evals": [
+    {
+      "id": "samus-1-activate-game-brief-core",
+      "prompt": "Hey Samus, let's design this game. Work headless and single-pass: don't stop for interactive menus or questions, batch any open questions as explicit [ASSUMPTION] or [OPEN] tags, and produce the core game-design brief for the pitch below. Deliver, grounded in the pitch: (1) a concise core-fantasy / experience-goal statement (what the player should FEEL), (2) 2-4 design pillars, (3) a described core gameplay loop, and (4) the target player / comparable games. Do not assume anything the developer explicitly left undecided.\n\nPitch: evals/files/samus/tidewalker-pitch.md",
+      "expected_output": "Samus activates as the Game Designer persona and produces a real game-brief-core artifact grounded in the pitch: an experience goal capturing the patient-anxious beachcombing-against-the-tide feeling; 2-4 pillars that serve that fantasy (e.g. serene exploration, greed-vs-caution tension via the tide, no-combat low-stress); a core loop describing explore-at-low-tide -> collect finds -> read flavor -> watch the tide -> decide to push or retreat (with the strand/reset consequence); and the target player + comparables (calm atmospheric exploration; Proteus / A Short Hike / walking sims). Anything the developer left undecided (progression, narrative depth, monetization) is flagged as [OPEN]/[ASSUMPTION], not invented.",
+      "files": [
+        "evals/files/samus/tidewalker-pitch.md"
+      ],
+      "expectations": [
+        "The response is delivered in the Samus Shepard / Game Designer persona (enthusiastic, player-feel-first) AND actually produces the requested game-brief-core artifact rather than only greeting or showing a menu.",
+        "It states a core fantasy / experience goal that captures the intended feeling — the patient, slightly anxious rhythm of beachcombing against a rising tide, the joy of a find vs. the dread of the water — rather than a generic 'fun exploration game'.",
+        "It defines 2-4 design pillars that genuinely serve that fantasy (e.g. serene atmospheric exploration, greed-vs-caution tension driven by the tide, no-combat / low-stress with a gentle pull of risk), consistent with the persona's 'every mechanic must serve the core fantasy' principle.",
+        "It describes a core gameplay loop grounded in the pitch — exploring the exposed flats at low tide, collecting shells/artifacts, reading flavor text, and the tide-cycle pressure that forces a push-or-retreat decision with the strand/reset (lose uncollected finds, not progress) consequence — and names the target player and comparable games (calm atmospheric exploration; e.g. Proteus, A Short Hike, walking sims).",
+        "It does NOT invent the things the developer explicitly left undecided — progression/upgrade systems, narrative beyond flavor text, and monetization are flagged as open/assumptions rather than designed in as settled, and no combat or fail-state death is added against the pitch."
+      ]
+    },
+    {
+      "id": "samus-2-honesty-no-overscope-jam-game",
+      "prompt": "Hey Samus, give me the core design brief for this — but it's a tiny game-jam entry, so size it honestly. Headless, single-pass, no menus.\n\nPitch: A 48-hour game-jam micro-game. You're a cat knocking objects off a single kitchen counter to score points before a 60-second timer ends. One screen, one mechanic (swat objects off the edge), arcade high-score loop. Theme is just 'mischief'. Solo dev, must ship in a weekend.\n\nProduce: (1) the core fantasy / experience goal, (2) 1-3 pillars, (3) the core loop, and (4) target player. Keep it scoped to a 48-hour jam.",
+      "expected_output": "Samus activates in persona and produces a tightly-scoped jam brief: an experience goal about playful chaotic mischief / satisfying swatting; 1-3 pillars centered on the single swat mechanic and the score-chase; a 60-second arcade core loop (swat objects off the counter -> score -> beat-your-high-score); and a casual/arcade target player. Crucially it does NOT over-engineer — no sprawling progression trees, multiple levels, narrative campaigns, multiplayer, or feature creep that a 48-hour solo jam cannot ship; any nice-to-have is flagged as out-of-scope/stretch, not core.",
+      "files": [],
+      "expectations": [
+        "The response is in the Samus persona and produces the core-brief artifact, faithful to the one-screen, one-mechanic, 60-second jam scope — the core loop is the swat-objects-off-the-counter score chase against the timer, not an expanded game.",
+        "The pillars (1-3) center on the single swat mechanic and the arcade high-score chase and the experience goal captures playful mischief — it does not graft on a serious narrative or systems the theme/scope don't imply.",
+        "It does NOT over-scope for a 48-hour solo jam: no multi-level progression, skill/upgrade trees, multiplayer, complex narrative campaigns, or other feature creep are presented as core requirements; any such idea is explicitly marked as out-of-scope or a post-jam stretch.",
+        "The target player is a casual/arcade audience appropriate to the micro-game, and the brief stays proportional to what one developer can ship in a weekend — over-engineering a tiny jam game is the honesty failure being tested."
+      ]
+    }
+  ]
+}

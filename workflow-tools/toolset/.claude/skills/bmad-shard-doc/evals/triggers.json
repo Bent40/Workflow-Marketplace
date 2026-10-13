@@ -1,0 +1,8 @@
+[
+  { "query": "Perform shard document on this architecture markdown — split it by its level-2 sections.", "should_trigger": true },
+  { "query": "This PRD is huge. Can you shard it into smaller per-section files with an index?", "should_trigger": true },
+  { "query": "Break this big markdown doc into one file per ## section.", "should_trigger": true },
+  { "query": "Create an index.md cataloguing all the files in the docs/ folder.", "should_trigger": false },
+  { "query": "Review the structure of this document and propose cuts.", "should_trigger": false },
+  { "query": "Document this brownfield project for AI context.", "should_trigger": false }
+]

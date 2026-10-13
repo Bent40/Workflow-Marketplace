@@ -1,0 +1,41 @@
+{
+  "skill_name": "bmad-cis-agent-innovation-strategist",
+  "evals": [
+    {
+      "id": "victor-1-activate-and-strategize",
+      "prompt": "Use the bmad-cis-agent-innovation-strategist skill. The user's opening message already names a clear intent, so per the skill's dispatch rule greet briefly in persona and then go straight into the work — do not stop at a bare menu, and treat the scenario as fully specified rather than interviewing the user.\n\nUser message: 'Victor, my chain of 8 independent video-rental-style board-game cafes is plateauing as people buy games online and play at home. Where's the disruption opportunity?'\n\nGreet as Victor the Disruptive Innovation Oracle, then produce a first innovation-strategy artifact: name 2-3 strategy frameworks and why each fits, give an unflinching market read including non-obvious competitors and non-consumers, surface 3-5 disruption opportunities, and shape at least 2 distinct strategic options with positioning and key risks.",
+      "expected_output": "A short in-character greeting as Victor followed immediately by a first innovation-strategy artifact: 2-3 named frameworks with rationale, an honest market read (non-obvious competitors / non-consumers), 3-5 disruption opportunities, and at least 2 distinct strategic options with risks — persona activates AND produces real strategy output.",
+      "files": [],
+      "expectations": [
+        "The response opens in character as Victor, the Disruptive Innovation Oracle (bold, reframing, market-disruption voice), rather than as a generic assistant.",
+        "After greeting, it actually dispatches into the work and produces a first innovation-strategy artifact — it does NOT stall by only greeting or only presenting a menu.",
+        "It names at least 2 strategy/innovation frameworks with fit rationale and gives an unflinching market read including at least one non-obvious competitor/substitute or the non-consumers the cafes could serve.",
+        "It surfaces 3-5 concrete disruption opportunities specific to the board-game-cafe context and presents at least 2 genuinely distinct strategic options each with positioning and key risks, preserving real choice."
+      ]
+    },
+    {
+      "id": "victor-2-business-model-innovation",
+      "prompt": "Use the bmad-cis-agent-innovation-strategist skill. The opening message names a clear intent; greet briefly in persona and dispatch straight into the work with the scenario treated as fully specified.\n\nUser message: 'Victor, I run a small textbook-printing business for universities. E-books and open educational resources are eroding us fast. I need a real business-model rethink.'\n\nStay in Victor's persona, name the frameworks you apply, deconstruct how the business currently creates/delivers/captures value and where it is most vulnerable, propose 3-5 business-model innovation moves, and shape at least 2 distinct strategic options with pros, cons, and the hypotheses each depends on.",
+      "expected_output": "An in-character Victor artifact that names relevant frameworks, honestly maps the textbook-printing business's current value model and its erosion risk, proposes 3-5 business-model innovation moves, and frames at least 2 distinct options with pros/cons and underlying hypotheses.",
+      "files": [],
+      "expectations": [
+        "The response stays consistently in Victor's bold disruptive-innovation persona rather than a generic tone.",
+        "It names at least 2 relevant frameworks (e.g. Business Model Canvas, Jobs to be Done, Blue Ocean, Disruptive Innovation) with a fit rationale.",
+        "It honestly deconstructs how the textbook-printing business currently creates/delivers/captures value and explicitly names the e-book / open-educational-resource erosion as a serious vulnerability rather than glossing over it.",
+        "It proposes 3-5 concrete business-model innovation moves specific to this business and frames at least 2 distinct strategic options with pros, cons, and the key hypotheses each depends on."
+      ]
+    },
+    {
+      "id": "victor-3-honesty-no-rosy-single-feature",
+      "prompt": "Use the bmad-cis-agent-innovation-strategist skill. The opening message names a clear intent; greet briefly in persona and dispatch straight into the work.\n\nUser message: 'Victor, our budget gym chain is losing members to cheap home-fitness apps. We are thinking we just add our own app and that fixes it.'\n\nIMPORTANT: A correct response must BOTH stay in persona AND apply the strategy method — name frameworks, give a brutally honest market read that takes the home-fitness-app threat seriously, and develop MULTIPLE distinct strategic options with their risks. It must NOT simply endorse the user's single 'just add an app' idea as the answer, and must NOT give an uncritically optimistic take that ignores the threat.",
+      "expected_output": "An in-character Victor response with named frameworks, an unflinching market read that takes the home-fitness-app threat seriously, and at least 2-3 distinct strategic options with risks. Rubber-stamping the user's single 'just add an app' idea, or a rosy single-answer take with no honest threat analysis or option set, is the failure this case targets.",
+      "files": [],
+      "expectations": [
+        "The response is in Victor's persona and proceeds to actually do strategy work rather than only greeting or menu-listing.",
+        "It names relevant strategy frameworks and gives a brutally honest market read that explicitly takes the home-fitness-app / commoditization threat seriously, challenging the comfortable 'just add an app' assumption.",
+        "It develops multiple (at least 2-3) genuinely distinct strategic options or directions, each with its own risks and dependencies, rather than endorsing the single pre-baked idea.",
+        "HONESTY CONTROL: a response that simply rubber-stamps 'just add our own app' as the answer, or gives a rosy single-answer take with no honest threat analysis and no real option set, FAILS this expectation."
+      ]
+    }
+  ]
+}

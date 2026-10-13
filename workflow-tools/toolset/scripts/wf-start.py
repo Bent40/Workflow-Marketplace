@@ -35,12 +35,15 @@ materializes only the observer-safe subset until it is ruled.
 
 CREATION MODE (M3): a greenfield dir runs the interview — interactive on a
 TTY, fully flag-driven otherwise (`--yes` accepts defaults) — with three
-first-class variants: greenfield / takeover (the 103 question set, posture
-FIRST; free-text answers recorded to boot.json takeover_notes) / satellite
+first-class variants: greenfield / takeover (the 103 question set;
+free-text answers recorded to boot.json takeover_notes) / satellite
 adoption. Execution wraps the EXISTING tools (wf scaffold — greenfield
-variant only — wf install, wf memory init, the block, boot.json). When
-posture != civilian, `wf install --profile <posture>` runs BEFORE the block
-render so the block reads the right posture (posture-first, 103 §2).
+variant only — wf install, wf memory init, the block, boot.json). `wf
+install` runs BEFORE the block render so the block reads the installed
+profile back (posture-first, 103 §2). The only posture is `civilian` (the
+`--secure`/`--team` postures were removed 2026-10-13, core/DECISIONS.md D6);
+a project's workflow.packs.yaml profile (e.g. local-small-context) is still
+read back as its posture.
 
 READ-ONLY by default: the scan never modifies the project; writes happen
 only via --write / --apply / --decline / the confirmed creation plan.
@@ -51,7 +54,7 @@ FAIL-CLOSED LABELING: unparseable state is reported as `unparseable`/
 Usage:
   wf start [--dir DIR] [--json] [--write] [--new]
   wf start --involvement observer|satellite|partial|full   rule the envelope
-  wf start --apply --involvement full --profile <p> --size <s> [--secure]
+  wf start --apply --involvement full --profile <p> --size <s>
   wf start --dir <empty> [--variant takeover] [--yes] ...   creation mode
   wf start --eval-corpus [PATH]     emit the invocation-rate eval corpus
   wf start --selftest
@@ -687,7 +690,6 @@ INVOLVEMENT_SCOPE = {
 }
 VARIANTS = ("greenfield", "takeover", "satellite")
 CREATION_STACKS = ("node-express", "fastapi-react", "node-express-vue", "undecided")
-POSTURES = ("civilian", "civilian-team", "secure", "secure-team")
 STAGE_LABELS = {
     "discover": "starting out / ideating",
     "plan": "planning the product",
@@ -879,30 +881,9 @@ def propose_involvement(subsystems: dict) -> str:
     return "observer"
 
 
-def _posture_from_flags(secure: bool, team: bool) -> str | None:
-    if secure and team:
-        return "secure-team"
-    if secure:
-        return "secure"
-    if team:
-        return "civilian-team"
-    return None
-
-
-def _parse_posture(raw: str) -> str | None:
-    a = (raw or "").strip().lower().replace(" ", "-").replace("+", "-")
-    return {
-        "civilian": "civilian", "team": "civilian-team",
-        "civilian-team": "civilian-team", "team-civilian": "civilian-team",
-        "secure": "secure", "secure-team": "secure-team",
-        "team-secure": "secure-team",
-    }.get(a)
-
-
 def _resolve_posture(root: Path, flag: str | None, prior: dict | None = None) -> str:
-    """Posture precedence: explicit flag > the project's workflow.packs.yaml
-    profile > a prior boot.json receipt > civilian. A given posture flag is
-    NEVER silently downgraded to a civilian stamp (103 trace §2)."""
+    """Posture precedence: explicit argument > the project's workflow.packs.yaml
+    profile > a prior boot.json receipt > civilian (103 trace §2)."""
     if flag:
         return flag
     pk = _read_yaml(root / "workflow.packs.yaml")
@@ -1590,9 +1571,6 @@ def render_report(boot: dict, root: Path) -> str:
             cmd += f" --profile {prof}"
         if inv == "partial":
             cmd += f" --packs {','.join(boot.get('_want_packs') or [])}"
-        posture_bits = {"secure": " --secure", "civilian-team": " --team",
-                        "secure-team": " --secure --team"}.get(boot.get("posture") or "", "")
-        cmd += posture_bits
         accept_hint = f" [--accept {','.join(o['id'] for o in plan['offers'])}]" if plan["offers"] else ""
         lines.append("")
         lines.append(f"  next: {cmd}{accept_hint}")
@@ -1672,7 +1650,7 @@ def run_creation(root: Path, args, *, prompt_fn=input,
 
     # Q0 — involvement envelope (D5: the user's ruling, asked before ANYTHING).
     inv, inv_explicit = _ask(
-        prompt_fn, asked, "0/5 involvement? [observer/satellite/partial/FULL] ",
+        prompt_fn, asked, "0/4 involvement? [observer/satellite/partial/FULL] ",
         "full", interactive=interactive, flag=args.involvement)
     inv = inv.lower()
     if inv not in INVOLVEMENTS:
@@ -1684,7 +1662,7 @@ def run_creation(root: Path, args, *, prompt_fn=input,
 
     # Q1 — variant (greenfield / takeover / satellite adoption).
     variant, _ = _ask(
-        prompt_fn, asked, "1/5 variant? [GREENFIELD/takeover/satellite] ",
+        prompt_fn, asked, "1/4 variant? [GREENFIELD/takeover/satellite] ",
         "greenfield", interactive=interactive, flag=args.variant)
     variant = variant.lower()
     if variant not in VARIANTS:
@@ -1696,21 +1674,10 @@ def run_creation(root: Path, args, *, prompt_fn=input,
         inv = "satellite"
         print("  (variant satellite caps the envelope at satellite — no install)")
 
-    posture_flag = _posture_from_flags(args.secure, args.team)
-    posture = posture_flag or "civilian"
+    posture = "civilian"
     takeover_notes = None
     if variant == "takeover":
-        # 103 §2: the takeover question set — POSTURE FIRST, because it
-        # decides the install-before-block ordering (secure needs
-        # `wf install --profile secure` to run before the block render).
-        pa, _ = _ask(
-            prompt_fn, asked,
-            "takeover · posture? [CIVILIAN/secure/team/secure-team] "
-            "(asked FIRST — it decides install ordering) ",
-            posture_flag or "civilian", interactive=interactive, flag=posture_flag)
-        posture = _parse_posture(pa)
-        if posture is None:
-            _die(f"posture {pa!r} not one of {', '.join(POSTURES)}")
+        # 103 §2: the takeover question set (free text, recorded to boot.json).
         seams, _ = _ask(prompt_fn, asked,
                         "takeover · contract seams / canonical ownership? (free text) ",
                         "", interactive=interactive, flag=args.seams)
@@ -1729,7 +1696,7 @@ def run_creation(root: Path, args, *, prompt_fn=input,
     match_note = ""
     if inv != "observer":
         intent, _ = _ask(prompt_fn, asked,
-                         "2/5 what do you want to make? (free text; empty -> generic) ",
+                         "2/4 what do you want to make? (free text; empty -> generic) ",
                          "", interactive=interactive, flag=args.intent)
         if args.profile:
             if args.profile not in profiles:
@@ -1759,32 +1726,22 @@ def run_creation(root: Path, args, *, prompt_fn=input,
     # Q3 — size (stakes).
     default_size = str((profile or {}).get("default_size") or "medium")
     size, _ = _ask(prompt_fn, asked,
-                   f"3/5 size? [tiny/small/medium/large — default {default_size.upper()}] ",
+                   f"3/4 size? [tiny/small/medium/large — default {default_size.upper()}] ",
                    default_size, interactive=interactive, flag=args.size)
     size = size.lower()
     if size not in SIZES:
         _die(f"size {size!r} not one of {', '.join(SIZES)}")
 
-    # Q4 — posture (already asked FIRST for the takeover variant).
-    if variant != "takeover":
-        pa, _ = _ask(prompt_fn, asked,
-                     "4/5 posture? [CIVILIAN/secure/team/secure-team] ",
-                     posture_flag or "civilian", interactive=interactive,
-                     flag=posture_flag)
-        posture = _parse_posture(pa)
-        if posture is None:
-            _die(f"posture {pa!r} not one of {', '.join(POSTURES)}")
-
-    # Q5 — targets + stack (greenfield variant only; stack needs the full
+    # Q4 — targets + stack (greenfield variant only; stack needs the full
     # envelope because only full scaffolds).
     targets, stack = "claude", None
     if variant == "greenfield" and inv in ("partial", "full"):
         targets, _ = _ask(prompt_fn, asked,
-                          "5/5 agent targets? [CLAUDE/+codex/+copilot/+gemini/+local — comma-separated] ",
+                          "4/4 agent targets? [CLAUDE/+codex/+copilot/+gemini/+local — comma-separated] ",
                           "claude", interactive=interactive, flag=args.targets)
         if inv == "full":
             stack, _ = _ask(prompt_fn, asked,
-                            "5/5 stack? [NODE-EXPRESS/fastapi-react/node-express-vue/undecided] ",
+                            "4/4 stack? [NODE-EXPRESS/fastapi-react/node-express-vue/undecided] ",
                             "node-express", interactive=interactive, flag=args.stack)
             stack = stack.lower()
             if stack not in CREATION_STACKS:
@@ -1805,9 +1762,7 @@ def run_creation(root: Path, args, *, prompt_fn=input,
     print(f"  involvement {inv}"
           + ("" if inv_explicit else " (default — rule it with --involvement)"))
     print(f"              envelope: {INVOLVEMENT_SCOPE[inv]}")
-    print(f"  variant     {variant}"
-          + (f" · posture {posture} (asked first — decides install ordering)"
-             if variant == "takeover" else ""))
+    print(f"  variant     {variant}")
     if takeover_notes:
         for k, v in takeover_notes.items():
             print(f"              {k.replace('_', ' ')}: {v or '—'}")
@@ -1818,12 +1773,10 @@ def run_creation(root: Path, args, *, prompt_fn=input,
 
     steps: list[tuple[str, str]] = []
     if variant == "greenfield" and inv == "full":
-        pbits = {"secure": " --secure", "civilian-team": " --team",
-                 "secure-team": " --secure --team"}.get(posture, "")
         sbit = f" --stack {stack}" if stack and stack != "undecided" else ""
         snote = (" (stack undecided — scaffold seeds its default; settle at architecture)"
                  if stack == "undecided" else "")
-        steps.append(("scaffold", f"wf scaffold --out {root}{pbits}{sbit}{snote}"))
+        steps.append(("scaffold", f"wf scaffold --out {root}{sbit}{snote}"))
     if packs:
         onote = ("" if posture == "civilian" else
                  f" — runs BEFORE the block render so the block reads posture {posture} "
@@ -1904,10 +1857,6 @@ def _execute_creation(root: Path, *, variant: str, inv: str, profile: dict | Non
 
     if variant == "greenfield" and inv == "full":
         argv = ["--out", str(root)]
-        if posture in ("secure", "secure-team"):
-            argv.append("--secure")
-        if posture in ("civilian-team", "secure-team"):
-            argv.append("--team")
         if stack and stack != "undecided":
             argv += ["--stack", stack]
         ok &= _tool("wf-scaffold.py", argv, "scaffold")
@@ -2509,28 +2458,11 @@ def selftest() -> int:
                 or act["profile"] != "web-app" or not act["confirmed"]:
             problems.append(f"M3 create: creation receipt did not survive the first real scan: {act}")
 
-    # posture-first (103 §2): a --secure greenfield run installs --profile
-    # secure BEFORE the block render, so the block reads posture secure.
-    with tempfile.TemporaryDirectory(prefix="wfstart-sec3-") as td:
-        root = Path(td)
-        r = _run_cli(["--dir", td, "--involvement", "full", "--profile", "web-app",
-                      "--size", "small", "--secure", "--yes"])
-        if r.returncode != 0:
-            problems.append(f"M3 posture-first: secure run failed rc={r.returncode}: {(r.stderr or r.stdout)[-300:]}")
-        pk = _read_yaml(root / "workflow.packs.yaml")
-        if not isinstance(pk, dict) or pk.get("profile") != "secure":
-            problems.append(f"M3 posture-first: install did not stamp profile secure: {pk if not isinstance(pk, dict) else pk.get('profile')}")
-        text = (root / "CLAUDE.md").read_text(encoding="utf-8") if (root / "CLAUDE.md").is_file() else ""
-        if "posture: secure" not in text:
-            problems.append("M3 posture-first: block did not read posture secure")
-        if "BEFORE the block" not in r.stdout:
-            problems.append("M3 posture-first: plan does not state the install-before-block ordering")
-
     # takeover variant: no scaffold; the 103 question set recorded to
-    # boot.json takeover_notes; posture secure honored end to end.
+    # boot.json takeover_notes; install runs and stamps the civilian posture.
     with tempfile.TemporaryDirectory(prefix="wfstart-take3-") as td:
         root = Path(td)
-        r = _run_cli(["--dir", td, "--variant", "takeover", "--secure",
+        r = _run_cli(["--dir", td, "--variant", "takeover",
                       "--involvement", "full", "--profile", "api-service",
                       "--size", "medium",
                       "--seams", "shared wire contract vendored; api canonical",
@@ -2544,13 +2476,13 @@ def selftest() -> int:
                 or notes.get("deploy_targets") != "edge bundle + openshift" \
                 or notes.get("port_contracts") != "3050/3051 fixed":
             problems.append(f"M3 takeover: takeover_notes not recorded: {notes}")
-        if receipt.get("variant") != "takeover" or receipt.get("posture") != "secure":
+        if receipt.get("variant") != "takeover" or receipt.get("posture") != "civilian":
             problems.append(f"M3 takeover: variant/posture not recorded: {receipt.get('variant')}/{receipt.get('posture')}")
         if (root / "README.md").is_file():
             problems.append("M3 takeover: scaffold must not run for the takeover variant")
         pk = _read_yaml(root / "workflow.packs.yaml")
-        if not isinstance(pk, dict) or pk.get("profile") != "secure":
-            problems.append("M3 takeover: install did not run secure-first")
+        if not isinstance(pk, dict) or pk.get("profile") != "civilian":
+            problems.append("M3 takeover: install did not run / stamp the civilian profile")
 
     # observer creation: memory + receipt ONLY — no block, no packs, no scaffold.
     with tempfile.TemporaryDirectory(prefix="wfstart-obs3-") as td:
@@ -2567,13 +2499,14 @@ def selftest() -> int:
             problems.append(f"M3 observer create: envelope not recorded: {act}")
 
     # interactive interview path (monkeypatched prompt): Q0 is involvement
-    # (D5), takeover asks posture BEFORE seams (103), declining writes nothing.
+    # (D5), takeover asks the 103 seams question, no posture question is
+    # asked (the secure/team postures were removed, D6), declining writes nothing.
     with tempfile.TemporaryDirectory(prefix="wfstart-tty3-") as td:
         import contextlib
         import io
         root = Path(td)
         prompts: list[str] = []
-        answers = iter(["full", "takeover", "secure",
+        answers = iter(["full", "takeover",
                         "api owns the contract", "edge+cloud", "3050/3051",
                         "", "", "n"])
 
@@ -2588,10 +2521,10 @@ def selftest() -> int:
             problems.append(f"M3 interview: declined run should exit 0, got {rc}")
         if not prompts or "involvement" not in prompts[0]:
             problems.append(f"M3 interview: Q0 must be involvement (D5 question zero), got {prompts[:1]}")
-        p_post = next((i for i, q in enumerate(prompts) if "posture" in q), None)
-        p_seam = next((i for i, q in enumerate(prompts) if "seams" in q), None)
-        if p_post is None or p_seam is None or p_post > p_seam:
-            problems.append(f"M3 interview: takeover must ask posture FIRST (103 §2): {prompts}")
+        if any("posture" in q for q in prompts):
+            problems.append(f"M3 interview: a removed posture question was asked: {prompts}")
+        if not any("seams" in q for q in prompts):
+            problems.append(f"M3 interview: takeover must ask the seams question (103): {prompts}")
         if any(root.iterdir()):
             problems.append("M3 interview: declining the run must write nothing")
 
@@ -2621,10 +2554,9 @@ def selftest() -> int:
         "observer-safe subset and says so; envelope survives rescans; the "
         "next-hint never suggests beyond the envelope; creation mode: "
         "flag-driven greenfield run scaffolds+installs+blocks+receipts, "
-        "--secure runs install --profile secure BEFORE the block (posture-"
-        "first, 103 §2), takeover records takeover_notes and never scaffolds, "
+        "takeover records takeover_notes, stamps civilian and never scaffolds, "
         "observer writes memory+receipt only, interactive interview asks "
-        "involvement as question ZERO and posture FIRST for takeover, "
+        "involvement as question ZERO and no removed posture question, "
         "declining writes nothing)"
     )
     return 0
@@ -2666,11 +2598,6 @@ def build_parser() -> argparse.ArgumentParser:
                     "unconfirmed, --apply materializes only the observer-safe subset")
     ap.add_argument("--packs", help="comma-separated pack subset for the PARTIAL "
                     "envelope (implies --involvement partial)")
-    ap.add_argument("--secure", action="store_true",
-                    help="secure posture — install runs --profile secure BEFORE "
-                    "the block render (posture-first, 103 §2)")
-    ap.add_argument("--team", action="store_true",
-                    help="team posture (composes with --secure -> secure-team)")
     ap.add_argument("--intent", help="what you want to make — feeds the profile "
                     "matcher and D3 add-on proposals")
     ap.add_argument("--profile", help="confirm the activation profile (required "
@@ -2762,7 +2689,7 @@ def main(argv: list[str]) -> int:
         enrich(boot, root, intent=args.intent, profile_arg=args.profile,
                addons_arg=addons_arg, size_arg=args.size,
                involvement_arg=args.involvement, packs_arg=packs_arg,
-               posture_arg=_posture_from_flags(args.secure, args.team))
+               posture_arg=None)
         if args.apply:
             apply_log = apply_plan(root, boot, accept=accept,
                                    force_block=args.force_block)

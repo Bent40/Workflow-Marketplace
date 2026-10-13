@@ -1,0 +1,7 @@
+# ILLUSTRATIVE example gold set — SYNTHETIC labels, NOT a real calibration.
+# Replace with real (output, human-verdict) pairs before trusting any kappa.
+# Each line: {"id", "output", "gold": "PASS"|"FAIL", "criterion"}. '#' lines skipped.
+{"id": "ex1", "output": "VERDICT: PASS\nRollback steps: 1) restore backup 2) redeploy prior tag", "gold": "PASS", "criterion": "states a verdict and concrete rollback steps"}
+{"id": "ex2", "output": "Looks fine to me, ship it.", "gold": "FAIL", "criterion": "states a verdict and concrete rollback steps"}
+{"id": "ex3", "output": "The function validates the email with is_valid_email and returns 400 on bad input.", "gold": "PASS", "criterion": "describes input validation with a concrete rejection path"}
+{"id": "ex4", "output": "It handles errors gracefully.", "gold": "FAIL", "criterion": "describes input validation with a concrete rejection path"}

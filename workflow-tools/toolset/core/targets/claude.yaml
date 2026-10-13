@@ -1,0 +1,8 @@
+id: claude
+summary: Claude Code — full agentic harness (subagents, skills, hooks, MCP).
+capabilities:
+  - subagents
+  - bmad_skills
+  - hooks
+  - mcp
+  - repo_editing

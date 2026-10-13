@@ -1,0 +1,34 @@
+{
+  "skill_name": "bmad-code-review",
+  "evals": [
+    {
+      "id": "cr-1-nospec-triage",
+      "prompt": "Use the bmad-code-review skill to review the unified diff below. There is NO spec file for this change (run in no-spec mode). Run the review and present the triaged findings directly in your reply — do NOT halt to ask how I want to handle patches, do NOT apply any edits, and do not require a sprint-status file. I just want the triage result: the findings sorted into the skill's categories with a one-line summary count.\n\nProvided diff (from evals/files/bmad-code-review/cart-discount.diff):\n\n```diff\ndiff --git a/src/cart.py b/src/cart.py\n--- a/src/cart.py\n+++ b/src/cart.py\n@@ -10,6 +10,21 @@ class Cart:\n     def subtotal(self):\n         return sum(item.price * item.quantity for item in self.items)\n+    def apply_discount(self, percent):\n+        factor = 1 - percent / 100\n+        self.discounted_total = self.subtotal() * factor\n+        return self.discounted_total\n+    def remove_item(self, index):\n+        # silently does nothing when index out of range, unlike rest of API which raises\n+        if index < len(self.items):\n+            del self.items[index]\n     def add_item(self, item):\n         self.items.append(item)\n+        print(\"DEBUG added item\", item)\n+        self.cached_total = self.subtotal()\n```",
+      "expected_output": "A triaged code review: the leftover DEBUG print is flagged and classified as patch (unambiguous removable noise from this change); the apply_discount missing input validation (negative / >100 percent) is raised as a finding; the silent out-of-range remove_item is recognized as pre-existing and classified defer; a final summary line counts patch / defer / dismissed. Because this is no-spec mode, no finding is left as decision_needed.",
+      "files": [
+        "evals/files/bmad-code-review/cart-discount.diff"
+      ],
+      "expectations": [
+        "The review raises a finding about the leftover `print(\"DEBUG added item\"` debug statement introduced by this diff and classifies it as a `patch` (a trivially fixable issue caused by the change), not as `defer` or dismissed.",
+        "The review raises a finding that `apply_discount` performs no validation on `percent` (a negative or greater-than-100 percent is silently accepted, yielding a nonsensical total) — this real issue is not missed.",
+        "The `remove_item` silent no-op on an out-of-range index is recognized as a PRE-EXISTING issue not caused by this change and classified as `defer`, not `patch` (the diff comment marks it as older code; misclassifying it as patch fails this expectation).",
+        "Because the review runs in `no-spec` mode, NO finding is left in the `decision_needed` category — any issue that would need a product/intent decision is reclassified as `patch` or `defer`, per the skill's no-spec rule.",
+        "The review ends with a summary that counts findings by category in the skill's terms (a count of `patch`, a count of `defer`, and a count of items dismissed as noise) rather than an unstructured prose blob."
+      ]
+    },
+    {
+      "id": "cr-2-full-ac-violation",
+      "prompt": "Use the bmad-code-review skill to review the diff below AGAINST the spec at evals/files/bmad-code-review/discount-spec.md (run in full mode, with the Acceptance Auditor layer active). Present the triaged findings in your reply. Do NOT halt for patch-handling confirmation and do NOT apply edits — I only want the triage. No sprint-status file is needed.\n\nSpec (staged at evals/files/bmad-code-review/discount-spec.md) requires: apply_discount MUST raise ValueError when percent is negative or > 100.\n\nProvided diff:\n\n```diff\ndiff --git a/src/cart.py b/src/cart.py\n--- a/src/cart.py\n+++ b/src/cart.py\n@@ -10,6 +10,11 @@ class Cart:\n     def subtotal(self):\n         return sum(item.price * item.quantity for item in self.items)\n+    def apply_discount(self, percent):\n+        factor = 1 - percent / 100\n+        self.discounted_total = self.subtotal() * factor\n+        return self.discounted_total\n```",
+      "expected_output": "A full-mode review where the Acceptance Auditor catches that apply_discount violates the spec's acceptance criterion requiring a ValueError on percent < 0 or > 100 — the diff has no such validation. That finding is classified as a patch (the correct fix is unambiguous given the spec), and the summary reports the category counts.",
+      "files": [
+        "evals/files/bmad-code-review/discount-spec.md"
+      ],
+      "expectations": [
+        "The review identifies that `apply_discount` violates the spec's acceptance criterion that it MUST raise `ValueError` when `percent` is negative or greater than 100 — the implementation performs no such check. This is the central finding and is not missed.",
+        "The violating finding is attributed to the spec/acceptance check (the Acceptance Auditor layer in `full` mode), demonstrating the spec was actually consulted — not merely a generic style comment.",
+        "The missing-validation finding is classified as a `patch` (the correct fix — add the `ValueError` guard — is unambiguous given the spec), not as `defer` or dismissed.",
+        "The review's summary counts findings by the skill's triage categories rather than emitting an unstructured list, and it does not falsely announce a `Clean review` while the AC violation stands."
+      ]
+    }
+  ]
+}

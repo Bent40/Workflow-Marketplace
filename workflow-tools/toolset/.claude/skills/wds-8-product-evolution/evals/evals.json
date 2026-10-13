@@ -1,0 +1,34 @@
+{
+  "skill_name": "wds-8-product-evolution",
+  "evals": [
+    {
+      "id": "wds8-1-scope-improvement-scenario",
+      "prompt": "Use the wds-8-product-evolution skill (Scope Improvement activity) to produce Phase 8's primary artifact for this brownfield change: a focused improvement scenario for the existing FreshBox product described in the attached file. This is the full WDS pipeline in miniature for ONE improvement. Work in a single pass and produce the scoped scenario directly.\n\nExisting product + improvement target: evals/files/wds8/freshbox-existing.md\n\nProduce a scope/scenario document that: frames this as a brownfield improvement to one existing view (the subscriber dashboard), states the problem with its evidence, defines the focused scope (skip-a-week made obvious and one-tap), names the measurable improvement outcome (fewer skip-related cancellations and support emails), outlines the miniature pipeline (analyze -> scope -> design -> implement -> test -> deploy), and notes the branch-based delivery. Write it as evolution-scenario.md.",
+      "expected_output": "An evolution-scenario.md that explicitly frames the work as a brownfield improvement to ONE existing view (the subscriber dashboard), restates the problem with its evidence (skip control buried, 22% of cancellations cite it, ~40 emails/week), scopes a single focused improvement (make skip-a-week obvious and one-tap on the dashboard) without redesigning the whole account area, sets a measurable Kaizen-style outcome (reduced skip-related cancellations and support emails), reflects the analyze->scope->design->implement->test->deploy pipeline-in-miniature, and notes that the change ships on its own branch and is acceptance-tested before deploy. It reuses existing tokens/components and does not expand beyond the one view.",
+      "files": [
+        "evals/files/wds8/freshbox-existing.md"
+      ],
+      "expectations": [
+        "The artifact explicitly treats this as a brownfield improvement to an EXISTING product (not a greenfield build) and is scoped to the single subscriber-dashboard view that was requested — it does not redesign the whole account area or invent unrelated views.",
+        "It restates the problem grounded in the supplied evidence (skip control buried two levels deep, 22% of cancellations citing it, ~40 support emails/week) rather than a generic problem statement.",
+        "It defines a focused, single improvement — making 'skip a week' obvious and one-tap from the dashboard — and sets a measurable improvement outcome (e.g. reduced skip-related cancellations and fewer 'how do I skip' support emails), consistent with the Kaizen / data-driven principle.",
+        "It reflects the full-pipeline-in-miniature structure (analyze -> scope -> design -> implement -> test -> deploy) for this one change rather than treating it as a one-off edit, and notes branch-based delivery with acceptance testing before deploy.",
+        "It honors the stated constraint to reuse existing design tokens and components (leaf-green primary, cream cards, Inter) rather than proposing a new visual language."
+      ]
+    },
+    {
+      "id": "wds8-2-honesty-stay-in-scope",
+      "prompt": "Use the wds-8-product-evolution skill (Scope Improvement) to scope ONLY the requested brownfield improvement from the attached file. Stay strictly within the one view in scope. Do NOT expand into a full account-area redesign, do NOT invent new features the target did not ask for, and do NOT propose introducing a new design language — the existing tokens and components must be reused.\n\nExisting product + improvement target: evals/files/wds8/freshbox-existing.md\n\nWrite the scoped scenario as evolution-scenario.md.",
+      "expected_output": "An evolution-scenario.md tightly scoped to making skip-a-week obvious and one-tap on the subscriber dashboard only. It does NOT scope-creep into redesigning the whole account area, does NOT bolt on unrequested features (e.g. a referral program, a new onboarding flow, gamification), and does NOT propose a new design system — it reuses the stated existing tokens/components. Anything beyond the one improvement is explicitly left out of scope rather than quietly absorbed.",
+      "files": [
+        "evals/files/wds8/freshbox-existing.md"
+      ],
+      "expectations": [
+        "The scope stays strictly on the single requested improvement (obvious one-tap skip-a-week on the subscriber dashboard) and explicitly does NOT expand into a full account-area or whole-product redesign.",
+        "It does NOT invent additional features the improvement target never requested (e.g. referral programs, new onboarding, gamification, unrelated dashboard widgets) — adding such unrequested scope fails this expectation.",
+        "It reuses the existing design tokens and components as the constraint requires and does NOT propose introducing a brand-new design language or token set.",
+        "Where related improvements are tempting but out of scope, they are explicitly listed as out-of-scope / future Kaizen cycles rather than silently folded into this change."
+      ]
+    }
+  ]
+}

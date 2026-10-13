@@ -1,0 +1,8 @@
+[
+  { "query": "Let's create the UX design for my parking app — I need the design and experience specs.", "should_trigger": true },
+  { "query": "Help me plan the UX: information architecture, screen states, and accessibility for a mobile web tool.", "should_trigger": true },
+  { "query": "Create UX specifications (DESIGN.md and EXPERIENCE.md) for this product brief.", "should_trigger": true },
+  { "query": "Design the HUD and in-game menus for my roguelike.", "should_trigger": false },
+  { "query": "Write the PRD and define the functional requirements for this product.", "should_trigger": false },
+  { "query": "Create the system architecture and pick the database for the backend.", "should_trigger": false }
+]

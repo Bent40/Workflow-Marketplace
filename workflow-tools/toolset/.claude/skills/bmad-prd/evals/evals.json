@@ -1,0 +1,51 @@
+{
+  "skill_name": "bmad-prd",
+  "evals": [
+    {
+      "id": "prd-1-create-from-brief",
+      "prompt": "Run headless and fully automated, exactly as references/headless.md describes: do NOT greet, do NOT ask clarifying questions, do NOT halt for confirmation — produce the PRD artifact directly from the brief below and end with the headless Create JSON status. intent=create. Do not invent user detail, success metrics, or scope decisions to fill gaps; record any such gap in open_questions[] / assumptions[] instead. Write the PRD as prd.md.\n\nBrief (the product spec to work from):\n- evals/files/bmad-prd/brief.md\n\nDefer any questions you have to the very end (the open_questions[] array of the final JSON), not mid-run.",
+      "expected_output": "A prd.md following the Essential Spine: a Vision section, a Target User / Jobs To Be Done section, a Glossary defining the domain nouns (Trip, Weekly Cap, Household, Remaining), a Features section with globally numbered FR-N requirements each carrying testable consequences, an explicit Non-Goals section reflecting the brief's exclusions (no bank linking, no categorization, not a general finance app), an MVP Scope split into in/out, Success Metrics, and an Open Questions section — followed by the headless Create JSON ending with status, intent 'create', and the prd path. Capabilities, not tech choices.",
+      "files": [
+        "evals/files/bmad-prd/brief.md"
+      ],
+      "expectations": [
+        "The PRD contains a `## Glossary` (or clearly equivalent) section that defines `Weekly Cap`, `Trip`, `Household`, and `Remaining` as the domain nouns the rest of the PRD uses — a run that produces features without ever defining these shared terms fails this expectation.",
+        "Functional requirements are written as globally numbered, stable IDs in `FR-1`/`FR-2`/... form (not as loose bullet features and not renumbered per-section), so downstream artifacts have stable references.",
+        "At least one FR carries explicit testable acceptance content — a `Consequences (testable)` block or equivalent checkable conditions (e.g. the OCR total is editable before commit, or `Remaining` equals the cap minus this week's trip totals) — rather than a one-line capability with no verifiable condition.",
+        "A dedicated `Non-Goals` (or `Out of Scope`) section captures the brief's explicit exclusions — specifically that there is `no bank` / card-account linking and that it is not a general personal-finance app — rather than silently dropping the boundary the brief stated.",
+        "The PRD stays at the capability level and does NOT bake in implementation/tech choices (no committing to a specific database, OCR vendor, or framework in the PRD body) — per the skill's 'capabilities, not implementation' discipline a PRD that hard-codes the tech stack fails this expectation.",
+        "Genuine gaps the brief left open (e.g. how offline scans by both members are reconciled on sync) are recorded in an `Open Questions` section and/or the final JSON `open_questions[]` rather than invented away with a fabricated answer.",
+        "The run ends with the headless Create JSON status object containing a `status` field and `\"intent\": \"create\"` and a `prd` path key — a run that produces prose only and never emits the headless JSON payload fails this expectation."
+      ]
+    },
+    {
+      "id": "prd-2-validate-existing",
+      "prompt": "Run headless and fully automated per references/headless.md: do not greet, do not ask questions, do not halt. intent=validate — critique the existing PRD WITHOUT changing it. Always write both validation-report.md and validation-report.html, skip opening the browser, and end with the headless Validate JSON status (including findings_summary and \"offer_to_update\": true).\n\nExisting PRD to validate:\n- evals/files/bmad-prd/prd.md\n\nThe PRD is deliberately thin. Surface its real gaps; do not rewrite the PRD itself.",
+      "expected_output": "A validation report (markdown + HTML) that critiques GroceryCap's PRD without editing it, naming concrete gaps — e.g. Success Metrics has a single primary SM-1 and no counter-metric, no NFR/cross-cutting quality section for the offline-sync and cross-device consistency concerns the product clearly carries, the §2.2 non-users boundary is absent, the open question about offline reconciliation is unresolved — and ending with the headless Validate JSON: status, intent 'validate', a validation_report path, a findings_summary count object, and offer_to_update true.",
+      "files": [
+        "evals/files/bmad-prd/prd.md"
+      ],
+      "expectations": [
+        "The run produces a validation report as a separate artifact and does NOT modify the source `prd.md` — Validate intent is critique-only, so a run that rewrites or appends to the PRD body fails this expectation.",
+        "The report flags that Success Metrics is thin — only a single primary `SM-1` with no counter-metric — consistent with the skill's rule that counter-metrics are expected when success metrics exist; a report that calls the metrics section complete fails this expectation.",
+        "The report identifies the missing cross-cutting / NFR coverage for a product whose stated concerns include offline capture and cross-device `Remaining` consistency (the PRD body has no NFR or constraints section), rather than passing the PRD as fully covered.",
+        "The report names at least one genuine unresolved item already visible in the PRD — e.g. the §8 Open Question on reconciling offline scans across both members — as an outstanding gap rather than treating the PRD as final-and-clean.",
+        "The run ends with the headless Validate JSON status containing `\"intent\": \"validate\"`, a `validation_report` path, a `findings_summary` object with severity counts, and `\"offer_to_update\": true` — a run that omits the findings_summary or the offer_to_update flag fails this expectation."
+      ]
+    },
+    {
+      "id": "prd-3-update-add-nfr",
+      "prompt": "Run headless and fully automated per references/headless.md: no greeting, no clarifying questions, no halting. intent=update — apply the change signal to the existing PRD, log the change with rationale to .decision-log.md, and end with the headless Update JSON status (including changes_summary and conflicts_with_prior_decisions[]).\n\nExisting PRD:\n- evals/files/bmad-prd/prd.md\n\nChange signal: A decision has been approved that GroceryCap MUST work fully offline for receipt capture and must guarantee both household devices converge to the same Remaining after they reconnect. Add this as cross-cutting non-functional requirements. This intentionally settles the existing §8 Open Question about reconciling offline scans — resolve that open question rather than leaving it dangling.",
+      "expected_output": "An updated prd.md that adds cross-cutting NFR(s) for offline receipt capture and cross-device convergence of Remaining, marks the §8 open question about offline reconciliation as resolved by this change (not left dangling), records the change with rationale to .decision-log.md, and ends with the headless Update JSON: status, intent 'update', a changes_summary, and conflicts_with_prior_decisions[].",
+      "files": [
+        "evals/files/bmad-prd/prd.md"
+      ],
+      "expectations": [
+        "The updated PRD adds at least one cross-cutting non-functional requirement covering offline receipt capture AND cross-device convergence of `Remaining` after reconnect — an update that only restates an existing FR without introducing the offline/consistency NFR fails this expectation.",
+        "The §8 Open Question about reconciling offline scans across both members is resolved/closed by the update (marked resolved or removed because the new NFR settles it), NOT left as a still-open question contradicting the change just applied.",
+        "The change is recorded to `.decision-log.md` with a rationale — an update that mutates the PRD body but never logs the decision fails this expectation.",
+        "The run ends with the headless Update JSON status containing `\"intent\": \"update\"`, a `changes_summary` describing what changed and why, and a `conflicts_with_prior_decisions` key — a run that omits the changes_summary fails this expectation."
+      ]
+    }
+  ]
+}

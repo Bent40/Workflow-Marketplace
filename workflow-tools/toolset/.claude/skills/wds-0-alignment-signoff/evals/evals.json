@@ -1,0 +1,33 @@
+{
+  "skill_name": "wds-0-alignment-signoff",
+  "evals": [
+    {
+      "id": "wds0sign-1-alignment-document",
+      "prompt": "Use the wds-0-alignment-signoff skill to produce its primary artifact: the alignment document (the pitch) that creates stakeholder agreement BEFORE the project starts, from the consultant-to-client situation in the attached file. Work in a single pass and synthesize the document directly from the inputs — do not run a live back-and-forth interview.\n\nSituation: evals/files/wds0signoff/freshbox-situation.md\n\nProduce the alignment document covering the WDS alignment sections: the Realization (with evidence), Why It Matters (who we help), How We See It Working, Paths We Explored, the Recommended Solution and why, the Value We'll Create (with success metrics), the Cost of Inaction, Our Commitment (resources + risks), and a Summary. Write it as pitch.md.",
+      "expected_output": "A pitch.md alignment document organized around the WDS alignment sections: a Realization grounded in the supplied evidence (~40 repetitive emails/week, 22% churn citing skip-confusion), Why It Matters / who we help (busy parents), How We See It Working, the three Paths Explored, the Recommended Solution (the focused custom WDS build) with its rationale, the Value We'll Create with success metrics (retention %, support-email count), the Cost of Inaction (churn, drained owner time, competitive risk), Our Commitment (~6 weeks, small budget, weekly reviews, the feedback-time risk), and a Summary. It synthesizes only the supplied inputs and reads as a persuasive-but-honest pre-start alignment pitch.",
+      "files": [
+        "evals/files/wds0signoff/freshbox-situation.md"
+      ],
+      "expectations": [
+        "The document is structured as a pre-start alignment pitch covering the WDS alignment sections — at minimum the Realization, Why It Matters, How We See It Working, Paths We Explored, Recommended Solution, Value We'll Create, Cost of Inaction, Our Commitment, and a Summary — rather than jumping straight into a project brief or design.",
+        "The Realization is backed by the supplied evidence (≈40 repetitive support emails/week and 22% of churned customers citing confusion about skipping), not asserted without grounding.",
+        "It presents the three Paths Explored (patch the landing page, off-the-shelf template, focused custom WDS build) and names the focused custom build as the Recommended Solution with a rationale tied to the chef-led / easy-skip differentiator.",
+        "The Value We'll Create section frames positive outcomes with measurable success metrics (8-week retention % and weekly support-email count), and a distinct Cost of Inaction section captures the consequences of not acting (continued churn, owner time drained, competitive risk).",
+        "Our Commitment captures the realistic resources and risk (≈6 weeks design+build, small budget, weekly owner reviews, and the risk of the owner's limited feedback time) rather than overpromising.",
+        "Content is synthesized only from the supplied situation and is framed honestly for stakeholder agreement — it does not fabricate evidence, metrics, or commitments beyond what the inputs state."
+      ]
+    },
+    {
+      "id": "wds0sign-2-honesty-no-fabricated-evidence",
+      "prompt": "Use the wds-0-alignment-signoff skill to produce the alignment document from the SPARSE situation below. The realization here has NO hard evidence yet. Build the alignment pitch honestly — do not invent statistics, metrics, or commitments the situation never provided; represent the realization as observation-based and flag what still needs evidence.\n\nSparse situation:\n- A consultant wants to pitch building the FreshBox web app to the chef-owner.\n- Realization (owner's words only, no data): 'I feel like people get confused about how the subscription works and some give up.' No analytics, no survey, no email counts have been gathered.\n- Who we help: busy parents (the owner's impression, not researched).\n- The consultant wants to recommend a focused custom build but has not yet scoped timeline or budget.\n\nProduce the alignment document as pitch.md.",
+      "expected_output": "A pitch.md that frames the Realization as an observation/qualitative impression (the owner's words) and explicitly notes that hard evidence (analytics, a survey, email counts) is not yet gathered — rather than fabricating specific churn percentages or email volumes. It does NOT invent a precise timeline, budget, or success metric the sparse situation never provided; the Value, Commitment, and metrics sections honestly flag those as to-be-determined.",
+      "files": [],
+      "expectations": [
+        "The Realization is presented as an observation / qualitative impression based on the owner's own words, and the document explicitly notes that hard evidence (analytics, a survey, support-email counts) has NOT yet been gathered rather than inventing concrete statistics.",
+        "It does NOT fabricate specific numbers the sparse situation never supplied — e.g. it does not assert a precise churn percentage, a weekly support-email count, or a researched persona finding as established fact.",
+        "Sections that would normally carry specifics but were not provided (timeline, budget, success metrics, commitment) are honestly flagged as to-be-determined / needs-scoping rather than filled with invented values.",
+        "A run that invents authoritative-sounding evidence or commitments (e.g. '22% of customers churn', 'we'll deliver in 6 weeks for $X') that the sparse input never stated fails this expectation."
+      ]
+    }
+  ]
+}

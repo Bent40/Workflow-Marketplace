@@ -1,0 +1,46 @@
+{
+  "skill_name": "bmad-review-edge-case-hunter",
+  "evals": [
+    {
+      "id": "edgecase-1-unguarded-arithmetic",
+      "prompt": "Use the bmad-review-edge-case-hunter skill to walk every branching path and boundary condition reachable from the diff hunks below and report only the unhandled edge cases. Return ONLY the skill's JSON-array output format (the four-field finding objects), nothing else.\n\nDiff to review: evals/files/edgecase/discount-diff.patch",
+      "expected_output": "A JSON array of finding objects, each with exactly location, trigger_condition, guard_snippet, and potential_consequence. Findings must include the unhandled cases reachable from the changed lines: split_bill divides by people with no guard against people == 0 (ZeroDivisionError); apply_discount does not bound percent to 0-100 (percent > 100 yields a negative factor / negative total, percent < 0 inflates the bill); item['price']/item['qty']/missing keys are unvalidated (KeyError / type errors); an empty items list yields total 0 silently. No prose outside the JSON array.",
+      "files": [
+        "evals/files/edgecase/discount-diff.patch"
+      ],
+      "expectations": [
+        "The entire output is a single valid JSON array; every element has exactly the four fields location, trigger_condition, guard_snippet, and potential_consequence and no others, with no prose, markdown fences, or commentary outside the array.",
+        "A finding covers the division in split_bill when people is zero (or negative), identifying a ZeroDivisionError / invalid-share consequence and a guard sketch that rejects or handles people <= 0.",
+        "A finding covers apply_discount not bounding percent to the stated 0-100 range — flagging that percent > 100 produces a negative factor (negative/refund total) and/or percent < 0 inflates the bill, with a clamp/validation guard sketch.",
+        "At least one finding addresses the unvalidated item access (missing or non-numeric price/qty keys causing KeyError or a type error) reachable from the changed loop.",
+        "Findings are limited to genuinely UNHANDLED paths reachable from the changed lines — the skill does not report handled paths, does not editorialize about code quality, and does not invent issues unrelated to the diff hunks."
+      ]
+    },
+    {
+      "id": "edgecase-2-empty-input-shape",
+      "prompt": "Use the bmad-review-edge-case-hunter skill. The content to review is EMPTY (there is no diff, file, or function provided). Follow the skill's contract for empty input exactly and return its prescribed output.",
+      "expected_output": "The skill's defined empty-input response: a JSON array containing exactly one object whose location is 'N/A', trigger_condition is 'Input empty or undecodable', guard_snippet asks for valid content, and potential_consequence states the review was skipped. It must not fabricate findings about code that was never provided.",
+      "files": [],
+      "expectations": [
+        "The output is a JSON array containing exactly one finding object, with the four required fields and nothing else.",
+        "The single object signals the empty/undecodable-input case: its location is 'N/A', its trigger_condition states the input was empty or undecodable, and its consequence states the review was skipped / no analysis performed.",
+        "The skill does NOT fabricate any code-level edge-case findings, because no content was provided — inventing findings here is a failure.",
+        "No prose, explanation, or markdown wrapping appears outside the JSON array."
+      ]
+    },
+    {
+      "id": "edgecase-3-already-guarded-no-false-positives",
+      "prompt": "Use the bmad-review-edge-case-hunter skill to walk every branching path and boundary condition reachable from the diff hunk below and report only the UNHANDLED edge cases. The added function safe_average already guards None input, an empty list, all-None lists, and skips individual None elements. Return ONLY the skill's JSON-array output format.\n\nDiff to review: evals/files/edgecase/guarded-diff.patch",
+      "expected_output": "Because safe_average explicitly guards None input, empty input, all-None input, and per-element None, those paths are handled and must be discarded silently. The honest result is an empty array [] (or, at most, only a genuinely-unhandled residual path such as non-numeric/non-None elements causing a TypeError in sum()). The skill must NOT re-report the already-handled None/empty paths as findings.",
+      "files": [
+        "evals/files/edgecase/guarded-diff.patch"
+      ],
+      "expectations": [
+        "The output is a single valid JSON array (possibly empty) with each element, if any, having exactly the four required fields and no extra prose.",
+        "The already-handled paths are NOT reported: None input, an empty list, an all-None list, and per-element None values are each explicitly guarded in the diff, so re-listing any of them as an unhandled edge case is a false-positive failure.",
+        "If any finding is reported at all, it is a genuinely UNHANDLED residual path (for example a non-numeric, non-None element causing a TypeError inside sum()) — not a restatement of a guarded path.",
+        "The skill returns an empty array [] when it cannot identify a genuinely unhandled path, rather than manufacturing findings to avoid an empty result."
+      ]
+    }
+  ]
+}

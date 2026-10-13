@@ -1,0 +1,74 @@
+{
+  "skill_name": "bmad-check-implementation-readiness",
+  "evals": [
+    {
+      "id": "cir-1-readiness-with-gaps",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT halt at any menu, do NOT wait for a 'Continue' selection between steps, do NOT ask clarifying questions. Run every step (document discovery, PRD analysis, epic coverage validation, UX alignment, epic quality review, final assessment) straight through and produce the Implementation Readiness Assessment Report directly, writing it to ./implementation-readiness-report.md. Defer any questions to the end of the report.\n\nPlanning artifacts (already staged):\n- evals/files/bmad-check-implementation-readiness/prd.md\n- evals/files/bmad-check-implementation-readiness/epics.md\n- evals/files/bmad-check-implementation-readiness/ux.md\n\nBe direct; do not soften findings. Cite specific FR numbers, epics, and stories.",
+      "expected_output": "An Implementation Readiness Assessment Report that: extracts FR-1..FR-5 and NFR-1/NFR-2 from the PRD; builds an FR coverage matrix and flags FR-4 (email confirmations) as NOT covered by any epic/story (a real traceability gap); flags the UX gap (no confirmation/notification screen for FR-4); flags Story 2-1 'Set up the database' as a technical/no-user-value epic-quality violation (and the up-front create-all-tables anti-pattern); notes the vague ACs in Story 2-3 ('the user can reschedule/cancel') as non-testable; flags that no Architecture document was provided (leaving NFR-1/NFR-2 with no owning design and blocking the UX-to-Architecture alignment check); and ends with an overall readiness verdict (READY / NEEDS WORK / NOT READY) with per-document findings and recommended next steps. Not a blanket 'looks good'.",
+      "files": [
+        "evals/files/bmad-check-implementation-readiness/prd.md",
+        "evals/files/bmad-check-implementation-readiness/epics.md",
+        "evals/files/bmad-check-implementation-readiness/ux.md"
+      ],
+      "expectations": [
+        "The report produces an explicit overall readiness VERDICT — one of `READY` / `NEEDS WORK` / `NOT READY` (or clearly equivalent) — rather than ending with a vague 'looks fine'/'ready to go' with no graded status; given the gaps below, a verdict of `READY` with no caveats fails this expectation.",
+        "The report contains an FR coverage matrix/analysis that explicitly flags `FR-4` (the email confirmation requirement) as NOT covered by any epic or story (it is absent from the epics' FR Coverage Map) — a report that marks all FRs covered, or never builds a coverage matrix, fails this expectation.",
+        "The report flags Story `2-1` ('Set up the database' / create-all-tables-up-front) as an epic-quality violation: a technical task with no user value and/or the up-front schema anti-pattern, per the create-epics-and-stories standard — a report that accepts 2-1 as a valid user story fails this expectation.",
+        "The report flags Story `2-3` acceptance criteria ('the user can reschedule' / 'the user can cancel') as vague/non-testable rather than specific, given-when-then ACs — a report that treats 2-3's ACs as adequate fails this expectation.",
+        "The report identifies the UX-alignment gap: there is no confirmation/notification screen or experience covering `FR-4` in the UX spec, so the email-confirmation requirement has no UX coverage — a report silent on this UX gap fails this expectation.",
+        "Findings are organized PER DOCUMENT / per category (PRD analysis, epic coverage, UX alignment, epic quality) with specific FR/epic/story citations, not a single undifferentiated blob — a report that lists generic advice with no FR-N / Story-N references fails this expectation.",
+        "The report ends with a `Recommended Next Steps` (or equivalent) section listing concrete, actionable remediation items tied to the gaps found (e.g. add a story for FR-4, split/replace Story 2-1, sharpen 2-3 ACs) rather than no actionable guidance.",
+        "The report flags the ABSENCE of an Architecture / solution-design document as a load-bearing readiness gap: no `*architecture*` artifact is among the staged inputs, so NFR-1 (performance budget) and NFR-2 (encryption at rest) have no owning design and the UX-to-Architecture alignment check cannot be performed — a report that ignores the missing Architecture document, or silently treats the staged artifact set as complete, fails this expectation."
+      ]
+    },
+    {
+      "id": "cir-2-no-false-pass",
+      "prompt": "Run headless and fully automated: no greeting, no menu halts, no 'Continue' waits, no clarifying questions. Use the bmad-check-implementation-readiness skill on the staged artifacts and write the report to ./implementation-readiness-report.md. Your job is to find the failures others missed — be a rigorous requirements-traceability auditor and do NOT pass planning that has real gaps. Defer questions to the end.\n\nStaged artifacts:\n- evals/files/bmad-check-implementation-readiness/prd.md\n- evals/files/bmad-check-implementation-readiness/epics.md\n- evals/files/bmad-check-implementation-readiness/ux.md",
+      "expected_output": "A readiness report whose verdict is NOT 'READY' given the genuine defects present (uncovered FR-4, technical Story 2-1, vague 2-3 ACs, UX notification gap). Each defect is named with severity and a specific citation, and the report does not rubber-stamp the plan. Coverage statistics reflect that fewer than 5 of 5 FRs are traceably covered.",
+      "files": [
+        "evals/files/bmad-check-implementation-readiness/prd.md",
+        "evals/files/bmad-check-implementation-readiness/epics.md",
+        "evals/files/bmad-check-implementation-readiness/ux.md"
+      ],
+      "expectations": [
+        "Because real gaps exist (uncovered FR-4, technical Story 2-1, vague 2-3 ACs), the overall verdict is `NEEDS WORK` or `NOT READY` — a `READY` verdict is a false pass and fails this expectation.",
+        "The report quantifies FR coverage honestly — it does NOT claim 5/5 (100%) FRs covered, since `FR-4` has no epic/story; coverage of `4` of `5` FRs (or 80%) or an explicit 'FR-4 missing' is the correct accounting.",
+        "At least one finding carries a severity grading (e.g. `Critical` / `Major` / `Minor`, or 🔴/🟠/🟡) so the most serious gaps are distinguished from cosmetic ones — a report with no severity differentiation fails this expectation.",
+        "Each named defect cites the specific artifact location (the FR number, the epic, or the story id) rather than asserting a problem in the abstract — a defect stated without a concrete citation fails this expectation."
+      ]
+    },
+    {
+      "id": "cir-3-clean-plan-no-false-fail",
+      "prompt": "Run headless and fully automated: no greeting, no menu halts, no 'Continue' waits, no clarifying questions. Use the bmad-check-implementation-readiness skill on the staged artifacts and write the report to ./implementation-readiness-report.md.\n\nStaged artifacts:\n- evals/files/bmad-check-implementation-readiness/clean-prd.md\n- evals/files/bmad-check-implementation-readiness/clean-epics.md\n- evals/files/bmad-check-implementation-readiness/clean-ux.md",
+      "expected_output": "A readiness report whose verdict is READY (or READY with minor notes at most). All four FRs (FR-1 through FR-4) are covered by stories, NFR-1 is covered by a performance story, NFR-2 is addressed by the local-storage design, all stories have Given/When/Then ACs, and the UX spec covers all FRs. The report does NOT fabricate missing stories or gaps that do not exist in the artifacts, and does NOT return NEEDS WORK or NOT READY for a genuinely complete plan.",
+      "files": [
+        "evals/files/bmad-check-implementation-readiness/clean-prd.md",
+        "evals/files/bmad-check-implementation-readiness/clean-epics.md",
+        "evals/files/bmad-check-implementation-readiness/clean-ux.md"
+      ],
+      "expectations": [
+        "The FR coverage matrix correctly maps all four FRs (FR-1, FR-2, FR-3, FR-4) to their corresponding stories in Epic 1 — a report that invents a missing FR fails this expectation.",
+        "The verdict is READY, or READY with only minor (non-blocking) notes — a verdict of NEEDS WORK or NOT READY for a genuinely complete plan is a false fail and fails this expectation.",
+        "The report does NOT fabricate epic-quality violations for stories that have proper Given/When/Then ACs — all four task stories (1-1 through 1-4) have testable ACs and should not be flagged as vague.",
+        "The UX alignment check correctly finds that all FRs have matching UX coverage (the spec explicitly maps each FR) — a report claiming UX gaps where none exist fails this honesty expectation."
+      ]
+    },
+    {
+      "id": "cir-4-nfr-gap-detection",
+      "prompt": "Run headless and fully automated: no greeting, no menu halts, no 'Continue' waits, no clarifying questions. Use the bmad-check-implementation-readiness skill on the staged artifacts and write the report to ./implementation-readiness-report.md. Be rigorous about NFR traceability — missing NFR coverage is a real gap.\n\nStaged artifacts:\n- evals/files/bmad-check-implementation-readiness/nfr-gap-prd.md\n- evals/files/bmad-check-implementation-readiness/nfr-gap-epics.md\n- evals/files/bmad-check-implementation-readiness/nfr-gap-ux.md",
+      "expected_output": "A readiness report that detects: NFR-2 (lockout after 5 failed attempts) has no epic/story and no UX state (the lock screen has no lockout error state); NFR-3 (app opens in < 2s) has no performance story or acceptance criterion anywhere. FR-1/FR-2/FR-3 are covered. NFR-1 is covered by Story 2-2. The verdict is NEEDS WORK or NOT READY. The UX alignment check flags the missing lockout state on the lock screen. The report does not claim full NFR coverage.",
+      "files": [
+        "evals/files/bmad-check-implementation-readiness/nfr-gap-prd.md",
+        "evals/files/bmad-check-implementation-readiness/nfr-gap-epics.md",
+        "evals/files/bmad-check-implementation-readiness/nfr-gap-ux.md"
+      ],
+      "expectations": [
+        "The report explicitly flags NFR-2 (lockout after 5 failed attempts for 60 seconds) as NOT covered by any epic, story, or AC — the epics' coverage map omits it entirely.",
+        "The report explicitly flags NFR-3 (app opens in under 2 seconds) as NOT covered — there is no performance story or measurable acceptance criterion in the epics for startup time.",
+        "The UX alignment check identifies that the lock screen in the UX spec has no lockout/error state, meaning NFR-2 has no UX coverage even if a story were added — a report silent on this UX gap fails this expectation.",
+        "The overall verdict is NEEDS WORK or NOT READY — not READY — because two NFRs are untraced and one has no UX coverage.",
+        "The report correctly identifies that FR-1, FR-2, FR-3, and NFR-1 ARE covered and does not fabricate additional gaps beyond the real ones (NFR-2 and NFR-3)."
+      ]
+    }
+  ]
+}

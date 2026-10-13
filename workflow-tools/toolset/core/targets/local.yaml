@@ -1,0 +1,6 @@
+id: local
+summary: Local / small-context models — narrow microtasks, weaker long-horizon planning.
+capabilities:
+  - small_context
+  - microtasks
+  - repo_editing

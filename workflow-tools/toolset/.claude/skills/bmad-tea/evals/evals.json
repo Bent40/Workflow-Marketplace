@@ -1,0 +1,32 @@
+{
+  "skill_name": "bmad-tea",
+  "evals": [
+    {
+      "id": "murat-1-activate-and-produce-test-design",
+      "prompt": "Hey Murat, let's design the tests for this feature. Work headless and single-pass: don't stop at an interactive menu — per the test architect's dispatch rule, greet briefly as the persona and then go straight into producing the test design from the feature spec below.\n\nFeature: evals/files/murat/checkout-feature.md\n\nDeliver a real risk-based test design / strategy grounded in the feature: a risk assessment that ranks the riskiest areas, a coverage plan that maps scenarios to the appropriate test level (recommend which checks belong at the API/integration level versus E2E rather than pushing everything through the UI), explicit edge/negative cases for the discount math, the usage-cap race condition, payment failures, and the inventory/stock-change case, plus the server-side-recompute security checks. State assumptions as needed.",
+      "expected_output": "Murat activates as the Master Test Architect persona and, rather than only greeting or showing a menu, produces a real risk-based test design for the guest-checkout/discount feature: a risk assessment that prioritizes the money path (discount math, usage-cap race, payment edge cases, inventory, server-side recompute security), a coverage plan that assigns scenarios to the right level (favoring API/integration tests for discount math and concurrency, reserving E2E for the critical happy path and key failures rather than testing everything through the UI), concrete edge/negative cases (percentage vs fixed rounding, order-of-operations with tax/shipping, never-negative total, the 100th-use concurrent redemption, card declined / provider timeout / double-submit, out-of-stock-mid-checkout), and security checks that totals/discounts are recomputed server-side and codes can't be forged or stacked.",
+      "files": [
+        "evals/files/murat/checkout-feature.md"
+      ],
+      "expectations": [
+        "The response is delivered in the Murat / Master Test Architect persona (risk-versus-value framing, quality-advisor voice) AND actually produces a test-design artifact rather than only greeting or showing a numbered menu.",
+        "It includes a risk assessment that prioritizes the highest-risk areas of this money path — discount math correctness, the usage-cap concurrency/race condition, payment edge cases, inventory changes mid-checkout, and server-side recomputation/security — rather than treating all scenarios as equal.",
+        "It maps scenarios to the appropriate test level and is deliberate about it: pushing discount-math and concurrency checks to the API/integration layer where they are cheaper and more reliable, and reserving E2E (Playwright) for the critical happy path and key failure flows — i.e. it does NOT recommend testing everything through the UI.",
+        "It enumerates concrete edge and negative cases drawn from the spec: percentage vs fixed-amount and rounding, discount/tax/shipping order of operations, total never going negative, the concurrent 100th-use redemption race, card declined / payment-provider timeout / double-submit of the pay button, and an item going out of stock between cart and payment.",
+        "It includes security-oriented checks that discounts and totals are recomputed server-side and that a client cannot forge a price or stack multiple codes, and it stays risk-prioritized rather than producing a flat, undifferentiated list of test cases."
+      ]
+    },
+    {
+      "id": "murat-2-honesty-right-size-trivial-feature",
+      "prompt": "Hey Murat, I need a test plan, but this is genuinely small — please size the testing honestly and proportionally to the risk. Work headless and single-pass (no menu).\n\nFeature: a single pure function `celsiusToFahrenheit(c)` that returns `c * 9/5 + 32`. It's a stateless utility with no I/O, no UI, no network, no persistence. That's the entire change.\n\nProduce a test design sized to exactly this risk level.",
+      "expected_output": "Murat activates in persona and produces a deliberately small, proportional test design for a pure conversion function: a handful of unit tests (typical value, zero, negative, a known reference like 100C->212F, maybe a float-precision note) at the unit level only. Crucially it does NOT prescribe E2E suites, load/performance testing, CI gate ceremony, security testing, or an elaborate risk matrix for a trivial pure function — over-testing a low-risk utility is the honesty failure being tested.",
+      "files": [],
+      "expectations": [
+        "The response is in the Murat persona and produces a test design, while sizing the effort honestly to a trivial, low-risk pure function — concentrating coverage at the unit-test level.",
+        "It proposes a small, sensible set of unit cases (e.g. a known reference like 100C -> 212F or 0C -> 32F, a negative input, and possibly a floating-point precision consideration) rather than an exhaustive or padded matrix.",
+        "It does NOT over-engineer: no E2E/UI suites, no load or performance testing, no security testing, no heavyweight CI gate ceremony, and no elaborate multi-tier risk matrix are prescribed for a stateless pure function with no I/O — recommending such for this scope is the honesty failure being tested.",
+        "Consistent with the persona's risk-versus-value discipline, it explicitly frames the testing as proportional to the low risk rather than applying maximum rigor by default."
+      ]
+    }
+  ]
+}

@@ -295,7 +295,7 @@ def _tokenize(s: str) -> list[str]:
 def bm25_rank(query: str, docs: list[tuple], *, k1: float = 1.5,
               b: float = 0.75) -> list[tuple]:
     """Rank (id, text) docs against `query` by Okapi BM25 — pure-Python, NO deps,
-    secure-profile-safe (no embedding API). Returns [(id, score)] with score>0,
+    offline-safe (no embedding API). Returns [(id, score)] with score>0,
     highest first. A LEXICAL TF-IDF ranker: better ordering + term weighting than
     raw substring, especially for multi-term queries. True SEMANTIC recall (a query
     phrased differently than the stored fact) is the OPT-IN tier below
@@ -336,7 +336,7 @@ def bm25_rank(query: str, docs: list[tuple], *, k1: float = 1.5,
 # An OPT-IN tier above BM25: cosine similarity over local embeddings catches
 # recall where the query is phrased differently than the stored fact (BM25 needs
 # shared terms). The model (all-MiniLM-L6-v2, ~80-90MB) and its runtime
-# (sentence-transformers) are DELIBERATELY NOT in any default/secure install —
+# (sentence-transformers) are DELIBERATELY NOT in any default install —
 # substring is the zero-dep default, BM25 the no-dep ranked upgrade, this the
 # opt-in semantic upgrade. The backend NEVER auto-installs; when it is absent the
 # caller falls back to BM25 (a clear, fail-SOFT note — never a silent skip and
@@ -548,7 +548,7 @@ def cmd_search(path: Path, query: str, as_of: datetime | None = None,
                 "'sentence-transformers' + the all-MiniLM-L6-v2 model are not "
                 "installed) — falling back to BM25. Enable with: "
                 "pip install sentence-transformers (downloads ~80-90MB on first "
-                "use; not installed by default or in secure profiles).\n")
+                "use; not installed by default).\n")
             rank = True  # fall through to the no-dep ranked tier
         else:
             for idx, _score in ranked:

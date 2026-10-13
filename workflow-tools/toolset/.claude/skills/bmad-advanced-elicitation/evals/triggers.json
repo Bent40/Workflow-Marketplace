@@ -1,0 +1,8 @@
+[
+  { "query": "Run a pre-mortem on this launch plan and push back on it harder.", "should_trigger": true },
+  { "query": "Apply a red-team / devil's advocate critique to what you just drafted.", "should_trigger": true },
+  { "query": "I want deeper critique of this — use first-principles or a Socratic method to stress-test it.", "should_trigger": true },
+  { "query": "Just fix the grammar and spelling in this paragraph.", "should_trigger": false },
+  { "query": "Generate a project-context.md with the AI coding rules for this repo.", "should_trigger": false },
+  { "query": "Shard this large architecture document into sections.", "should_trigger": false }
+]

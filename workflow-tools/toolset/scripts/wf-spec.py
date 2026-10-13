@@ -8,7 +8,7 @@ those own the authoring conversation; this owns the deterministic scaffold + gat
   init    <feature>   scaffold specs/<feature>/{spec,plan,tasks,acceptance}.md
   check   <feature>   fail-closed: required sections present, acceptance.md
                       acknowledges every constitution constraint ACTIVE for the
-                      profile (civilian = default only; secure = + secure_only),
+                      profile (every shipped constraint is `default`),
                       AND no unresolved [NEEDS CLARIFICATION] marker remains.
   markers <feature>   fail-closed scan for unresolved [NEEDS CLARIFICATION]
           | --path P   markers in a spec folder or a single file. The marker is
@@ -24,13 +24,14 @@ those own the authoring conversation; this owns the deterministic scaffold + gat
                       wf audit's post-impl diff surfacer — grades the static pack.)
   split   <feature>   feed tasks.md → split-task.py microtask packets.
 
-The constitution (core/constitution/*.yaml) reuses the proven default/secure_only
-activation split: a civilian profile never loads a secure_only constraint.
+The constitution (core/constitution/*.yaml) keeps an `activation` field per
+constraint; only `default` exists since the secure posture (and its `secure_only`
+constraints) was removed 2026-10-13 (core/DECISIONS.md D6).
 
 Exit codes: check → 0 ok / 1 violations / 2 config error. init/split → 0 (2 on error).
 
 Usage:
-    wf spec init|check|split <feature> [--dir ROOT] [--profile civilian|secure]
+    wf spec init|check|split <feature> [--dir ROOT] [--profile civilian]
     wf spec analyze <feature> [--block] [--since PRIOR] [--dir ROOT] [--profile ...]
     wf spec markers (<feature> | --path PATH) [--dir ROOT]
     wf spec --selftest
@@ -53,7 +54,7 @@ except ImportError:  # pragma: no cover
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SCRIPTS = REPO_ROOT / "scripts"
 CONSTITUTION_DIR = REPO_ROOT / "core" / "constitution"
-VALID_ACT = {"default", "secure_only"}
+VALID_ACT = {"default"}
 VALID_SEV = {"low", "medium", "high"}
 
 SPEC_FILES = {
@@ -129,10 +130,7 @@ def load_constitution(dir: Path = CONSTITUTION_DIR) -> list[dict]:
 
 
 def active_ids(constraints: list[dict], profile: str) -> list[str]:
-    """Constraint ids active for a profile. civilian = default only;
-    secure = default + secure_only."""
-    if profile == "secure":
-        return [c["id"] for c in constraints]
+    """Constraint ids active for a profile (civilian = every `default` one)."""
     return [c["id"] for c in constraints if c["activation"] == "default"]
 
 
@@ -524,26 +522,14 @@ def selftest() -> int:
     problems: list[str] = []
     constraints = load_constitution()  # real shipped constitution
     civ = set(active_ids(constraints, "civilian"))
-    sec = set(active_ids(constraints, "secure"))
-    secure_only = [c["id"] for c in constraints if c["activation"] == "secure_only"]
-    if not secure_only:
-        problems.append("no secure_only constraint shipped (isolation test toothless)")
-    for cid in secure_only:
-        if cid in civ:
-            problems.append(f"secure_only {cid} leaked into the civilian active set")
-        if cid not in sec:
-            problems.append(f"secure_only {cid} missing from the secure active set")
+    if not civ:
+        problems.append("no active constitution constraint shipped (gate toothless)")
     with tempfile.TemporaryDirectory() as dd:
         fdir = Path(dd) / "specs" / "demo"
         cmd_init(fdir, constraints, quiet=True)
         if cmd_check(fdir, "civilian", constraints, quiet=True) != 0:
             problems.append("civilian check was not green after init")
-        if secure_only and cmd_check(fdir, "secure", constraints, quiet=True) != 1:
-            problems.append("secure check did not fail on un-acked secure_only id")
         acc = fdir / "acceptance.md"
-        acc.write_text(acc.read_text() + "".join(f"- {cid}: TODO\n" for cid in secure_only))
-        if secure_only and cmd_check(fdir, "secure", constraints, quiet=True) != 0:
-            problems.append("secure check not green after acking secure_only ids")
         # removing acceptance.md must FAIL
         acc.unlink()
         if cmd_check(fdir, "civilian", constraints, quiet=True) != 1:
@@ -683,7 +669,7 @@ def selftest() -> int:
     if problems:
         print("wf spec selftest: FAIL — " + "; ".join(problems))
         return 1
-    print("wf spec selftest: PASS (constitution schema + civilian isolation; "
+    print("wf spec selftest: PASS (constitution schema; "
           "spec init/check; constitution gate fail-closed; clarification-marker scan; "
           "analyze coverage+severity ladder, read-only, --block contract; "
           "--since id-regression: dropped / retired-reused IDs)")
@@ -696,7 +682,7 @@ def main(argv: list[str]) -> int:
                     choices=["init", "check", "split", "markers", "analyze"])
     ap.add_argument("feature", nargs="?")
     ap.add_argument("--dir", default=None, help="repo root (default: cwd)")
-    ap.add_argument("--profile", choices=["civilian", "secure"], default="civilian")
+    ap.add_argument("--profile", choices=["civilian"], default="civilian")
     ap.add_argument("--path", default=None,
                     help="markers: scan this file or directory directly")
     ap.add_argument("--block", action="store_true",

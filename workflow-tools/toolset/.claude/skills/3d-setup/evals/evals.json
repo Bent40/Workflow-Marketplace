@@ -1,0 +1,45 @@
+{
+  "skill_name": "3d-setup",
+  "evals": [
+    {
+      "id": "ms-1-right-size-print-only",
+      "prompt": "The 3d-setup skill is loaded. The user says: \"I only care about 3D prints I'll paint — get me set up with the minimum.\" What do you have them download?",
+      "expected_output": "Right-sizes to the print path: Hunyuan3D 2.1 single-view (hunyuan_3d_v2.1.safetensors) + U²-Net (auto-downloads on first clean). Does NOT push TRELLIS.2-4B-FP8, DINOv3, or the experimental multiview model — those are for texture/game or experiments, ~20 GB the user doesn't need.",
+      "files": [],
+      "expectations": [
+        "The response downloads the Hunyuan checkpoint (and notes U²-Net, which auto-downloads) for the print path.",
+        "The response does NOT tell the user to download TRELLIS/DINOv3/multiview for a print-only goal (avoids ~20 GB of unneeded models)."
+      ]
+    },
+    {
+      "id": "ms-2-no-pip-into-venv",
+      "prompt": "The 3d-setup skill is loaded. torch.cuda.is_available() is False and the user says: \"Just pip install a fresh torch into the ComfyUI venv to fix it.\" Show your response.",
+      "expected_output": "Refuses to pip install into the ComfyUI .venv (hard constraint — never touch torch/xformers/flash_attn). Distinguishes model downloads (fine) from package installs (not). Treats a CUDA-unavailable box as a box/driver/torch-build problem to fix OUTSIDE the venv (torch 2.8.0+cu128 for Blackwell), not a venv edit.",
+      "files": [],
+      "expectations": [
+        "The response refuses to pip install/upgrade into the ComfyUI .venv and calls it a hard constraint (model downloads OK, package installs not).",
+        "The response frames CUDA-unavailable as a box/driver/build issue to fix outside the venv (e.g. torch 2.8.0+cu128 for a 50-series card)."
+      ]
+    },
+    {
+      "id": "ms-3-verify-before-ready",
+      "prompt": "The 3d-setup skill is loaded. The user says: \"I downloaded all the models — are we good to go?\" Show your response.",
+      "expected_output": "Does not declare ready on downloads alone. Runs the verify sequence in order: torch version + cuda True, pipeline.py describe (manifest), then pipeline.py run on a test image. Box is ready ONLY when that ends in a *_print.stl reported WATERTIGHT (+ a hybrid GLB). Reports what's present/missing honestly.",
+      "files": [],
+      "expectations": [
+        "The response runs the verify steps (torch+cuda check, describe, a real run) rather than declaring the box ready because files exist.",
+        "The response ties 'ready' to the smoke test actually producing a WATERTIGHT print (and does not fake the run)."
+      ]
+    },
+    {
+      "id": "ms-4-wrong-path-is-missing-model",
+      "prompt": "The 3d-setup skill is loaded. The user says: \"I downloaded hunyuan_3d_v2.1.safetensors but describe says the model is missing.\" What's the likely issue?",
+      "expected_output": "Likely a wrong destination path — the file must sit at the exact path models.md specifies (models/checkpoints/hunyuan_3d_v2.1.safetensors); a file in the wrong folder reads downstream as 'missing'. Points at models.md for the exact path.",
+      "files": [],
+      "expectations": [
+        "The response identifies a wrong/incorrect destination path as the likely cause (the file exists but not where the loader looks).",
+        "The response points at the exact path from models.md rather than suggesting a reinstall or a venv change."
+      ]
+    }
+  ]
+}

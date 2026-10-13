@@ -1,0 +1,35 @@
+{
+  "skill_name": "bmad-sprint-status",
+  "evals": [
+    {
+      "id": "ss-1-surface-risks",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT present the interactive options menu, do NOT halt or wait for a choice, do NOT ask clarifying questions, do NOT require any config, and do NOT spawn subagents. Work sequentially. Use the bmad-sprint-status skill: read the staged sprint state, parse it, and produce the sprint status summary with the risks section per the skill. Treat 'today' as a date well more than 7 days after the file's last_updated (which is 01-05-2025). Defer any questions to the very end.\n\nStaged sprint state (the file to read as {sprint_status_file}):\n- evals/files/bmad-sprint-status/sprint-status.yaml\n\nBe direct and honest: surface concrete risks and blockers, do not produce a rosy generic 'everything's on track' update.",
+      "expected_output": "A sprint status summary that reports the story-status counts (backlog/ready-for-dev/in-progress/review/done) and epic counts, AND a Risks section that surfaces the real risks present in the file: the story in `review` (2-2-correct-an-ocr-total) flagged with a code-review recommendation, the stale `last_updated` (more than 7 days old), the orphaned story (5-1-* with no epic-5), and the in-progress epic with no stories (epic-3). Not a generic 'all on track' summary.",
+      "files": [
+        "evals/files/bmad-sprint-status/sprint-status.yaml"
+      ],
+      "expectations": [
+        "The summary flags the story in `review` status (`2-2-correct-an-ocr-total`) as needing attention and recommends the code-review workflow for it — a summary that does not surface the review-state story as a blocker/next-action fails this expectation.",
+        "The summary warns that the sprint file is STALE because `last_updated` (01-05-2025) is more than 7 days before the current date — a run that ignores the stale timestamp and presents the state as fresh fails this expectation.",
+        "The summary flags the orphaned story `5-1-orphaned-export-feature` (a story key with no matching `epic-5`) as an anomaly — a run that silently includes it without noting the orphan fails this expectation.",
+        "The summary flags `epic-3` as an in-progress epic that has no associated stories — a run that does not surface this inconsistency fails this expectation.",
+        "The output is an honest risk-surfacing summary, NOT a rosy generic 'everything is on track / great progress' update with no concrete risks — a clean all-green report that omits the four issues above fails this expectation.",
+        "The summary reports concrete status counts derived from the file (e.g. stories: done count, one in `review`, one `in-progress`; epics: one done, two in-progress) rather than vague qualitative progress with no counts — omitting the per-status counts fails this expectation."
+      ]
+    },
+    {
+      "id": "ss-2-next-action-no-false-complete",
+      "prompt": "Run headless and fully automated: no greeting, no interactive options menu, no halting, no 'choice' waits, no clarifying questions, no required config, no subagents; work sequentially. Use the bmad-sprint-status skill on the staged state and produce the summary plus the single next-action recommendation per the skill's priority rules. Defer questions to the end.\n\nStaged sprint state:\n- evals/files/bmad-sprint-status/sprint-status.yaml\n\nApply the next-action priority exactly: in-progress story first, else review, else ready-for-dev, else backlog (create-story), else optional retrospective, else done. When picking the 'first' story, sort by epic number then story number.",
+      "expected_output": "A summary whose next-action recommendation follows the skill's priority: because a story is `in-progress` (2-3-same-day-duplicate-prompt), the recommendation is dev-story for that first in-progress story — NOT code-review, create-story, retrospective, or a 'congratulations, all done'. The run does not declare the sprint complete (work clearly remains: review/in-progress stories, backlog item, in-progress epics).",
+      "files": [
+        "evals/files/bmad-sprint-status/sprint-status.yaml"
+      ],
+      "expectations": [
+        "The next-action recommendation is `dev-story` for the first in-progress story (`2-3-same-day-duplicate-prompt`), per the priority rule (in-progress outranks review/ready-for-dev/backlog) — recommending code-review, create-story, or retrospective instead fails this expectation.",
+        "The run does NOT declare the sprint complete or congratulate on all-done: outstanding work plainly remains (a review story, an in-progress story, a backlog story, two in-progress epics) — a 'congratulations, everything is done' outcome is a false-complete and fails this expectation.",
+        "When identifying the 'first' story for the recommendation, ordering is by epic number then story number (so 2-3 is selected as the first in-progress story, not an arbitrary one) — a recommendation that targets the wrong story id fails this expectation.",
+        "The recommendation is presented as a single concrete next workflow tied to a specific story id (workflow + story key), not a menu of equally-weighted options or no recommendation at all — failing to commit to one prioritized next action fails this expectation."
+      ]
+    }
+  ]
+}

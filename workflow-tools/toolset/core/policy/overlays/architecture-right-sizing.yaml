@@ -1,0 +1,34 @@
+# Policy overlay — architecture skills, SIZE/COMPLEXITY-AWARE right-sizing.
+# Owned layer (core/policy/): imposes obligations on the vendored architecture
+# skills WITHOUT editing them or shattering them into sub-skills. Surfaced by
+# `wf policy show <skill>`; the agent honors it before invoking the skill.
+# Schema: core/policy/policy-schema.md.
+#
+# WHY: bmad-create-architecture / gds-game-architecture can drive full
+# solutioning onto a problem that needs a one-page arch note, burning tokens on
+# prose that does not reduce risk. This overlay tells the agent to RIGHT-SIZE the
+# architecture effort by size AND by the orchestration.subagent_trigger_thresholds
+# (>3 domains, auth, DB schema), and to prefer a data-model contract over a long
+# prose doc for relational apps. Composes with architecture-security-framing.
+id: architecture-right-sizing
+title: "Architecture right-sizing (size/complexity-tier the architecture effort)"
+
+applies_to:
+  # fnmatch globs over skill names under .claude/skills/. Each must match >=1 real
+  # skill (wf policy check fails closed otherwise). Targets BOTH architecture
+  # surfaces — the BMM solution-design and the Game Dev Studio architecture.
+  skill_globs:
+    - "bmad-create-architecture"   # BMM solution / technical architecture
+    - "gds-game-architecture"      # Game Dev Studio scale-adaptive game architecture
+  categories:
+    - architecture
+
+requirements:
+  - "RIGHT-SIZE the architecture effort to project size AND complexity before producing the design, per gating.right_size_process_to_project. Classify the project up front and cap the artifact set to that tier — process volume is a cost, not a virtue. State the chosen tier and WHY at the top of the architecture output."
+  - "TINY tier (a toy / single component / a few files, no security-critical or multi-domain surface): produce a SHORT architecture note only — the key decisions and a data-model sketch. Do NOT run full solutioning (no multi-document solution design, no exhaustive ADR set) on a toy."
+  - "Scale UP by the orchestration.subagent_trigger_thresholds, NOT only by file count: >3 domains -> escalate to a full architecture review; an AUTH surface -> add a security review; a DB-schema surface -> add a schema review. Below these triggers, the short note (or a single architecture pass) is right-sized."
+  - "MEDIUM and LARGE tiers: run the FULL solution design — multi-domain architecture, ADRs for the load-bearing decisions, and the review gates the triggers require. No layer is dropped at these tiers. Never under-plan a platform."
+  - "For RELATIONAL / data-backed apps, prefer design.data_model_contract_first: produce a data-model contract BEFORE coding (entities, relationships, constraints) — it is higher-value than a long prose architecture doc. Do not let prose volume substitute for a concrete data-model contract."
+  - "Honesty: state the chosen tier and its justification explicitly. Never run full solutioning on a toy, and never under-plan a multi-domain or security-critical system. When a lite tier is chosen, say which deeper artifacts were intentionally OMITTED."
+
+enforcement: instructions

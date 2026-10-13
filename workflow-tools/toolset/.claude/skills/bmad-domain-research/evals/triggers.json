@@ -1,0 +1,9 @@
+[
+  { "query": "I want to do domain research on the vertical-farming and indoor-agriculture industry before I decide whether to enter it.", "should_trigger": true },
+  { "query": "Can you research the rare-earth-element recycling sector for me — how the domain is structured, what's driving it, and who the players are?", "should_trigger": true },
+  { "query": "Help me build a domain/industry research report on the sustainable-packaging space in Europe.", "should_trigger": true },
+  { "query": "Map out the healthcare-technology domain: segments, trends, key forces, and regulatory landscape.", "should_trigger": true },
+  { "query": "I need market research on our competitors and target customers for a new mobile payment app.", "should_trigger": false },
+  { "query": "Do a technical research report comparing REST and gRPC for our internal microservices.", "should_trigger": false },
+  { "query": "Investigate why our checkout page intermittently times out and grade your confidence.", "should_trigger": false }
+]

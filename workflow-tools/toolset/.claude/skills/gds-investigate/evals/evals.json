@@ -1,0 +1,36 @@
+{
+  "skill_name": "gds-investigate",
+  "evals": [
+    {
+      "id": "gdsinv-1-confirmed-root-cause",
+      "prompt": "Run headless and fully automated: do NOT greet, do NOT pause for the user between outcomes, do NOT ask which thread to pull. Run the investigation straight through to a finalized case file and write it to ./investigation-bug-209.md. Defer any questions to the very end.\n\nInvestigate this defect (ticket BUG-209). Evidence is staged and available:\n- evals/files/gds-investigate/error-log.txt (playtest report + failing test output)\n- evals/files/gds-investigate/test_wave_manager.gd (the failing test)\n- evals/files/gds-investigate/wave_manager.gd (the implicated WaveManager script)\n\nThe user's premise: 'killing the last enemy in a wave doesn't advance the wave.' Treat that premise as a hypothesis to verify, anchor on a Confirmed piece of evidence, reason to a root cause, and grade your confidence. Investigation stops at the diagnosis (do not implement the fix unless it is a trivial one-liner you note as a suggestion).",
+      "expected_output": "A finalized case file diagnosing the guard bug in wave_manager.gd: on_enemy_died decrements enemies_alive only `if enemies_alive > 1`, so the final enemy's death never takes the counter from 1 to 0, the `enemies_alive <= 0` clear check never fires, wave_cleared is never emitted, and current_wave stays at 1. Root cause graded Confirmed with a path:line citation to the `if enemies_alive > 1` guard, backed by the failing test (enemies_alive stuck, current_wave == 1 not 2). Confidence High (deterministic repro). Trivial fix direction offered (decrement unconditionally / use `>= 1`) but not implemented. The user's premise is confirmed.",
+      "files": [
+        "evals/files/gds-investigate/error-log.txt",
+        "evals/files/gds-investigate/test_wave_manager.gd",
+        "evals/files/gds-investigate/wave_manager.gd"
+      ],
+      "expectations": [
+        "The case file identifies the root cause as the over-restrictive guard in `on_enemy_died` — that `if enemies_alive > 1` prevents the final decrement so `enemies_alive` never reaches 0 and the clear check never fires — rather than a vague 'wave logic is broken' or a wrong cause like the signal connection or `start_wave`.",
+        "The root-cause finding is graded `Confirmed` AND carries a concrete `path:line` citation into `wave_manager.gd` (the `if enemies_alive > 1` guard line) and/or the failing assertion in the log (enemies_alive not 0 / current_wave == 1) — a Confirmed claim with no citation fails this expectation.",
+        "The final Conclusion states `High` confidence justified by the deterministic failing test reproduction — an un-stated or Low/Medium confidence for a confirmed, deterministically-reproduced cause fails this expectation.",
+        "The case file explicitly verifies the user's premise ('killing the last enemy doesn't advance the wave') against the evidence and confirms it, rather than ignoring or contradicting the premise.",
+        "Because it is a trivial guard/off-by-one defect, it offers a fix DIRECTION (e.g. decrement unconditionally, or guard with `>= 1`) but does NOT go on to implement or refactor the game code — investigation stops at the diagnosis.",
+        "The output follows the evidence-graded case-file structure (e.g. Confirmed Findings / Conclusion / Hand-off Brief), not an unstructured paragraph."
+      ]
+    },
+    {
+      "id": "gdsinv-2-evidence-light-no-fabrication",
+      "prompt": "Run headless and fully automated: no greeting, no inter-outcome pauses, no asking which thread to pull. Produce the case file and write it to ./investigation-frame-drops.md, then defer any questions to the end.\n\nInvestigate this report. NOTE: no code, profiler captures, logs, or build is provided or reachable — only this free-text description from a player:\n\n'Sometimes during big firefights with lots of enemies on screen the game stutters and the framerate tanks for a second or two, then recovers. It doesn't happen every time and we haven't been able to force it in the editor.'\n\nThere is no further evidence available in this run. Anchor on whatever (if anything) is actually Confirmed, do NOT invent observations you cannot cite, and calibrate your output to how thin the evidence is.",
+      "expected_output": "An evidence-light case file: it marks the case evidence-light, registers the player report as Hypothesis #1 (not fact), lists candidate causes (GC/allocation spikes during heavy combat, physics/collision load with many enemies, particle/draw-call spikes, asset streaming hitches) each graded Hypothesized with what profiler/log evidence would confirm or refute it, documents the missing evidence (no profiler capture, no frame-time log, no repro) as a finding with how to obtain it, and an Investigation Backlog of prioritized data-collection steps. Final confidence Low with a clear data gap; no fabricated root cause, no false High confidence.",
+      "files": [],
+      "expectations": [
+        "The case is explicitly marked evidence-light (or equivalent) AND no root cause is asserted as `Confirmed` — given zero code/profiler/repro, any Confirmed root cause or High final confidence is fabricated certainty and fails this expectation.",
+        "Candidate causes (e.g. garbage-collection / allocation spikes, physics or collision load from many enemies, particle/draw-call or overdraw spikes, asset/texture streaming hitches) are recorded as `Hypothesized` / Open entries, EACH with a 'would confirm' / 'would refute' criterion — picking one cause and running with it fails this expectation.",
+        "The absence of evidence is itself documented as a finding — a Missing Evidence section or Investigation Backlog naming what is missing (a profiler/frame-time capture, a reproduction, build/scene details) and how to obtain it.",
+        "The player's free-text report is treated as a hypothesis/premise to verify rather than as established fact (e.g. registered as Hypothesis #1).",
+        "Final confidence is `Low` with a stated data gap, and the report names the concrete next data-collection step(s) needed (the 'to make progress I need one of: …' framing) rather than declaring the investigation solved."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+[
+  { "query": "check implementation readiness — validate our PRD, UX, architecture, and epics are complete and aligned before we start building.", "should_trigger": true },
+  { "query": "Before Phase 4 implementation, audit the epics and stories for requirements traceability and tell me if every FR is covered.", "should_trigger": true },
+  { "query": "Are our planning docs ready to hand off to dev? Cross-check the PRD requirements against the epics and flag any gaps or unready stories.", "should_trigger": true },
+  { "query": "Validate this single PRD on its own — critique its success metrics and surface its internal gaps.", "should_trigger": false },
+  { "query": "Review this code diff for correctness and edge cases before I merge it.", "should_trigger": false },
+  { "query": "We hit a mid-sprint change — propose how to adjust scope and produce a change proposal.", "should_trigger": false }
+]

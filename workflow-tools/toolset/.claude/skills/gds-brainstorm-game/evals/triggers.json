@@ -1,0 +1,8 @@
+[
+  { "query": "Brainstorm game ideas for a cozy two-player lighthouse co-op.", "should_trigger": true },
+  { "query": "I need game ideas built around the core verb 'planting'.", "should_trigger": true },
+  { "query": "Help me brainstorm a roguelike where you control the weather.", "should_trigger": true },
+  { "query": "Write the full game design document for my platformer.", "should_trigger": false },
+  { "query": "Help me brainstorm marketing ideas for my bookstore.", "should_trigger": false },
+  { "query": "Set up the Godot test framework for my project.", "should_trigger": false }
+]

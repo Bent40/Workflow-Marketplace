@@ -1,6 +1,6 @@
 ---
 name: workflow-cli
-description: 'Use the workflow `wf` command-line tools on the current project: boot scan and adoption plan (wf start), structural map instead of grepping (wf map), function catalog and probes (wf describe), spec pack, story-completion audit, learnings store, memory pack, guardrails, file leases, real-browser E2E (wf browse), mutation gate, usage readout. Use when the user says "wf <command>", asks to map/scan/audit the project with workflow, or a task matches one of the tools below. Distinct from workflow-find (finds skills) and bmad-help (BMAD phase routing).'
+description: 'Use the workflow `wf` command-line tools on the current project: boot scan and adoption plan (wf start), structural map instead of grepping (wf map), function catalog and probes (wf describe), project starter (wf scaffold), skill-pack install into a repo (wf install), spec pack, story-completion audit, learnings store, memory pack, guardrails, file leases, real-browser E2E (wf browse), mutation gate, local-model baselines, usage readout. Use when the user says "wf <command>", asks to map/scan/audit the project with workflow, or a task matches one of the tools below. Distinct from workflow-find (finds skills) and bmad-help (BMAD phase routing).'
 ---
 
 # workflow-cli — the `wf` tools
@@ -36,6 +36,12 @@ carry on without it. The tools need Python 3 and PyYAML (`pip install pyyaml`).
 | Local token/usage readout | `wf cost` |
 | Recurring friction candidates from session history | `wf reflect signals|digest` |
 | Ground-truth process trail of a run | `wf trace start|stage|end` |
+| Start a new project from a minimal starter (or a contracts + members repo set) | `wf scaffold --out <dir> [--multi-repo ...]` |
+| Copy chosen skill packs + agent instruction files into a project (also the route for cloud sessions, which don't load plugins) | `wf install --out <dir> --packs <a,b> --targets claude` |
+| See which right-sizing / review obligations govern a skill | `wf policy list|show <skill>|check` |
+| Baseline local models against the skills' evals | `wf orchestra baseline --model <url> --model-name <n>` |
+| Check an LLM judge against human labels before trusting it | `wf calibrate --gold <f> --judge-model <url> ...` |
+| Turn weak orchestra results into a fine-tune run and re-measure | `wf finetune prep|run|compare` |
 
 Each command takes `--help`. Use absolute paths for `--dir`, `--file` and
 `--out`.

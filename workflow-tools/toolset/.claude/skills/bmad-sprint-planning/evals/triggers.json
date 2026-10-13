@@ -1,0 +1,8 @@
+[
+  { "query": "Run sprint planning — read my epics and generate the sprint-status.yaml tracking file with every epic and story.", "should_trigger": true },
+  { "query": "Generate a sprint plan from our epics.md so we have a status file that tracks all the stories.", "should_trigger": true },
+  { "query": "Build the sprint-status tracking file from the epic documents and detect which stories already have files.", "should_trigger": true },
+  { "query": "Check sprint status and tell me which stories are blocked or at risk right now.", "should_trigger": false },
+  { "query": "Break this PRD into epics and user stories with acceptance criteria.", "should_trigger": false },
+  { "query": "Run a retrospective on the epic we just finished and capture the lessons learned.", "should_trigger": false }
+]
