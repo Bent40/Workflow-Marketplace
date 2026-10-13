@@ -1,0 +1,39 @@
+id: design.data_model_contract_first
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: For any relational/stateful app, write a compact data-model contract BEFORE coding — above a long PRD.
+short_form: Data-model contract first — entities, FKs, delete behavior, constraints, validation, security-sensitive fields, tests. On a typed stack make the contract a compiler-checked artifact (tsc/mypy/pyright/schema) in the done-gate.
+full_text: |
+  For any app with persistent relational data, produce a compact DATA-MODEL
+  CONTRACT before coding — it is higher-value than a long narrative PRD. Per
+  entity, as a table (not prose):
+    Entity · Fields · Required fields · Unique constraints · Foreign keys ·
+    Delete behavior (cascade / set-null / restrict) · Indexes · Validation ·
+    Security-sensitive fields · Test cases.
+  The Test-cases column is REQUIRED, not optional, and for any money/quantitative
+  entity it MUST include the boundary/edge rows: empty and zero, the smallest unit
+  (e.g. sub-cent input, penny-remainder split such as $0.02 split among 4),
+  overflow / huge value, and duplicates. These are exactly where lean/least-code
+  builds break (a real failure: a $0.02 split among 4 hit a CHECK constraint and
+  500'd); a least-code discipline may not drop them.
+  Reasoning up front about relationships, delete/orphan behavior, money integrity,
+  and validation is what catches data-loss and integrity bugs before they ship —
+  it is the single highest-leverage planning artifact for a CRUD/CRM-class system.
+  On a statically-typed stack, also express the contract as a COMPILER-CHECKED
+  artifact (a .d.ts / TypeScript interface, a Zod schema, a Pydantic model, or a
+  JSON Schema + validator) and put the type/schema check (tsc --noEmit / mypy /
+  pyright / schema-validate) in the green-before-done gate. That is the compile-time
+  STRUCTURAL leg: it catches field-rename, shape, nullability, enum, and signature
+  drift across every reference for free and deterministically — complementing the
+  runtime behavioral contract tests and the EARS behavioral criteria. Author once,
+  machine-enforce thereafter — this is NOT spec→code generation. A prose-only
+  contract on a typed stack is DEGRADED; an untyped/dynamic stack (plain JS, bash,
+  notebooks) is N/A, not a failure; and a typecheck greened by blanket `any` or
+  `# type: ignore` on the contract types is a FAIL (honesty.no_fake_green).

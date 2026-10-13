@@ -1,0 +1,33 @@
+id: orchestration.delegation_primitive_selector
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+requires_capabilities:
+  - subagents
+summary: Pick the delegation primitive by task shape — don't default to a subagent for everything.
+short_form: Choose subagent vs skill vs deterministic workflow vs agent-team by who-holds-the-plan, where-results-live, repeatability, scale; prefer a workflow when the path is predictable.
+full_text: |
+  Subagents are the default execution environment, but they are not always the
+  right PRIMITIVE. Before delegating, pick by task shape rather than reaching for a
+  subagent reflexively:
+    - SKILL — a repeatable, self-contained procedure invoked in-context; no
+      separate plan or results store. Use for a known method, not open work.
+    - SUBAGENT — a one-shot delegated task whose result returns to the main agent,
+      which holds the plan and reconciles. The default for exploration, review,
+      and bounded implementation.
+    - DETERMINISTIC WORKFLOW (script-as-orchestrator) — the plan lives in CODE
+      (loops/branches/intermediate state in variables, OUT of context), is
+      re-runnable, resumable, and diffable. Use when the path is PREDICTABLE and
+      fans out widely — don't build an autonomous agent when a fixed chain suffices.
+    - AGENT-TEAM — multiple peers sharing a task list, each self-claiming work.
+      Use only for genuinely parallel, long-running, loosely-coupled streams.
+  Decide on: who holds the plan, where results live, whether the work is repeatable,
+  the scale of fan-out, and interruption behavior. This composes with
+  gating.right_size_process_to_project and orchestration.subagent_trigger_thresholds
+  (one builder owns integration; subagents are highest-leverage as tiered review),
+  and never violates the no-nested rule — only the main agent owns fan-out.

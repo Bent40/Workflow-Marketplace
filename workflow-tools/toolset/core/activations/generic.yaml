@@ -1,0 +1,17 @@
+# Activation profile (boot design §6; D3: flat seeds + additive add-ons).
+# Consumed by `wf start` at scan time — never rendered into adapters.
+# Validated fail-closed by `wf start --check` (doctor check 42): every skill,
+# pack, wf tool, and gate listed here must exist.
+
+id: generic
+summary: Zero-match fallback — core pack + memory/learn/audit, no ceremony.
+intent_keywords: []
+stack_hints: []
+packs: [core]
+default_size: small
+entry_skills:
+  anytime: [bmad-help, bmad-investigate, bmad-quick-dev, bmad-code-review]
+wf_tools:
+  always: [memory, learn, audit, map]
+gates: []
+mcp_recommend_categories: []

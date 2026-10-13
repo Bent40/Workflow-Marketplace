@@ -1,0 +1,19 @@
+id: skills.user_requested_may_merge_after_validation
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+requires_capabilities:
+  - bmad_skills
+summary: User-requested skills may merge once built via the builders and validated.
+short_form: User-requested skills may merge after build + validation/evals + catalog/doctor pass.
+full_text: |
+  A user-requested skill may be merged once it is complete and the gates pass:
+  built through the BMAD builders, validated (evals / quality-check), the
+  catalog/README updated, and the repo doctor passing. Testing first is
+  mandatory.

@@ -1,0 +1,20 @@
+id: subagents.default_for_nontrivial_claude_work
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+requires_capabilities:
+  - subagents
+summary: Default to subagents for non-trivial work to protect the main context.
+short_form: Default to subagents for non-trivial work; do trivial edits inline.
+full_text: |
+  On a target with a subagent mechanism, make subagents the default execution
+  environment for non-trivial work — codebase exploration, implementation, test
+  runs, independent review — to preserve the main conversation's context. Do
+  trivial deterministic edits inline unless delegating protects important
+  context. (This is the mechanism for orchestration.keep_main_context_lean.)

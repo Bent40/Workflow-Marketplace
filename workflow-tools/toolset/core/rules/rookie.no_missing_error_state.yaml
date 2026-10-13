@@ -1,0 +1,21 @@
+id: rookie.no_missing_error_state
+scope: universal
+severity: medium
+activation: default
+path_group: frontend
+review_note: >-
+  Confirm async paths handle loading, empty, and error states; flag
+  happy-path-only UIs and unhandled external-call failures.
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Handle loading, empty, and error states for async operations.
+short_form: Async work needs loading, empty, and error handling — not just the happy path.
+full_text: |
+  Async operations must handle more than the success path: show a loading state,
+  handle the empty result, and handle/report errors. On the backend, external
+  calls need error handling (and timeouts/retries where appropriate); on the
+  frontend, surface failures to the user instead of leaving a dead UI.

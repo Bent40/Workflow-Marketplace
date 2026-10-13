@@ -1,0 +1,28 @@
+id: tech.stack_selection
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Prefer the project's sanctioned stack and the team's known tech; deviate only on stated technical need.
+short_form: Default to the sanctioned stack; switch/add tech only for a concrete technical need, recorded.
+full_text: |
+  When choosing technology (language, framework, runtime, datastore), default to
+  the project's SANCTIONED stack and the team's known technologies — see the
+  project's tech-stack decision doc / `bmad-manifest` default_stack. Keep the
+  stack minimal and consistent (prefer a single language across tiers where
+  feasible); fewer technologies means less to learn, secure, and diagnose later.
+
+  Deviate — add or switch to a different technology — ONLY when the task has a
+  concrete technical requirement the sanctioned stack genuinely cannot meet
+  (e.g. CPU-bound true parallelism the default runtime can't do, or a capability
+  that exists only in another ecosystem's libraries). Familiarity, taste, or
+  novelty are NOT reasons.
+
+  When you do deviate, name the specific technical requirement and record the
+  decision (chosen tech, the need it meets, the sanctioned option rejected) in
+  the decision log, and flag it for review.

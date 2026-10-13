@@ -1,0 +1,32 @@
+id: subagents.orphan_reclaim_watchdog
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+requires_capabilities:
+  - subagents
+summary: Treat a subagent that went quiet as an orphan/crash SUSPECT — reconcile it against ground truth, don't wait it out.
+short_form: A subagent silent past a short TTL is a went-quiet suspect — verify finished-vs-orphaned against ground truth (liveness + ledger), never sleep on a stale 'still running' assumption.
+full_text: |
+  A spawned subagent is a debt owed a close-out, and the dangerous failure mode is
+  the child that STOPS REPORTING — it has either finished or orphaned, and a stale
+  "still running" assumption is how a child lingers for hours (the documented
+  5h-orphan / 18h-idle incidents). So bound it with a watchdog, not patience:
+    - A transcript silent past a short reclaim TTL (minutes), while still recently
+      spawned, is a WENT-QUIET SUSPECT — surface it, don't wait it out.
+    - Cross-check liveness: where local PIDs are observable, a went-quiet child with
+      no backing live process likely TERMINATED (finished or crashed). In a
+      remote/SDK env, process liveness is inconclusive (agents run server-side), so
+      the in-conversation launch LEDGER is the authoritative signal — never the
+      process list alone, and never the child's self-report.
+    - Resolve each suspect to a real terminal state from ground truth (repo/PR/CI
+      state, the artifact on disk, the suite) and then reconcile: a finished child
+      is closed out; a confirmed orphan is terminated/requeued.
+  scripts/subagent-sweep.sh implements this: it classifies transcripts active /
+  went-quiet / dormant and lists suspects to reconcile. Run it (or its --alert Stop
+  hook) at every stop spot. This operationalizes the CLAUDE.md re-checking-watcher
+  and orphan-sweep rules — a liveness check that runs, not a discipline to remember.

@@ -1,0 +1,17 @@
+id: autonomy.stop_on_scope_or_product_intent
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Stop and report when remaining work needs a scope or product-intent decision.
+short_form: Stop for scope expansion or product-intent calls — not because context is low.
+full_text: |
+  Stop and report when the remaining work would require a scope decision or a
+  product-intent call (what to build, for whom, and why) — stop because of that,
+  not because context is running low. High-impact technical decisions are
+  governed by authority.ask_before_high_impact_decisions.

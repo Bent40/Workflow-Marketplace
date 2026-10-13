@@ -1,0 +1,29 @@
+# Activation profile (boot design §6; D3: flat seeds + additive add-ons).
+# Consumed by `wf start` at scan time — never rendered into adapters.
+# Validated fail-closed by `wf start --check` (doctor check 42): every skill,
+# pack, wf tool, and gate listed here must exist.
+
+id: web-app
+summary: Web application or SaaS — product-shaped, UI-bearing, browser-verifiable.
+intent_keywords: [web app, website, saas, dashboard, frontend, portal, storefront, webshop]
+stack_hints: [nextjs, react, vue, svelte, sveltekit, nuxt, django, rails, express, fastify]
+packs: [core, bmm, tea]
+optional_packs:
+  wds: "design-first work signalled"
+default_size: medium
+entry_skills:
+  discover: [bmad-brainstorming, bmad-competitive-features]
+  plan: [bmad-product-brief, bmad-prd, bmad-ux]
+  solution: [bmad-create-architecture, bmad-security-decision-framing]
+  build: [bmad-create-epics-and-stories, bmad-create-story, bmad-dev-story, bmad-quick-dev]
+  verify: [bmad-testarch-framework, bmad-testarch-atdd, bmad-code-review]
+  anytime: [bmad-help, bmad-investigate, bmad-correct-course]
+wf_tools:
+  always: [memory, learn, audit, map]
+  by_stage:
+    spec: [spec]
+    build: [split-task, lock, compress-context]
+    verify: [validate, browse, mutate]
+    release: [deploy]
+gates: [dod.real_browser_e2e_for_ui, dod.accessibility_gate, review.security_probe_baseline]
+mcp_recommend_categories: [docs-lookup, github]

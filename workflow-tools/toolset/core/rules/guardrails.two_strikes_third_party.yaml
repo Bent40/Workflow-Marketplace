@@ -1,0 +1,29 @@
+id: guardrails.two_strikes_third_party
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: After two failed same-layer workarounds for a third-party defect, switch strategy layer instead of attempting a third.
+short_form: Two failed same-layer workarounds for a library defect → switch LAYER (pin a known-good version, drop to the lower-level API, or replace the dependency) — never a third same-layer attempt.
+full_text: |
+  When a third-party library defect or incompatibility has absorbed TWO failed
+  workaround attempts at the SAME layer (monkey-patches, config tweaks,
+  call-order changes around the same broken API), do not make a third
+  same-layer attempt. Switch strategy layer instead — in order of preference:
+    - PIN a known-good version of the dependency;
+    - DROP to the lower-level API underneath it (bypass the broken wrapper);
+    - REPLACE the dependency.
+  Same-layer workarounds share the same root failure cause, so their success
+  odds do not improve with repetition — the time sink just compounds. Count
+  the strikes explicitly, and record the layer switch and its reason (a
+  decision note), so a later session does not re-try the dead layer.
+  Hard-won, twice: a training-library end-of-sequence-token defect absorbed
+  FIVE same-layer workaround attempts before a strategy-layer switch ended it;
+  and a broken browser-automation wrapper consumed ~20 hours of same-layer
+  workarounds when dropping to the raw protocol underneath took ~2.5 hours
+  once chosen.

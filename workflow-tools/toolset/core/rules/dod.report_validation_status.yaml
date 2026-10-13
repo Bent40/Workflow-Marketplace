@@ -1,0 +1,17 @@
+id: dod.report_validation_status
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: The final report separates completed, validated, not-validated, and deferred.
+short_form: Report completed vs validated vs not-validated vs deferred — separately.
+full_text: |
+  The closing report for a unit of work must distinguish four things explicitly:
+  what is COMPLETED (built), what is VALIDATED (actually run/verified, and how),
+  what is NOT VALIDATED (and why), and what is DEFERRED / follow-up (mocks,
+  stubs, TODOs, known gaps). Collapsing these into a vague "done" hides risk.

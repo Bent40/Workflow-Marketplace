@@ -1,0 +1,24 @@
+id: local.decompose_into_microtasks
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+requires_capabilities:
+  - microtasks
+summary: Small-context models work one narrow microtask at a time.
+short_form: One objective per microtask; orchestrator owns decomposition and integration.
+full_text: |
+  A small-context / local model should receive one narrow objective at a time —
+  explicit allowed/forbidden files, a small edit, a stated validation, then stop
+  and hand back. The orchestrator owns decomposition, integration, and final
+  acceptance. (See adapters/local-models/microtask-protocol.md.)
+
+  This rule requires the `microtasks` capability, so it renders only into a
+  microtask-capable target. It does NOT render into Codex/Copilot even under the
+  local-small-context profile — those targets get microtask *intent* via the
+  profile's render_note, not this mechanism rule.

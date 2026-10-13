@@ -1,0 +1,32 @@
+id: reports.decision_recommendation
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: A decision recommendation states the decision, options with pros/cons, a recommendation, and who decides.
+short_form: Decision recommendation states the decision needed · viable options w/ pro-con each · recommendation + reason · whether self-decidable or needs user approval.
+full_text: |
+  When presenting a decision to the human, make it decidable in one pass.
+  Required:
+
+  - decision needed — the question, stated once.
+  - viable options — the real candidates (not a strawman set).
+  - pro / con per option — the short tradeoff for each; this IS the report's
+    pro/con shape, so no separate pro-con contract is needed.
+  - recommendation + reason — your pick and why, not a neutral menu.
+  - authority — whether this is yours to self-decide (reversible, in scope) or
+    needs user approval (high-impact).
+
+  This is the report shape for a tradeoff/decision; the EXECUTION rules it serves
+  stay separate: guardrails.use_pro_con_for_tradeoffs (when to weigh tradeoffs at
+  all) and the authority boundary (authority.self_decide_reversible_details vs
+  authority.ask_before_high_impact_decisions) that sets who decides. Standardize
+  the required fields, not the exact wording.
+see_also:
+  - reports.framing_standard
+  - reports.types_taxonomy

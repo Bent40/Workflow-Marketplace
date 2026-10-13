@@ -1,0 +1,31 @@
+id: orchestration.ledger_reinject_on_compact
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+requires_capabilities:
+  - hooks
+summary: After a compaction, re-establish the outstanding-work ledger from ground truth — a PostCompact hook makes this mechanical.
+short_form: On compaction, reconcile your ledger against ground truth (sweep subagents, re-check PRs/issues/CI, re-state open entries) — never trust a pre-compaction 'still running' memory; the PostCompact hook reminds you automatically.
+full_text: |
+  Compaction erases the working context — exactly where the ephemeral
+  in-conversation ledger of outstanding work lives — which is how a subagent or
+  background wait silently orphans across a compaction. So after a compaction,
+  REBUILD the ledger from PERSISTED GROUND TRUTH rather than from a pre-compaction
+  memory of 'still running':
+    - sweep live/orphaned subagents (scripts/subagent-sweep.sh) and reconcile each
+      against what you actually launched (subagents.orphan_reclaim_watchdog);
+    - re-check open PRs/issues, branch state, and CI from source of truth;
+    - re-state every outstanding entry (id, purpose, expected deliverable +
+      acceptance, status) and each background/external wait, with where to re-check it;
+    - verify load-bearing claims on disk / by running, not from a summary.
+  The ledger stays EPHEMERAL — in-conversation, never written or committed (CLAUDE.md);
+  this rule reconciles it from ground truth, it does not persist it. The PostCompact
+  hook (.claude/hooks/wf-ledger-reinject.sh) makes the reminder MECHANICAL — it fires
+  after the very event that erases the ledger, so the obligation no longer depends on
+  remembering. It only surfaces a gitignored .wf/ledger.md scratch-note if one happens
+  to exist; it never requires or writes one.

@@ -1,0 +1,20 @@
+id: blockers.non_mockable_escalate
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: If a blocker is not safely mockable, stop and surface it — never guess.
+short_form: Non-mockable blocker → stop and ask; never guess, especially on security.
+full_text: |
+  When a blocker cannot be safely mocked, stop and surface it rather than
+  inventing an answer. Not safely mockable: unclear/contradictory acceptance
+  criteria, product-intent ambiguity, an architecture decision, a
+  security/auth/permission boundary, a data-model decision affecting
+  compatibility, or a destructive/hard-to-reverse action.
+
+  Security-critical unknowns are never guessed.

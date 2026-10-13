@@ -1,0 +1,16 @@
+id: dod.no_known_high_severity_security
+scope: universal
+severity: critical
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: No known high or critical security issues in the changed files at "done".
+short_form: Don't ship with a known high/critical security issue in changed files.
+full_text: |
+  A task is not done while a high- or critical-severity security issue is known
+  to exist in the files it changed. Fix it, or explicitly stop and surface it as
+  a blocker — do not mark the work complete around it.

@@ -1,0 +1,30 @@
+id: reports.scope_change_warning
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: A scope-change warning states what fell outside scope, its impact, the options, and a recommendation.
+short_form: Scope-change warning states what is outside the accepted scope · why · impact (effort/risk/affected work) · options (proceed-expanded vs stop) · recommendation.
+full_text: |
+  When the work would cross the accepted task boundary, warn the human before
+  proceeding. Required:
+
+  - what is outside scope — the specific work beyond the accepted boundary.
+  - why it is outside scope — how it differs from what was agreed.
+  - impact — added effort, risk, and what other work it touches.
+  - options — proceed with expanded scope vs stop at the original boundary (and
+    any middle path).
+  - recommendation — your pick and why.
+
+  This is the report shape for surfacing scope drift; the EXECUTION rules that
+  DECIDE the behavior stay separate: autonomy.stop_on_scope_or_product_intent
+  (stop and ask when scope expands) and guardrails.flag_scope_creep_and_drift
+  (flag creep early). Standardize the required fields, not the exact wording.
+see_also:
+  - reports.framing_standard
+  - reports.types_taxonomy

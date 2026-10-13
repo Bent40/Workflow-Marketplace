@@ -1,0 +1,7 @@
+# core/constitution/ux.yaml — checkable UX constraints (Epic C).
+constraints:
+  - id: UX-1
+    statement: Authority is legible — state-changing actions are confirmed by a direct human input the content layer cannot synthesize.
+    activation: default
+    check: "Show the human confirmation gate for state-changing actions."
+    severity: medium

@@ -1,0 +1,31 @@
+# core/memory/memory-contract.yaml — the project memory pack contract (Epic B).
+#
+# Single source of truth for `wf memory`: `init` scaffolds these files from
+# this contract, `check` validates a memory/ dir against it, `refresh` reports on
+# emptiness/staleness. Per RD-3 the real memory/ dir lives in the CONSUMER repo;
+# bmad ships this contract + the tooling + selftest fixtures only.
+#
+# A "required section" is a level >= 2 Markdown heading (##+) whose text matches
+# the name EXACTLY (case-insensitive; no trailing punctuation). The H1 title does
+# not count as a section. The file set is fixed; this contract is the schema.
+files:
+  project-brief.md:
+    title: Project Brief
+    description: What this project is and why — the slow-changing anchor.
+    required_sections: [Purpose, Scope, Out of scope, Stakeholders, Constraints]
+  current-state.md:
+    title: Current State
+    description: Where things stand right now.
+    required_sections: [Done, In progress, Next, Blockers]
+  decisions.md:
+    title: Decisions
+    description: Durable decisions (mirror/links to the canonical decision log).
+    required_sections: [Decisions]
+  open-risks.md:
+    title: Open Risks
+    description: Known risks and unknowns not yet closed.
+    required_sections: [Open risks]
+  next-actions.md:
+    title: Next Actions
+    description: Concrete next steps so a new session can resume instantly.
+    required_sections: [Next actions]

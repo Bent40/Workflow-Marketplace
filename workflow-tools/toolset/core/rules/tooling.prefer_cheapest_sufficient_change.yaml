@@ -1,0 +1,17 @@
+id: tooling.prefer_cheapest_sufficient_change
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Prefer updating existing tooling, a script, or docs before creating new tooling.
+short_form: New tooling is the most expensive option — prefer updating/scripting/documenting first.
+full_text: |
+  Creating new tooling is the most expensive option. Before adding any, prefer
+  the cheapest sufficient change: update existing tooling, add a small
+  script/test/check, or update documentation. Reach for new tooling only when a
+  cheaper option genuinely will not cover the need.

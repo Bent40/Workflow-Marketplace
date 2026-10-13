@@ -1,0 +1,7 @@
+# core/modes/plan.yaml — Plan mode contract (Epic F / F1).
+# A rendered mode contract: plan may inspect/propose/ask, but may NOT edit.
+# The "plan never grants edit" invariant is asserted in generate-adapters --selftest.
+id: plan
+summary: Inspect and propose; do not edit.
+may: [inspect, propose, ask]
+may_not: [edit]

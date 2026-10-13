@@ -1,0 +1,55 @@
+# bmad.config.example.yaml — copy to bmad.config.yaml in YOUR repo (RD-3).
+#
+# Project-level config consumed by wf. Per RD-1 a single bmad.config.yaml
+# hosts the v0.2 project config blocks; `validation:` (Epic D) is the first.
+#
+# `wf validate` runs each command below in declared order and reports
+# pass/fail (exit 0 = all passed, 1 = something failed, 2 = config problem).
+# `wf validate --repair-handoff` additionally emits a structured packet for
+# each failing command (command, exit_code, relevant_failure_lines,
+# likely_affected_files, suggested_next_microtask) — a handoff, never an autofix.
+
+validation:
+  # category -> ordered list of shell commands. Category names are free-form.
+  typecheck:
+    - "npm run typecheck"
+  lint:
+    - "npm run lint"
+  test:
+    - "npm test"
+
+# Context-tag registry (Epic H + D3). A tag is a named bundle of globbed paths
+# (+ optional tests / commands / cross-refs); the tag IS the context pack.
+# Two categories via `type`: work_area (where to START) and risk (what extra
+# review/reporting OBLIGATIONS apply, via `triggers`). Resolve a single tag with
+# `wf context show/pack <tag>`; resolve a SET (or a story's `Tags:` line) with
+# `wf context resolve --tags A,B` / `--story FILE`; validate with `… check`.
+# NOTE: context tags are GUIDANCE, not truth and not an authorization/trust
+# boundary — they say where to start, not that nothing else matters.
+# (The example globs point at a typical app layout that does not exist in THIS
+# repo, so each tag sets `allow_empty: true` to keep `check` green here; drop it
+# in a real project so stale globs are caught.)
+context:
+  tags:
+    auth:
+      type: work_area
+      description: Authentication & session flows
+      paths: ["src/auth/**", "src/middleware/session.js"]
+      tests: ["src/auth/**/*.test.js"]  # optional
+      commands: ["npm run test:auth"]   # optional
+      see_also: ["billing"]             # optional; must name real tags
+      allow_empty: true
+    billing:
+      type: work_area
+      description: Billing & payments
+      paths: ["src/billing/**"]
+      allow_empty: true
+    SECURITY:
+      type: risk                        # a risk tag: its job is the obligations
+      description: Auth, permissions, unsafe input, file validation, secrets.
+      paths: ["src/auth/**", "src/middleware/**"]
+      triggers:                         # surfaced by `resolve` as obligations
+        - "require security review"
+        - "check input validation / file type & size"
+        - "check permission boundaries"
+      allow_empty: true

@@ -1,0 +1,20 @@
+id: rookie.no_unbounded_list_endpoint
+scope: universal
+severity: high
+activation: default
+path_group: backend
+review_note: >-
+  Flag list/query endpoints with no pagination or explicit limit; confirm
+  bounded result sets and the absence of N+1 cascades.
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: List endpoints that can grow unbounded must paginate or limit results.
+short_form: Paginate/limit list endpoints; don't return unbounded result sets.
+full_text: |
+  An endpoint or query that can return an unbounded number of rows must paginate
+  or apply an explicit limit. Returning everything invites slow responses,
+  memory blowups, and N+1 cascades as data grows.

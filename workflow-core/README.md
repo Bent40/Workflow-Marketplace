@@ -12,7 +12,7 @@ regenerated from source and republished as a whole.
   `additionalContext` at session start — no external dependency). Ships both
   a bash hook (macOS/Linux) and a PowerShell hook (Windows), so the operating
   model loads on every platform, not just Unix.
-- 8 skill(s) under `skills/`.
+- 9 skill(s) under `skills/`.
 
 ## Install
 
@@ -30,6 +30,7 @@ regenerated from source and republished as a whole.
 ## Skills
 
 - `workflow-operating-model`
+- `workflow-find`
 - `bmad-help`
 - `bmad-advanced-elicitation`
 - `bmad-brainstorming`

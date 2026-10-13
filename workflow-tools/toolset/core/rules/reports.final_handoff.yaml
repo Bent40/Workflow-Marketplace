@@ -1,0 +1,31 @@
+id: reports.final_handoff
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: A final handoff separates completed, validated, not-validated, changes, risks, deferrals, and next action.
+short_form: Final handoff separates completed / validated / NOT validated / changed files / risks / deferred follow-ups / recommended next action.
+full_text: |
+  When handing off finished work, structure the report so the human can act on it
+  without re-reading everything. Required, kept distinct:
+
+  - completed — what was actually done.
+  - validated — what was checked, and how (command run, test, manual check).
+  - NOT validated — what was changed but not verified, stated plainly.
+  - changed files / artifacts — the concrete surface of the change.
+  - risks — what could still be wrong, and where.
+  - deferred follow-ups — known should-fixes left out of scope.
+  - recommended next action — the single best next step.
+
+  This is the reporting face of the honesty bar: "completed" is never conflated
+  with "validated" (honesty.no_fake_green, dod.report_validation_status), and the
+  main agent owns producing it (authority.main_agent_owns_scope_and_final_report).
+  Standardize the required fields, not the exact wording.
+see_also:
+  - reports.framing_standard
+  - reports.types_taxonomy

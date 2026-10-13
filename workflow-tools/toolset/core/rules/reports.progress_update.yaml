@@ -1,0 +1,26 @@
+id: reports.progress_update
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: A progress update states the current phase, what changed, what's checked next, and any blocker.
+short_form: Progress update states current phase · what changed since last update · what is being checked next · any known blocker or risk.
+full_text: |
+  When reporting progress mid-task, keep it to what moves the human's
+  understanding forward. Required:
+
+  - current phase — where in the work you are.
+  - what changed since the last update — concrete progress, not restated plan.
+  - what is being checked next — the immediate next step.
+  - any known blocker or risk — surfaced early, not saved for the end.
+
+  Keep it short: signal over ceremony, and skip it entirely for trivial
+  single-step work. Standardize the required fields, not the exact wording.
+see_also:
+  - reports.framing_standard
+  - reports.types_taxonomy

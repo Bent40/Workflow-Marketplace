@@ -1,0 +1,45 @@
+id: review.security_probe_baseline
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: A security review checks a fixed minimum probe set, especially for apps storing user/customer input.
+short_form: Always probe the baseline set — XSS, URL-scheme sanitization, SQLi/LIKE, traversal, validation, pagination, error leakage, response security headers; for agentic/LLM systems also probe prompt-injection, unrestricted tool use, exfiltration, and malicious tool/skill definitions.
+full_text: |
+  When a project stores or renders user/customer-supplied text (names, notes,
+  emails, websites, activity text — i.e. most CRUD/CRM apps), the security review
+  checks a FIXED minimum set every time, not an ad-hoc subset:
+    - stored XSS · reflected XSS
+    - URL-scheme sanitization (block javascript:, data:, vbscript:)
+    - SQL injection · LIKE wildcard escaping
+    - path traversal
+    - malformed JSON / request-body handling
+    - enum / allowed-value bypass
+    - negative / invalid money values · overlong fields
+    - missing pagination / LIMIT
+    - destructive-action safety · error/stack-trace leakage
+    - response security headers on HTML/API responses: a Content-Security-Policy,
+      X-Content-Type-Options: nosniff, a clickjacking guard (X-Frame-Options:
+      DENY or CSP frame-ancestors 'none'), and HSTS when served over TLS
+  This header baseline is part of the floor, not an extra: a lean / least-code
+  build (e.g. under the ponytail skill) may NOT drop it to save code — escaping
+  output AND shipping the headers are both required (defense in depth).
+  For an AGENTIC / LLM system — one that reads untrusted content and can call
+  tools (which this framework itself BUILDS) — add a second fixed probe set:
+    - prompt injection via untrusted content (a page/file/issue that tries to
+      redirect the agent or escalate its access)
+    - unrestricted / over-broad tool use (a capability the task did not need)
+    - data-exfiltration paths (untrusted-input + private-data + an outbound
+      channel — the Lethal Trifecta; see bmad-security-decision-framing)
+    - malicious tool/skill DEFINITIONS (instructions hidden in tool metadata /
+      descriptions, not just behavior — the dominant client-side MCP vuln)
+  Run these as a DETERMINISTIC FLOOR (a fixed checklist that is reproducible),
+  with LLM judgement layered ON TOP — the floor must not be judgement-dependent.
+  Findings follow review.finding_protocol. (Real builds shipped a javascript:-URL
+  stored XSS, and a lean build that escaped output but shipped NO security headers —
+  both are what a fixed checklist, not taste, reliably catches.)

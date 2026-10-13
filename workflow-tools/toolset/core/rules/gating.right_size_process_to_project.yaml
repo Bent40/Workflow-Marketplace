@@ -1,0 +1,36 @@
+id: gating.right_size_process_to_project
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Select an explicit project-size mode and run only that mode's required process.
+short_form: Pick a size mode (Tiny/Small/Medium/Large) up front and cap the artifact set to it — on Tiny/Small, cut any plan that implies more than ~1.5x a strong bare build's effort before starting.
+full_text: |
+  Before planning, SELECT a project-size mode explicitly (do not leave it to
+  taste) and run only that mode's required process. Process volume is a cost, not
+  a virtue.
+    - Tiny (todo, calculator, landing page): ambiguity/decision table, baseline-
+      parity check, clean-run gate, tests. No PRD/epics.
+    - Small (local CRUD app): + a short architecture note, run/test gates.
+    - Medium (CRM, inventory, issue tracker): + a data-model contract
+      (design.data_model_contract_first), an API contract, real-browser E2E, and
+      a security review (review.security_probe_baseline).
+    - Large (SaaS with auth, roles, payments, teams): + full PRD, threat model,
+      migrations, tiered review subagents, CI, deployment checks.
+  Pick the SMALLEST mode that covers the real risk and cap the artifact set to it.
+  PRE-BUILD PROPORTIONALITY SELF-CHECK: before starting, estimate what a strong
+  bare build (no process at all) would cost for this project. On Tiny/Small, if
+  the planned process — documents PLUS gates PLUS review subagents — implies
+  more than ~1.5x that effort, CUT process until it fits, BEFORE starting.
+  "Won on quality, lost on cost" discovered only after the run is a
+  right-sizing failure; apply the check to yourself up front, not in a
+  postmortem. Producing above the mode is overkill
+  (guardrails.flag_overkill_or_undercooked); skipping a risk-reducing gate below
+  it is undercooked. (For SECURE work, gating.complexity_tier_classification
+  governs WHERE the human reviews; this rule governs HOW MUCH process runs at
+  all.)

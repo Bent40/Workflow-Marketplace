@@ -1,0 +1,31 @@
+id: design.acceptance_criteria_ears
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Write behavioral acceptance criteria in EARS form so each one is unambiguous and traceable to a test.
+short_form: Behavioral ACs use EARS (one of 5 SHALL patterns); an AC that fits no pattern is a smell to rewrite.
+full_text: |
+  Write behavioral acceptance criteria in EARS (Easy Approach to Requirements
+  Syntax): a small fixed grammar that removes the modal-verb ambiguity
+  (should/must/will/can/may) that wrecks ACs and makes each criterion mechanically
+  traceable to a test and to diff evidence. Use exactly one of five patterns, each
+  with a mandatory SHALL:
+    - Ubiquitous: "the SYSTEM shall RESPONSE."
+    - Event:      "WHEN trigger, the SYSTEM shall RESPONSE."
+    - State:      "WHILE precondition, the SYSTEM shall RESPONSE."
+    - Optional:   "WHERE feature is included, the SYSTEM shall RESPONSE."
+    - Unwanted:   "IF condition, THEN the SYSTEM shall RESPONSE."
+  Each criterion decomposes to 0+ preconditions, 0-1 trigger, exactly 1 system
+  name, and 1+ responses — a checkable shape: an AC that fits NO pattern is a smell
+  to rewrite (usually it is vague, compound, or untestable). This makes audit
+  (wf audit) far more precise than fuzzy keyword matching, and pairs with
+  design.data_model_contract_first for behavioral coverage.
+  Right-size it: EARS fits BEHAVIORAL criteria. Do NOT force it onto data-shape,
+  UI-layout, or exploratory requirements — apply it where behavior is the contract,
+  not as a blanket mandate.

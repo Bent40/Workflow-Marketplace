@@ -1,0 +1,16 @@
+id: dod.tests_pass_or_report_gaps
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Relevant tests pass, or missing coverage is reported honestly.
+short_form: Make relevant tests pass, or honestly report the coverage gap.
+full_text: |
+  Before "done", the relevant tests must pass. If coverage is missing or a test
+  was not run, say so plainly — do not imply validation that did not happen.
+  (See honesty.no_fake_green for the underlying honesty gate.)

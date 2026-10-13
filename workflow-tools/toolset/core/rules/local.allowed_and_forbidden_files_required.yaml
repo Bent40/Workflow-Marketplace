@@ -1,0 +1,18 @@
+id: local.allowed_and_forbidden_files_required
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+requires_capabilities:
+  - microtasks
+summary: Every local microtask names its allowed and forbidden files explicitly.
+short_form: Each microtask lists allowed files and forbidden files explicitly.
+full_text: |
+  A microtask packet must list the explicit, minimal set of files the model may
+  read or edit (allowed) and the files it must not touch (forbidden) — shared
+  routers, migrations, config — so a small-context model stays in bounds.

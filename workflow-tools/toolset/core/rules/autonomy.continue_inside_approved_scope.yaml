@@ -1,0 +1,17 @@
+id: autonomy.continue_inside_approved_scope
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Continue autonomously while work clearly advances the accepted objective.
+short_form: Keep going while the work clearly advances the accepted objective.
+full_text: |
+  Operate autonomously within the accepted task boundary: keep going while the
+  work clearly advances the current objective, without pausing for confirmation
+  on every reversible step. Momentum inside the agreed scope is expected, not a
+  reason to stop.

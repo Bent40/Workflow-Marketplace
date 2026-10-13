@@ -1,0 +1,20 @@
+id: i18n.honor_project_ui_language
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: User-facing strings use the project's configured UI language; code and docs stay English.
+short_form: User-facing strings use the project's configured UI language; identifiers, comments, API fields, docs stay English.
+full_text: |
+  User-facing strings — labels, buttons, error messages, tooltips — use the
+  project's configured UI language as declared in the project config, not a
+  hardcoded assumption.
+
+  Everything internal stays in English: variable and function names, comments,
+  API field names, and documentation. If the project config declares no UI
+  language, ask rather than guessing one.

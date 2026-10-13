@@ -1,0 +1,16 @@
+id: guardrails.flag_unneeded_dependency_or_duplication
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Flag unnecessary new dependencies and duplication of existing functionality.
+short_form: Question new dependencies; point to existing code instead of duplicating it.
+full_text: |
+  When a new third-party dependency is being added, flag it and check whether it
+  is justified. When code duplicates something that likely already exists, point
+  to the existing pattern instead of reimplementing it.

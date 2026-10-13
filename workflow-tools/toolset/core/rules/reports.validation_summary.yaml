@@ -1,0 +1,30 @@
+id: reports.validation_summary
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: A validation-only report states what was checked, how, the result per claim, and what could not be verified.
+short_form: Verification-only report states what was checked · how (command/test/inspection) · result per claim · what could NOT be verified · confidence.
+full_text: |
+  Use this shape ONLY when the task is verification-only — the human asked you to
+  verify, check, audit, or confirm something, with no change to ship. Required:
+
+  - what was asked — the claim(s) under test.
+  - what was checked, and how — the exact command, test, or inspection used.
+  - result per claim — pass / fail / unknown, one per claim (not a blanket verdict).
+  - what could NOT be verified — and why (unobservable, out of reach, no signal).
+  - confidence and caveats — how far the result can be trusted.
+
+  This is distinct from reports.final_handoff (which reports COMPLETED WORK:
+  changed files, deferrals, next action — none of which apply to a pure check),
+  and from dod.report_validation_status (a Definition-of-Done obligation that
+  done work must report its validation status; this is the shape of a standalone
+  verification report). Standardize the required fields, not the exact wording.
+see_also:
+  - reports.framing_standard
+  - reports.types_taxonomy

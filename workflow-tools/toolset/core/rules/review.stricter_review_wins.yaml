@@ -1,0 +1,17 @@
+id: review.stricter_review_wins
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: On a split review verdict, the stricter verdict wins.
+short_form: Reviews disagree → the stricter verdict governs.
+full_text: |
+  When two review passes disagree (e.g. a correctness review and a security
+  review), the stricter verdict governs. Do not average the verdicts or take the
+  lenient one to unblock a merge — resolve to the stricter outcome and address
+  what it raised before proceeding.

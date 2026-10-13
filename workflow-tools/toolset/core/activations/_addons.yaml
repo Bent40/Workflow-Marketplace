@@ -1,0 +1,31 @@
+# Add-ons (boot design D3, resolved 2026-07-08): additive blocks layered on a
+# FLAT profile — "X is actually flat profile Y plus block Z". A unit is a whole
+# pack OR a single skill. The matcher may PROPOSE add-ons from intent keywords;
+# nothing is applied without the same confirm-before-write rule as the profile.
+# Validated by `wf start --check` like everything else.
+addons:
+  writer-kit:
+    unit: pack
+    ref: writer
+    intent_keywords: [story, narrative, lore, dialogue, worldbuilding, "story matters"]
+    summary: literary kit on top of any build profile (story-heavy game, narrative app)
+  voice-style:
+    unit: skill
+    ref: lit-author-style-research
+    intent_keywords: [voice, prose style, tone, character voice]
+    summary: just the voice/style research skill, not the whole literary pack
+  design-kit:
+    unit: pack
+    ref: wds
+    intent_keywords: [design-first, brand, visual identity, design system]
+    summary: WDS design ceremony on top of a build profile
+  test-architect:
+    unit: pack
+    ref: tea
+    intent_keywords: [test strategy, coverage floor, quality gates, test architecture]
+    summary: the full test-architect family where tea is not already in the profile
+  3d-kit:
+    unit: pack
+    ref: 3d
+    intent_keywords: [3d asset, printable, voxel, concept art to 3d]
+    summary: the local concept-art -> 3D pipeline as a sidecar

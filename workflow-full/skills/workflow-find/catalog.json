@@ -1,0 +1,1066 @@
+{
+  "marketplace": "workflow",
+  "skills": [
+    {
+      "id": "3d-create",
+      "description": "Guided concept-art → 3D pipeline — walk the user from an image to a watertight print, a textured game asset, or a Minecraft build on the local ComfyUI + Blender setup. Use when the user (in 3d mode or not) says \"turn this image into a print / game asset / Minecraft build\", \"make a 3D model from this art\", \"print this character\", or \"voxelize this for Minecraft\". Routes the engine by output, applies the right settings, and validates watertightness. Not for data-model/ML-model work.",
+      "plugins": [
+        "workflow-3d",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "3d-help",
+      "description": "State-aware guide to the 3D pack — reads what the box and project hold (ComfyUI, CUDA, which models are on disk, available inputs) and recommends the right next move for what the user wants to make. Use when the user says \"3d help\" or \"3d-help\", asks \"what can I make\" / \"where do I start\" / \"is my box ready\" for 3D, or asks which 3D tool fits a situation. The pack's bmad-help analogue — distinct from bmad-help (BMAD/dev lifecycle) and 3d-mode (the posture loader; this skill guides within it).",
+      "plugins": [
+        "workflow-3d",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "3d-mode",
+      "description": "Load 3d mode — reroute the workflow toolset for the local concept-art → 3D pipeline (image → watertight print / game asset / Minecraft build, all on-box, no cloud). Use when the user says \"enter 3d mode\" or \"3d mode\", or asks to set the session up for 3D modeling / turning art into 3D / printing a model. \"exit 3d mode\" drops it. Does NOT fire for data-model / database-schema work, ML-model training, or React/print-to-console \"render\"/\"print\".",
+      "plugins": [
+        "workflow-3d",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "3d-setup",
+      "description": "Guided box readiness for the 3D pack — escort the user through getting a machine ready to run the local concept-art → 3D pipeline: verify base software (ComfyUI, torch+CUDA, Blender), download the exact models to the right paths, and run the smoke test. Use when the user says \"set up the 3D box\", \"3d setup\", \"which models do I need\", \"get my machine ready for 3D\", or \"why won't the pipeline find its models\". Downloads only — never pip-installs into the ComfyUI venv. Not for data-model/ML-training setup.",
+      "plugins": [
+        "workflow-3d",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "3d-troubleshoot",
+      "description": "Diagnose a FAILED concept-art → 3D run — match a symptom (headless/decapitated subject, thin sliver, holes / not watertight, floating flakes, OOM, lying-down or empty render, corrupted many-island mesh, super-slow decode, TRELLIS attention error) to its known cause and the fix. Use when the user says \"3d troubleshoot\", \"my print has holes\", \"the mesh came out mangled/tiny\", \"it OOMed\", \"the render is empty/lying down\", or \"why did the generation fail\". Never fixes by editing the ComfyUI venv. Not for data-model/ML debugging.",
+      "plugins": [
+        "workflow-3d",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-advanced-elicitation",
+      "description": "Push the LLM to reconsider, refine, and improve its recent output. Use when user asks for deeper critique or mentions a known deeper critique method, e.g. socratic, first principles, pre-mortem, red team.",
+      "plugins": [
+        "workflow-core",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-agent-analyst",
+      "description": "Strategic business analyst and requirements expert. Use when the user asks to talk to Mary or requests the business analyst.",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-agent-architect",
+      "description": "System architect and technical design leader. Use when the user asks to talk to Winston or requests the architect.",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-agent-builder",
+      "description": "Builds, edits or analyzes Agent Skills through conversational discovery. Use when the user requests to \"Create an Agent\", \"Analyze an Agent\" or \"Edit an Agent\".",
+      "plugins": [
+        "workflow-builders",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-agent-dev",
+      "description": "Senior software engineer for story execution and code implementation. Use when the user asks to talk to Amelia or requests the developer agent.",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-agent-pm",
+      "description": "Product manager for PRD creation and requirements discovery. Use when the user asks to talk to John or requests the product manager.",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-agent-tech-writer",
+      "description": "Technical documentation specialist and knowledge curator. Use when the user asks to talk to Paige or requests the tech writer.",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-agent-ux-designer",
+      "description": "UX designer and UI specialist. Use when the user asks to talk to Sally or requests the UX designer.",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-bmb-setup",
+      "description": "Sets up BMad Builder module in a project. Use when the user requests to 'install bmb module', 'configure BMad Builder', or 'setup BMad Builder'.",
+      "plugins": [
+        "workflow-builders",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-brainstorming",
+      "description": "Facilitate interactive brainstorming sessions using diverse creative techniques and ideation methods. Use when the user says help me brainstorm or help me ideate.",
+      "plugins": [
+        "workflow-core",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-check-implementation-readiness",
+      "description": "Validate PRD, UX, Architecture and Epics specs are complete. Use when the user says \"check implementation readiness\".",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-checkpoint-preview",
+      "description": "LLM-assisted human-in-the-loop review. Make sense of a change, focus attention where it matters, test. Use when the user says \"checkpoint\", \"human review\", or \"walk me through this change\".",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-cis-agent-brainstorming-coach",
+      "description": "Elite brainstorming specialist for facilitated ideation sessions. Use when the user asks to talk to Carson or requests the Brainstorming Specialist.",
+      "plugins": [
+        "workflow-creative",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-cis-agent-creative-problem-solver",
+      "description": "Master problem solver for systematic problem-solving methodologies. Use when the user asks to talk to Dr. Quinn or requests the Master Problem Solver.",
+      "plugins": [
+        "workflow-creative",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-cis-agent-design-thinking-coach",
+      "description": "Design thinking maestro for human-centered design processes. Use when the user asks to talk to Maya or requests the Design Thinking Maestro.",
+      "plugins": [
+        "workflow-creative",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-cis-agent-innovation-strategist",
+      "description": "Disruptive innovation oracle for business model innovation and strategic disruption. Use when the user asks to talk to Victor or requests the Disruptive Innovation Oracle.",
+      "plugins": [
+        "workflow-creative",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-cis-agent-presentation-master",
+      "description": "Visual communication and presentation expert for slide decks, pitch decks, and visual storytelling. Use when the user asks to talk to Caravaggio or requests the Presentation Expert.",
+      "plugins": [
+        "workflow-creative",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-cis-agent-storyteller",
+      "description": "Master storyteller for compelling narratives using proven frameworks. Use when the user asks to talk to Sophia or requests the Master Storyteller.",
+      "plugins": [
+        "workflow-creative",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-cis-design-thinking",
+      "description": "Guide human-centered design processes using empathy-driven methodologies. Use when the user says \"lets run design thinking\" or \"I want to apply design thinking\"",
+      "plugins": [
+        "workflow-creative",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-cis-innovation-strategy",
+      "description": "Identify disruption opportunities and architect business model innovation. Use when the user says \"lets create an innovation strategy\" or \"I want to find disruption opportunities\"",
+      "plugins": [
+        "workflow-creative",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-cis-problem-solving",
+      "description": "Apply systematic problem-solving methodologies to complex challenges. Use when the user says \"guide me through structured problem solving\" or \"I want to crack this challenge with guided problem solving techniques\"",
+      "plugins": [
+        "workflow-creative",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-cis-storytelling",
+      "description": "Craft compelling narratives using story frameworks. Use when the user says \"help me with storytelling\" or \"I want to create a narrative through storytelling\"",
+      "plugins": [
+        "workflow-creative",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-code-review",
+      "description": "Review code changes adversarially using parallel review layers (Blind Hunter, Edge Case Hunter, Acceptance Auditor) with structured triage into actionable categories. Use when the user says \"run code review\" or \"review this code\"",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-competitive-features",
+      "description": "Discover a competitive feature set, designate the MVP, and sequence the build order for an app type. Use when the user asks \"what features do I need to be competitive\", \"what's the MVP feature set\", \"what are the table-stakes features\", or \"what build order for this app/concept\" — BEFORE the brief or PRD. Distinct from bmad-market-research (market sizing/customers), bmad-product-brief / bmad-prd (which consume this set), and wds-8-product-evolution (evolving a live product).",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-correct-course",
+      "description": "Manage significant changes during sprint execution. Use when the user says \"correct course\" or \"propose sprint change\"",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-create-architecture",
+      "description": "Create architecture solution design decisions for AI agent consistency. Use when the user says \"lets create architecture\" or \"create technical architecture\" or \"create a solution design\"",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-create-epics-and-stories",
+      "description": "Break requirements into epics and user stories. Use when the user says \"create the epics and stories list\"",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-create-prd",
+      "description": "DEPRECATED — consolidated into bmad-prd create intent - this skill will be removed in v7 in favor of `bmad-prd`.",
+      "plugins": [
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-create-story",
+      "description": "Creates a dedicated story file with all the context the agent will need to implement it later. Use when the user says \"create the next story\" or \"create story [story identifier]\"",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-customize",
+      "description": "Authors and updates customization overrides for installed BMad skills. Use when the user says 'customize bmad', 'override a skill', 'change agent behavior', or 'customize a workflow'.",
+      "plugins": [
+        "workflow-builders",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-decision-propagation",
+      "description": "Given one or more finalized, human-approved decisions (e.g. a new entry in a canonical decision log), propagates them consistently across already-written PROSE planning artifacts (PRD, architecture, UX spec, test-design, epics/stories, briefs), producing surgical per-document edit plans, a cross-document consistency sweep, and a follow-on-flags list. Use when a decision is settled AFTER planning docs already exist and those docs must be brought into agreement — distinct from bmad-correct-course (which navigates an unresolved change) and from code/contract-diff propagation (which propagates a code or contract change across repos, not prose).",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-dev-story",
+      "description": "Execute story implementation following a context filled story spec file. Use when the user says \"dev this story [story file]\" or \"implement the next story in the sprint plan\"",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-document-project",
+      "description": "Document brownfield projects for AI context. Use when the user says \"document this project\" or \"generate project docs\"",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-domain-research",
+      "description": "Conduct domain and industry research. Use when the user says wants to do domain research for a topic or industry",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-edit-prd",
+      "description": "DEPRECATED — consolidated into bmad-prd update intent - this skill will be removed in v7 in favor of `bmad-prd`.",
+      "plugins": [
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-editorial-review-prose",
+      "description": "Clinical copy-editor that reviews text for communication issues. Use when user says review for prose or improve the prose",
+      "plugins": [
+        "workflow-editorial",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-editorial-review-structure",
+      "description": "Structural editor that proposes cuts, reorganization, and simplification while preserving comprehension. Use when user requests structural review or editorial review of structure",
+      "plugins": [
+        "workflow-editorial",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-eval-runner",
+      "description": "Run a skill's evals in a clean, isolated environment and report results. Use when the user wants to evaluate a skill, run evals, benchmark a skill, validate triggers, or grade skill outputs.",
+      "plugins": [
+        "workflow-builders",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-generate-project-context",
+      "description": "Create project-context.md with AI rules. Use when the user says \"generate project context\" or \"create project context\"",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-help",
+      "description": "Analyzes current state and user query to answer BMad questions or recommend the next skill(s) to use. Use when user asks for help, bmad help, what to do next, or what to start with in BMad.",
+      "plugins": [
+        "workflow-core",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-index-docs",
+      "description": "Generates or updates an index.md to reference all docs in the folder. Use if user requests to create or update an index of all files in a specific folder",
+      "plugins": [
+        "workflow-core",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-investigate",
+      "description": "Forensic case investigation with evidence-graded findings, calibrated to the input. Use when the user asks to investigate a bug, trace what caused an incident, walk through unfamiliar code, or build a mental model of a code area before working on it.",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-market-research",
+      "description": "Conduct market research on competition and customers. Use when the user says they need market research",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-module-builder",
+      "description": "Plans, creates, and validates BMad modules. Use when the user requests to 'ideate module', 'plan a module', 'create module', 'build a module', or 'validate module'.",
+      "plugins": [
+        "workflow-builders",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-party-mode",
+      "description": "Orchestrates group discussions between installed BMAD agents, enabling natural multi-agent conversations where each agent is a real subagent with independent thinking. Use when user requests party mode, wants multiple agent perspectives, group discussion, roundtable, or multi-agent conversation about their project.",
+      "plugins": [
+        "workflow-core",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-prd",
+      "description": "Create, update, or validate a PRD. Use when the user wants help producing, editing, or validating a PRD.",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-prfaq",
+      "description": "Working Backwards PRFAQ challenge to forge product concepts. Use when the user requests to 'create a PRFAQ', 'work backwards', or 'run the PRFAQ challenge'.",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-product-brief",
+      "description": "Create, update, or validate a product brief. Use when the user wants help producing, editing, or validating a brief.",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-qa-generate-e2e-tests",
+      "description": "Generate end to end automated tests for existing features. Use when the user says \"create qa automated tests for [feature]\"",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-quick-dev",
+      "description": "Implements any user intent, requirement, story, bug fix or change request by producing clean working code artifacts that follow the project's existing architecture, patterns and conventions. Use when the user wants to build, fix, tweak, refactor, add or modify any code, component or feature.",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-retrospective",
+      "description": "Post-epic review to extract lessons and assess success. Use when the user says \"run a retrospective\" or \"lets retro the epic [epic]\"",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-review-adversarial-general",
+      "description": "Perform a Cynical Review and produce a findings report. Use when the user requests a critical review of something",
+      "plugins": [
+        "workflow-editorial",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-review-edge-case-hunter",
+      "description": "Walk every branching path and boundary condition in content, report only unhandled edge cases. Orthogonal to adversarial review - method-driven not attitude-driven. Use when you need exhaustive edge-case analysis of code, specs, or diffs.",
+      "plugins": [
+        "workflow-editorial",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-security-decision-framing",
+      "description": "Facilitated framing of an UPFRONT security-architecture decision that is still OPEN — trust boundaries, agent splits, sandbox tier, capability grants — for systems that handle untrusted content (agentic/LLM systems especially). Elicits the system map and assets, applies the Lethal Trifecta and Meta's Rule of Two lenses plus least-privilege/blast-radius, builds an option table with per-option residual risk, drives the human to a decision, and emits decision-log-ready entries. Use BEFORE design, while the decision is unmade — distinct from an injection-boundary review (which reviews an already-DESIGNED flow), bmad-decision-propagation (spreads an already-SETTLED decision across prose docs), and bmad-correct-course (general mid-sprint change navigation).",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-shard-doc",
+      "description": "Splits large markdown documents into smaller, organized files based on level 2 (default) sections. Use if the user says perform shard document",
+      "plugins": [
+        "workflow-core",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-spec",
+      "description": "Distill any intent input into the SPEC kernel + companions — the canonical, preservation-validated machine contract for downstream work. Use when the user says \"create a spec\", \"distill this into a spec\", \"validate this spec\", or \"update the spec\".",
+      "plugins": [
+        "workflow-core",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-sprint-planning",
+      "description": "Generate sprint status tracking from epics. Use when the user says \"run sprint planning\" or \"generate sprint plan\"",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-sprint-status",
+      "description": "Summarize sprint status and surface risks. Use when the user says \"check sprint status\" or \"show sprint status\"",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-tea",
+      "description": "Master Test Architect and Quality Advisor. Use when the user asks to talk to Murat or requests the Test Architect.",
+      "plugins": [
+        "workflow-test-architect",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-teach-me-testing",
+      "description": "Teach testing progressively through structured sessions. Use when user says \"lets learn testing\" or \"I want to study test practices\"",
+      "plugins": [
+        "workflow-test-architect",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-technical-research",
+      "description": "Conduct technical research on technologies and architecture. Use when the user says they would like to do or produce a technical research report",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-testarch-atdd",
+      "description": "Generate red-phase acceptance test scaffolds using the TDD cycle. Use when the user says \"lets write acceptance tests\" or \"I want to do ATDD\"",
+      "plugins": [
+        "workflow-test-architect",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-testarch-automate",
+      "description": "Expand test automation coverage for codebase. Use when user says \"lets expand test coverage\" or \"I want to automate tests\"",
+      "plugins": [
+        "workflow-test-architect",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-testarch-ci",
+      "description": "Scaffold CI/CD quality pipeline with test execution. Use when the user says \"lets setup CI pipeline\" or \"I want to create quality gates\"",
+      "plugins": [
+        "workflow-test-architect",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-testarch-framework",
+      "description": "Initialize test framework with Playwright or Cypress. Use when the user says \"lets setup test framework\" or \"I want to initialize testing framework\"",
+      "plugins": [
+        "workflow-test-architect",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-testarch-nfr",
+      "description": "Audit NFR evidence for performance, security, reliability, and scalability. Use when implementation evidence exists and the user says \"audit NFR evidence\", \"audit NFRs\", or \"evaluate non-functional requirements\"",
+      "plugins": [
+        "workflow-test-architect",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-testarch-test-design",
+      "description": "Create system-level or epic-level test plans. Use when the user says \"lets design test plan\" or \"I want to create test strategy\"",
+      "plugins": [
+        "workflow-test-architect",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-testarch-test-review",
+      "description": "Review test quality using best practices validation. Use when user says \"lets review tests\" or \"I want to evaluate test quality\"",
+      "plugins": [
+        "workflow-test-architect",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-testarch-trace",
+      "description": "Generate traceability matrix and quality gate decision. Use when the user says \"lets create traceability matrix\" or \"I want to analyze test coverage\"",
+      "plugins": [
+        "workflow-test-architect",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-ux",
+      "description": "Plan UX patterns and design specifications. Use when the user says \"lets create UX design\" or \"create UX specifications\" or \"help me plan the UX\"",
+      "plugins": [
+        "workflow-method",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-validate-prd",
+      "description": "DEPRECATED — consolidated into bmad-prd validate intent - this skill will be removed in v7 in favor of `bmad-prd`.",
+      "plugins": [
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "bmad-workflow-builder",
+      "description": "Builds, edits, and analyzes workflows and skills. Use when the user requests to \"build a workflow\", \"modify a workflow\", \"quality check workflow\", or \"analyze skill\".",
+      "plugins": [
+        "workflow-builders",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-agent-game-architect",
+      "description": "Game systems architect for technical architecture, engine design, and infrastructure. Use when the user asks to talk to Cloud Dragonborn or requests the Game Architect.",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-agent-game-designer",
+      "description": "Game designer for creative vision, GDD creation, and narrative design. Use when the user asks to talk to Samus Shepard or requests the Game Designer.",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-agent-game-dev",
+      "description": "Consolidated game developer for story execution, code implementation, code review, QA/test authorship, and sprint orchestration. Use when the user asks to talk to Link Freeman, the Game Developer, the Game QA, or the Game Scrum Master.",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-agent-game-solo-dev",
+      "description": "Elite indie game developer for rapid prototyping and solo quick-flow development. Use when the user asks to talk to Indie or requests the Game Solo Dev.",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-agent-tech-writer",
+      "description": "Technical documentation specialist and knowledge curator for game projects. Use when the user asks to talk to Paige or requests the Technical Writer.",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-brainstorm-game",
+      "description": "Facilitate game brainstorming sessions with game-specific techniques. Use when the user says \"brainstorm game\" or \"game ideas\"",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-check-implementation-readiness",
+      "description": "Verify GDD, UX, Architecture, and Epics alignment before production. Use when the user says \"check readiness\" or \"implementation readiness\"",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-code-review",
+      "description": "Review code changes adversarially using parallel review layers (Blind Hunter, Edge Case Hunter, Acceptance Auditor) with structured triage into actionable categories. Use when the user says \"run code review\" or \"review this code\"",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-correct-course",
+      "description": "Manage significant changes during sprint execution. Use when the user says \"correct course\" or \"propose sprint change\"",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-create-epics-and-stories",
+      "description": "Create Epics and Stories from GDD requirements for development. Use when the user says \"create epics\" or \"create stories\"",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-create-game-brief",
+      "description": "Create, update, or validate a game brief. Use when the user wants help producing, editing, or validating a game brief before detailed design.",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-create-narrative",
+      "description": "Create comprehensive narrative documentation with story structure and world-building. Use when the user says \"narrative design\" or \"create narrative\"",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-create-story",
+      "description": "Creates a dedicated story file with all the context the agent will need to implement it later. Use when the user says \"create the next story\" or \"create story [story identifier]\"",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-dev-story",
+      "description": "Execute story implementation following a context filled story spec file. Use when the user says \"dev this story [story file]\" or \"implement the next story in the sprint plan\"",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-document-project",
+      "description": "Analyze existing game projects to produce useful documentation. Use when the user says \"document project\" or \"generate docs\"",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-domain-research",
+      "description": "Conduct game domain and industry research. Use when the user says \"lets create a research report on [game domain or industry]\"",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-e2e-scaffold",
+      "description": "Scaffold end-to-end testing infrastructure. Use when the user says \"e2e scaffold\" or \"set up e2e testing\"",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-game-architecture",
+      "description": "Design scale-adaptive game architecture with engine systems and networking. Use when the user says \"game architecture\" or \"design architecture\"",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-gdd",
+      "description": "Create, update, or validate a game's Game Design Document. Use when the user wants help producing, editing, or validating a GDD — the primary design artifact covering pillars, mechanics, progression, levels, art, audio, and development epics.",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-generate-project-context",
+      "description": "Create optimized project-context.md for AI agent consistency. Use when the user says \"project context\" or \"generate context\"",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-investigate",
+      "description": "Forensic case investigation with evidence-graded findings, calibrated to the input. Use when the user asks to investigate a bug, trace what caused an incident, walk through unfamiliar code, or build a mental model of a code area before working on it.",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-performance-test",
+      "description": "Design game performance testing strategy. Use when the user says \"performance test\" or \"benchmark\"",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-playtest-plan",
+      "description": "Create structured playtesting plans for user feedback. Use when the user says \"playtest plan\" or \"playtesting\"",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-prd",
+      "description": "Create, update, validate, or analyze a game project's PRD. Use when the user wants help producing, editing, validating, or analyzing a PRD — often derived from a GDD or prepared for external-tool integration.",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-quick-dev",
+      "description": "Implements any user intent, requirement, story, bug fix or change request by producing clean working code artifacts that follow the project's existing architecture, patterns and conventions. Use when the user wants to build, fix, tweak, refactor, add or modify any code, component or feature.",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-retrospective",
+      "description": "Post-epic review to extract lessons and assess success. Use when the user says \"run a retrospective\" or \"lets retro the epic [epic]\"",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-sprint-planning",
+      "description": "Generate sprint status tracking from epics. Use when the user says \"run sprint planning\" or \"generate sprint plan\"",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-sprint-status",
+      "description": "Summarize sprint status and surface risks. Use when the user says \"check sprint status\" or \"show sprint status\"",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-test-automate",
+      "description": "Generate automated game tests for gameplay systems. Use when the user says \"automate tests\" or \"generate tests\"",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-test-design",
+      "description": "Create comprehensive game test scenarios. Use when the user says \"test design\" or \"design tests\"",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-test-framework",
+      "description": "Initialize game test framework for Unity, Unreal, or Godot. Use when the user says \"test framework\" or \"set up testing\"",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-test-review",
+      "description": "Review test quality and coverage. Use when the user says \"test review\" or \"review tests\"",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "gds-ux",
+      "description": "Plan game UX, UI, and HUD design specifications. Use when the user says \"lets create game UX\", \"design the HUD\", \"create UI specifications\", or \"help me plan the game UX\"",
+      "plugins": [
+        "workflow-game-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "lit-author-style-research",
+      "description": "Research a named writer's style into an actionable profile. Use when the user says \"research <writer>'s style\", \"how does <writer> write\", or \"build a style profile of <author>\". Profiles OTHER writers for study/emulation — distinct from lit-voice-contract (the user's own voice; it can consume this profile as an aspirational voice), bmad-domain-research (industries), and bmad-market-research (markets).",
+      "plugins": [
+        "workflow-writer",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "lit-genre-atlas",
+      "description": "Genre database, contract checks, and comps. Use when the user asks \"what are the conventions of <genre>\", \"what genre is my story\", \"find comps for my book\", \"successful works in <genre>\", \"check my manuscript against <genre> expectations\", or \"what tropes define <genre>\". Holds the living genre atlas (reader promises, debut word-count bands, signature tropes, successful works, market signals per genre) — distinct from bmad-market-research (business/market sizing) and lit-teach (craft pedagogy; it consults this atlas for genre data).",
+      "plugins": [
+        "workflow-writer",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "lit-teach",
+      "description": "Teach writing craft on demand with examples and the writer's way of thought. Use when the user asks \"what did you mean by <term or finding>\", \"what is <craft concept>\", \"how do I <craft move>\", \"teach me <writing topic>\", \"help me land this <device>\", or \"what device am I attempting?\". Grounded in the literary-pack research corpus — distinct from lit-line-edit (reviews prose), lit-author-style-research (profiles named authors), and bmad-teach-me-testing (software testing).",
+      "plugins": [
+        "workflow-writer",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "memory",
+      "description": "Session state backend for WDS. Called by wrap, start, and handoff tools — never directly by users. Writes to progress/ in the project repo.",
+      "plugins": [
+        "workflow-web-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "sync",
+      "description": "Syncs WDS skills from the current project (_bmad/wds/) to ~/.claude/commands/ so they work in any project. Called automatically on every agent activation.",
+      "plugins": [
+        "workflow-web-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "wds-0-alignment-signoff",
+      "description": "Create alignment around your idea before starting the project",
+      "plugins": [
+        "workflow-web-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "wds-0-project-setup",
+      "description": "Project onboarding - determine project type, complexity, tech stack, and route to correct phase",
+      "plugins": [
+        "workflow-web-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "wds-1-project-brief",
+      "description": "Establish project context - foundation for all design work",
+      "plugins": [
+        "workflow-web-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "wds-2-trigger-mapping",
+      "description": "Map business goals to user psychology through structured workshops",
+      "plugins": [
+        "workflow-web-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "wds-3-scenarios",
+      "description": "Create UX scenario outlines from Trigger Map through structured micro-steps",
+      "plugins": [
+        "workflow-web-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "wds-4-ux-design",
+      "description": "Transform ideas into detailed visual specifications through scenario-driven design",
+      "plugins": [
+        "workflow-web-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "wds-5-agentic-development",
+      "description": "AI-assisted development, testing, and reverse engineering through structured agent collaboration",
+      "plugins": [
+        "workflow-web-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "wds-6-asset-generation",
+      "description": "Generate visual and text assets from specifications through AI-powered creative production",
+      "plugins": [
+        "workflow-web-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "wds-7-design-system",
+      "description": "Create, import, browse, and maintain design system components and tokens",
+      "plugins": [
+        "workflow-web-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "wds-8-product-evolution",
+      "description": "Brownfield improvements — the full WDS pipeline in miniature for existing products",
+      "plugins": [
+        "workflow-web-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "wds-agent-freya-ux",
+      "description": "Strategic UX designer and design thinking partner for WDS. Use when the user asks to talk to Freya or requests the WDS designer.",
+      "plugins": [
+        "workflow-web-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "wds-agent-mimir-builder",
+      "description": "Implementation agent. Owns the tech audit, the PRD, and the build. Reads Freya's Work Orders and turns them into working code — one verified task at a time.",
+      "plugins": [
+        "workflow-web-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "wds-agent-saga-analyst",
+      "description": "Strategic business analyst and product discovery partner for WDS. Use when the user asks to talk to Saga or requests the WDS analyst.",
+      "plugins": [
+        "workflow-web-design",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "workflow-cli",
+      "description": "Use the workflow `wf` command-line tools on the current project: boot scan and adoption plan (wf start), structural map instead of grepping (wf map), function catalog and probes (wf describe), spec pack, story-completion audit, learnings store, memory pack, guardrails, file leases, real-browser E2E (wf browse), mutation gate, usage readout. Use when the user says \"wf <command>\", asks to map/scan/audit the project with workflow, or a task matches one of the tools below. Distinct from workflow-find (finds skills) and bmad-help (BMAD phase routing).",
+      "plugins": [
+        "workflow-tools",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "workflow-find",
+      "description": "Search the whole workflow toolset (every public skill, installed or not) for the one that fits the task at hand, and say which plugin to install when the best match is not installed yet. Use BEFORE starting any non-trivial task when no listed skill obviously fits, or when the user asks \"is there a workflow skill for X\", \"what can workflow do for X\", \"find a tool for X\", \"which plugin do I need for X\". Distinct from bmad-help (BMAD phase routing inside an adopted project) and workflow-start (onboarding a repo); this only finds and names the right skill.",
+      "plugins": [
+        "workflow-core",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "workflow-operating-model",
+      "description": "Load the workflow operating model — the civilian coding-agent discipline (authority boundaries, autonomy, honesty gating, right-sizing, subagent policy, the report frame). Use at the START of a session to adopt it, or when the user says \"load the workflow operating model\", \"apply the workflow discipline\", or \"operate under workflow\". Especially on Claude Code web, where a plugin SessionStart hook cannot inject ambient context, invoke this to pull the operating model into context.",
+      "plugins": [
+        "workflow-core",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "writer-help",
+      "description": "State-aware guide to the writer pack — reads what the project holds and recommends the right next tool. Use when the user says \"writer help\" or \"writer-help\", asks \"what should I do next\" / \"where were we\" about their writing project, or asks which writing tool fits a situation. The pack's bmad-help analogue — distinct from bmad-help (BMAD/dev lifecycle) and writer-mode (the posture loader; this skill guides within it).",
+      "plugins": [
+        "workflow-writer",
+        "workflow-full"
+      ]
+    },
+    {
+      "id": "writer-mode",
+      "description": "Load writer mode — reroute the workflow toolset for writing literature. Use when the user says \"enter writer mode\" or \"writer mode\", or asks to set the session up for writing fiction/prose/a novel. A typed, hook-independent fallback: invoke it in any session (web included) to adopt the writing posture; \"exit writer mode\" drops it. Does NOT fire for the tech-writer agents (Paige) or software documentation work.",
+      "plugins": [
+        "workflow-writer",
+        "workflow-full"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+id: dod.product_competitiveness_gate
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Before done, check the product is competitive AND feels polished — not merely spec-compliant.
+short_form: Run a baseline-parity check AND a visible-polish pass — "correct but bland" can lose to a strong plain build.
+full_text: |
+  Meeting the spec is necessary, not sufficient — the spec can be uncompetitive,
+  and "correct but bland" can lose to a polished plain build. Before done, run two
+  short passes:
+  (1) BASELINE-PARITY — list what a strong plain build of this kind of thing would
+  obviously include and confirm you are not losing on obvious features. (Todo:
+  add/edit/complete/delete, filter, search, clear-completed, toggle-all,
+  persistence, keyboard, mobile, a11y, tests, README, run command. CRM: contacts/
+  companies + links, deals + a pipeline, activities/timeline, search, dashboard.)
+  (2) VISIBLE PRODUCT-POLISH — Would this DEMO better than a strong plain build?
+  What are the top 3 visible UX gaps? What would make it feel complete without
+  major new architecture? Are we settling for "testable but bland" where "usable
+  and polished" is still cheaply reachable (real drag-and-drop, richer empty/
+  loading states, sensible defaults)?
+  Ask "is our PRODUCT competitive and does it feel complete?", not only "did we
+  meet the spec?"
+  TEETH (present the baseline; the user decides cuts): a build is NOT done if it
+  silently omits an obvious feature for its product type. Surface the baseline as
+  an explicit deliverable list — "This is what a <type> usually delivers: [...].
+  Do you want to remove any of these for this project?" — and let the user decide.
+  DEFAULT to delivering the baseline; any cut is the user's explicit, recorded
+  choice (decision log / final report), never a silent omission by the builder.
+  Some projects genuinely don't need every item — that is the user's call to make,
+  not the agent's to assume. (Examples of the type-baseline: Todo — see above;
+  CRM — contacts/companies + links, deals + pipeline, activities/timeline, search,
+  dashboard; Expense splitter — groups/members, equal AND unequal split modes
+  (exact/percent/shares), balances, settle-up suggestion, history, currency fmt.)

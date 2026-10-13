@@ -1,0 +1,19 @@
+id: subagents.reports_are_structured
+scope: universal
+severity: low
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+requires_capabilities:
+  - subagents
+summary: Subagent reports back to the main agent stay concise and structured.
+short_form: "Subagent reports: files inspected/changed, tests run + result, risks, follow-up."
+full_text: |
+  A subagent's report to the main agent stays concise and structured: files
+  inspected, files changed, tests run and their result, risks, uncertainties, and
+  recommended follow-up — so the main agent can verify and integrate the work
+  without a full re-read.

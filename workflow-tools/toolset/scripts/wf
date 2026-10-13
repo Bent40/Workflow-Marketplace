@@ -1,0 +1,211 @@
+#!/usr/bin/env python3
+"""wf — single command surface for the cross-agent framework tooling.
+
+A THIN dispatcher over the existing scripts — no new logic. Each subcommand
+forwards its remaining arguments to the underlying tool and returns that tool's
+exit code, so everything is usable through one entry point.
+
+    wf generate [--check] [...]       -> scripts/generate-adapters.py
+    wf doctor [...]                   -> scripts/wf-doctor.sh
+    wf split-task <story.md> [...]    -> scripts/split-task.py
+    wf compress-context [root] [...]  -> scripts/compress-context.py
+    wf map build|query|check [...]    -> scripts/wf-map.py
+    wf validate [--repair-handoff]    -> scripts/wf-validate.py
+    wf memory init|check|refresh      -> scripts/wf-memory.py
+    wf learn add|list|search|prune|export|check  -> scripts/wf-learn.py
+    wf context list|show|pack|check   -> scripts/wf-context.py
+    wf spec init|check|split|markers|analyze <feat>   -> scripts/wf-spec.py
+    wf audit <story> [--base <ref>] [--block]  -> scripts/wf-audit.py
+    wf eval [<glob>] | coverage [...]  -> scripts/wf-eval.py (coverage -> wf-eval-coverage.py)
+    wf scaffold --out <dir> [--secure] [--team]  -> scripts/wf-scaffold.py
+    wf install --out <dir> [--packs ...] [--targets ...] [--profile P]  -> scripts/wf-install.py
+    wf lock claim|release|check|list   -> scripts/wf-lock.py
+    wf guard status|careful|freeze|on|off|check  -> scripts/wf-guard.py
+    wf deploy prep|check|rehearse --strat <edge|openshift|casual>  -> scripts/wf-deploy.py
+    wf orchestra baseline --model <url> --model-name <name>  -> scripts/wf-orchestra.py
+    wf finetune prep|run|compare  -> scripts/wf-finetune.py
+    wf browse status|setup|shot|snapshot|run  -> scripts/wf-browse.py
+    wf policy list|show <skill>|check  -> scripts/wf-policy.py
+    wf cost [--dir <root>] [--usd] [--json]  -> scripts/wf-cost.py
+    wf reflect ingest|signals|digest|check  -> scripts/wf-reflect.py
+    wf mutate <file.py> --test "<cmd>" [--lines A-B] [--block]  -> scripts/wf-mutate.py
+    wf calibrate --gold <f> --judge-model <url> --judge-model-name <n>  -> scripts/wf-calibrate.py
+    wf docs [--check]                 -> scripts/wf-docs.py
+    wf plugin build|publish|--check|--selftest  -> scripts/wf-plugin.py
+    wf install-cli [--no-path] [--uninstall]  -> scripts/wf-install-cli.py (bare `wf` on PATH)
+
+    wf --selftest                     -> verify the dispatcher wiring
+    wf help | --help | -h             -> this help
+"""
+from __future__ import annotations
+
+import os
+import subprocess
+import sys
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+SCRIPTS = REPO_ROOT / "scripts"
+
+# subcommand -> argv prefix for the underlying tool
+COMMANDS: dict[str, list[str]] = {
+    "start": [sys.executable, str(SCRIPTS / "wf-start.py")],
+    "describe": [sys.executable, str(SCRIPTS / "wf-describe.py")],
+    "generate": [sys.executable, str(SCRIPTS / "generate-adapters.py")],
+    "doctor": ["bash", str(SCRIPTS / "wf-doctor.sh")],
+    "split-task": [sys.executable, str(SCRIPTS / "split-task.py")],
+    "compress-context": [sys.executable, str(SCRIPTS / "compress-context.py")],
+    "map": [sys.executable, str(SCRIPTS / "wf-map.py")],
+    "validate": [sys.executable, str(SCRIPTS / "wf-validate.py")],
+    "memory": [sys.executable, str(SCRIPTS / "wf-memory.py")],
+    "learn": [sys.executable, str(SCRIPTS / "wf-learn.py")],
+    "context": [sys.executable, str(SCRIPTS / "wf-context.py")],
+    "spec": [sys.executable, str(SCRIPTS / "wf-spec.py")],
+    "audit": [sys.executable, str(SCRIPTS / "wf-audit.py")],
+    "eval": [sys.executable, str(SCRIPTS / "wf-eval.py")],
+    "scaffold": [sys.executable, str(SCRIPTS / "wf-scaffold.py")],
+    "install": [sys.executable, str(SCRIPTS / "wf-install.py")],
+    "lock": [sys.executable, str(SCRIPTS / "wf-lock.py")],
+    "guard": [sys.executable, str(SCRIPTS / "wf-guard.py")],
+    "deploy": [sys.executable, str(SCRIPTS / "wf-deploy.py")],
+    "orchestra": [sys.executable, str(SCRIPTS / "wf-orchestra.py")],
+    "finetune": [sys.executable, str(SCRIPTS / "wf-finetune.py")],
+    "browse": [sys.executable, str(SCRIPTS / "wf-browse.py")],
+    "policy": [sys.executable, str(SCRIPTS / "wf-policy.py")],
+    "cost": [sys.executable, str(SCRIPTS / "wf-cost.py")],
+    "reflect": [sys.executable, str(SCRIPTS / "wf-reflect.py")],
+    "mutate": [sys.executable, str(SCRIPTS / "wf-mutate.py")],
+    "calibrate": [sys.executable, str(SCRIPTS / "wf-calibrate.py")],
+    "docs": [sys.executable, str(SCRIPTS / "wf-docs.py")],
+    "plugin": [sys.executable, str(SCRIPTS / "wf-plugin.py")],
+    "trace": [sys.executable, str(SCRIPTS / "wf-trace.py")],
+    "install-cli": [sys.executable, str(SCRIPTS / "wf-install-cli.py")],
+}
+
+USAGE = """wf — cross-agent framework command surface
+
+Usage: wf <command> [args...]
+
+Commands:
+  start [--dir <d>] [--json] [--involvement <env>] [--apply --profile <p> --size <s>] [--check]  project boot scan -> envelope-scoped activation plan (D5); greenfield -> creation interview; --apply materializes approved steps (wf-start.py)
+  describe [--dir <d>] [--json] [--probe f.py:fn --input <json>]  function swagger: catalog + friction rules F1-F8 + real-execution probe (wf-describe.py)
+  generate [--check]        render adapters from core/ (generate-adapters.py)
+  doctor                    run the repo audit (wf-doctor.sh)
+  split-task <story.md>     scaffold local-model microtask packets (split-task.py)
+  compress-context [root]   compact repo/context map (compress-context.py)
+  map build|query <term>|check  persistent structural map: query file:line targets instead of scanning; hash-verified staleness (wf-map.py)
+  validate [--repair-handoff]  run declared validation commands (wf-validate.py)
+  memory init|check|refresh    project memory pack (wf-memory.py)
+  learn add|list|search|prune|export|check  project-learnings store (wf-learn.py)
+  context list|show|pack|check  context-tag registry (wf-context.py)
+  spec init|check|split|markers|analyze <feat>  spec pack: constitution gate + marker scan + pre-impl coverage/consistency sweep (wf-spec.py)
+  audit <story> [--base <ref>] [--block]  story-completion audit vs the diff (wf-audit.py)
+  eval [<glob>]                 deterministic golden evals (wf-eval.py)
+  eval coverage [--gate]        skill eval-coverage report + gate (wf-eval-coverage.py)
+  scaffold --out <dir> [--secure] [--team]  generate a project starter (wf-scaffold.py)
+  install --out <dir> [--packs ...] [--targets ...]  pick packs+targets, materialize (wf-install.py)
+  lock claim|release|check|list  module/file concurrency leases (wf-lock.py)
+  guard status|careful|freeze|on|off  command-safety guardrails (wf-guard.py)
+  deploy prep|check --strat <S>  deployment artifacts + runbook (wf-deploy.py)
+  deploy rehearse --strat edge [--static-only]  EXECUTE the edge deploy rehearsal, assertions E1-E8 (wf-deploy.py)
+  orchestra baseline --model <url> --model-name <name>  measurement baseline harness (wf-orchestra.py)
+  finetune prep|run|compare     orchestra→train→re-measure loop bridge (wf-finetune.py)
+  browse status|setup|shot|snapshot|run  real-browser executor / E2E runner (wf-browse.py)
+  policy list|show <skill>|check  per-skill-category policy overlays (wf-policy.py)
+  cost [--dir <root>] [--usd] [--json]  local read-only usage/cost readout (wf-cost.py)
+  reflect ingest|signals|digest|check  recurrence-gated workflow-improvement candidates from session metadata + repo activity (wf-reflect.py)
+  mutate <file.py> --test "<cmd>"  mutation-testing tautology gate (wf-mutate.py)
+  calibrate --gold <f> --judge-model <url>  judge-vs-human kappa gate (wf-calibrate.py)
+  docs [--check]                generate the static docs-reference site (wf-docs.py)
+  plugin build|publish|--check  generate public Claude Code plugin artifacts + leak gate (wf-plugin.py)
+  trace start|stage|signal|end|validate|export  ground-truth-verified process-trail capture (wf-trace.py)
+  install-cli [--no-path] [--uninstall]  put a bare `wf` command on PATH, cross-platform (wf-install-cli.py)
+
+Other:
+  --selftest                verify the dispatcher wiring
+  help, --help, -h          show this help
+
+All arguments after the command are forwarded to the underlying tool, and its
+exit code is returned. Examples:
+  wf map query parseConfig
+  wf split-task story.md --out story.microtasks
+  wf compress-context src --max-files 200"""
+
+
+def run(cmd: str, passthrough: list[str]) -> int:
+    # Tools run with cwd=REPO_ROOT (their relative paths mean the toolset
+    # repo), but project-anchored tools (start, learn) need to know where the
+    # CALLER stood — WF_CALLER_CWD carries it (never overwrites an explicit
+    # one, so nested wf-in-wf keeps the original caller dir).
+    env = dict(os.environ)
+    env.setdefault("WF_CALLER_CWD", os.getcwd())
+    # A plugin install (workflow-tools' bin/wf launcher) sets WF_PROJECT_MODE=1:
+    # there the toolset dir is a read-only plugin cache and the caller's project
+    # is the only meaningful root, so tools run where the caller stands.
+    cwd = os.getcwd() if project_mode() else str(REPO_ROOT)
+    return subprocess.run(COMMANDS[cmd] + passthrough, cwd=cwd, env=env).returncode
+
+
+def project_mode() -> bool:
+    return os.environ.get("WF_PROJECT_MODE") == "1"
+
+
+def available(cmd: str) -> bool:
+    """A plugin install ships a subset of the tools; a command is available only
+    when its script is actually present."""
+    return Path(COMMANDS[cmd][-1]).is_file()
+
+
+def usage_text() -> str:
+    """USAGE, minus the lines of commands this install does not ship."""
+    missing = {c for c in COMMANDS if not available(c)}
+    if not missing:
+        return USAGE
+    keep = [ln for ln in USAGE.splitlines()
+            if not (ln.startswith("  ") and not ln.startswith("   ")
+                    and ln.split()[0] in missing)]
+    return "\n".join(keep)
+
+
+def selftest() -> int:
+    problems = []
+    # Every wired subcommand must be documented in USAGE — a meaningful invariant
+    # that self-updates as commands are added (no brittle hardcoded count).
+    for name in COMMANDS:
+        if name not in USAGE:
+            problems.append(f"{name}: in COMMANDS but absent from USAGE")
+    for name, argv in COMMANDS.items():
+        script = Path(argv[-1])
+        if not script.is_file():
+            problems.append(f"{name}: missing {script.relative_to(REPO_ROOT)}")
+    # dispatch round-trip: a real subcommand routed through wf must work
+    if run("compress-context", ["--selftest"]) != 0:
+        problems.append("dispatch round-trip (compress-context --selftest) failed")
+    if problems:
+        print("wf selftest: FAIL — " + "; ".join(problems))
+        return 1
+    print(f"wf selftest: PASS ({len(COMMANDS)} subcommands wired; dispatch round-trip OK)")
+    return 0
+
+
+def main(argv: list[str]) -> int:
+    if not argv or argv[0] in ("help", "-h", "--help"):
+        print(usage_text())
+        return 0
+    if argv[0] == "--selftest":
+        return selftest()
+    cmd = argv[0]
+    if cmd not in COMMANDS:
+        sys.stderr.write(f"wf: unknown command '{cmd}'\n\n{usage_text()}\n")
+        return 2
+    if not available(cmd):
+        sys.stderr.write(
+            f"wf: '{cmd}' is not included in this install (it maintains the toolset "
+            "repo itself, or carries material that stays private). `wf help` lists "
+            "what is available.\n")
+        return 2
+    return run(cmd, argv[1:])
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv[1:]))

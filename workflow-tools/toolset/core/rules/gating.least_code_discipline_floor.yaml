@@ -1,0 +1,39 @@
+id: gating.least_code_discipline_floor
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: A least-code/YAGNI discipline cuts implementation, never product scope silently — surface the type-baseline and let the user choose any cuts.
+short_form: Write less code, not less product — surface the baseline, never silently drop an obvious feature; the user decides cuts.
+full_text: |
+  A "least-code" / YAGNI discipline (e.g. the ponytail skill, or any "minimize
+  code" instruction) is encouraged for cost — it cuts code and tokens sharply and,
+  on simple tasks, loses nothing. But on non-trivial products it tends to SILENTLY
+  cut product scope and skip boundary cases. When such a discipline is active it
+  does NOT relax these floors:
+  - PRODUCT-SCOPE FLOOR: never silently drop an obvious feature for the product
+    type. Default to delivering the type-baseline (see
+    dod.product_competitiveness_gate) and SURFACE it to the user as an explicit
+    list — "This is what a <type> usually delivers: [...]. Do you want to remove
+    any of these for this project?" Some projects genuinely don't need every item;
+    that is the USER's explicit, recorded choice (decision log / final report), not
+    the agent's silent default. (Guards a real failure: a least-code build shipped a
+    "CRM" with a single name field, and an expense splitter with 1 of 4 split modes.)
+  - DATA-MODEL + EDGE FLOOR (design.data_model_contract_first): the contract's
+    entities and its required boundary / smallest-unit / overflow test cases are a
+    floor; least-code may not drop them. (Guards a real failure: a least-code build
+    500'd on a $0.02 split among 4 because it skipped the penny-remainder case.)
+  - VERIFICATION + HARDENING FLOOR: the security-probe baseline (review.security_probe_baseline)
+    — INCLUDING its response-security-header set (Content-Security-Policy, X-Content-Type-Options:
+    nosniff, a clickjacking guard, HSTS under TLS) — plus the clean-clone gate and the real-browser
+    E2E happy path all still apply. "Write less" never means "verify less" or "harden less":
+    escaping output does NOT excuse dropping the security headers. (Guards a real failure: a lean
+    build escaped all output yet shipped no CSP / security headers at all.)
+  Least-code composes well with a terse-output discipline (e.g. caveman) ONLY with
+  these floors in force. The target is workflow-quality at least-code cost — not
+  less product.

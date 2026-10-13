@@ -1,0 +1,39 @@
+id: review.finding_protocol
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Every review finding uses a fixed repro/fix/regression structure — never vague prose.
+short_form: Report each finding as Finding/Severity/Repro/Evidence/Root-cause/Fix/Regression-test/fail-before-pass-after; the affected suite must also pass before AND after (no silent regression); then sweep for sibling instances and prefer a durable detector over a one-off test.
+full_text: |
+  A review — self-review or a reviewer subagent — must report each finding in this
+  fixed structure, so findings are actionable and verifiable instead of vague
+  prose:
+    Finding · Severity · Reproduction · Evidence · Likely root cause ·
+    Suggested fix · Regression test to add · Fail-before/pass-after status.
+  A finding without a reproduction and a regression test is not yet resolved. The
+  fail-before/pass-after status is what proves the fix actually addresses the bug
+  (not just that a test now passes). This keeps review.security_probe_baseline and
+  any code review concrete.
+  RESOLVED requires BOTH transitions, not one. The new test must FAIL before the
+  fix and PASS after (FAIL_TO_PASS — the fix is real), AND the affected suite or
+  package must PASS both before AND after the change (PASS_TO_PASS — nothing
+  regressed). A fix that makes its own test pass while quietly breaking a sibling
+  test is NOT resolved. Scope the regression-preservation check to the affected
+  suite/package, not the whole repo, so it stays right-sized.
+  Then do a VARIANT SWEEP: a real bug usually has SIBLINGS — the same mistake
+  pattern (the same unsafe call, the same missing check) recurs elsewhere, and the
+  gate caught one instance, not the class. Search for the other instances and fix
+  them too. Where the pattern is mechanically detectable, prefer authoring a
+  DURABLE DETECTOR (a lint / grep / semgrep-style rule) over a single test: the
+  rule IS the regression test and catches every future reintroduction everywhere,
+  not just the one spot you happened to find.
+  Make sure the new test has TEETH, not just green: line coverage proves a line ran,
+  not that a test would catch a bug. Where it matters, run a mutation pass on the
+  changed code (`wf mutate <file> --test <cmd>`) — a SURVIVING mutant (tests still
+  pass with an operator flipped) is objective proof the test is tautological; fix it.

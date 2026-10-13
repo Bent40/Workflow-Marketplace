@@ -1,0 +1,25 @@
+# Activation profile (boot design §6; D3: flat seeds + additive add-ons).
+# Consumed by `wf start` at scan time — never rendered into adapters.
+# Validated fail-closed by `wf start --check` (doctor check 42): every skill,
+# pack, wf tool, and gate listed here must exist.
+
+id: game
+summary: Game — GDD-driven, playtest- and performance-verified (gds family).
+intent_keywords: [game, roguelike, deckbuilder, platformer, rpg, shooter, puzzle game, visual novel]
+stack_hints: [unity, godot, unreal, phaser, gd]
+packs: [core, gds]
+default_size: medium
+entry_skills:
+  discover: [gds-brainstorm-game, gds-create-game-brief]
+  plan: [gds-gdd, gds-create-narrative]
+  solution: [gds-game-architecture]
+  build: [gds-create-epics-and-stories, gds-create-story, gds-dev-story, gds-quick-dev]
+  verify: [gds-playtest-plan, gds-performance-test, gds-code-review]
+  anytime: [bmad-help, gds-investigate, gds-correct-course]
+wf_tools:
+  always: [memory, learn, audit, map]
+  by_stage:
+    build: [split-task, lock]
+    verify: [validate, mutate]
+gates: [dod.product_competitiveness_gate, dod.runs_from_clean_clone]
+mcp_recommend_categories: [docs-lookup]

@@ -1,0 +1,20 @@
+id: docs.artifacts_must_be_executable
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Every planning artifact must feed code, tests, a review checklist, user docs, or handoff — else it is ceremony.
+short_form: Keep docs short and executable; if an artifact feeds none of impl/tests/review/user-docs/handoff, cut it.
+full_text: |
+  Keep planning docs short, and make them EXECUTABLE: every artifact must feed at
+  least one of — implementation guidance, test cases, a review checklist, user
+  documentation, or future-agent handoff context. An artifact that feeds none of
+  these is passive prose; cut it. BMAD's advantage is risk-targeted VERIFICATION,
+  not planning volume — prefer a data-model contract (design.data_model_contract_
+  first) or a review checklist over a long narrative PRD. (Reinforces
+  orchestration.cost_governor.)

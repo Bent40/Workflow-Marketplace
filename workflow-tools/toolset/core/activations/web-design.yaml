@@ -1,0 +1,24 @@
+# Activation profile (boot design §6; D3: flat seeds + additive add-ons).
+# Consumed by `wf start` at scan time — never rendered into adapters.
+# Validated fail-closed by `wf start --check` (doctor check 42): every skill,
+# pack, wf tool, and gate listed here must exist.
+
+id: web-design
+summary: Design-first web work — WDS trigger-mapped scenarios into a design system.
+intent_keywords: [design, landing page, ui design, design system, brand site, visual design]
+stack_hints: [figma, tailwind, css]
+packs: [core, wds]
+default_size: small
+entry_skills:
+  discover: [wds-0-alignment-signoff, wds-1-project-brief]
+  plan: [wds-2-trigger-mapping, wds-3-scenarios]
+  solution: [wds-4-ux-design, wds-7-design-system]
+  build: [wds-5-agentic-development, wds-6-asset-generation]
+  verify: [bmad-code-review]
+  anytime: [bmad-help, wds-8-product-evolution]
+wf_tools:
+  always: [memory, learn, audit]
+  by_stage:
+    verify: [browse, validate]
+gates: [dod.real_browser_e2e_for_ui, dod.accessibility_gate]
+mcp_recommend_categories: [docs-lookup]

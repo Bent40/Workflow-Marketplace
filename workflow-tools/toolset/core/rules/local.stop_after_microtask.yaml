@@ -1,0 +1,18 @@
+id: local.stop_after_microtask
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+requires_capabilities:
+  - microtasks
+summary: A local model stops after each microtask; it does not chain.
+short_form: Stop after one microtask — hand back, don't chain into the next.
+full_text: |
+  After completing its single objective, the model stops and hands back a short
+  summary. It does not continue into the next microtask on its own; the
+  orchestrator sequences the next packet.

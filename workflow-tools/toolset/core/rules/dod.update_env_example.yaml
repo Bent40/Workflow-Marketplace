@@ -1,0 +1,16 @@
+id: dod.update_env_example
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Update .env.example for any new env vars before "done".
+short_form: New env var → add it to .env.example in the same change.
+full_text: |
+  If the work introduces a new environment variable, `.env.example` must be
+  updated with a placeholder entry for it in the same change, so the required
+  configuration stays documented. (Pairs with secrets.no_committed_env.)

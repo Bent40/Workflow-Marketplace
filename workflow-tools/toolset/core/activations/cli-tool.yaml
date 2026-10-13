@@ -1,0 +1,22 @@
+# Activation profile (boot design §6; D3: flat seeds + additive add-ons).
+# Consumed by `wf start` at scan time — never rendered into adapters.
+# Validated fail-closed by `wf start --check` (doctor check 42): every skill,
+# pack, wf tool, and gate listed here must exist.
+
+id: cli-tool
+summary: Command-line tool — small surface, clean-clone runnable, scriptable.
+intent_keywords: [cli, command line, terminal tool, console tool, command-line]
+stack_hints: [go, rust, python, node]
+packs: [core, bmm, tea]
+default_size: small
+entry_skills:
+  plan: [bmad-product-brief]
+  build: [bmad-quick-dev, bmad-create-story, bmad-dev-story]
+  verify: [bmad-testarch-automate, bmad-code-review]
+  anytime: [bmad-help, bmad-investigate, bmad-correct-course]
+wf_tools:
+  always: [memory, learn, audit, map]
+  by_stage:
+    verify: [validate, mutate]
+gates: [dod.runs_from_clean_clone]
+mcp_recommend_categories: [docs-lookup]

@@ -1,0 +1,35 @@
+id: design.spike_riskiest_operation
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: A feasibility spike must exercise the riskiest end-to-end operation inside the real target boundary before the choice becomes binding.
+short_form: Spike the RISKIEST end-to-end operation in the REAL target boundary (in-guest, post-sandbox/seccomp, target rootfs) before a dependency/approach choice binds — "it launches/connects" is not feasibility.
+full_text: |
+  Before a dependency or approach choice becomes BINDING, the feasibility spike
+  must exercise the story's RISKIEST end-to-end operation INSIDE the real target
+  boundary — the actual sandbox/seccomp profile, the in-guest rootfs, the target
+  OS/arch and privileges, the real network posture — not a friendly dev host.
+  "It launches" or "it connects" is smoke, not feasibility: the risk usually
+  lives in the first real operation (spawning a subprocess under seccomp,
+  writing through a brokered filesystem, a syscall the sandbox denies, a
+  library's process model meeting the isolation boundary).
+  Concretely:
+    - Name the riskiest operation the story depends on, and make the spike
+      perform IT, end to end, in the environment where it must eventually run.
+    - Fidelity checklist for the spike environment: same isolation boundary
+      (sandbox / microVM / container profile), same filesystem, same
+      privileges, same network reachability as the target.
+    - A spike that only passed on a friendly host leaves the feasibility
+      question OPEN — report it as open, and do not pin the dependency or
+      architecture on it.
+  Hard-won: a browser-automation library spike that "launched and connected"
+  on the dev host was adopted as proof of feasibility, then cost a ~25-hour
+  in-guest rewrite when its process model failed inside the real sandbox
+  boundary. The spike was green; the actual feasibility question was never
+  asked.

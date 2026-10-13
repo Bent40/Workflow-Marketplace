@@ -1,0 +1,58 @@
+id: reports.types_taxonomy
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: One catalog of the report TYPES and when each applies, tying every reports.* contract together under the shared frame.
+short_form: 'Pick the right report TYPE for the reply: Status · Action-Required · Decision · Validation · Handoff · Progress/Ledger · Blocker · Permission · Scope-Change — each routed to its reports.* content contract, all under reports.framing_standard.'
+full_text: |
+  There is one catalog of report TYPES. Every substantive reply IS one of these
+  types; the type names the <TYPE> in the reports.framing_standard header and
+  routes to the matching content contract. Pick the narrowest type that fits.
+
+  - Status — a normal "here is where things stand" reply: what is done, what
+    advanced, what (if anything) is needed from you. The default type when no more
+    specific one applies. Uses the markers directly (reports.framing_standard).
+  - Action-Required — the point of the reply is that the user must act: the
+    "🔴 Action required (you)" items are the payload. Enumerate each item.
+  - Decision — a choice is presented for the user to make → see
+    reports.decision_recommendation (decision · options w/ pro·con · recommendation
+    · who decides). Pair with the ⏸️ marker.
+  - Validation — a verification-only task (check/audit/confirm, nothing shipped) →
+    see reports.validation_summary (what was checked · how · result per claim ·
+    what could NOT be verified · confidence).
+  - Handoff — finished work handed back → see reports.final_handoff (completed ·
+    validated · NOT validated · changed files · risks · deferred · next action).
+  - Progress / Ledger — a mid-task update → see reports.progress_update (current
+    phase · what changed · checked next · blocker). The running ledger itself is
+    kept silently per reports.session_log and summarized, never dumped.
+  - Blocker — work is stopped and needs unblocking → see reports.blocker_escalation
+    (blocker · why it blocks · mockable? · attempted · next step).
+  - Permission — stopping to ask approval before a boundary-crossing action → see
+    reports.permission_request (action · why approval · risk if approved ·
+    consequence if declined · recommended · safe default). Pair with the ⏸️ marker.
+  - Scope-Change — the work would cross the accepted boundary → see
+    reports.scope_change_warning (what is outside scope · why · impact · options ·
+    recommendation).
+
+  A reply can carry more than one type (e.g. a Handoff that also raises a
+  Scope-Change); when so, lead with the most action-bearing type in the header and
+  fold the others in. Whatever the type, the reply is presented in the standard
+  frame (reports.framing_standard) and ALWAYS carries the explicit
+  "🔴 Action required (you)" line. Standardize the type catalog and routing, not
+  the exact wording.
+see_also:
+  - reports.framing_standard
+  - reports.final_handoff
+  - reports.progress_update
+  - reports.permission_request
+  - reports.blocker_escalation
+  - reports.validation_summary
+  - reports.scope_change_warning
+  - reports.decision_recommendation
+  - reports.session_log

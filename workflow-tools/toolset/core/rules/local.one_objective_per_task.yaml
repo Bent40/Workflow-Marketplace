@@ -1,0 +1,18 @@
+id: local.one_objective_per_task
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+requires_capabilities:
+  - microtasks
+summary: A local microtask has exactly one objective.
+short_form: One objective per microtask — nothing bundled.
+full_text: |
+  Each microtask given to a small-context model has exactly one concrete
+  objective. Do not bundle multiple changes into a single packet; split them into
+  separate microtasks.

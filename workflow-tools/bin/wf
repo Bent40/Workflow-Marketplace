@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# workflow-tools launcher. Claude Code puts this plugin's bin/ on PATH, so a
+# bare `wf` runs the toolset mirrored under ../toolset. WF_PROJECT_MODE=1 makes
+# every tool run in the caller's project, never in the read-only plugin cache.
+here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+py="$(command -v python3 || command -v python)" || {
+  echo 'wf: Python 3 is required (and PyYAML: pip install pyyaml)' >&2; exit 127; }
+export WF_PROJECT_MODE=1
+exec "$py" "$here/../toolset/scripts/wf" "$@"

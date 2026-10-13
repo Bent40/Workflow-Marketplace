@@ -1,0 +1,18 @@
+id: local.orchestrator_owns_integration
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+requires_capabilities:
+  - microtasks
+summary: The orchestrator owns decomposition, integration, and final acceptance.
+short_form: Orchestrator owns decomposition, integration, and final acceptance — not the local model.
+full_text: |
+  The orchestrating (stronger) model owns splitting work into packets,
+  integrating the returned diffs, and the final acceptance check. The local model
+  is responsible only for its single assigned microtask.

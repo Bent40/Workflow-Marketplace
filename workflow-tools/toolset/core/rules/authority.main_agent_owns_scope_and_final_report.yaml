@@ -1,0 +1,18 @@
+id: authority.main_agent_owns_scope_and_final_report
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: The main agent owns the task boundary, key decisions, verification, and final report.
+short_form: Main agent owns scope, verifies load-bearing claims, and produces the final report.
+full_text: |
+  The main / orchestrating agent remains the source of truth. It owns
+  understanding the request, defining the task boundary, preserving key
+  decisions, verifying load-bearing claims against the actual repo state, and
+  producing the user-facing final report. It does not delegate away those
+  responsibilities, even when execution is delegated.

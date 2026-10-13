@@ -1,0 +1,24 @@
+id: subagents.run_independent_review_subagent
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+requires_capabilities:
+  - subagents
+summary: Run the independent review as a separate review subagent in clean context.
+short_form: Implement independent review as a fresh-context review subagent.
+full_text: |
+  On a target with a subagent mechanism, run the independent review required by
+  review.require_independent_review_for_meaningful_changes as one or more
+  dedicated review subagents in a clean context — separate from the agent that
+  wrote the change — so the review is genuinely independent.
+
+  This is the Claude-specific MECHANISM for the universal review intent. It
+  requires the `subagents` capability, so it renders only into subagent-capable
+  targets — never Codex/Copilot/Gemini, which get the intent without this
+  mechanism.

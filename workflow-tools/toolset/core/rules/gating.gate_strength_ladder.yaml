@@ -1,0 +1,31 @@
+id: gating.gate_strength_ladder
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+summary: Match a check's ENFORCEMENT strength to its criticality — escalate deliberately, default to the cheapest sufficient tier.
+short_form: Pick the gate tier by stakes — in-prompt ask → re-checked condition → deterministic blocking hook → fresh-context reviewer; cheapest sufficient tier by default.
+full_text: |
+  A gate's ENFORCEMENT strength is a dial, not a binary — match it to how
+  consequential the check is, and default to the cheapest tier that actually holds.
+  The escalating ladder:
+    1. In-prompt ask — "before finishing, verify X." Cheapest; relies on the agent
+       remembering. Right for soft/low-stakes checks.
+    2. Re-checked condition — a stated goal/condition re-evaluated every turn (by a
+       separate evaluator where available). For a check that must keep holding as
+       work proceeds.
+    3. Deterministic blocking gate — a hook/script that BLOCKS turn-end until a
+       command passes, with a bounded block-count override so it can never deadlock.
+       For a must-hold invariant (tests green, no secret committed).
+    4. Fresh-context reviewer — a separate-context subagent re-deciding from scratch.
+       For the highest-stakes, judgment-heavy checks (security, honesty bars).
+  Cost is a quality axis here too (orchestration.cost_governor): escalate a tier
+  only when the lower one is insufficient for the stakes, and don't put a
+  fresh-reviewer gate on a typo check. This tells you WHEN wf guard or a hook is
+  warranted versus overkill, and composes with review.finding_protocol and the
+  honesty bar (honesty.no_fake_green) — a binary security/honesty bar always sits
+  at tier 3 or 4, never tier 1.

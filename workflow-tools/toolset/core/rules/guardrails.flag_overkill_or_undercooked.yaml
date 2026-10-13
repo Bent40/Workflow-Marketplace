@@ -1,0 +1,16 @@
+id: guardrails.flag_overkill_or_undercooked
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Visibly flag implementations that are overkill or undercooked for the scope.
+short_form: Flag overkill and undercooked work, with the specific gap or excess.
+full_text: |
+  Raise a short, visible flag when an implementation is overkill for the current
+  scope (suggest the simpler approach) or undercooked — missing edge cases or
+  error handling (name the specific gaps). Do not silently ship either.

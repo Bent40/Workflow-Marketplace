@@ -1,0 +1,7 @@
+# core/constitution/data.yaml — checkable data constraints (Epic C).
+constraints:
+  - id: DATA-1
+    statement: Provenance is fail-closed — unknown-origin data is treated as untrusted by default.
+    activation: default
+    check: "Show that unlabeled/unknown data defaults to untrusted."
+    severity: high

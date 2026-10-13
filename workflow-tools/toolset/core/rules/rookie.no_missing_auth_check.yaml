@@ -1,0 +1,21 @@
+id: rookie.no_missing_auth_check
+scope: universal
+severity: critical
+activation: default
+path_group: security
+review_note: >-
+  Verify every protected route/handler/action enforces authentication AND the
+  correct per-resource authorization; flag UI-only gating and
+  authentication-without-authorization.
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Protected routes and actions must enforce authentication and authorization.
+short_form: Don't leave protected routes/actions without an auth check.
+full_text: |
+  Every route, endpoint, or action that is meant to be protected must enforce
+  authentication and the correct authorization check. Do not rely on the UI
+  hiding a control as the only barrier.

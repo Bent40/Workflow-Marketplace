@@ -1,0 +1,17 @@
+id: guardrails.use_pro_con_for_tradeoffs
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Use pro/con analysis for meaningful tradeoffs, not for trivial local choices.
+short_form: Pro/con + a recommendation for real tradeoffs; just decide trivial ones.
+full_text: |
+  When a decision is genuinely situational, give a brief pro/con and a
+  recommendation, then proceed once it is settled. Do not spend this ceremony on
+  trivial local choices (names, where a helper lives, formatting) — make those
+  calls and keep moving.

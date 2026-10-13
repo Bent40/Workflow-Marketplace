@@ -1,0 +1,23 @@
+# Activation profile (boot design §6; D3: flat seeds + additive add-ons).
+# Consumed by `wf start` at scan time — never rendered into adapters.
+# Validated fail-closed by `wf start --check` (doctor check 42): every skill,
+# pack, wf tool, and gate listed here must exist.
+
+id: toolset-dev
+summary: Building the toolset itself — skills, agents, modules, workflows (governance-gated).
+intent_keywords: [skill, agent skill, claude skill, module, workflow tool, toolset]
+stack_hints: []
+packs: [core, bmb, custom, workflow]
+default_size: small
+entry_skills:
+  discover: [bmad-skill-gap-retrospective]
+  plan: [bmad-skill-governance]
+  build: [bmad-agent-builder, bmad-workflow-builder, bmad-module-builder]
+  verify: [bmad-eval-runner, bmad-eval-inline]
+  anytime: [bmad-help, workflow-operating-model]
+wf_tools:
+  always: [memory, learn, audit, map]
+  by_stage:
+    verify: [eval, doctor]
+gates: [docs.artifacts_must_be_executable]
+mcp_recommend_categories: [docs-lookup]

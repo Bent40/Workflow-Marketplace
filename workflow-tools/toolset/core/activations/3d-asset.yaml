@@ -1,0 +1,20 @@
+# Activation profile (boot design §6; D3: flat seeds + additive add-ons).
+# Consumed by `wf start` at scan time — never rendered into adapters.
+# Validated fail-closed by `wf start --check` (doctor check 42): every skill,
+# pack, wf tool, and gate listed here must exist.
+
+id: 3d-asset
+summary: Concept-art → 3D pipeline — watertight print, game asset, or voxel build (local box).
+intent_keywords: [3d, print, 3d model, minecraft build, game asset, stl, voxel]
+stack_hints: [comfyui, blender]
+packs: [core, 3d]
+default_size: small
+entry_skills:
+  discover: [3d-help]
+  build: [3d-create]
+  verify: [3d-troubleshoot]
+  anytime: [3d-mode, 3d-setup, bmad-help]
+wf_tools:
+  always: [memory, learn]
+gates: []
+mcp_recommend_categories: []

@@ -1,0 +1,22 @@
+# Activation profile (boot design §6; D3: flat seeds + additive add-ons).
+# Consumed by `wf start` at scan time — never rendered into adapters.
+# Validated fail-closed by `wf start --check` (doctor check 42): every skill,
+# pack, wf tool, and gate listed here must exist.
+
+id: library
+summary: Reusable library / package / SDK — API-stability- and docs-sensitive.
+intent_keywords: [library, package, sdk, framework, npm package, pypi]
+stack_hints: [python, node, rust, go]
+packs: [core, bmm, tea]
+default_size: small
+entry_skills:
+  plan: [bmad-product-brief, bmad-prd]
+  build: [bmad-quick-dev, bmad-dev-story]
+  verify: [bmad-testarch-automate, bmad-testarch-test-review, bmad-code-review]
+  anytime: [bmad-help, bmad-investigate, bmad-correct-course]
+wf_tools:
+  always: [memory, learn, audit, map]
+  by_stage:
+    verify: [validate, mutate]
+gates: [dod.runs_from_clean_clone, dod.update_docs_on_behavior_change]
+mcp_recommend_categories: [docs-lookup]

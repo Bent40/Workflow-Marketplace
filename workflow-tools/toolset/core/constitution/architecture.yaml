@@ -1,0 +1,7 @@
+# core/constitution/architecture.yaml — checkable architecture constraints (Epic C).
+constraints:
+  - id: ARCH-1
+    statement: Enforcement happens at a single chokepoint, never N scattered checks.
+    activation: default
+    check: "Identify the one place the invariant is enforced."
+    severity: high

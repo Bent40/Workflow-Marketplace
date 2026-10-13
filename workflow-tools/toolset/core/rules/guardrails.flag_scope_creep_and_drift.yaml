@@ -1,0 +1,16 @@
+id: guardrails.flag_scope_creep_and_drift
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Flag scope creep and drift from the architecture or decision logs.
+short_form: Flag scope creep and any drift from architecture/decision records.
+full_text: |
+  Raise a visible flag when work starts to exceed the agreed scope, or when an
+  implementation diverges from the architecture or a recorded decision. Surface
+  it rather than quietly absorbing the drift.

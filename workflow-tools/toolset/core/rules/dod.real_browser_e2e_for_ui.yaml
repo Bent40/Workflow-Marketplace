@@ -1,0 +1,32 @@
+id: dod.real_browser_e2e_for_ui
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: A meaningful browser UI ships at least one real-browser end-to-end happy path.
+short_form: For real browser UI add >=1 real-browser E2E happy path — fake-DOM/unit tests are not enough; assert no console errors / no failed requests on it. Persist the evidence (`wf browse run --evidence-dir`) into a committed tree and link it from the handoff.
+full_text: |
+  Unit tests and fake-DOM smoke tests do not exercise real rendering, layout,
+  focus, or browser APIs. If the project has a meaningful browser UI, include at
+  least one real-browser end-to-end happy path (e.g. Playwright / Puppeteer) that
+  drives the actual app. Keep the E2E tooling a dev-dependency so it does not
+  change the shipped app's dependency footprint. Scale it up with the product
+  (for a CRM: create -> link -> move-stage -> persist).
+  The happy path should also assert the page is CLEAN, not just that the text
+  appeared: no console errors and no failed (>=400 / network-failed) requests
+  during the run — that catches a whole class of "looks fine, is broken"
+  regressions a screenshot or assert_text is blind to. `wf browse run` supports
+  this directly via the assert_no_console_errors / assert_no_failed_requests step
+  kinds (with an ignore list for known analytics/favicon noise). On a UI failure,
+  capture the console + failed-requests + a screenshot as the repro
+  (review.finding_protocol). For a meaningful-UI verification, persist that evidence
+  durably rather than to the gitignored `.wf/`: `wf browse run --evidence-dir
+  _workflow/evidence/<task>/` writes the screenshots, a machine-readable results.json
+  (per-step PASS/FAIL + the run exit code), and a one-page walkthrough.md into the
+  committed tree, and LINK it from the final handoff — the manifest embeds the exit
+  codes, so the artifact is EARNED from the run, never a bare screenshot.

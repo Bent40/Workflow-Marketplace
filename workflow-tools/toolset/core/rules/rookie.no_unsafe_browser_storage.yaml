@@ -1,0 +1,21 @@
+id: rookie.no_unsafe_browser_storage
+scope: universal
+severity: high
+activation: default
+path_group: frontend
+review_note: >-
+  Flag tokens, credentials, or sensitive data placed in localStorage or in
+  cookies missing HttpOnly/Secure/SameSite; confirm storage matches the data's
+  sensitivity.
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Don't store sensitive data in localStorage or unflagged cookies.
+short_form: Keep secrets/tokens out of localStorage and unflagged cookies.
+full_text: |
+  Do not place tokens, credentials, or sensitive data in localStorage or in
+  cookies without the appropriate flags (HttpOnly, Secure, SameSite). Choose
+  storage based on the data's sensitivity and the threat model.

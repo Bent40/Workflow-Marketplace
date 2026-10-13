@@ -1,0 +1,21 @@
+id: rookie.no_sql_injection
+scope: universal
+severity: critical
+activation: default
+path_group: security
+review_note: >-
+  Flag any query assembled by string concatenation/interpolation of
+  request-derived values; confirm parameterized queries, bound parameters, or a
+  vetted ORM/query builder.
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Never build queries by string concatenation — parameterize them.
+short_form: No string-built queries; use parameterized queries / safe query APIs.
+full_text: |
+  Do not assemble SQL (or any query language) by concatenating or interpolating
+  user-influenced values — that is an injection risk. Use parameterized queries,
+  bound parameters, or a vetted query builder/ORM.

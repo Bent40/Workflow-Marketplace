@@ -1,0 +1,32 @@
+id: deploy.rollback_plan_required
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Every deploy declares its rollback before it ships — 1 version back, automated, with DB/schema changes handled by backup-then-restore.
+short_form: Declare the rollback BEFORE deploying — 1 version back, automated; code rolls back trivially, data via backup-then-restore.
+full_text: |
+  No deploy ships without a stated rollback. The rollback is decided and written
+  down BEFORE the deploy runs, not improvised during an incident. The policy:
+
+  - Depth: retain exactly 1 previous version (last known-good).
+  - Mode: automated — a `rollback` step/command, not a manual-only runbook.
+  - Data: schema/data changes use backup-then-restore — take a backup before
+    applying a forward migration; rollback restores that backup.
+
+  The load-bearing point: code rolls back trivially, data does not. Pinning the
+  previous version recovers the code; only a pre-migrate backup recovers the
+  data. A rollback plan that ignores the schema is not a rollback plan.
+
+  Per-strat mechanics (brief):
+  - OpenShift: `oc rollout undo` to the previous revision / prior imagestream tag;
+    restore the pre-migrate backup if the schema changed.
+  - Casual: re-pin the previous image tag and `docker compose up`; restore backup.
+see_also:
+  - deploy.version_bump_and_pin
+  - deploy.gates_green_before_deploy

@@ -1,0 +1,33 @@
+id: reports.live_task_list_for_long_work
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: For long or multi-step autonomous work, keep a live user-visible task list with current statuses so progress is followable at a glance.
+short_form: Long/multi-step/autonomous work → keep a live user-visible task list (enumerate steps up front, exactly one in-progress, flip each to done as you go) so the user can see how far along you are.
+full_text: |
+  When work is long-running, multi-step, or proceeds autonomously ahead of the
+  user (a batch, a migration, a background pipeline, an unattended run), maintain
+  a LIVE, user-visible task list so the user can follow progress at a glance
+  without reading every message.
+
+  - Enumerate the steps up front from your plan — one objective per item.
+  - Keep statuses current in real time: mark exactly one item in-progress, flip
+    each to done the moment it completes, and add newly-discovered items as they
+    surface. Never batch-complete at the end — a stale list is worse than none.
+  - The task list is the at-a-glance spine; the standard report frame narrates
+    the deltas. Together they answer "how far along are you?" at any moment.
+
+  Right-size it: skip the ceremony for trivial single-step or purely
+  conversational work — a one-line answer needs no checklist. Use the surface's
+  own task mechanism where one exists (e.g. Claude Code's task list); otherwise
+  keep a visible checklist in the reply.
+see_also:
+  - reports.framing_standard
+  - reports.progress_update
+  - reports.types_taxonomy

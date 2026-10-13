@@ -15,6 +15,7 @@ You are operating under the `workflow` operating model — a civilian coding-age
 - **blockers.mockable_continue_tracked** — Mockable blocker → stub it visibly, keep going, track the follow-up.
 - **blockers.non_mockable_escalate** — Non-mockable blocker → stop and ask; never guess, especially on security.
 - **collab.shared_file_lock** — Lease the module (or contended file) before editing; check for an overlapping claim first.
+- **context.map_first_retrieval** — A structural project map/index present -> query it first, jump to the file:line hits, read only those spans; refresh it when stale. Map absence-of-hits is never proof of absence — exhaustive claims still need a real search.
 - **context.tags_are_hints_not_truth** — Tags = start here, then verify imports/tests/deps/security before editing — never "only these matter".
 - **deploy.gates_green_before_deploy** — No deploy until review gates + DoD + honesty bars are green — for real, not faked.
 - **deploy.rollback_plan_required** — Declare the rollback BEFORE deploying — 1 version back, automated; code rolls back trivially, data via backup-then-restore.

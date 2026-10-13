@@ -1,0 +1,73 @@
+id: reports.framing_standard
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Frame nearly every substantive reply with a typed header and a mandatory status-marker vocabulary, always stating "Action required (you)" explicitly — even when none.
+short_form: 'Substantive replies use the standard frame: a `### <emoji> <TYPE> — <subject>` header + the four status markers; the "🔴 Action required (you)" line is ALWAYS present, stated "none" when there is nothing.'
+full_text: |
+  Nearly every substantive reply uses one scannable, consistent frame so the
+  human can tell at a glance what is DONE, what the agent did ON ITS OWN, and —
+  above all — what action is THEIRS. This is the shared presentation layer for
+  every report type in reports.types_taxonomy; the per-type rules
+  (reports.final_handoff, reports.decision_recommendation, …) define the CONTENT,
+  this rule defines the FRAME they are presented in.
+
+  HEADER LINE — every substantive reply opens with a scannable header:
+
+      ### <emoji> <TYPE> — <subject>
+
+  where <TYPE> is one of the report types in reports.types_taxonomy (Status,
+  Action-Required, Decision, Validation, Handoff, Progress, Blocker, Permission,
+  Scope-Change) and <subject> is the one-line topic.
+
+  STATUS-MARKER VOCABULARY — mandatory, used wherever each applies, each visually
+  distinct so the kind of item is unmissable at a glance:
+
+      ✅ **Done (me)** — completed AND verified by the agent (not just written —
+         checked: command run, test passed, inspected).
+      🟡 **Advanced (me)** — done autonomously inside the already-approved scope;
+         FYI, no action needed from you.
+      🔴 **Action required (you)** — blocked on the user; enumerate EACH item as
+         its own line so none is missed.
+      ⏸️ **Awaiting your decision** — a choice the agent will not make alone;
+         pair with the decision/permission content (reports.decision_recommendation
+         or reports.permission_request).
+
+  HARD RULE — the "🔴 **Action required (you)**" line is ALWAYS present in a
+  substantive reply. When there is genuinely nothing for the user to do, state it
+  explicitly:
+
+      🔴 **Action required (you):** none
+
+  Never omit the line — its absence must never be ambiguous with "nothing
+  required." This explicit line is the guarantee against the two recurring
+  failures this rule exists to fix: the user missing an action that was theirs,
+  and the agent advancing silently past a point that needed a decision. The "✅
+  Done (me)" vs "🟡 Advanced (me)" split keeps verified work separate from
+  autonomous-but-unverified progress (honesty.no_fake_green); "⏸️ Awaiting your
+  decision" enforces the authority boundary
+  (authority.ask_before_high_impact_decisions) in the presentation layer.
+
+  LIGHTWEIGHT THRESHOLD — keep it proportional. A trivial one-line answer (a
+  direct factual reply, a yes/no, a quick lookup that changes nothing and needs
+  nothing from the user) does NOT need the full frame: signal over ceremony. The
+  full frame is required once a reply reports DONE/CHANGED work, an autonomous
+  advance, a blocker, a decision, or anything the user might need to act on — i.e.
+  any reply where missing a required action would be costly. When in doubt, frame
+  it. Standardize the frame and the markers, not the exact prose.
+see_also:
+  - reports.types_taxonomy
+  - reports.final_handoff
+  - reports.progress_update
+  - reports.permission_request
+  - reports.blocker_escalation
+  - reports.validation_summary
+  - reports.scope_change_warning
+  - reports.decision_recommendation
+  - reports.session_log

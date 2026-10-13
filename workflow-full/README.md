@@ -12,7 +12,7 @@ regenerated from source and republished as a whole.
   `additionalContext` at session start — no external dependency). Ships both
   a bash hook (macOS/Linux) and a PowerShell hook (Windows), so the operating
   model loads on every platform, not just Unix.
-- 131 skill(s) under `skills/`.
+- 133 skill(s) under `skills/`.
 
 ## Install
 
@@ -147,6 +147,8 @@ regenerated from source and republished as a whole.
 - `wds-7-design-system`
 - `wds-8-product-evolution`
 - `workflow-operating-model`
+- `workflow-find`
+- `workflow-cli`
 - `bmad-competitive-features`
 - `bmad-decision-propagation`
 - `bmad-security-decision-framing`

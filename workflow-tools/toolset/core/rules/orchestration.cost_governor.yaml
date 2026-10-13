@@ -1,0 +1,45 @@
+id: orchestration.cost_governor
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Treat token and time cost as a first-class quality metric, not a postmortem note.
+short_form: Spend the smallest process that covers the risk; budget the review fleet and build effort per size tier, and stop adding review passes once the risk is covered.
+full_text: |
+  Token and time cost is a quality axis the work is judged on — govern it DURING
+  the work, not in hindsight. Practically:
+    - Estimate size and pick depth from it (gating.right_size_process_to_project).
+    - Prefer compact, high-signal artifacts; never pad a document to look thorough.
+    - Summarize or offload finished artifacts out of the live context instead of
+      carrying them all forward (see orchestration.keep_main_context_lean).
+    - Stop writing process docs once they no longer reduce risk or unlock
+      implementation clarity.
+    - The connected tool/MCP surface is part of the budget: keep it lean (~5
+      high-signal servers; beyond ~5-7, tool-selection measurably degrades), and
+      load tool definitions on demand (see tooling.mcp_connect_gate).
+  The budget covers the WHOLE spend, not just prose: the REVIEW-SUBAGENT FLEET
+  and the build effort sit inside the same per-tier budget as the documents —
+  in practice they, not the docs, become the dominant cost. Per size tier
+  (gating.right_size_process_to_project), cap the review fleet and total
+  token/tool spend BEFORE starting:
+    - Tiny: 0 review subagents (inline checklist only); total spend ≈ a strong
+      bare build's.
+    - Small: at most ONE targeted reviewer; total spend within ~1.5x a strong
+      bare build.
+    - Medium: at most the Tier-3 review set (schema + security + full-stack) —
+      and only the members whose risk class is actually present.
+    - Large: the full gate set, each pass still individually budgeted
+      (orchestration.subagent_trigger_thresholds).
+  STOP-RULE: once every identified risk class has one covering review pass,
+  STOP — a further pass over already-covered risk is ceremony, not
+  verification. (Hard-won: with only the documents budgeted, the review fleet
+  drove a 2.8-5x cost multiple over a bare build across a three-domain sweep,
+  including a full adversarial reviewer spawned on a toy for a +2 gain.)
+  Every phase must justify itself by one of: (1) it improved the product, (2) it
+  reduced future risk, or (3) it made verification stronger. A phase that does
+  none of these is ceremony — cut it.

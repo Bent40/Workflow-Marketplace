@@ -1,0 +1,21 @@
+id: rookie.no_missing_input_validation
+scope: universal
+severity: high
+activation: default
+path_group: backend
+review_note: >-
+  Confirm inputs crossing a trust boundary (request bodies, params, uploads,
+  external payloads) are validated for type/range/length/shape before use or
+  persistence; flag raw trust.
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Validate user-facing inputs before trusting or persisting them.
+short_form: Validate user-facing input; don't trust it raw.
+full_text: |
+  Validate and constrain inputs that cross a trust boundary (request bodies,
+  query params, uploaded files, external payloads) before using or persisting
+  them — type, range, length, and shape. Reject or sanitize what does not fit.

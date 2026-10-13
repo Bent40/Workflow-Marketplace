@@ -1,0 +1,24 @@
+id: dod.runs_from_clean_clone
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Verify the project from a fresh checkout with no deps installed, incl. dependency/README packaging checks.
+short_form: Fresh temp dir, no node_modules → install/seed/start/test/e2e; every README command and imported dep must be declared.
+full_text: |
+  "Works in this session / on my machine" is not done. From a FRESH temp dir with
+  NO node_modules, verify the documented path end to end:
+    1. install (npm ci / npm install)   2. seed (if documented)
+    3. start   4. test   5. e2e (if documented)
+  Then two packaging checks the happy path alone misses:
+    - every command in the README exists in package.json scripts, and
+    - every imported dependency — runtime AND test/dev (e.g. the E2E's Puppeteer/
+      Playwright) — is DECLARED in package.json. An undeclared dep that happens to
+      be present locally is a latent clean-clone failure (it bit a real CRM build).
+  Ship a real run command; never rely on "just open index.html". Write the README
+  for a stranger/beginner.

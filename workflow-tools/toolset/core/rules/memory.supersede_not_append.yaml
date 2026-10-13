@@ -1,0 +1,25 @@
+id: memory.supersede_not_append
+scope: universal
+severity: low
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Persistent project facts supersede — record the new value (it closes the old) and retract a fact that stops holding; trust live recall.
+short_form: When a project fact changes, record the new one (wf learn add auto-supersedes the contradicting live fact) and retract a fact that no longer holds — never let stale and current facts both sit live.
+full_text: |
+  A persistent project-fact store is only trustworthy if a CHANGED fact does not
+  leave its stale predecessor live next to it. When a durable project-operational
+  fact changes, record the new value rather than reasoning around the old one:
+  `wf learn add` adjudicates deterministically — an identical fact is a NOOP, and a
+  new value for the same (key, type) SUPERSEDES the prior live fact (stamping its
+  validity end, kept as auditable history, never blind-appended). When a fact stops
+  being true and has no replacement, `wf learn retract --key <k>` closes it. Recall
+  (`list`/`search`/`export`) returns LIVE facts by default, so trust it as current
+  and reach for `--all` only when you need the history. This keeps the store small
+  and correct (no "FOO=bar" sitting beside a later "FOO=baz"). Scope stays as ever:
+  only durable facts ABOUT THE PROJECT belong here — never ephemeral toolset/skill
+  reflections (CLAUDE.md, DECISIONS D4).

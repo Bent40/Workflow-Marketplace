@@ -1,0 +1,14 @@
+[
+  { "query": "is there a workflow skill for writing a PRD?", "should_trigger": true },
+  { "query": "what can workflow do for test planning?", "should_trigger": true },
+  { "query": "find a tool in the toolset for reviewing my spec for edge cases", "should_trigger": true },
+  { "query": "which plugin do I need to design a game?", "should_trigger": true },
+  { "query": "does the toolset have anything for turning concept art into a 3D print?", "should_trigger": true },
+  { "query": "search the workflow skills for something that does brainstorming", "should_trigger": true },
+  { "query": "onboard this repo", "should_trigger": false },
+  { "query": "what should I do next in BMad?", "should_trigger": false },
+  { "query": "load the workflow operating model", "should_trigger": false },
+  { "query": "run code review on this diff", "should_trigger": false },
+  { "query": "find all usages of parseConfig in this codebase", "should_trigger": false },
+  { "query": "check sprint status", "should_trigger": false }
+]

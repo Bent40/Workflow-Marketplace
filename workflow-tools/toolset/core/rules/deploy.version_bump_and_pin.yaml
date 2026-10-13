@@ -1,0 +1,29 @@
+id: deploy.version_bump_and_pin
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: A deploy bumps and pins a version; the pinned image tag is the current-version pointer.
+short_form: Every deploy bumps and pins a version — the pinned image tag is the current-version pointer.
+full_text: |
+  A deploy is a versioned event. It bumps the version and pins it to the shipped
+  artifact, so what is running is always an identifiable, reproducible version —
+  never a floating `latest`.
+
+  - Bump the version as part of the deploy (commit convention covers the bump:
+    git.commit_convention_version_bump).
+  - Pin the artifact to that version — an exact image tag, not a moving alias.
+  - The current-version pointer is the pinned image tag (OpenShift/Casual). That
+    pointer is what a rollback re-pins to the previous version, so it must stay
+    accurate.
+
+  Unpinned or unbumped deploys make "what is running?" and "roll back to what?"
+  unanswerable. The version pointer is the single source of truth for both.
+see_also:
+  - git.commit_convention_version_bump
+  - deploy.rollback_plan_required

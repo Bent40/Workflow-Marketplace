@@ -1,0 +1,24 @@
+# Activation profile (boot design §6; D3: flat seeds + additive add-ons).
+# Consumed by `wf start` at scan time — never rendered into adapters.
+# Validated fail-closed by `wf start --check` (doctor check 42): every skill,
+# pack, wf tool, and gate listed here must exist.
+
+id: ml-model-ops
+summary: Local-model ops — measurement baseline, finetune loop, judge calibration.
+intent_keywords: [finetune, fine-tune, train a model, llm ops, model evaluation, judge calibration, local model]
+stack_hints: [torch, transformers, unsloth]
+packs: [core, bmm]
+default_size: medium
+entry_skills:
+  plan: [bmad-technical-research]
+  build: [bmad-quick-dev]
+  verify: [bmad-testarch-automate, bmad-code-review]
+  anytime: [bmad-help, bmad-investigate, bmad-correct-course]
+wf_tools:
+  always: [memory, learn, audit, map]
+  by_stage:
+    build: [trace]
+    verify: [orchestra, calibrate, eval]
+    release: [finetune]
+gates: [orchestration.finetune_from_verified_traces]
+mcp_recommend_categories: [docs-lookup]

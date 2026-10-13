@@ -1,0 +1,21 @@
+id: blockers.mockable_continue_tracked
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: If a blocker is safely mockable, stub it visibly and track it as follow-up.
+short_form: Mockable blocker → stub it visibly, keep going, track the follow-up.
+full_text: |
+  When work is blocked by something safely mockable — a missing API endpoint, an
+  unavailable external service, a missing env var value, a missing test fixture,
+  a UI dependency on an unbuilt component, or an incomplete non-security
+  integration — stub or mock it and continue.
+
+  - Mark the stub unmistakably (e.g. a `MOCK:`/`STUB:` comment) and a TODO noting
+    what must replace it.
+  - Record it as deferred follow-up so it is not mistaken for finished work.

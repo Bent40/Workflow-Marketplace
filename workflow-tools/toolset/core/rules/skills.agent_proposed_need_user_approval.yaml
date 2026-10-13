@@ -1,0 +1,18 @@
+id: skills.agent_proposed_need_user_approval
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+requires_capabilities:
+  - bmad_skills
+summary: Agent-proposed skills are reported, not merged, until the user approves keeping them.
+short_form: "Agent-proposed skills: report and wait for explicit user approval before merging."
+full_text: |
+  A skill the agent proposes itself (e.g. from a gap retrospective) is built on a
+  branch and reported, but not merged until the user explicitly approves keeping
+  it. An agent does not unilaterally adopt a skill it proposed.

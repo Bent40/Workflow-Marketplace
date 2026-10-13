@@ -1,0 +1,5 @@
+# core/modes/act.yaml — Act mode contract (Epic F / F1).
+id: act
+summary: Execute approved changes.
+may: [edit_approved_files]
+must: [validate, report_changed_files]

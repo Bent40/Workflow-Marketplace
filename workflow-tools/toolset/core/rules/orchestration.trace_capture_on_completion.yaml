@@ -1,0 +1,40 @@
+id: orchestration.trace_capture_on_completion
+scope: universal
+severity: low
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: When a project opts into trace capture, record one ground-truth process trail at task completion — the lighter end-of-task capture, never a fabricated label.
+short_form: If trace capture is enabled (a `_workflow/traces/.enabled` marker / `wf trace enable`), then at the END of a non-trivial task emit ONE trail via `wf trace record` — the stages you went through + the EXECUTABLE signals you actually ran (test/eval/browse/mutate/audit exit codes). Never assert a label; `wf trace` computes it from the signals. Off by default — never capture unasked.
+full_text: |
+  This composes with orchestration.ambient_task_router: the router already drives
+  a task through classify -> plan -> implement -> test -> review -> report, so the
+  completion of that trajectory is the natural, low-overhead point to capture a
+  training trail — ONCE, at the end, not a tool-call per stage.
+
+  WHEN: only if the project has explicitly OPTED IN (a `_workflow/traces/.enabled`
+  marker exists, created by `wf trace enable`). Off by default — never record a
+  user's work unasked; trace capture is a deliberate data-generation choice, and a
+  trail inherits the project's privacy (a secure/org project's traces stay private,
+  never civilian-public).
+
+  HOW: at task completion, assemble the trail and emit it in ONE call —
+  `wf trace record --json '{...}'` (or --file) — with:
+    - task + classification (size/type/risk, as the router tagged it);
+    - stages: the trajectory you actually followed (classify/plan/explore/
+      decision/implement/test/review/fix/report), each a short content line;
+    - signals: the EXECUTABLE ground-truth results you genuinely ran this task —
+      a test command + its real exit code, an eval/browse/mutate/audit exit code.
+      Record the real exit codes; do NOT invent a passing signal.
+
+  HONESTY: never set a label. `wf trace` computes it from the signals (verified
+  only on a real passing executable signal + the required stages), `record` ignores
+  any payload label, and `export --verified-only` recomputes — so a captured trail
+  can only become training-grade by having genuinely passed. A trail with no
+  executable signal is captured as `unverified` (still useful as a process record,
+  but never fed to training). This is what makes the captured curriculum
+  trustworthy (orchestration.finetune_from_verified_traces).

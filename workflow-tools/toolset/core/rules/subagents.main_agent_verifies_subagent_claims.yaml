@@ -1,0 +1,23 @@
+id: subagents.main_agent_verifies_subagent_claims
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+requires_capabilities:
+  - subagents
+summary: The main agent verifies subagent claims against the actual repo state.
+short_form: Never trust a subagent's summary blindly — verify load-bearing claims.
+full_text: |
+  When work is delegated to subagents, the main agent remains the source of
+  truth: it verifies load-bearing claims against the actual repo state (read the
+  files, run the suite) before relying on them, rather than trusting a subagent's
+  summary.
+
+  This rule requires the `subagents` capability, so it renders ONLY into targets
+  that actually have a subagent mechanism (Claude Code) — not Codex/Copilot/
+  Gemini, which would otherwise receive guidance they cannot act on.

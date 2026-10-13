@@ -18,6 +18,11 @@
       "description": "Every stock BMAD skill (all upstream modules) — the one-shot everything bundle, on top of workflow-core."
     },
     {
+      "name": "workflow-tools",
+      "source": "./workflow-tools",
+      "description": "The workflow `wf` command-line tools on your PATH: project boot scan (wf start), structural map, function catalog, spec pack, story audit, learnings store, guardrails, real-browser E2E, mutation gate and more. Needs Python 3 + PyYAML."
+    },
+    {
       "name": "workflow-method",
       "source": "./workflow-method",
       "description": "BMad Method — the agile SDLC: analyst/PM/architect/dev/UX agents, PRD, epics, stories, sprints, and the dev/review loop. Needs workflow-core."

@@ -1,0 +1,18 @@
+id: tooling.gap_retrospective_after_meaningful_work
+scope: universal
+severity: low
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: After meaningful work, reflect on recurring friction and decide the cheapest toolset fix.
+short_form: After meaningful work, run a gap retrospective; improve the toolset only where it pays off.
+full_text: |
+  At the end of a meaningful session or task, reflect on what caused recurring,
+  consequential friction — what slowed you down, what you almost missed, what
+  needed repeated reasoning or manual verification — and decide the cheapest
+  sufficient improvement (often: do nothing, update docs, or add a check). Keep
+  this reflection separate from the project's own deliverables.

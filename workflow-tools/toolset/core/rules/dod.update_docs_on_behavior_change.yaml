@@ -1,0 +1,16 @@
+id: dod.update_docs_on_behavior_change
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Update docs / decision logs when architecture, API, behavior, or setup changes.
+short_form: Behavior/API/arch/setup changed → update the docs and decision logs.
+full_text: |
+  When a change affects architecture, a public API/contract, user-facing
+  behavior, or setup steps, update the relevant docs and decision logs in the
+  same unit of work — so the written record matches what the code now does.

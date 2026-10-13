@@ -1,0 +1,27 @@
+id: context.tags_are_hints_not_truth
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Context tags guide where to START; they are not proof of completeness.
+short_form: Tags = start here, then verify imports/tests/deps/security before editing — never "only these matter".
+full_text: |
+  Context tags — work-area and risk tags declared on a story or resolved via
+  `wf context` — are GUIDANCE for INITIAL context selection. They are NOT
+  truth, and NOT a trust or authorization boundary. A tag set tells you where to
+  START looking; it never tells you that nothing else matters.
+
+  - Wrong: "the story is tagged [UI] [DB], so only UI and DB code is in scope."
+  - Right: "tagged [UI] [DB] -> START with UI and DB context, THEN verify
+    imports, tests, routes, storage, security, permissions, and adjacent
+    dependencies before editing."
+
+  Risk tags (e.g. SECURITY, USER_DATA, MIGRATION, BREAKING_CHANGE) additionally
+  raise review/reporting OBLIGATIONS — security review, privacy/data-handling
+  check, rollback note, contract/API warning. Satisfy the obligation; never
+  treat the tag itself as the work done.

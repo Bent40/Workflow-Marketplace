@@ -1,0 +1,31 @@
+id: orchestration.cascade_routing
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+requires_capabilities:
+  - subagents
+summary: Run the cheap tier first and escalate to a stronger model ONLY when an EXTERNAL verifier fails — never on the model's self-confidence.
+short_form: Default delegated/mechanical work to a cheaper model; escalate to a stronger one only when an EXTERNAL verifier (tests/schema/a review gate) fails — not when the model says it's unsure (self-confidence is badly calibrated).
+full_text: |
+  Spend model capability where outcome value justifies it. Put MECHANICAL and
+  EXPLORATION work — codebase mapping, narrow edits, format/lint passes, bulk
+  reads — on a CHEAPER model tier by default (native per-subagent model selection,
+  not a request-rewriting proxy), and reserve the strong model for the hard
+  reasoning and the final integration the main agent owns.
+  When you do escalate, the trigger MUST be an EXTERNAL verifier, never the model's
+  own confidence. LLM self-assessment ("I think this is right / I'm unsure") is
+  badly calibrated, so "escalate when the model feels unsure" silently fails. Run
+  the cheap attempt, accept it ONLY if a real external check passes — the test
+  suite, a schema/type check, or a review gate (review.security_probe_baseline /
+  review.finding_protocol) — and escalate to the stronger model only when that
+  check FAILS. This is the same strong-verifier discipline the honesty bar already
+  requires (honesty.no_fake_green), applied to cost: a cheap pass that clears a
+  real verifier is a real pass; one that only clears self-confidence is not.
+  Composes with orchestration.cost_governor and the delegation selector
+  (orchestration.delegation_primitive_selector) — pick the primitive first, then
+  the cheapest tier that the verifier will still hold.

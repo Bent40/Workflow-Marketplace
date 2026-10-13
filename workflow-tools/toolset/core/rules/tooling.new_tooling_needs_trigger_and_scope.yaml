@@ -1,0 +1,17 @@
+id: tooling.new_tooling_needs_trigger_and_scope
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: New tooling needs a clear trigger and a tight, non-overlapping scope.
+short_form: Only add new tooling with an unambiguous trigger and tight, non-duplicating scope.
+full_text: |
+  When new tooling is justified, it must have an unambiguous trigger (when it
+  applies), a tight scope, and no overlap with existing tooling. A vague trigger,
+  or a scope that duplicates something you already have, is a reason not to
+  create it.

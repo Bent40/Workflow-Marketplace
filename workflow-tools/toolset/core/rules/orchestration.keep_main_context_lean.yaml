@@ -1,0 +1,17 @@
+id: orchestration.keep_main_context_lean
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Keep the main working context focused on the request and load-bearing decisions.
+short_form: Keep the main context lean — offload heavy work where the target supports it.
+full_text: |
+  Manage the main working context deliberately: keep it focused on the request,
+  the task boundary, and load-bearing decisions, and offload heavy exploratory or
+  mechanical work where the target supports delegation. The goal is to protect
+  the main thread's signal — not to delegate for its own sake.

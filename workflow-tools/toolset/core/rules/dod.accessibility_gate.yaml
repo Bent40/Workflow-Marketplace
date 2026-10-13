@@ -1,0 +1,28 @@
+id: dod.accessibility_gate
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: A meaningful UI passes an accessibility gate; drag/drop and custom controls need keyboard equivalents.
+short_form: Run the a11y checklist; mirror drag/drop with buttons; for serious apps run axe/Playwright a11y checks.
+full_text: |
+  A meaningful UI passes an accessibility gate before done:
+    - every primary action is keyboard-operable
+    - drag/drop or reorder is MIRRORED by buttons/dropdowns (recurring gap: drag
+      ships mouse-only)
+    - form fields are labelled; errors are visible/announced near the field
+    - focus is visible; modals trap focus and close on Esc
+    - color contrast is checked; prefers-reduced-motion is respected
+  For small apps this is a checklist; for serious apps run an automated audit
+  (axe / Playwright accessibility checks), not just a self-check. `wf browse run`
+  ships that executor: the assert_a11y step injects axe-core on the SAME Chromium
+  run as the E2E happy path and fails on critical/serious WCAG violations (scope
+  via tags, silence a known rule via ignore). It FAILS CLOSED if axe can't load —
+  a silently-skipped a11y gate is a fake-green. Honest scope: automation catches
+  only ~30-57% of WCAG issues, so the executor SUPPLEMENTS the manual checklist
+  above (keyboard, focus, announced errors), it does not replace it.

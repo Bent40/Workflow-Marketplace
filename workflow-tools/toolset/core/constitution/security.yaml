@@ -1,0 +1,21 @@
+# core/constitution/security.yaml — checkable security constraints (Epic C / C2).
+#
+# Constitution constraints are GATES (checkable), distinct from core/rules
+# (guidance). They reuse the proven default/secure_only activation split: a
+# civilian profile never loads a secure_only constraint (same mechanism as rules).
+constraints:
+  - id: SEC-1
+    statement: Untrusted input is validated/normalized at the trust boundary before use.
+    activation: default
+    check: "Point to where boundary validation/normalization happens."
+    severity: high
+  - id: SEC-2
+    statement: Secrets live in config/environment, never hardcoded in source or committed.
+    activation: default
+    check: "Show secrets sourced from config/env, not literals."
+    severity: high
+  - id: SEC-SECURE-1
+    statement: No external/paid network egress; everything runs on-box (closed network).
+    activation: secure_only
+    check: "Show the closed-network posture (no outbound calls)."
+    severity: high

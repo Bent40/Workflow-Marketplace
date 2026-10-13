@@ -1,0 +1,29 @@
+id: collab.shared_file_lock
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Claim and check a module/file lease before editing, so parallel work does not collide.
+short_form: Lease the module (or contended file) before editing; check for an overlapping claim first.
+full_text: |
+  Whenever more than one worker may touch the repo in parallel — multiple agents,
+  multiple sessions, or a solo dev on parallel branches — avoid editing a module
+  that something else is already working, and avoid merge collisions.
+
+  - Granularity is the MODULE by default (a project work_area / directory subtree),
+    not the individual file. Claims are path-globs; two claims conflict only when
+    their globs intersect, so a narrower sub-tree may be claimed when workers are
+    provably disjoint.
+  - Cross-cutting shared files (dependency manifests, migrations, central routers,
+    shared config, base models/schemas) take their own narrow, short-lived
+    file-level claims, so a one-line dependency bump never locks a whole module.
+  - Before editing, check for an overlapping live claim by another worker and
+    coordinate; claim your scope when you start; release it when the work lands.
+  - This applies to solo work too — it surfaces only on a detected overlap, so a
+    single worker sees no friction. The GitHub `shared-files:*` label is one
+    optional team-visibility projection of the lease, not the mechanism.

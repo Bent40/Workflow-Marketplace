@@ -1,0 +1,58 @@
+id: orchestration.ambient_task_router
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Be the ambient front door — classify every task and route it to the right-sized workflow without being told, auto-doing cheap passes and one-line-offering consequential ones.
+short_form: At the start of any non-trivial task, silently classify it (size/type/risk) and route — AUTO-DO the cheap reversible passes (recall learnings, right-size, pick passes), AUTO-OFFER the consequential ones in one line (boot/onboarding, architecture, security, data-model, competitive/PRD), and always honor an explicit on-demand pass. Offer, never impose; don't put ceremony on a throwaway.
+full_text: |
+  The workflow should feel AMBIENT: the user states an intent, and the agent
+  applies the right method — without the user naming `scaffold`, `doctor`,
+  `architecture`, or a review gate. "Automatic" here is not a background daemon; it
+  is the agent recognizing the situation and ROUTING to the right pass. Be that
+  front door on every non-trivial task, before diving into the work.
+
+  STEP 1 — CLASSIFY (silent). Read the task and tag it:
+    - SIZE: tiny / small / medium / large (drives gating.right_size_process_to_project).
+    - TYPE: new-build · change · bugfix · review · research · ops/deploy.
+    - RISK flags: auth · payments · customer-data · data-model/persistence ·
+      security-sensitive/untrusted-input · public API · user-facing UX.
+
+  STEP 2 — AUTO-DO the cheap, safe, REVERSIBLE passes with no ceremony and no ask:
+    recall relevant `wf learn` facts; right-size the artifact set to the size;
+    select which passes apply; apply the standard report frame. These cost little,
+    can't harm, and need no permission.
+
+  STEP 3 — AUTO-OFFER the consequential passes in ONE line, then proceed on assent
+  (map them from the classification, don't run them unbidden):
+    - new repo / adopting toolset  -> wf start (the workflow-start skill: involvement
+                                      envelope first, then variant/profile/size;
+                                      scaffold/install run only through its approved plan)
+    - product/app build            -> competitive-features, then brief/PRD
+    - relational data involved     -> data-model contract before coding
+    - > 3 domains / cross-cutting  -> an architecture pass
+    - auth / payments / untrusted  -> a security review + the probe baseline
+    - meaningful UI                -> a mockup + the real-browser E2E + a11y gate
+    - before merge                 -> the two review gates (stricter wins)
+  Offering is a one-liner ("this touches auth — want a security review pass?"), not
+  a wall of process. Consequential passes change the project, so they get VISIBLE
+  confirmation (this composes with the authority stop-and-ask boundary), never a
+  silent auto-run.
+
+  STEP 4 — ON-DEMAND always available. An explicit "also do an architecture pass",
+  "run a security review", "scaffold this" is honored immediately, regardless of
+  what the router inferred.
+
+  GUARDRAILS. Offer, never impose: a throwaway script or a one-line fix gets NO
+  ceremony — the router's first judgement is "does this task even want the
+  workflow?", and the answer is often "no". The user can always say "skip the
+  workflow" and the router goes quiet for that task. Surface what you auto-did in
+  one line so nothing is hidden. This rule is the proactive front end over
+  gating.right_size_process_to_project, orchestration.subagent_trigger_thresholds,
+  and orchestration.delegation_primitive_selector — it decides WHICH passes and
+  WHEN to offer them; those decide HOW MUCH and by WHAT primitive.

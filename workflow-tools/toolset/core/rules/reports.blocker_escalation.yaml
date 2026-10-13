@@ -1,0 +1,30 @@
+id: reports.blocker_escalation
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: A blocker escalation states the blocker, why it blocks, whether it is mockable, what was tried, and the next step.
+short_form: Blocker escalation states the blocker · why it blocks progress · whether it is mockable/stubbable · attempted checks · recommended next step.
+full_text: |
+  When a blocker forces you to stop and escalate, report it so the human can
+  unblock you fast. Required:
+
+  - blocker — what is in the way, concretely.
+  - why it blocks progress — what cannot proceed without it.
+  - whether it is mockable / stubbable — can you keep moving behind a stub, or is
+    it truly blocking?
+  - attempted checks — what you already tried, so the human doesn't repeat it.
+  - recommended next step — the single best unblock action.
+
+  This is the report shape for an escalation; the EXECUTION rules that DECIDE the
+  response stay separate: blockers.mockable_continue_tracked (mock it and keep
+  going, tracked) and blockers.non_mockable_escalate (stop and escalate).
+  Standardize the required fields, not the exact wording.
+see_also:
+  - reports.framing_standard
+  - reports.types_taxonomy

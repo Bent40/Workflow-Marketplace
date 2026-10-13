@@ -1,0 +1,20 @@
+# Activation profile (boot design §6; D3: flat seeds + additive add-ons).
+# Consumed by `wf start` at scan time — never rendered into adapters.
+# Validated fail-closed by `wf start --check` (doctor check 42): every skill,
+# pack, wf tool, and gate listed here must exist.
+
+id: research-report
+summary: Research deliverable — domain/market/technical research with graded evidence.
+intent_keywords: [research, report, market analysis, study, competitive landscape, state of the art]
+stack_hints: []
+packs: [core, bmm, cis]
+default_size: small
+entry_skills:
+  discover: [bmad-brainstorming, bmad-domain-research, bmad-market-research]
+  plan: [bmad-technical-research]
+  verify: [bmad-review-adversarial-general]
+  anytime: [bmad-help, bmad-investigate]
+wf_tools:
+  always: [memory, learn]
+gates: [review.confidence_scored_findings]
+mcp_recommend_categories: [docs-lookup]

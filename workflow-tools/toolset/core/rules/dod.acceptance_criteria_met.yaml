@@ -1,0 +1,16 @@
+id: dod.acceptance_criteria_met
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: A task is done only when acceptance criteria are met or explicitly deferred.
+short_form: Meet the acceptance criteria, or mark each unmet one deferred with a reason.
+full_text: |
+  Do not call a task or story "done" until its acceptance criteria are satisfied.
+  Any criterion that is not met must be explicitly marked deferred, with a reason
+  — never silently dropped or assumed.

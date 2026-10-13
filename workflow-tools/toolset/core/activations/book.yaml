@@ -1,0 +1,20 @@
+# Activation profile (boot design §6; D3: flat seeds + additive add-ons).
+# Consumed by `wf start` at scan time — never rendered into adapters.
+# Validated fail-closed by `wf start --check` (doctor check 42): every skill,
+# pack, wf tool, and gate listed here must exist.
+
+id: book
+summary: Long-form writing — book, novel, serialized fiction (writer/literary pack).
+intent_keywords: [book, novel, memoir, fiction, short story, story collection, novella]
+stack_hints: []
+packs: [core, writer]
+default_size: small
+entry_skills:
+  discover: [writer-help, lit-genre-atlas]
+  plan: [lit-author-style-research]
+  verify: [bmad-editorial-review-prose, bmad-editorial-review-structure]
+  anytime: [writer-mode, lit-teach, bmad-help]
+wf_tools:
+  always: [memory, learn]
+gates: []
+mcp_recommend_categories: []

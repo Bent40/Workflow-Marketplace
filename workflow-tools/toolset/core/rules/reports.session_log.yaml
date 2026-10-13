@@ -1,0 +1,24 @@
+id: reports.session_log
+scope: universal
+severity: low
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Keep a silent running session log of each meaningful change; summarize it, don't dump it.
+short_form: Keep a silent per-change log (issue, prompt, what/why, flags); summarize to the user, never dump it raw.
+full_text: |
+  Keep a silent running session log of each meaningful change — a new file, a
+  modified function, a config or schema change. Each entry captures: the issue,
+  a one-line prompt summary, what changed, why, and any flags (including MOCK or
+  ESCALATION, with a note on what a mock still needs).
+
+  The log is internal and ephemeral — it stays in the working session and is
+  summarized to the user normally. Never dump the raw log entries; surface what
+  was done and why in plain terms.
+see_also:
+  - reports.framing_standard
+  - reports.types_taxonomy

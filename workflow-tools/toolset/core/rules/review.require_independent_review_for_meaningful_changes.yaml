@@ -1,0 +1,20 @@
+id: review.require_independent_review_for_meaningful_changes
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Meaningful changes get an independent review, not just the author's self-check.
+short_form: Meaningful changes need an independent review pass, not only self-review.
+full_text: |
+  A meaningful change — non-trivial logic, security-relevant code, or a change to
+  public behavior — should get an independent review (a distinct pass with fresh
+  eyes, separate from whoever wrote it) before it is treated as done.
+
+  This is the universal intent. The mechanism differs by target: use a true
+  separate review worker/subagent where the target supports one; otherwise use a
+  distinct review pass or checklist in fresh context.

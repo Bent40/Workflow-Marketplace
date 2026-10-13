@@ -26,6 +26,7 @@ On Claude Code **web**, plugin `SessionStart` hooks do not run — invoke the `w
 
 - **workflow-core** — The workflow operating model (ambient router, honesty gates, right-sizing) + a thin set of universal helpers. Install this first; add domain modules à la carte.
 - **workflow-full** — Every stock BMAD skill (all upstream modules) — the one-shot everything bundle, on top of workflow-core.
+- **workflow-tools** — The workflow `wf` command-line tools on your PATH: project boot scan (wf start), structural map, function catalog, spec pack, story audit, learnings store, guardrails, real-browser E2E, mutation gate and more. Needs Python 3 + PyYAML. *(needs workflow-core)*
 - **workflow-method** — BMad Method — the agile SDLC: analyst/PM/architect/dev/UX agents, PRD, epics, stories, sprints, and the dev/review loop. Needs workflow-core. *(needs workflow-core)*
 - **workflow-game-design** — BMad Game Dev Studio — GDD, game architecture, narrative, playtest planning, and the game dev loop for Unity/Unreal/Godot/Phaser. Needs workflow-core. *(needs workflow-core)*
 - **workflow-test-architect** — BMad Test Architect — quality strategy, ATDD, CI gates, traceability, NFR audits, and test automation. Needs workflow-core. *(needs workflow-core)*

@@ -1,0 +1,35 @@
+id: context.map_first_retrieval
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: When a fresh structural map exists, query it for file:line targets before scanning the tree.
+short_form: "`_workflow/map.json` present -> `wf map query <term>` first, jump to the file:line hits, read only those spans; heed the stale warning (`wf map build` refreshes). Map absence-of-hits is never proof of absence — exhaustive claims still need a real search."
+full_text: |
+  When the project carries a structural map (`_workflow/map.json`, built by
+  `wf map build`), RETRIEVAL STARTS AT THE MAP: run `wf map query <term>`
+  (optionally `--kind def|class|func|heading|key|import|file`) and jump
+  straight to the returned file:line targets, reading only the spans you
+  need — instead of grep-and-reading whole files or dumping the tree into
+  context. This is the map-first retrieval discipline: same answers, a small
+  fraction of the tokens.
+
+  Freshness is part of the contract, not optional: the query warns when git
+  HEAD has moved since the build, and `wf map check` verifies by content
+  hash (FRESH exit 0 / STALE exit 1). On a stale warning, rebuild
+  (`wf map build`, seconds) before trusting line numbers.
+
+  The map is a RETRIEVAL ACCELERATOR, not truth (same boundary as context
+  tags): hits tell you where to START. Absence of hits is NEVER evidence of
+  absence — extraction is approximate for JS/TS and skips unrecognized file
+  types — so any exhaustive claim ("no callers remain", "nothing references
+  X") still requires a real full-text search. Never let the map narrow a
+  correctness argument; let it narrow reading.
+
+  Small-context/local models benefit most: an orchestrator packs map hits
+  (paths + lines) into the microtask instead of file dumps.

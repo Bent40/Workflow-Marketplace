@@ -1,0 +1,34 @@
+id: deploy.gates_green_before_deploy
+scope: universal
+severity: critical
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Never deploy unless the review gates, Definition of Done, and honesty bars are all honestly green.
+short_form: No deploy until review gates + DoD + honesty bars are green — for real, not faked.
+full_text: |
+  A deploy ships only from a validated state. Before any deploy step runs, the
+  same gates that govern merge must be honestly green:
+
+  - Independent review gates have passed (review.*) — on a split verdict the
+    stricter review wins.
+  - The Definition of Done is met (dod.*): acceptance criteria, tests, docs, and
+    no known high-severity security issues.
+  - The honesty bars hold (honesty.no_fake_green): a check that did not run did
+    not pass, and a green run against a shrunk corpus is a FAIL.
+
+  Deploying is not a way to declare work done — it is the consequence of work
+  that is already done and validated. If any gate is red, unknown, or faked,
+  stop and report; do not deploy.
+see_also:
+  - honesty.no_fake_green
+  - dod.acceptance_criteria_met
+  - dod.tests_pass_or_report_gaps
+  - dod.no_known_high_severity_security
+  - dod.report_validation_status
+  - review.require_independent_review_for_meaningful_changes
+  - review.stricter_review_wins

@@ -1,0 +1,27 @@
+# Activation profile (boot design §6; D3: flat seeds + additive add-ons).
+# Consumed by `wf start` at scan time — never rendered into adapters.
+# Validated fail-closed by `wf start --check` (doctor check 42): every skill,
+# pack, wf tool, and gate listed here must exist.
+
+id: api-service
+summary: API / backend service — contract-shaped, data-bearing, no UI surface.
+intent_keywords: [api, backend, service, rest, graphql, microservice, endpoint, server]
+stack_hints: [fastapi, django, flask, express, fastify, go, rails, spring, nestjs, nextjs-headless]
+packs: [core, bmm, tea]
+default_size: medium
+entry_skills:
+  discover: [bmad-brainstorming, bmad-competitive-features]
+  plan: [bmad-product-brief, bmad-prd]
+  solution: [bmad-create-architecture, bmad-security-decision-framing]
+  build: [bmad-create-epics-and-stories, bmad-dev-story, bmad-quick-dev]
+  verify: [bmad-testarch-atdd, bmad-testarch-automate, bmad-code-review]
+  anytime: [bmad-help, bmad-investigate, bmad-correct-course]
+wf_tools:
+  always: [memory, learn, audit, map]
+  by_stage:
+    spec: [spec]
+    build: [split-task, lock]
+    verify: [validate, mutate]
+    release: [deploy]
+gates: [design.data_model_contract_first, review.security_probe_baseline, dod.runs_from_clean_clone]
+mcp_recommend_categories: [docs-lookup, github]

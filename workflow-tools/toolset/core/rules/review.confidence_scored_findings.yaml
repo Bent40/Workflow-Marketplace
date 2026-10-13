@@ -1,0 +1,32 @@
+id: review.confidence_scored_findings
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Score each review finding for confidence and scope to the change — but never threshold-suppress a binary security/honesty bar.
+short_form: Give each finding a 0-100 confidence + change-only scope; filter low-confidence noise — EXCEPT security/honesty bars, which are never suppressed (allowlist, not denylist).
+full_text: |
+  A review gate only stays binding if its output is trusted — a noisy gate trains
+  the reader to ignore it. Two cheap noise controls, both first-party-proven:
+    - CONFIDENCE SCORE: give each finding a 0-100 confidence with a stated basis,
+      then apply a single post-hoc threshold so nitpicks, pre-existing issues, and
+      linter-catchable items drop before they reach the human.
+    - CHANGE-ONLY SCOPE: flag issues in the MODIFIED code, not pre-existing ones in
+      untouched files (that is a separate, deliberate audit). A CLAUDE.md/guideline
+      "violation" must cite a guideline that EXPLICITLY names the problem — never an
+      inferred one (anti-fabrication).
+    - For security findings, add an exploitability re-judge: a documented exclusion
+      list (e.g. theoretical DoS, generic input-validation-without-proven-impact)
+      plus a second pass that confirms each surviving finding is genuinely
+      exploitable.
+  HARD FLOOR — this NEVER weakens a binary bar. A zero-tolerance security or honesty
+  gate (review.security_probe_baseline, honesty.no_fake_green, the strict-side
+  adjudication in review.stricter_review_wins) is NOT threshold-suppressed: the
+  exclusion list is an ALLOWLIST of narrow, documented, individually-overridable
+  cases, never a denylist that lets a real exploitable finding through. Confidence
+  scoring trims nitpick noise; it must never trim the floor.

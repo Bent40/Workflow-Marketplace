@@ -1,0 +1,30 @@
+id: reports.permission_request
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: A permission request states the action, why approval is needed, risks both ways, and a recommended default.
+short_form: Permission request states the action · why approval is needed · risk if approved · consequence if declined · recommended choice · safe default.
+full_text: |
+  When stopping to ask for approval, give the human enough to decide in one pass.
+  Required:
+
+  - requested action — exactly what you would do.
+  - why permission is required — the boundary it crosses.
+  - risk if approved — what could go wrong if they say yes.
+  - consequence if declined — what is blocked or degraded if they say no.
+  - recommended choice — your recommendation, not a neutral menu.
+  - safe default — what you will do absent an answer.
+
+  This is the reporting face of the authority boundary
+  (authority.ask_before_high_impact_decisions): the rule decides WHEN to stop and
+  ask; this contract shapes the ask so it is decidable. Standardize the required
+  fields, not the exact wording.
+see_also:
+  - reports.framing_standard
+  - reports.types_taxonomy

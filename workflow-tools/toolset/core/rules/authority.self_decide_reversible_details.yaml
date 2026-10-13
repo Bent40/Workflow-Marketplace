@@ -1,0 +1,18 @@
+id: authority.self_decide_reversible_details
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Decide reversible, in-scope implementation details yourself, and record the choice.
+short_form: Self-decide reversible in-scope details; record the choice.
+full_text: |
+  Proceed autonomously on reversible implementation details inside the accepted
+  scope — naming, local structure, where a test lives, adding regression tests,
+  small refactors needed to finish the task — and record the choice. Reserve
+  escalation for the high-impact decisions in
+  authority.ask_before_high_impact_decisions.

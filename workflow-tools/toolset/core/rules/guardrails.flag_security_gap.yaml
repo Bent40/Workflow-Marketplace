@@ -1,0 +1,16 @@
+id: guardrails.flag_security_gap
+scope: universal
+severity: high
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+  - local
+summary: Flag a security gap as soon as it is introduced, and propose a fix.
+short_form: Spot a security gap → flag it immediately and propose the fix.
+full_text: |
+  When a change introduces a security gap, flag it visibly the moment it appears
+  and propose a fix before continuing — do not defer it to a later review pass.
+  (The "done" gate for this is dod.no_known_high_severity_security.)

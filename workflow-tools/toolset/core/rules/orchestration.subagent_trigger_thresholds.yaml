@@ -1,0 +1,41 @@
+id: orchestration.subagent_trigger_thresholds
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+requires_capabilities:
+  - subagents
+summary: One builder owns integration; use subagents mainly for independent REVIEW, tiered and budgeted.
+short_form: Default to a single builder; add subagents as tiered, budgeted REVIEW gates — tiny tier reviews via inline checklist (no spawned reviewer), and never parallel feature building.
+full_text: |
+  Subagents are highest-leverage as independent REVIEW gates, not as parallel
+  builders. Splitting the BUILD across agents on tightly-coupled layers (frontend
+  / backend / tests that share live contracts) tends to create integration churn
+  and mismatch bugs; only parallelize the build when the project has cleanly
+  separable modules with stable contracts. DEFAULT: one main builder owns
+  integration and verifies every helper's claims against ground truth.
+
+  Tier the review by risk AND project size — do not jump to the expensive tier:
+    - Tier 1 — a checklist self-review (no subagent).
+    - Tier 2 — one targeted reviewer subagent.
+    - Tier 3 — parallel schema + security + full-stack review subagents.
+  On the TINY tier (gating.right_size_process_to_project), review defaults to
+  Tier 1: an INLINE CHECKLIST, with NO spawned reviewer. Spawn a review
+  subagent only at small+ project size, or when a REAL risk trigger is present
+  regardless of size: auth, money/payments, a DB schema, or customer/user
+  data. (Hard-won: an ungated review trigger spawned a full adversarial review
+  subagent on a toy todo app — a marginal +2 quality gain at ~2.8x the cost of
+  a bare build. Triviality must gate the review trigger, not just the doc set.)
+  Use Tier 3 only when the project has a DB schema, user/customer data, auth,
+  payments, permissions, untrusted external input, or complex integrations.
+
+  Before launching any review subagent, set its BUDGET: expected purpose, a max
+  token ceiling, a stop condition, the specific bug class it must hunt, and
+  whether its output can actually change the final product. A reviewer that can't
+  change the product is not worth its tokens (orchestration.cost_governor).
+  Findings follow review.finding_protocol. Spawn ONE flat level only — helpers
+  never spawn helpers — and reconcile each against ground truth.

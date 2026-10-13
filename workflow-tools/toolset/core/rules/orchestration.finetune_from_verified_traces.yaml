@@ -1,0 +1,39 @@
+id: orchestration.finetune_from_verified_traces
+scope: universal
+severity: medium
+activation: default
+applies_to:
+  - claude
+  - codex
+  - gemini
+  - copilot
+summary: Improve a skill from its failure TRACE, gated by an external verifier — never a scalar score, self-confidence, or a fabricated target.
+short_form: Feed the failing skill's full trace (transcript/error/eval evidence) into the improvement step, not just pass/fail; only EXTERNALLY-verified trajectories train; failures are signal; never fabricate targets; Pareto-keep overlays (best-at-something, don't average away a niche win).
+full_text: |
+  When closing the measure → improve → re-measure loop (wf orchestra → wf finetune),
+  the highest-signal input is the failing skill's TRACE, not its scalar score. Route
+  the full diagnostic — the transcript, the error, the eval evidence (which
+  expectation tokens were missing, which assertion failed) — into the improvement
+  step, the way a reflective optimizer uses a text gradient. A bare pass/fail tells
+  you THAT a skill failed; the trace tells you WHY, which is what a teacher/distill
+  pass or a hand-authored fix actually needs.
+  Three honesty bars, all already enforced by the tools — keep them:
+    - VERIFIER-GATED: only trajectories an EXTERNAL verifier accepted (the
+      assertion/judge grader, tests, a review gate) enter training. Never the
+      model's self-reported confidence (badly calibrated; cf.
+      orchestration.cascade_routing) and never an ERROR row (a failed call is not
+      trainable signal).
+    - FAILURES ARE THE SIGNAL: wf finetune trains exactly the skills the baseline
+      classified NEEDS-FINETUNE — the failures, not the passes. Don't discard the
+      informative failed trajectory; it is the training target's reason to exist.
+    - NEVER FABRICATE A TARGET: completions come from a teacher model or a human
+      reference; wf finetune emits an EMPTY scaffold and refuses to "train" on an
+      unfilled one. A made-up answer is worse than no answer. The complementary
+      POSITIVE source is `wf finetune from-traces`: a `wf trace` process trail that
+      passed executable ground truth already CONTAINS a known-good answer, so its
+      assistant target is the deterministic TRANSCRIPTION of that verified
+      trajectory (re-verified here, never the stored label) — proven work, not
+      fabrication.
+  When composing per-profile policy OVERLAYS, PARETO-KEEP: retain the candidate
+  that is best at SOMETHING rather than the one with the best average — averaging
+  can quietly regress a niche-but-important case while improving the mean.
